@@ -14,7 +14,6 @@ import sockjs from 'sockjs-client'
 import dayjs from 'dayjs'
 // vux暂时不支持cli3.0全局引入
 // import Vux from 'vux'
-
 import './styles/index.scss'
 import './styles/iconfont.css'
 import '@/icons' // icon
