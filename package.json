@@ -1,0 +1,53 @@
+{
+  "name": "box-framework-vue",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "test:unit": "vue-cli-service test:unit"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "core-js": "^2.6.5",
+    "dayjs": "^1.8.14",
+    "echarts": "^4.2.1",
+    "element-ui": "^2.8.2",
+    "js-cookie": "^2.2.0",
+    "jwt-decode": "^2.2.0",
+    "normalize.css": "^8.0.1",
+    "nprogress": "^0.2.0",
+    "path-to-regexp": "^3.0.0",
+    "sockjs-client": "^1.3.0",
+    "stompjs": "^2.3.3",
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.3",
+    "vuex": "^3.0.1",
+    "vux": "^2.9.4"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.6.0",
+    "@vue/cli-plugin-eslint": "^3.6.0",
+    "@vue/cli-plugin-unit-jest": "^3.6.0",
+    "@vue/cli-service": "^3.6.0",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "@vue/test-utils": "1.0.0-beta.29",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.8.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "less": "^3.9.0",
+    "less-loader": "^5.0.0",
+    "node-sass": "^4.12.0",
+    "sass": "^1.18.0",
+    "sass-loader": "^7.1.0",
+    "svg-sprite-loader": "4.1.3",
+    "svgo": "1.2.2",
+    "vue-cli-plugin-moment": "^0.1.1",
+    "vue-loader": "^14.2.4",
+    "vue-template-compiler": "^2.5.21",
+    "vux-loader": "^1.2.9"
+  }
+}
