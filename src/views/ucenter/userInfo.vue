@@ -41,14 +41,6 @@
                 <div>{{item.email}}</div>
               </div>
               <div class="flexbox mt-5">
-                部门:
-                <div>{{item.departmentName}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                职位:
-                <div>{{item.positionName}}</div>
-              </div>
-              <div class="flexbox mt-5">
                 最后登录时间:
                 <div>{{item.lastLoginTime}}</div>
               </div>
@@ -108,16 +100,6 @@
           <el-table-column label="邮箱" align="center" width="180px">
             <template slot-scope="scope">
               <span>{{ scope.row.email}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="部门" align="center" v-if="sensitivePageAuth">
-            <template slot-scope="scope">
-              <span>{{scope.row.departmentName}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="职位" align="center" v-if="sensitivePageAuth">
-            <template slot-scope="scope">
-              <span>{{scope.row.positionName}}</span>
             </template>
           </el-table-column>
           <el-table-column label="最后登录时间" align="center" v-if="sensitivePageAuth" width="160px">
@@ -199,16 +181,6 @@
         <el-form-item label="邮箱:">
           <el-input v-model="dialogData.email"></el-input>
         </el-form-item>
-        <el-form-item label="部门:">
-          <el-select v-model="dialogData.departmentId" placeholder="请选择" size="small" @change="getPositionList($event)">
-            <el-option v-for="item in deptPositionList" :key="item.departmentId" :value="item.departmentId" :label="item.name"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="职位:" v-if="positionVisable">
-          <el-select v-model="dialogData.positionId" placeholder="请选择" size="small">
-            <el-option v-for="item in positionList" :key="item.positionId" :value="item.positionId" :label="item.name"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="是否是超级用户:">
           <el-switch v-model="dialogData.isSys" active-color="#288AF1" inactive-color="#ff4949"></el-switch>
         </el-form-item>
@@ -240,7 +212,6 @@
 
 <script>
 import { getUserNoSenInfoByPage, getUserSenInfoByPage, getUserNoSenInfoById, getUserSenInfoById, addUserInfo, updateUserInfoBySys, updateUserInfoByUser, deleteUserInfoById, resetPassword, getUserRoles, getAllRoles, bindingRoles } from '@/api/ucenter/userInfo.js'
-import { getDeptPositionInfo } from '@/api/ucenter/departmentsInfo.js'
 
 export default {
   computed: {
@@ -305,14 +276,6 @@ export default {
       sexList: [{ sex: 1, sexName: '女' }, { sex: 0, sexName: '男' }],
       // 标记当前是编辑信息还是添加信息
       dialogAction: '',
-      // 部门列表
-      deptPositionList: [],
-      // 职位列表
-      positionList: [],
-      // 已选择的部门
-      selectDepartmentId: 0,
-      // 职位是否显示
-      positionVisable: false,
       // 绑定角色弹框
       rolesVisible: false,
       // 角色列表
@@ -353,50 +316,19 @@ export default {
     fetchData() {
       if (this.sensitivePageAuth) this.getUserSenInfo()
       else this.getUserNoSenInfo()
-      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', departmentId: '', departmentName: '', positionId: '', positionName: '', lastLoginTime: '', isSys: true, isEnable: true }
-    },
-    // 获取部门以及职位信息
-    getDeptPositionInfo() {
-      getDeptPositionInfo().then(res => {
-        this.deptPositionList = res
-        // 如果是编辑，则回显部门，否则不用回显
-        if (this.dialogAction === 'edit') {
-          // 默认选中与当前部门对应的部门
-          this.getPositionList()
-        }
-      }).catch(err => this.$message.error(err))
-    },
-    // 根据部门选择联动职位
-    getPositionList(event) {
-      // 此时event是选中的value
-      this.selectDepartmentId = event || this.dialogData.departmentId
-      // 过滤选中的部门
-      const deptPositionList = this.deptPositionList.filter(item => item.departmentId === this.selectDepartmentId)
-      // 获取此部门下的职位
-      this.positionList = deptPositionList[0].children
-      // 默认选中第一个职位
-      if (this.positionList.length === 0) {
-        this.positionVisable = false
-      } else {
-        this.positionVisable = true
-        this.dialogData.positionId = this.positionList[0].positionId
-      }
+      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', lastLoginTime: '', isSys: true, isEnable: true }
     },
     // 添加用户信息
     addClick() {
       this.dialogAction = 'add'
       this.dialogVisible = true
-      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', departmentId: '', departmentName: '', positionId: '', positionName: '', lastLoginTime: '', isSys: true, isEnable: true }
-      // 请求职位，部门信息
-      this.getDeptPositionInfo()
+      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', lastLoginTime: '', isSys: true, isEnable: true }
     },
     // 根据id获取非敏感信息
     getNoSenDialogData(adminId) {
       getUserNoSenInfoById(adminId).then(res => {
         this.dialogData = res
         this.dialogData.sex = Number(this.dialogData.sex)
-        // 请求职位，部门信息
-        this.getDeptPositionInfo()
       }).catch(err => this.$message.error(err))
     },
     // 根据id获取敏感信息列表
@@ -404,8 +336,6 @@ export default {
       getUserSenInfoById(adminId).then(res => {
         this.dialogData = res
         this.dialogData.sex = Number(this.dialogData.sex)
-        // 请求职位，部门信息
-        this.getDeptPositionInfo()
       }).catch(err => this.$message.error(err))
     },
     // 点击编辑按钮，弹框显示，并回显数据
@@ -448,7 +378,7 @@ export default {
     // 点击取消，隐藏弹窗
     cancel() {
       this.dialogVisible = false
-      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', departmentId: '', departmentName: '', positionId: '', positionName: '', lastLoginTime: '', isSys: true, isEnable: true }
+      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', lastLoginTime: '', isSys: true, isEnable: true }
     },
     // 删除单条已提交报警信息
     deleteTableData(id) {

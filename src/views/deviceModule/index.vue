@@ -37,10 +37,6 @@
                 <div>{{item.equipmentDetails}}</div>
               </div>
               <div class="flexbox mt-5">
-                使用部门:
-                <div>{{item.department}}</div>
-              </div>
-              <div class="flexbox mt-5">
                 负责人:
                 <div>{{item.adminName}}</div>
               </div>
@@ -111,11 +107,6 @@
           <el-table-column label="设备详情" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.equipmentDetails}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="使用部门" fixed="right" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.department}}</span>
             </template>
           </el-table-column>
           <el-table-column label="负责人" fixed="right" width="100px" align="center">
@@ -193,11 +184,6 @@
             <el-form-item label="设备详情：">
               <el-input v-model="dialogData.equipmentDetails"></el-input>
             </el-form-item>
-            <el-form-item label="使用部门：" :rules="{ required: true, message: '请选择部门', trigger: 'change' }">
-              <el-select v-model="dialogData.department" placeholder="请选择" size="small">
-                <el-option v-for="item in deptList" :key="item.departmentId" :value="item.name" :label="item.name"></el-option>
-              </el-select>
-            </el-form-item>
             <el-form-item label="负责人：" :rules="{ required: true, message: '请选择负责人', trigger: 'change' }">
               <el-select v-model="dialogData.adminId" placeholder="请选择" size="small">
                 <el-option v-for="item in personList" :key="item.id" :value="item.id" :label="item.name"></el-option>
@@ -260,7 +246,6 @@
 
 <script>
 import { getDeviceInfoByPage, getDeviceInfoById, editDeviceInfoById, addDeviceInfo, deleteDeviceInfoById } from '@/api/deviceModule.js'
-import { getOnlyDeptInfo } from '@/api/ucenter/departmentsInfo.js'
 import { getAllUserInfo } from '@/api/ucenter/userInfo.js'
 import { parseTime } from '@/utils/index'
 
@@ -310,8 +295,6 @@ export default {
       dialogData: {},
       // 设置弹窗是添加还是编辑
       dialogAction: 'add',
-      // 添加和编辑设备信息时获取部门列表
-      deptList: [],
       // 放大图片
       imgDialogVisible: false,
       // 放大图片
@@ -326,7 +309,6 @@ export default {
   },
   created() {
     this.fetchData()
-    this.getOnlyDeptInfo()
     this.getAllUserInfo()
   },
   methods: {
@@ -353,12 +335,6 @@ export default {
         }
       }).catch(err => this.$message.error(err))
     },
-    // 获取部门信息
-    getOnlyDeptInfo() {
-      getOnlyDeptInfo().then(res => {
-        this.deptList = res
-      }).catch(err => this.$message.error(err))
-    },
     // 获取所有人的信息
     getAllUserInfo() {
       getAllUserInfo().then(res => {
@@ -379,7 +355,6 @@ export default {
       this.editDialogVisible = false
       // 获取保留的文件路径
       this.dialogData.equipmentImgUrl = this.fileList.filter(item => item.status === 'success').map(item => item.url)
-      console.log(this.dialogData)
       editDeviceInfoById(this.dialogData.equipmentId, this.dialogData).then(res => {
         const waitForUpload = this.fileList.filter(item => item.status === 'ready')
         if (waitForUpload.length > 0) {

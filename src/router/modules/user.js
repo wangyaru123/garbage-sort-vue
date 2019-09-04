@@ -25,14 +25,6 @@ const userRouter = {
       }
     },
     {
-      path: 'departmentsInfo',
-      name: 'Ucenter.departmentsInfo',
-      component: () => import('@/views/ucenter/departmentsInfo'),
-      meta: {
-        title: '部门管理'
-      }
-    },
-    {
       path: 'rolesInfo',
       name: 'Ucenter.RolesInfo',
       component: () => import('@/views/ucenter/rolesInfo'),
