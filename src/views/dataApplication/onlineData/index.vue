@@ -150,8 +150,10 @@ export default {
       this.robotInfo = []
       // input[][]解析
       // let str_input = '{';
+      // eslint-disable-next-line no-array-constructor
       this.inputArrayData = new Array()
       for (let i = 0; i < input.length; i++) {
+        // eslint-disable-next-line no-array-constructor
         this.inputArrayData[i] = new Array()
         for (let j = 0; j < input[i].length; j++) {
           // let name = '\"input_' + i + '' + j + '\":' + input[i][j] + ',';
@@ -163,8 +165,10 @@ export default {
       // this.inputData = JSON.parse(str_input.substr(0, str_input.length - 1) + '}');
       // output[][]解析
       // let str_output = '{';
+      // eslint-disable-next-line no-array-constructor
       this.outputArrayData = new Array()
       for (let i = 0; i < output.length; i++) {
+        // eslint-disable-next-line no-array-constructor
         this.outputArrayData[i] = new Array()
         for (let j = 0; j < output[i].length; j++) {
           // let name = '\"output[' + i + '][' + j + ']\":' + output[i][j] + ',';
