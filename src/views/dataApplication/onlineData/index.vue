@@ -1,8 +1,6 @@
 <template>
   <!-- 数据应用首页 -->
   <div :class="isMobile?'p-5':'p-10'">
-    <el-row>
-    </el-row>
     <el-row :gutter="5">
       <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
         <el-card :class="isMobile?'h-auto':'h-num-l'">
