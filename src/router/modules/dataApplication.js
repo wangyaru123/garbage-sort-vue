@@ -10,6 +10,12 @@ const dataApplicationRouter = {
   meta: { title: '数据应用', icon: 'dataApplication' },
   children: [
     {
+      path: 'onlineData',
+      name: 'DataApplication.OnlineData',
+      component: () => import('@/views/dataApplication/onlineData/index'),
+      meta: { title: 'NewData' }
+    },
+    {
       path: 'index',
       name: 'DataApplication.Overview',
       component: () => import('@/views/dataApplication/overview/index'),
