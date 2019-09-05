@@ -4,7 +4,7 @@
     <el-row :gutter="5">
       <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
         <el-card :class="isMobile?'h-auto':'h-num-l'">
-          <img src="@/assets/machine.png" class="sidebar-logo">
+          <img :src="machineImg" class="sidebar-logo" alt="">
         </el-card>
         </el-col>
       <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import machineImg from '@/assets/machine.png'
 
 export default {
   computed: {
@@ -96,6 +97,8 @@ export default {
   },
   data() {
     return {
+      // 头像图片
+      machineImg,
       tableData: [],
       websocket: '',
       inputData: {},
@@ -104,8 +107,8 @@ export default {
       inputInfo: [],
       outputInfo: [],
       robotInfo: [],
-      inputArrayData: [],
-      outputArrayData: []
+      inputArrayData: [['0', '0', '0', '0'], ['0', '0', '0', '0'], ['0', '0', '0', '0'], ['0', '0', '0', '0']],
+      outputArrayData: [['0', '0', '0', '0'], ['0', '0', '0', '0'], ['0', '0', '0', '0'], ['0', '0', '0', '0']]
     }
   },
   created() {
@@ -132,13 +135,13 @@ export default {
         this.stompClient.subscribe(process.env.VUE_APP_TOPIC_PER_MN, msg => {
           // console.log(JSON.parse(msg.body))
           // this.tableData = JSON.parse(msg.body)
-          this.initdata(JSON.parse(msg.body))
+          this.initData(JSON.parse(msg.body))
         })
       }, error => {
         console.log('fail : ' + error)
       })
     },
-    initdata(data) {
+    initData(data) {
       // let tem = "{\"Input\":[\"00001001\",\"00001100\",\"01011100\",\"00000000\"],\"Output\":[\"00000000\",\"10000000\",\"00000000\",\"00000000\"],\"sensorData\":[{\"description\":\"条形码\",\"key\":\"ScannerSensor\",\"moduleId\":1,\"unit\":\"\",\"value\":\"1020010\"},{\"description\":\"温度\",\"key\":\"Temperature\",\"moduleId\":1,\"unit\":\"摄氏度\",\"value\":\"37\"},{\"description\":\"压力\",\"key\":\"Pressure\",\"moduleId\":1,\"unit\":\"\",\"value\":\"1020010\"},{\"description\":\"机器人温度\",\"key\":\"Robot-Joint\",\"moduleId\":1,\"unit\":\"度\",\"value\":\"10,20,10,30,22,23\"},{\"description\":\"机器人速度\",\"key\":\"Robot-speed\",\"moduleId\":1,\"unit\":\"\",\"value\":\"10\"},{\"description\":\"机器人模式\",\"key\":\"Robot-mode\",\"moduleId\":1,\"unit\":\"\",\"value\":\"自动/手动\"},{\"description\":\"机器人报警\",\"key\":\"Robot-alarm\",\"moduleId\":1,\"unit\":\"\",\"value\":\"无\"}]}";
       // let t = tem.substr(1,tem.length-1);
       // let d = JSON.parse(tem);
@@ -150,11 +153,9 @@ export default {
       this.robotInfo = []
       // input[][]解析
       // let str_input = '{';
-      // eslint-disable-next-line no-array-constructor
-      this.inputArrayData = new Array()
+      this.inputArrayData = []
       for (let i = 0; i < input.length; i++) {
-        // eslint-disable-next-line no-array-constructor
-        this.inputArrayData[i] = new Array()
+        this.inputArrayData[i] = []
         for (let j = 0; j < input[i].length; j++) {
           // let name = '\"input_' + i + '' + j + '\":' + input[i][j] + ',';
           // str_input = str_input + name;
@@ -165,11 +166,9 @@ export default {
       // this.inputData = JSON.parse(str_input.substr(0, str_input.length - 1) + '}');
       // output[][]解析
       // let str_output = '{';
-      // eslint-disable-next-line no-array-constructor
-      this.outputArrayData = new Array()
+      this.outputArrayData = []
       for (let i = 0; i < output.length; i++) {
-        // eslint-disable-next-line no-array-constructor
-        this.outputArrayData[i] = new Array()
+        this.outputArrayData[i] = []
         for (let j = 0; j < output[i].length; j++) {
           // let name = '\"output[' + i + '][' + j + ']\":' + output[i][j] + ',';
           // str_output = str_output + name;
