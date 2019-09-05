@@ -142,17 +142,17 @@ export default {
       // let tem = "{\"Input\":[\"00001001\",\"00001100\",\"01011100\",\"00000000\"],\"Output\":[\"00000000\",\"10000000\",\"00000000\",\"00000000\"],\"sensorData\":[{\"description\":\"条形码\",\"key\":\"ScannerSensor\",\"moduleId\":1,\"unit\":\"\",\"value\":\"1020010\"},{\"description\":\"温度\",\"key\":\"Temperature\",\"moduleId\":1,\"unit\":\"摄氏度\",\"value\":\"37\"},{\"description\":\"压力\",\"key\":\"Pressure\",\"moduleId\":1,\"unit\":\"\",\"value\":\"1020010\"},{\"description\":\"机器人温度\",\"key\":\"Robot-Joint\",\"moduleId\":1,\"unit\":\"度\",\"value\":\"10,20,10,30,22,23\"},{\"description\":\"机器人速度\",\"key\":\"Robot-speed\",\"moduleId\":1,\"unit\":\"\",\"value\":\"10\"},{\"description\":\"机器人模式\",\"key\":\"Robot-mode\",\"moduleId\":1,\"unit\":\"\",\"value\":\"自动/手动\"},{\"description\":\"机器人报警\",\"key\":\"Robot-alarm\",\"moduleId\":1,\"unit\":\"\",\"value\":\"无\"}]}";
       // let t = tem.substr(1,tem.length-1);
       // let d = JSON.parse(tem);
-      let input = data.Input;
-      let output = data.Output;
-      let robot = data.sensorData;
+      const input = data.Input
+      const output = data.Output
+      const robot = data.sensorData
       // this.inputInfo = [] ;
       // this.outputInfo = [];
-      this.robotInfo = [];
+      this.robotInfo = []
       // input[][]解析
       // let str_input = '{';
-      this.inputArrayData = new Array();
+      this.inputArrayData = new Array()
       for (let i = 0; i < input.length; i++) {
-        this.inputArrayData[i] = new Array();
+        this.inputArrayData[i] = new Array()
         for (let j = 0; j < input[i].length; j++) {
           // let name = '\"input_' + i + '' + j + '\":' + input[i][j] + ',';
           // str_input = str_input + name;
@@ -163,9 +163,9 @@ export default {
       // this.inputData = JSON.parse(str_input.substr(0, str_input.length - 1) + '}');
       // output[][]解析
       // let str_output = '{';
-      this.outputArrayData = new Array();
+      this.outputArrayData = new Array()
       for (let i = 0; i < output.length; i++) {
-        this.outputArrayData[i] = new Array();
+        this.outputArrayData[i] = new Array()
         for (let j = 0; j < output[i].length; j++) {
           // let name = '\"output[' + i + '][' + j + ']\":' + output[i][j] + ',';
           // str_output = str_output + name;
@@ -175,13 +175,13 @@ export default {
       }
       // this.outputData = JSON.parse(str_output.substr(0, str_output.length - 1) + '}');
       // 机器人数据解析
-      let str_robot = '{' ;
+      let str_robot = '{'
       for (let i = 0; i < robot.length; i++) {
-        let name = '\"' + robot[i].description + '\":\"' + robot[i].value + ' ' + robot[i].unit +  '\",';
-        str_robot = str_robot + name;
-        this.robotInfo.push(name);
+        const name = '\"' + robot[i].description + '\":\"' + robot[i].value + ' ' + robot[i].unit + '\",'
+        str_robot = str_robot + name
+        this.robotInfo.push(name)
       }
-      this.robotData = JSON.parse(str_robot.substr(0, str_robot.length - 1) + '}');
+      this.robotData = JSON.parse(str_robot.substr(0, str_robot.length - 1) + '}')
     },
     closeWebSocket() {
       if (this.stompClient != null) {
