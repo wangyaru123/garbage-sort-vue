@@ -8,7 +8,7 @@ const fileAdminRouter = {
   component: Layout,
   meta: {
     title: '文件管理',
-    icon: 'device',
+    icon: 'form',
     auths: ['file_admin_page']
   },
   children: [
@@ -18,7 +18,7 @@ const fileAdminRouter = {
       component: () => import('@/views/fileModule/admin'),
       meta: {
         title: '文件管理',
-        icon: 'device',
+        icon: 'form',
         auths: ['file_admin_page']
       }
     }

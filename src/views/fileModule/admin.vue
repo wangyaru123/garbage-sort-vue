@@ -17,38 +17,9 @@
       <div class="pt-40" id="padding-card-13">
         <el-card class="box-card m-5" v-for="(item,index) in tableData" :key="index">
           <div slot="header" class="flexbox font-size-13 text-gray">
-            <div>{{item.companyName}}</div>
-          </div>
-          <div class="text item flexbox">
-            <div style="width:100%">
-              <div class="flexbox mt-5">
-                法人:
-                <div>{{item.legalPerson}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                业务范围:
-                <div>{{item.businessScope}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                成立日期:
-                <div>{{item.establishmentDate.split(" ")[0]}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                企业性质:
-                <div>{{item.natureOfBusiness}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                所在位置:
-                <div>{{item.location}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                注册资本:
-                <div>{{item.registeredCapital}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                备注:
-                <div>{{item.remarks}}</div>
-              </div>
+            <div>{{item.fileName}}</div>
+            <div class="text-r">
+              <el-button type="primary" v-if="item.fileUrl && item.fileUrl.length>0" size="mini" @click="viewPDF( item )">查看</el-button>
             </div>
           </div>
         </el-card>
@@ -89,7 +60,7 @@
           </el-table-column>
           <el-table-column label="发布" align="center">
             <template slot-scope="scope">
-              <el-switch v-model="scope.row.state" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+              <el-switch v-model="scope.row.isPublish" @change="publish($event,scope.row.id)"></el-switch>
             </template>
           </el-table-column>
           <el-table-column label="操作" align="center">
@@ -115,7 +86,7 @@
 </template>
 
 <script>
-import { getfileAdminByPage, deleteFile } from '@/api/fileModule/index.js'
+import { getfileAdminByPage, publishFile, deleteFile } from '@/api/fileModule/index.js'
 
 export default {
   computed: {
@@ -164,6 +135,14 @@ export default {
         this.total = res.total
       }).catch(err => this.$message.error(err))
     },
+    // 发布
+    publishFile(id, params) {
+      publishFile(id, params).then(res => {
+        if (params.status === true) this.$message.success('发布成功')
+        else this.$message.success('取消发布成功')
+        this.getfileAdminByPage()
+      }).catch(err => this.$message.error(err))
+    },
     // 删除
     deleteFile(id) {
       deleteFile(id).then(res => {
@@ -183,9 +162,16 @@ export default {
     // 成功上传图片到服务器
     handleSuccessPicture(response, file, fileList) {
       if (fileList.length > 0 && fileList[fileList.length - 1].status === 'success') {
+        this.$message.success('上传成功')
         this.getfileAdminByPage()
         this.fileList = []
       }
+    },
+    publish($event, id) {
+      console.log($event)
+      const params = { status: $event }
+      console.log(params)
+      this.publishFile(id, params)
     },
     // 预览文件
     viewPDF(row) {

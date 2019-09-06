@@ -8,7 +8,7 @@ const fileUserRouter = {
   component: Layout,
   meta: {
     title: '文件信息',
-    icon: 'device',
+    icon: 'form',
     auths: ['file_user_page']
   },
   children: [
@@ -18,7 +18,7 @@ const fileUserRouter = {
       component: () => import('@/views/fileModule/user'),
       meta: {
         title: '文件信息',
-        icon: 'device',
+        icon: 'form',
         auths: ['file_user_page']
       }
     }

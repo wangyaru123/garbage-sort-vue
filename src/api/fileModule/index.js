@@ -62,11 +62,12 @@ export function uploadFile() {
  * @param {*} id
  * @returns
  */
-export function publishFile(id) {
+export function publishFile(id, params) {
   return new Promise((resolve, reject) => {
     request({
       url: `${fileUrl}/file/files/${id}`,
-      method: 'put'
+      method: 'put',
+      params: params
     }).then(result => resolve(result))
       .catch(error => reject(error))
   })
