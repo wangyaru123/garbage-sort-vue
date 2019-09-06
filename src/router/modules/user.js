@@ -6,7 +6,7 @@ import Layout from '@/layout'
 const userRouter = {
   path: '/ucenter',
   component: Layout,
-  redirect: '/ucenter/userInfo',
+  redirect: '/ucenter/UserInfo',
   name: 'Ucenter',
   alwaysShow: true,
   meta: {
@@ -22,6 +22,14 @@ const userRouter = {
       meta: {
         title: '用户管理',
         auths: ['ucenter_admin_sensitive_page', 'ucenter_admin_nonsentive_page']
+      }
+    },
+    {
+      path: 'Company',
+      name: 'Ucenter.Company',
+      component: () => import('@/views/ucenter/company'),
+      meta: {
+        title: '公司管理'
       }
     },
     {
