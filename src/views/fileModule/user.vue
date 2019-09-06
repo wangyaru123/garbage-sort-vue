@@ -9,8 +9,8 @@
           layout="prev, jumper, next, total"
           :page-size="10"
           :total="total"
-          @size-change="getfileAdminByPage"
-          @current-change="getfileAdminByPage"
+          @size-change="getfileUserByPage"
+          @current-change="getfileUserByPage"
           :current-page.sync="currentPage"
         ></el-pagination>
       </div>
@@ -48,8 +48,8 @@
         <el-pagination
           class="mt-10 text-r"
           background
-          @size-change="getfileAdminByPage"
-          @current-change="getfileAdminByPage"
+          @size-change="getfileUserByPage"
+          @current-change="getfileUserByPage"
           :current-page.sync="currentPage"
           :page-sizes="[10, 20, 50, 100]"
           :page-size="pageSize"
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { getfileAdminByPage } from '@/api/fileModule/index.js'
+import { getfileUserByPage } from '@/api/fileModule/index.js'
 
 export default {
   computed: {
@@ -91,12 +91,12 @@ export default {
     }
   },
   created() {
-    this.getfileAdminByPage()
+    this.getfileUserByPage()
   },
   methods: {
     // 获取公司列表
-    getfileAdminByPage() {
-      getfileAdminByPage(this.currentPage, this.pageSize).then(res => {
+    getfileUserByPage() {
+      getfileUserByPage(this.currentPage, this.pageSize).then(res => {
         this.tableData = res.list
         this.total = res.total
       }).catch(err => this.$message.error(err))
