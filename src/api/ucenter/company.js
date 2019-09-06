@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 const ucenterUrl = process.env.VUE_APP_HTTP_UCENTER
 
-// #region 用户信息相关的接口
+// #region 公司信息相关的接口
 
 /**
  * 分页查询公司信息
@@ -78,7 +78,7 @@ export function updateCompany(id, params) {
  * 删除公司信息
  *
  * @export deleteCompany
- * @param {*} id 用户id
+ * @param {*} id
  * @returns
  */
 export function deleteCompany(id) {

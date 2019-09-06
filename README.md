@@ -10,6 +10,7 @@
 **BOX** |*盒子中心* | http://192.168.0.233:8690/box-service-realtime-push/swagger-ui.html
 **DEVICES** |*设备中心* | http://192.168.0.233:8290/box-service-equipment/swagger-ui.html
 **MAINTAIN** |*保养中心* | http://192.168.0.233:8890/box-service-maintain/swagger-ui.html
+**FILE** |*文件中心* | http://192.168.0.233:8990/box-service-file/swagger-ui.html
 
 
 ## 注意事项
