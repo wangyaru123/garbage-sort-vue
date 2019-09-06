@@ -20,6 +20,7 @@ export function getCompanyByPage(page, size) {
       .catch(error => reject(error))
   })
 }
+
 /**
  * 查询单条公司信息
  *
@@ -90,4 +91,20 @@ export function deleteCompany(id) {
   })
 }
 
+/**
+ * 获取公司列表
+ *
+ * @export getCompanyList
+ * @param {*}
+ * @returns
+ */
+export function getCompanyList() {
+  return new Promise((resolve, reject) => {
+    request({
+      url: `${ucenterUrl}/ucenter/companys/name`,
+      method: 'get'
+    }).then(result => resolve(result))
+      .catch(error => reject(error))
+  })
+}
 // #endregion

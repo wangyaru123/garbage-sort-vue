@@ -180,6 +180,11 @@
         <el-form-item label="邮箱:">
           <el-input v-model="dialogData.email"></el-input>
         </el-form-item>
+        <el-form-item label="公司:">
+          <el-select v-model="dialogData.companyId" placeholder="请选择" size="small">
+            <el-option v-for="item in companyList" :key="item.companyId" :value="item.companyId" :label="item.companyName"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="是否是超级用户:">
           <el-switch v-model="dialogData.isSys" active-color="#288AF1" inactive-color="#ff4949"></el-switch>
         </el-form-item>
@@ -211,6 +216,7 @@
 
 <script>
 import { getUserNoSenInfoByPage, getUserSenInfoByPage, getUserNoSenInfoById, getUserSenInfoById, addUserInfo, updateUserInfoBySys, updateUserInfoByUser, deleteUserInfoById, resetPassword, getUserRoles, getAllRoles, bindingRoles } from '@/api/ucenter/userInfo.js'
+import { getCompanyList } from '@/api/ucenter/company.js'
 
 export default {
   computed: {
@@ -281,12 +287,17 @@ export default {
       rolesList: [],
       // 用户的角色回显信息
       rolesDialogData: {},
-      userRolesData: []
+      // 角色列表
+      userRolesData: [],
+      // 公司列表
+      companyList: []
     }
   },
   created() {
     // 组件创建完后获取第一页数据
     this.fetchData()
+    // 获取公司列表
+    this.getCompanyList()
     // 获取角色列表
     if (this.saveRolesAuth) this.getAllRoles()
   },
@@ -295,6 +306,12 @@ export default {
     getAllRoles() {
       getAllRoles().then(res => {
         this.rolesList = res
+      }).catch(err => this.$message.error(err))
+    },
+    // 获取公司列表
+    getCompanyList() {
+      getCompanyList().then(res => {
+        this.companyList = res
       }).catch(err => this.$message.error(err))
     },
     // 获取非敏感信息列表
@@ -346,6 +363,7 @@ export default {
     },
     // 新增用户
     addUserInfo() {
+      this.dialogData.companyName = this.companyList.filter(item => item.companyId === this.dialogData.companyId)[0].companyName
       addUserInfo(this.dialogData).then(res => {
         this.dialogVisible = false
         this.$message.success('添加成功')
