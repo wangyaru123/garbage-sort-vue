@@ -13,43 +13,41 @@
           @current-change="getCompanyByPage"
           :current-page.sync="currentPage"
         ></el-pagination>
-        <div class="page-size">每页10条</div>
       </div>
       <div class="pt-40" id="padding-card-13">
         <el-card class="box-card m-5" v-for="(item,index) in tableData" :key="index">
           <div slot="header" class="flexbox font-size-13 text-gray">
-            <div>{{item.username}}</div>
-            <div class="text-r">{{ item.name}}</div>
+            <div>{{item.companyName}}</div>
           </div>
           <div class="text item flexbox">
             <div style="width:100%">
               <div class="flexbox mt-5">
-                性别:
-                <div>{{item.sex?'女':'男'}}</div>
+                法人:
+                <div>{{item.legalPerson}}</div>
               </div>
               <div class="flexbox mt-5">
-                手机号码:
-                <div>{{item.mobile}}</div>
+                业务范围:
+                <div>{{item.businessScope}}</div>
               </div>
               <div class="flexbox mt-5">
-                固定电话:
-                <div>{{item.telephone}}</div>
+                成立日期:
+                <div>{{item.establishmentDate.split(" ")[0]}}</div>
               </div>
               <div class="flexbox mt-5">
-                邮箱:
-                <div>{{item.email}}</div>
+                企业性质:
+                <div>{{item.natureOfBusiness}}</div>
               </div>
               <div class="flexbox mt-5">
-                最后登录时间:
-                <div>{{item.lastLoginTime}}</div>
+                所在位置:
+                <div>{{item.location}}</div>
               </div>
               <div class="flexbox mt-5">
-                是否是超级用户:
-                <el-tag :type="item.isSys?'':'danger'">{{ item.isSys?'是':'否'}}</el-tag>
+                注册资本:
+                <div>{{item.registeredCapital}}</div>
               </div>
               <div class="flexbox mt-5">
-                是否启用:
-                <el-tag :type="item.isEnable?'':'danger'">{{ item.isEnable?'是':'否'}}</el-tag>
+                备注:
+                <div>{{item.remarks}}</div>
               </div>
             </div>
           </div>
@@ -83,15 +81,15 @@
           </el-table-column>
           <el-table-column label="成立日期" width="180px" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.establishmentDate}}</span>
+              <span>{{ scope.row.establishmentDate.split(" ")[0]}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="业务性质" align="center">
+          <el-table-column label="企业性质" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.natureOfBusiness }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="安装地址" align="center" width="120px">
+          <el-table-column label="所在位置" align="center" width="120px">
             <template slot-scope="scope">
               <span>{{ scope.row.location}}</span>
             </template>
@@ -141,10 +139,10 @@
         <el-form-item label="负责人:">
           <el-input v-model="dialogData.legalPerson"></el-input>
         </el-form-item>
-        <el-form-item label="业务性质:">
+        <el-form-item label="企业性质:">
           <el-input v-model="dialogData.natureOfBusiness"></el-input>
         </el-form-item>
-        <el-form-item label="安装地址:">
+        <el-form-item label="所在位置:">
           <el-input v-model="dialogData.location"></el-input>
         </el-form-item>
         <el-form-item label="注册资本:">
@@ -266,4 +264,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../styles/mobileStyle.scss";
 </style>

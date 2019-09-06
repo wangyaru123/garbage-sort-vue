@@ -14,7 +14,6 @@
           @current-change="fetchData"
           :current-page.sync="currentPage"
         ></el-pagination>
-        <div class="page-size">每页10条</div>
       </div>
       <div class="pt-40" id="padding-card-13">
         <el-card class="box-card m-5" v-for="(item,index) in tableData" :key="index">
