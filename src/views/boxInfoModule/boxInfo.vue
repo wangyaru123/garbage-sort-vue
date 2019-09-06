@@ -116,7 +116,7 @@ export default {
           this.tableData = JSON.parse(msg.body)
         })
       }, error => {
-        console.log('fail' + error)
+        console.log('fail : ' + error)
       })
     },
     closeWebSocket() {
