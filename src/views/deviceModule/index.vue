@@ -37,6 +37,10 @@
                 <div>{{item.equipmentDetails}}</div>
               </div>
               <div class="flexbox mt-5">
+                公司:
+                <div>{{item.companyName}}</div>
+              </div>
+              <div class="flexbox mt-5">
                 负责人:
                 <div>{{item.adminName}}</div>
               </div>
@@ -107,6 +111,11 @@
           <el-table-column label="设备详情" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.equipmentDetails}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="公司" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.companyName}}</span>
             </template>
           </el-table-column>
           <el-table-column label="负责人" fixed="right" width="100px" align="center">
@@ -184,6 +193,11 @@
             <el-form-item label="设备详情：">
               <el-input v-model="dialogData.equipmentDetails"></el-input>
             </el-form-item>
+            <el-form-item label="公司:">
+              <el-select v-model="dialogData.companyId" placeholder="请选择" size="small">
+                <el-option v-for="item in companyList" :key="item.companyId" :value="item.companyId" :label="item.companyName"></el-option>
+              </el-select>
+            </el-form-item>
             <el-form-item label="负责人：" :rules="{ required: true, message: '请选择负责人', trigger: 'change' }">
               <el-select v-model="dialogData.adminId" placeholder="请选择" size="small">
                 <el-option v-for="item in personList" :key="item.id" :value="item.id" :label="item.name"></el-option>
@@ -247,6 +261,7 @@
 <script>
 import { getDeviceInfoByPage, getDeviceInfoById, editDeviceInfoById, addDeviceInfo, deleteDeviceInfoById } from '@/api/deviceModule.js'
 import { getAllUserInfo } from '@/api/ucenter/userInfo.js'
+import { getCompanyList } from '@/api/ucenter/company.js'
 import { parseTime } from '@/utils/index'
 
 export default {
@@ -304,15 +319,25 @@ export default {
       // 负责人列表
       personList: [],
       // 设备id
-      equipmentId: ''
+      equipmentId: '',
+      // 公司列表
+      companyList: []
     }
   },
   created() {
     this.fetchData()
     this.getAllUserInfo()
+    // 获取公司列表
+    this.getCompanyList()
   },
   methods: {
     // api
+    // 获取公司列表
+    getCompanyList() {
+      getCompanyList().then(res => {
+        this.companyList = res
+      }).catch(err => this.$message.error(err))
+    },
     // 根据page,size获取当前表格数据
     fetchData() {
       getDeviceInfoByPage(this.currentPage, this.pageSize).then(res => {
@@ -344,6 +369,7 @@ export default {
     // 添加设备信息
     addTableData() {
       this.editDialogVisible = false
+      this.dialogData.companyName = this.companyList.filter(item => item.companyId === this.dialogData.companyId)[0].companyName
       addDeviceInfo(this.dialogData).then(res => {
         this.equipmentId = res
         this.$nextTick(() => this.$refs.upload.submit())

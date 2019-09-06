@@ -40,6 +40,10 @@
                 <div>{{item.email}}</div>
               </div>
               <div class="flexbox mt-5">
+                邮箱:
+                <div>{{item.companyName}}</div>
+              </div>
+              <div class="flexbox mt-5">
                 最后登录时间:
                 <div>{{item.lastLoginTime}}</div>
               </div>
@@ -99,6 +103,11 @@
           <el-table-column label="邮箱" align="center" width="180px">
             <template slot-scope="scope">
               <span>{{ scope.row.email}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="公司" align="center" width="180px">
+            <template slot-scope="scope">
+              <span>{{ scope.row.companyName}}</span>
             </template>
           </el-table-column>
           <el-table-column label="最后登录时间" align="center" v-if="sensitivePageAuth" width="160px">
