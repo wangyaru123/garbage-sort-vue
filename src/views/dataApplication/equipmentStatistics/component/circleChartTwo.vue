@@ -87,20 +87,14 @@ export default {
       }, 100)
       window.addEventListener('resize', this.__resizeHanlder)
     },
+    // 更新图表中的数据
+    updateDataChart(data) {
+      this.chartOptions.series[0].data[0] = data
+      this.chartOptions.series[0].data[1] = 100 - data
+      this.chart.setOption(this.chartOptions)
+    },
     // 清除图表数据
     clearChartData() {
-      this.chartOptions.xAxis.data.length = 0
-      for (var i = 0; i < 6; i++) {
-        this.chartOptions.series[i].data.length = 0
-      }
-      // 重新初始化
-      for (i = 0; i < 300; i++) {
-        this.chartOptions.xAxis.data.push(this.$dayjs().subtract(300 - i, 'second').format('HH:mm:ss'))
-        for (var j = 0; j < 6; j++) {
-          this.chartOptions.series[j].data.push(0)
-        }
-      }
-      this.chart.setOption(this.chartOptions)
     }
   }
 }

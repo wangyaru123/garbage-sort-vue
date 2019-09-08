@@ -109,6 +109,15 @@ export default {
       window.removeEventListener('resize', this.__resizeHanlder)
       this.chart.dispose()
       this.chart = null
+    },
+    // 更新图表中的数据
+    updateDataChart(data, time) {
+      this.options.series[0].data = data
+      this.options.xAxis[0].data = time
+      this.chart.setOption(this.options)
+    },
+    // 清除图表数据
+    clearChartData() {
     }
   }
 }
