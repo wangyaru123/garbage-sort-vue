@@ -146,7 +146,7 @@ import utilizationRateChart from './component/utilizationRateChart'
 import CircleChart from './component/circleChart'
 import failureRateChart from './component/failureRateChart'
 import circleChartTwo from './component/circleChartTwo'
-// import request from '@/utils/request'
+import request from '@/utils/request'
 
 export default {
   components: {
@@ -232,26 +232,25 @@ export default {
     changeRateTime() { // 选择时的触发
     },
     searchRate() { // 提交 rate 时间
-      if (this.rate.isShowYear) { // 展示年利用率
-        // bar形图
-        const bar_data = [100, 30, 20, 39, 65, 100, 10, 30, 20, 39, 65, 100]
+      if (this.rate.isShowYear && this.rate.year) { // 展示年利用率
+        // alert('go year')
+        const bar_data = [50, 30, 20, 39, 65, 100, 10, 30, 20, 39, 65, 100]
         const bar_time = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
-        this.$refs.rateBarChart.updateDataChart(bar_data, bar_time)
-        // pie形图
-        this.$refs.ratePieChart.updateDataChart(30)
-        /* alert('go year')
-        const ucenterUrl = process.env.VUE_APP_HTTP_UCENTER
+        this.$refs.rateBarChart.updateDataChart(bar_data, bar_time) // bar形图
+        this.$refs.ratePieChart.updateDataChart(this.getRate(bar_data)) // pie形图
+        /* const url = process.env.VUE_APP_HTTP_BOX_DATA
+        const param = { year: this.getLocalTime(this.rate.year, 1), ioType: 'I', byteIndex: 0, bitIndex: 0 }
         request({
-          url: `${ucenterUrl}/ucenter/admins/non-sensitives/1/10`,
-          method: 'get'
+          url: `${url}/data-io/rateByYear`,
+          method: 'post',
+          data: param
         }).then(result => {
-          const aa = result.list
-          const bb = result.total
-        }).catch(error => this.$message.error(error)) */
-      } else if (this.rate.isShowMouth) { // 展示月利用率
+          const tem = JSON.parse(result)
+        }).catch(error => this.$message.error(error))*/
+      } else if (this.rate.isShowMouth && this.rate.mouth) { // 展示月利用率
         // alert('go mouth')
         // bar形图
-        const bar_data = [50, 30, 20, 39, 600]
+        const bar_data = [50, 30, 20, 39, 70]
         let bar_time = ['1', '2', '3', '4', '5', '6', '7', '8', '9',
           '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
           '20', '21', '22', '23', '24', '25', '26', '27', '28', '29',
@@ -259,22 +258,49 @@ export default {
         bar_time = bar_time.splice(0, bar_data.length)
         this.$refs.rateBarChart.updateDataChart(bar_data, bar_time)
         // pie形图
-        this.$refs.ratePieChart.updateDataChart(20)
-      } else if (this.rate.isShowTime) { // 展示时利用率
+        this.$refs.ratePieChart.updateDataChart(this.getRate(bar_data))
+        /* const url = process.env.VUE_APP_HTTP_BOX_DATA
+        const param = { year: this.getLocalTime(this.rate.year, 1), month: this.getLocalTime(this.rate.year, 2), ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        request({
+          url: `${url}/data-io/rateByMouth`,
+          method: 'post',
+          data: param
+        }).then(result => {
+          const tem = JSON.parse(result)
+        }).catch(error => this.$message.error(error))*/
+      } else if (this.rate.isShowTime && this.rate.time) { // 展示时利用率
         // alert('go time')
         // bar形图
-        const bar_data = [9]
-        const bar_time = [this.getLocalTime(this.rate.time[0]) + ' 至 ' + this.getLocalTime(this.rate.time[1])]
+        const bar_data = [90]
+        const bar_time = [this.getLocalTime(this.rate.time[0], 0) + ' 至 ' + this.getLocalTime(this.rate.time[1], 0)]
         this.$refs.rateBarChart.updateDataChart(bar_data, bar_time)
         // pie形图
-        this.$refs.ratePieChart.updateDataChart(70)
-      } else if (this.rate.isShowDay) { // 展示日利用率
+        this.$refs.ratePieChart.updateDataChart(bar_data[0])
+        /* const url = process.env.VUE_APP_HTTP_BOX_DATA
+        const param = { startTime: this.rate.time[0], stopTime: this.rate.time[1], ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        request({
+          url: `${url}/data-io/iorateByTime`,
+          method: 'post',
+          data: param
+        }).then(result => {
+          const tem = JSON.parse(result)
+        }).catch(error => this.$message.error(error))*/
+      } else if (this.rate.isShowDay && this.rate.day) { // 展示日利用率
         // alert('go day')
         // bar形图
         const bar_data = [5, 30, 20, 39, 65, 100, 10, 30, 20, 39, 65, 100]
         this.$refs.rateBarChart.updateDataChart(bar_data, this.time_data)
         // pie形图
-        this.$refs.ratePieChart.updateDataChart(90)
+        this.$refs.ratePieChart.updateDataChart(this.getRate(bar_data))
+        /* const url = process.env.VUE_APP_HTTP_BOX_DATA
+        const param = { date: this.rate.day, ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        request({
+          url: `${url}/data-io/RateByDay`,
+          method: 'post',
+          data: param
+        }).then(result => {
+          const tem = JSON.parse(result)
+        }).catch(error => this.$message.error(error))*/
       }
     },
     // **** 故障率 **********************************************
@@ -304,26 +330,26 @@ export default {
     changeFaultDay() { // 选择日的触发
     },
     searchFault() { // 提交 fault 时间
-      if (this.fault.isShowYear) { // 展示年利用率
-        /* alert('go year')
-        const ucenterUrl = process.env.VUE_APP_HTTP_UCENTER
-        request({
-          url: `${ucenterUrl}/ucenter/admins/non-sensitives/1/10`,
-          method: 'get'
-        }).then(result => {
-          const aa = result.list
-          const bb = result.total
-        }).catch(error => this.$message.error(error)) */
+      if (this.fault.isShowYear && this.fault.year) { // 展示年利用率
         // bar形图
         const bar_data = [100, 30, 20, 39, 65, 100, 10, 30, 20, 39, 65, 100]
         const bar_time = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
         this.$refs.faultBarChart.updateDataChart(bar_data, bar_time)
         // pie形图
-        this.$refs.faultPieChart.updateDataChart(30)
-      } else if (this.fault.isShowMouth) { // 展示月利用率
+        this.$refs.faultPieChart.updateDataChart(this.getRate(bar_data))
+        /* const url = process.env.VUE_APP_HTTP_BOX_DATA
+        const param = { year: this.getLocalTime(this.fault.year, 1), ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        request({
+          url: `${url}/data-io/rateByYear`,
+          method: 'post',
+          data: param
+        }).then(result => {
+          const tem = JSON.parse(result)
+        }).catch(error => this.$message.error(error))*/
+      } else if (this.fault.isShowMouth && this.fault.mouth) { // 展示月利用率
         // alert('go mouth')
         // bar形图
-        const bar_data = [50, 30, 20, 39, 600]
+        const bar_data = [50, 30, 20, 39, 70]
         let bar_time = ['1', '2', '3', '4', '5', '6', '7', '8', '9',
           '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
           '20', '21', '22', '23', '24', '25', '26', '27', '28', '29',
@@ -331,22 +357,49 @@ export default {
         bar_time = bar_time.splice(0, bar_data.length)
         this.$refs.faultBarChart.updateDataChart(bar_data, bar_time)
         // pie形图
-        this.$refs.faultPieChart.updateDataChart(20)
-      } else if (this.fault.isShowTime) { // 展示时利用率
+        this.$refs.faultPieChart.updateDataChart(this.getRate(bar_data))
+        /* const url = process.env.VUE_APP_HTTP_BOX_DATA
+        const param = { year: this.getLocalTime(this.fault.year, 1), month: this.getLocalTime(this.fault.year, 2), ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        request({
+          url: `${url}/data-io/rateByMouth`,
+          method: 'post',
+          data: param
+        }).then(result => {
+          const tem = JSON.parse(result)
+        }).catch(error => this.$message.error(error))*/
+      } else if (this.fault.isShowTime && this.fault.time) { // 展示时利用率
         // alert('go time')
         // bar形图
         const bar_data = [9]
-        const bar_time = [this.getLocalTime(this.fault.time[0]) + ' 至 ' + this.getLocalTime(this.fault.time[1])]
+        const bar_time = [this.getLocalTime(this.fault.time[0], 0) + ' 至 ' + this.getLocalTime(this.fault.time[1], 0)]
         this.$refs.faultBarChart.updateDataChart(bar_data, bar_time)
         // pie形图
-        this.$refs.faultPieChart.updateDataChart(70)
-      } else if (this.fault.isShowDay) { // 展示日利用率
+        this.$refs.faultPieChart.updateDataChart(bar_data[0])
+        /* const url = process.env.VUE_APP_HTTP_BOX_DATA
+        const param = { startTime: this.fault.time[0], stopTime: this.fault.time[1], ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        request({
+          url: `${url}/data-io/iorateByTime`,
+          method: 'post',
+          data: param
+        }).then(result => {
+          const tem = JSON.parse(result)
+        }).catch(error => this.$message.error(error))*/
+      } else if (this.fault.isShowDay && this.fault.day) { // 展示日利用率
         // alert('go day')
         // bar形图
         const bar_data = [5, 30, 20, 39, 65, 100, 10, 30, 20, 39, 65, 100]
         this.$refs.faultBarChart.updateDataChart(bar_data, this.time_data)
         // pie形图
-        this.$refs.faultPieChart.updateDataChart(90)
+        this.$refs.faultPieChart.updateDataChart(this.getRate(bar_data))
+        /* const url = process.env.VUE_APP_HTTP_BOX_DATA
+        const param = { date: this.fault.day, ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        request({
+          url: `${url}/data-io/RateByDay`,
+          method: 'post',
+          data: param
+        }).then(result => {
+          const tem = JSON.parse(result)
+        }).catch(error => this.$message.error(error))*/
       }
     },
     // *** 公用方法 ***************************************************************************
@@ -355,7 +408,7 @@ export default {
       const d = new Date(year, month, 0)
       return d.getDate()
     },
-    getLocalTime(_date) {
+    getLocalTime(_date, tem) { // 格式化时间
       const date = _date // 时间戳为10位需乘1000，为13位则不用
       const Y = date.getFullYear() // 年
       const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) // 月
@@ -363,7 +416,16 @@ export default {
       const h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours() // 时
       const m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes() // 分
       const s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds() // 秒
-      return Y + '-' + M + '-' + D + ' ' + h + ':' + m + ':' + s // yyyy-mm-dd hh:mm:ss
+      if (tem === 0) return Y + '-' + M + '-' + D + ' ' + h + ':' + m + ':' + s // yyyy-mm-dd hh:mm:ss
+      if (tem === 1) return Y
+      if (tem === 2) return m
+    },
+    getRate(data) {
+      let tem = 0
+      data.forEach(v => {
+        tem = tem + v
+      })
+      return tem / data.length
     }
   }
 }
