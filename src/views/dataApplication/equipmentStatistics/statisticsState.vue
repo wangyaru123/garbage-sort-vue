@@ -223,32 +223,48 @@ export default {
     },
     changeRateTime() { // 选择时的触发
     },
+    // 展示年利用率
+    getRateByYear(refNameBar, refNamePie, param) {
+      getRateByYear(param).then(res => {
+        this.$refs[refNameBar].updateDataChart(res, this.mouth_data) // bar形图
+        this.$refs[refNamePie].updateDataChart(this.getRate(res)) // pie形图
+      }).catch(err => this.$message.error(err))
+    },
+    // 展示月利用率
+    getRateByMouth(refNameBar, refNamePie, param) {
+      getRateByMouth(param).then(res => {
+        this.$refs[refNameBar].updateDataChart(res, this.day_data.slice(0, res.length))
+        this.$refs[refNamePie].updateDataChart(this.getRate(res))
+      }).catch(err => this.$message.error(err))
+    },
+    // 展示时利用率
+    getRateByTime(refNameBar, refNamePie, param, bar_time) {
+      getRateByTime(param).then(res => {
+        this.$refs[refNameBar].updateDataChart([res], bar_time)
+        this.$refs[refNamePie].updateDataChart(res)
+      }).catch(err => this.$message.error(err))
+    },
+    // 展示日利用率
+    getRateByDay(refNameBar, refNamePie, param) {
+      getRateByDay(param).then(res => {
+        this.$refs[refNameBar].updateDataChart(res, this.time_data)
+        this.$refs[refNamePie].updateDataChart(this.getRate(res))
+      }).catch(err => this.$message.error(err))
+    },
     searchRate() { // 提交 rate 时间
       if (this.rate.isShowYear && this.rate.year) { // 展示年利用率
         const param = { year: this.getLocalTime(this.rate.year, 1), ioType: 'I', byteIndex: 0, bitIndex: 0 }
-        getRateByYear(param).then(res => {
-          this.$refs.rateBarChart.updateDataChart(res, this.mouth_data) // bar形图
-          this.$refs.ratePieChart.updateDataChart(this.getRate(res)) // pie形图
-        }).catch(err => this.$message.error(err))
+        this.getRateByYear('rateBarChart', 'ratePieChart', param)
       } else if (this.rate.isShowMouth && this.rate.mouth) { // 展示月利用率
-        const param = { year: this.getLocalTime(this.rate.mouth, 1), month: this.getLocalTime(this.rate.mouth, 2), ioType: 'I', byteIndex: 0, bitIndex: 0 }
-        getRateByMouth(param).then(res => {
-          this.$refs.rateBarChart.updateDataChart(res, this.day_data.slice(0, res.length))
-          this.$refs.ratePieChart.updateDataChart(this.getRate(res))
-        }).catch(err => this.$message.error(err))
+        const param = { year: this.getLocalTime(this.rate.mouth, 1), month: this.getLocalTime(this.fault.mouth, 2), ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        this.getRateByMouth('rateBarChart', 'ratePieChart', param)
       } else if (this.rate.isShowTime && this.rate.time) { // 展示时利用率
         const param = { startTime: this.getLocalTime(this.rate.time[0], 0), stopTime: this.getLocalTime(this.rate.time[1], 0), ioType: 'I', byteIndex: 0, bitIndex: 0 }
-        getRateByTime(param).then(res => {
-          const bar_time = [this.getLocalTime(this.rate.time[0], 0) + ' 至 ' + this.getLocalTime(this.rate.time[1], 0)]
-          this.$refs.rateBarChart.updateDataChart([res], bar_time)
-          this.$refs.ratePieChart.updateDataChart(res)
-        }).catch(err => this.$message.error(err))
+        const bar_time = [this.getLocalTime(this.rate.time[0], 0) + ' 至 ' + this.getLocalTime(this.rate.time[1], 0)]
+        this.getRateByTime('rateBarChart', 'ratePieChart', param, bar_time)
       } else if (this.rate.isShowDay && this.rate.day) { // 展示日利用率
         const param = { date: this.getLocalTime(this.rate.day, 3), ioType: 'I', byteIndex: 0, bitIndex: 0 }
-        getRateByDay(param).then(res => {
-          this.$refs.rateBarChart.updateDataChart(res, this.time_data)
-          this.$refs.ratePieChart.updateDataChart(this.getRate(res))
-        }).catch(err => this.$message.error(err))
+        this.getRateByDay('rateBarChart', 'ratePieChart', param)
       }
     },
     // **** 故障率 **********************************************
@@ -279,48 +295,21 @@ export default {
     },
     changeFaultTime() { // 选择时的触发
     },
-    // 展示年利用率
-    getRateByYear() {
-      const param = { year: this.getLocalTime(this.fault.year, 1), ioType: 'I', byteIndex: 0, bitIndex: 0 }
-      getRateByYear(param).then(res => {
-        this.$refs.faultBarChart.updateDataChart(res, this.mouth_data) // bar形图
-        this.$refs.faultPieChart.updateDataChart(this.getRate(res)) // pie形图
-      }).catch(err => this.$message.error(err))
-    },
-    // 展示月利用率
-    getRateByMouth() {
-      const param = { year: this.getLocalTime(this.fault.mouth, 1), month: this.getLocalTime(this.fault.mouth, 2), ioType: 'I', byteIndex: 0, bitIndex: 0 }
-      getRateByMouth(param).then(res => {
-        this.$refs.faultBarChart.updateDataChart(res, this.day_data.slice(0, res.length))
-        this.$refs.faultPieChart.updateDataChart(this.getRate(res))
-      }).catch(err => this.$message.error(err))
-    },
-    // 展示时利用率
-    getRateByTime() {
-      const param = { startTime: this.getLocalTime(this.fault.time[0], 0), stopTime: this.getLocalTime(this.fault.time[1], 0), ioType: 'I', byteIndex: 0, bitIndex: 0 }
-      getRateByTime(param).then(res => {
-        const bar_time = [this.getLocalTime(this.fault.time[0], 0) + ' 至 ' + this.getLocalTime(this.fault.time[1], 0)]
-        this.$refs.faultBarChart.updateDataChart([res], bar_time)
-        this.$refs.faultPieChart.updateDataChart(res)
-      }).catch(err => this.$message.error(err))
-    },
-    // 展示日利用率
-    getRateByDay() {
-      const param = { date: this.getLocalTime(this.fault.day, 3), ioType: 'I', byteIndex: 0, bitIndex: 0 }
-      getRateByDay(param).then(res => {
-        this.$refs.faultBarChart.updateDataChart(res, this.time_data)
-        this.$refs.faultPieChart.updateDataChart(this.getRate(res))
-      }).catch(err => this.$message.error(err))
-    },
-    searchFault() { // 提交 fault 时间
+    // 提交 fault 时间
+    searchFault() {
       if (this.fault.isShowYear && this.fault.year) {
-        this.getRateByYear()
+        const param = { year: this.getLocalTime(this.fault.year, 1), ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        this.getRateByYear('faultBarChart', 'faultPieChart', param)
       } else if (this.fault.isShowMouth && this.fault.mouth) {
-        this.getRateByMouth()
+        const param = { year: this.getLocalTime(this.fault.mouth, 1), month: this.getLocalTime(this.fault.mouth, 2), ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        this.getRateByMouth('faultBarChart', 'faultPieChart', param)
       } else if (this.fault.isShowTime && this.fault.time) {
-        this.getRateByTime()
+        const param = { startTime: this.getLocalTime(this.fault.time[0], 0), stopTime: this.getLocalTime(this.fault.time[1], 0), ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        const bar_time = [this.getLocalTime(this.fault.time[0], 0) + ' 至 ' + this.getLocalTime(this.fault.time[1], 0)]
+        this.getRateByTime('faultBarChart', 'faultPieChart', param, bar_time)
       } else if (this.fault.isShowDay && this.fault.day) {
-        this.getRateByDay()
+        const param = { date: this.getLocalTime(this.fault.day, 3), ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        this.getRateByDay('faultBarChart', 'faultPieChart', param)
       }
     },
     // *** 公用方法 ***************************************************************************
