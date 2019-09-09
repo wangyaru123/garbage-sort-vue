@@ -41,12 +41,16 @@ export default {
             type: 'pie',
             radius: '55%',
             center: ['50%', '50%'],
-            data: this.chartDataTwo,
+            data: [
+              { name: '故障率', value: 50 }, { name: '', value: 50 }
+            ],
             itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              normal: {
+                label: {
+                  show: true,
+                  formatter: '{d}%',
+                  position: 'inner'
+                }
               }
             }
           }

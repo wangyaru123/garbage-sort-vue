@@ -18,6 +18,8 @@
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="text item m-10">
               库位1 : {{inputArrayData[0][0]}}
+              <span v-if="true" :class="sparkGreen(index)"></span>
+              <span v-else :class="sparkGray(index)"></span>
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
@@ -221,6 +223,9 @@ export default {
         this.stompClient.disconnect()
         console.log('关闭websocket')
       }
+    },
+    sparkGray(index) {
+      return 'sparkGray' + index
     }
   }
 }
