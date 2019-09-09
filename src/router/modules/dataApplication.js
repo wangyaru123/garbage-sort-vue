@@ -16,6 +16,12 @@ const dataApplicationRouter = {
       meta: { title: 'NewData' }
     },
     {
+      path: 'equipmentStatistics',
+      name: 'DataApplication.EquipmentStatistics',
+      component: () => import('@/views/dataApplication/equipmentStatistics/index'),
+      meta: { title: 'EquipmentStatistics' }
+    },
+    {
       path: 'index',
       name: 'DataApplication.Overview',
       component: () => import('@/views/dataApplication/overview/index'),
