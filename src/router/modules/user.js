@@ -29,7 +29,8 @@ const userRouter = {
       name: 'Ucenter.Company',
       component: () => import('@/views/ucenter/company'),
       meta: {
-        title: '公司管理'
+        title: '公司管理',
+        auths: ['ucenter_company_page']
       }
     },
     {

@@ -118,7 +118,7 @@
           @current-change="getCompanyByPage"
           :current-page.sync="currentPage"
           :page-sizes="[10, 20, 50, 100]"
-          :page-size="pageSize"
+          :page-size.sync="pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
         ></el-pagination>

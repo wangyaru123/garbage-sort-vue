@@ -160,7 +160,7 @@
           @current-change="fetchData"
           :current-page.sync="currentPage"
           :page-sizes="[10, 20, 50, 100]"
-          :page-size="pageSize"
+          :page-size.sync="pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
         ></el-pagination>
@@ -341,13 +341,13 @@ export default {
     fetchData() {
       if (this.sensitivePageAuth) this.getUserSenInfo()
       else this.getUserNoSenInfo()
-      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', lastLoginTime: '', isSys: true, isEnable: true }
+      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', lastLoginTime: '', companyId: '', companyName: '', isSys: true, isEnable: true }
     },
     // 添加用户信息
     addClick() {
       this.dialogAction = 'add'
       this.dialogVisible = true
-      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', lastLoginTime: '', isSys: true, isEnable: true }
+      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', lastLoginTime: '', companyId: '', companyName: '', isSys: true, isEnable: true }
     },
     // 根据id获取非敏感信息
     getNoSenDialogData(adminId) {
@@ -381,6 +381,7 @@ export default {
     },
     // 系统管理员更新用户信息
     updateUserInfoBySys() {
+      this.dialogData.companyName = this.companyList.filter(item => item.companyId === this.dialogData.companyId)[0].companyName
       updateUserInfoBySys(this.dialogData.adminId, this.dialogData).then(res => {
         this.dialogVisible = false
         this.$message.success('修改成功')
@@ -404,7 +405,7 @@ export default {
     // 点击取消，隐藏弹窗
     cancel() {
       this.dialogVisible = false
-      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', lastLoginTime: '', isSys: true, isEnable: true }
+      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', lastLoginTime: '', companyId: '', companyName: '', isSys: true, isEnable: true }
     },
     // 删除单条已提交报警信息
     deleteTableData(id) {
