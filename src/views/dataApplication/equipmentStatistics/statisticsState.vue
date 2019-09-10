@@ -6,21 +6,14 @@
         <el-card>
           <div slot="header">
             <div>
-              <el-select size='small' v-model="rate.model" placeholder="" @change="changeRateModel">
+              <el-select size="small" v-model="rate.model" placeholder @change="changeRateModel">
                 <el-option label="年利用率" value="1"></el-option>
                 <el-option label="月利用率" value="2"></el-option>
                 <el-option label="日利用率" value="3"></el-option>
                 <el-option label="时利用率" value="4"></el-option>
               </el-select>
               <span style="margin-left: 10px" v-if="rate.isShowYear">年：</span>
-              <el-date-picker
-                v-if="rate.isShowYear"
-                v-model="rate.year"
-                type="year"
-                format="yyyy 年"
-                placeholder="选择年"
-                @change="changeRateYear">
-              </el-date-picker>
+              <el-date-picker v-if="rate.isShowYear" v-model="rate.year" type="year" format="yyyy 年" placeholder="选择年" @change="changeRateYear"></el-date-picker>
               <span style="margin-left: 10px" v-if="rate.isShowMouth">月：</span>
               <el-date-picker
                 v-if="rate.isShowMouth"
@@ -28,8 +21,8 @@
                 type="month"
                 format="yyyy 年 MM 月"
                 placeholder="选择月"
-                @change="changeRateMouth">
-              </el-date-picker>
+                @change="changeRateMouth"
+              ></el-date-picker>
               <span style="margin-left: 10px" v-if="rate.isShowDay">日：</span>
               <el-date-picker
                 v-if="rate.isShowDay"
@@ -37,8 +30,8 @@
                 type="date"
                 format="yyyy 年 MM 月 dd 日"
                 placeholder="选择日"
-                @change="changeRateDay">
-              </el-date-picker>
+                @change="changeRateDay"
+              ></el-date-picker>
               <span style="margin-left: 10px" v-if="rate.isShowTime">时间：</span>
               <el-date-picker
                 v-if="rate.isShowTime"
@@ -49,8 +42,8 @@
                 range-separator="To"
                 start-placeholder="开始时间"
                 end-placeholder="结束时间"
-                @change="changeRateTime">
-              </el-date-picker>
+                @change="changeRateTime"
+              ></el-date-picker>
               <el-button type="primary" size="small" @click="searchRate">查询</el-button>
             </div>
           </div>
@@ -58,7 +51,7 @@
             <utilizationRateChart chartId="utilizationRateChart" ref="rateBarChart" titleName="设备利用率"></utilizationRateChart>
           </el-col>
           <el-col :span="12">
-            <circle-chart chartId="circleChart" ref="ratePieChart" titleName="设备利用率" ></circle-chart>
+            <circle-chart chartId="circleChart" ref="ratePieChart" titleName="设备利用率"></circle-chart>
           </el-col>
         </el-card>
       </el-col>
@@ -67,7 +60,7 @@
         <el-card class="mt-5">
           <div slot="header">
             <div>
-              <el-select size='small' v-model="fault.model" placeholder="" @change="changeFaultModel">
+              <el-select size="small" v-model="fault.model" placeholder @change="changeFaultModel">
                 <el-option label="年故障率" value="1"></el-option>
                 <el-option label="月故障率" value="2"></el-option>
                 <el-option label="日故障率" value="3"></el-option>
@@ -80,8 +73,8 @@
                 type="year"
                 format="yyyy 年"
                 placeholder="选择年"
-                @change="changeFaultYear">
-              </el-date-picker>
+                @change="changeFaultYear"
+              ></el-date-picker>
               <span style="margin-left: 10px" v-if="fault.isShowMouth">月：</span>
               <el-date-picker
                 v-if="fault.isShowMouth"
@@ -89,8 +82,8 @@
                 type="month"
                 format="yyyy 年 MM 月"
                 placeholder="选择月"
-                @change="changeFaultMouth">
-              </el-date-picker>
+                @change="changeFaultMouth"
+              ></el-date-picker>
               <span style="margin-left: 10px" v-if="fault.isShowDay">日：</span>
               <el-date-picker
                 v-if="fault.isShowDay"
@@ -98,8 +91,8 @@
                 type="date"
                 format="yyyy 年 MM 月 dd 日"
                 placeholder="选择日"
-                @change="changeFaultDay">
-              </el-date-picker>
+                @change="changeFaultDay"
+              ></el-date-picker>
               <span style="margin-left: 10px" v-if="fault.isShowTime">时间：</span>
               <el-date-picker
                 v-if="fault.isShowTime"
@@ -110,8 +103,8 @@
                 range-separator="To"
                 start-placeholder="开始时间"
                 end-placeholder="结束时间"
-                @change="changeFaultTime">
-              </el-date-picker>
+                @change="changeFaultTime"
+              ></el-date-picker>
               <el-button type="primary" size="small" @click="searchFault">查询</el-button>
             </div>
           </div>
@@ -119,7 +112,7 @@
             <failureRateChart chartId="failureRateChart" ref="faultBarChart" titleName="故障率"></failureRateChart>
           </el-col>
           <el-col :span="12">
-            <circle-chart-two chartId="circleChartTwo" ref="faultPieChart" titleName="故障率" ></circle-chart-two>
+            <circle-chart-two chartId="circleChartTwo" ref="faultPieChart" titleName="故障率"></circle-chart-two>
           </el-col>
         </el-card>
       </el-col>
@@ -197,7 +190,9 @@ export default {
   },
   created() {
   },
-  mounted: function() {
+  mounted: function () {
+    this.getRateByDay('rateBarChart', 'ratePieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
+    this.getRateByDay('faultBarChart', 'faultPieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
   },
   beforeDestroy() {
   },
@@ -222,9 +217,9 @@ export default {
         this.rate.year = this.rate.mouth = this.rate.day = this.rate.time = ''
       }
     },
-    changeRateYear () { // 选择年的触发
+    changeRateYear() { // 选择年的触发
     },
-    changeRateMouth () { // 选择月的触发
+    changeRateMouth() { // 选择月的触发
     },
     changeRateDay() { // 选择日的触发
     },
@@ -233,29 +228,17 @@ export default {
     searchRate() { // 提交 rate 时间
       if (this.rate.isShowYear && this.rate.year) { // 展示年利用率
         const param = { year: this.getLocalTime(this.rate.year, 1), ioType: 'I', byteIndex: 0, bitIndex: 0 }
-        getRateByYear(param).then(res => {
-          this.$refs.rateBarChart.updateDataChart(res, this.mouth_data) // bar形图
-          this.$refs.ratePieChart.updateDataChart(this.getRate(res)) // pie形图
-        }).catch(err => this.$message.error(err))
+        this.getRateByYear('rateBarChart', 'ratePieChart', param)
       } else if (this.rate.isShowMouth && this.rate.mouth) { // 展示月利用率
-        const param = { year: this.getLocalTime(this.rate.mouth, 1), month: this.getLocalTime(this.rate.mouth, 2), ioType: 'I', byteIndex: 0, bitIndex: 0 }
-        getRateByMouth(param).then(res => {
-          this.$refs.rateBarChart.updateDataChart(res, this.day_data.slice(0, res.length))
-          this.$refs.ratePieChart.updateDataChart(this.getRate(res))
-        }).catch(err => this.$message.error(err))
+        const param = { year: this.getLocalTime(this.rate.mouth, 1), month: this.getLocalTime(this.fault.mouth, 2), ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        this.getRateByMouth('rateBarChart', 'ratePieChart', param)
       } else if (this.rate.isShowTime && this.rate.time) { // 展示时利用率
         const param = { startTime: this.getLocalTime(this.rate.time[0], 0), stopTime: this.getLocalTime(this.rate.time[1], 0), ioType: 'I', byteIndex: 0, bitIndex: 0 }
-        getRateByTime(param).then(res => {
-          const bar_time = [this.getLocalTime(this.rate.time[0], 0) + ' 至 ' + this.getLocalTime(this.rate.time[1], 0)]
-          this.$refs.rateBarChart.updateDataChart([res], bar_time)
-          this.$refs.ratePieChart.updateDataChart(res)
-        }).catch(err => this.$message.error(err))
+        const bar_time = [this.getLocalTime(this.rate.time[0], 0) + ' 至 ' + this.getLocalTime(this.rate.time[1], 0)]
+        this.getRateByTime('rateBarChart', 'ratePieChart', param, bar_time)
       } else if (this.rate.isShowDay && this.rate.day) { // 展示日利用率
         const param = { date: this.getLocalTime(this.rate.day, 3), ioType: 'I', byteIndex: 0, bitIndex: 0 }
-        getRateByDay(param).then(res => {
-          this.$refs.rateBarChart.updateDataChart(res, this.time_data)
-          this.$refs.ratePieChart.updateDataChart(this.getRate(res))
-        }).catch(err => this.$message.error(err))
+        this.getRateByDay('rateBarChart', 'ratePieChart', param)
       }
     },
     // **** 故障率 **********************************************
@@ -278,43 +261,60 @@ export default {
         this.fault.year = this.fault.mouth = this.fault.day = this.fault.time = ''
       }
     },
-    changeFaultYear () { // 选择年的触发
+    changeFaultYear() { // 选择年的触发
     },
-    changeFaultMouth () { // 选择月的触发
+    changeFaultMouth() { // 选择月的触发
     },
     changeFaultDay() { // 选择日的触发
     },
     changeFaultTime() { // 选择时的触发
     },
-    searchFault() { // 提交 fault 时间
-      if (this.fault.isShowYear && this.fault.year) { // 展示年利用率
+    // 提交 fault 时间
+    searchFault() {
+      if (this.fault.isShowYear && this.fault.year) {
         const param = { year: this.getLocalTime(this.fault.year, 1), ioType: 'I', byteIndex: 0, bitIndex: 0 }
-        getRateByYear(param).then(res => {
-          this.$refs.faultBarChart.updateDataChart(res, this.mouth_data) // bar形图
-          this.$refs.faultPieChart.updateDataChart(this.getRate(res)) // pie形图
-        }).catch(err => this.$message.error(err))
-      } else if (this.fault.isShowMouth && this.fault.mouth) { // 展示月利用率
+        this.getRateByYear('faultBarChart', 'faultPieChart', param)
+      } else if (this.fault.isShowMouth && this.fault.mouth) {
         const param = { year: this.getLocalTime(this.fault.mouth, 1), month: this.getLocalTime(this.fault.mouth, 2), ioType: 'I', byteIndex: 0, bitIndex: 0 }
-        getRateByMouth(param).then(res => {
-          this.$refs.faultBarChart.updateDataChart(res, this.day_data.slice(0, res.length))
-          this.$refs.faultPieChart.updateDataChart(this.getRate(res))
-        }).catch(err => this.$message.error(err))
-      } else if (this.fault.isShowTime && this.fault.time) { // 展示时利用率
+        this.getRateByMouth('faultBarChart', 'faultPieChart', param)
+      } else if (this.fault.isShowTime && this.fault.time) {
         const param = { startTime: this.getLocalTime(this.fault.time[0], 0), stopTime: this.getLocalTime(this.fault.time[1], 0), ioType: 'I', byteIndex: 0, bitIndex: 0 }
-        getRateByTime(param).then(res => {
-          const bar_time = [this.getLocalTime(this.fault.time[0], 0) + ' 至 ' + this.getLocalTime(this.fault.time[1], 0)]
-          this.$refs.faultBarChart.updateDataChart([res], bar_time)
-          this.$refs.faultPieChart.updateDataChart(res)
-        }).catch(err => this.$message.error(err))
-      } else if (this.fault.isShowDay && this.fault.day) { // 展示日利用率
+        const bar_time = [this.getLocalTime(this.fault.time[0], 0) + ' 至 ' + this.getLocalTime(this.fault.time[1], 0)]
+        this.getRateByTime('faultBarChart', 'faultPieChart', param, bar_time)
+      } else if (this.fault.isShowDay && this.fault.day) {
         const param = { date: this.getLocalTime(this.fault.day, 3), ioType: 'I', byteIndex: 0, bitIndex: 0 }
-        getRateByDay(param).then(res => {
-          this.$refs.faultBarChart.updateDataChart(res, this.time_data)
-          this.$refs.faultPieChart.updateDataChart(this.getRate(res))
-        }).catch(err => this.$message.error(err))
+        this.getRateByDay('faultBarChart', 'faultPieChart', param)
       }
     },
     // *** 公用方法 ***************************************************************************
+    // 展示年利用率
+    getRateByYear(refNameBar, refNamePie, param) {
+      getRateByYear(param).then(res => {
+        this.$refs[refNameBar].updateDataChart(res, this.mouth_data) // bar形图
+        this.$refs[refNamePie].updateDataChart(this.getRate(res)) // pie形图
+      }).catch(err => this.$message.error(err))
+    },
+    // 展示月利用率
+    getRateByMouth(refNameBar, refNamePie, param) {
+      getRateByMouth(param).then(res => {
+        this.$refs[refNameBar].updateDataChart(res, this.day_data.slice(0, res.length))
+        this.$refs[refNamePie].updateDataChart(this.getRate(res))
+      }).catch(err => this.$message.error(err))
+    },
+    // 展示时利用率
+    getRateByTime(refNameBar, refNamePie, param, bar_time) {
+      getRateByTime(param).then(res => {
+        this.$refs[refNameBar].updateDataChart([res], bar_time)
+        this.$refs[refNamePie].updateDataChart(res)
+      }).catch(err => this.$message.error(err))
+    },
+    // 展示日利用率
+    getRateByDay(refNameBar, refNamePie, param) {
+      getRateByDay(param).then(res => {
+        this.$refs[refNameBar].updateDataChart(res, this.time_data)
+        this.$refs[refNamePie].updateDataChart(this.getRate(res))
+      }).catch(err => this.$message.error(err))
+    },
     getLocalTime(_date, tem) { // 格式化时间
       const date = _date // 时间戳为10位需乘1000，为13位则不用
       const Y = date.getFullYear() // 年
@@ -342,4 +342,3 @@ export default {
 
 <style lang="scss" scoped>
 </style>
-

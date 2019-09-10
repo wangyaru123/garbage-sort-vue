@@ -17,74 +17,102 @@
           </div>-->
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="text item m-10">
-              库位1 : {{inputArrayData[0][0]}}
-              <span v-if="true" :class="sparkGreen(index)"></span>
-              <span v-else :class="sparkGray(index)"></span>
+              <div class="text-r">
+                库位1 :
+              </div>
+              <span v-if="inputArrayData[0][0]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="text item m-10">
-              库位2 :  {{inputArrayData[0][1]}}
+              库位2 :
+              <span v-if="inputArrayData[0][1]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="text item m-10">
-              库位3 :  {{inputArrayData[0][2]}}
+              库位3 :
+              <span v-if="inputArrayData[0][2]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="text item m-10">
-              库位4 :  {{inputArrayData[0][3]}}
+              库位4 :
+              <span v-if="inputArrayData[0][3]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="text item m-10">
-              库位5 :  {{inputArrayData[0][4]}}
+              库位5 :
+              <span v-if="inputArrayData[0][4]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="text item m-10">
-              库位6 : {{inputArrayData[0][5]}}
+              库位6 :
+              <span v-if="inputArrayData[0][5]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="text item m-10">
-              毛坯工件 : {{inputArrayData[0][6]}}
+              毛坯工件 :
+              <span v-if="inputArrayData[0][6]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="text item m-10">
-              半成品工件 : {{inputArrayData[0][7]}}
+              半成品工件 :
+              <span v-if="inputArrayData[0][7]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="text item m-10">
-              成品工件 : {{inputArrayData[1][0]}}
+              成品工件 :
+              <span v-if="inputArrayData[1][0]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="text item m-10">
-              检测到卡 : {{inputArrayData[1][1]}}
+              检测到卡 :
+              <span v-if="inputArrayData[1][1]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="text item m-10">
-              相机联机 : {{inputArrayData[1][2]}}
+              相机联机 :
+              <span v-if="inputArrayData[1][2]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="text item m-10">
-              红色工件 : {{inputArrayData[1][3]}}
+              红色工件 :
+              <span v-if="inputArrayData[1][3]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="text item m-10">
-              黄色工件 : {{inputArrayData[1][4]}}
+              黄色工件 :
+              <span v-if="inputArrayData[1][4]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="text item m-10">
-              蓝色工件 : {{inputArrayData[1][5]}}
+              蓝色工件 :
+              <span v-if="inputArrayData[1][5]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
             </div>
           </el-col>
         </el-card>
@@ -249,5 +277,29 @@ export default {
         margin: 0 auto;
         display: block;
       }
+    }
+    .sparkGreen{
+      width: 15px;
+      height: 15px;
+      background: #54d51c;
+      display: block;
+      border-radius: 20px;
+      float: right;
+      margin-right:10px;
+      animation:myGreenLight 1s;
+      animation-iteration-count: infinite;
+      text-align: left;
+    }
+    .sparkGray{
+      width: 15px;
+      height: 15px;
+      background: #898989;
+      display: block;
+      border-radius: 20px;
+      float: right;
+      margin-right:10px;
+    }
+    .liteStyle{
+      text-align: right;
     }
 </style>
