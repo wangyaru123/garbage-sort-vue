@@ -37,8 +37,8 @@
                 <div>{{item.equipmentDetails}}</div>
               </div>
               <div class="flexbox mt-5">
-                使用部门:
-                <div>{{item.department}}</div>
+                公司:
+                <div>{{item.companyName}}</div>
               </div>
               <div class="flexbox mt-5">
                 负责人:
@@ -113,9 +113,9 @@
               <span>{{ scope.row.equipmentDetails}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="使用部门" fixed="right" align="center">
+          <el-table-column label="公司" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.department}}</span>
+              <span>{{ scope.row.companyName}}</span>
             </template>
           </el-table-column>
           <el-table-column label="负责人" fixed="right" width="100px" align="center">
@@ -193,9 +193,9 @@
             <el-form-item label="设备详情：">
               <el-input v-model="dialogData.equipmentDetails"></el-input>
             </el-form-item>
-            <el-form-item label="使用部门：" :rules="{ required: true, message: '请选择部门', trigger: 'change' }">
-              <el-select v-model="dialogData.department" placeholder="请选择" size="small">
-                <el-option v-for="item in deptList" :key="item.departmentId" :value="item.name" :label="item.name"></el-option>
+            <el-form-item label="公司:">
+              <el-select v-model="dialogData.companyId" placeholder="请选择" size="small">
+                <el-option v-for="item in companyList" :key="item.companyId" :value="item.companyId" :label="item.companyName"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="负责人：" :rules="{ required: true, message: '请选择负责人', trigger: 'change' }">
@@ -260,8 +260,8 @@
 
 <script>
 import { getDeviceInfoByPage, getDeviceInfoById, editDeviceInfoById, addDeviceInfo, deleteDeviceInfoById } from '@/api/deviceModule.js'
-import { getOnlyDeptInfo } from '@/api/ucenter/departmentsInfo.js'
 import { getAllUserInfo } from '@/api/ucenter/userInfo.js'
+import { getCompanyList } from '@/api/ucenter/company.js'
 import { parseTime } from '@/utils/index'
 
 export default {
@@ -310,8 +310,6 @@ export default {
       dialogData: {},
       // 设置弹窗是添加还是编辑
       dialogAction: 'add',
-      // 添加和编辑设备信息时获取部门列表
-      deptList: [],
       // 放大图片
       imgDialogVisible: false,
       // 放大图片
@@ -321,16 +319,25 @@ export default {
       // 负责人列表
       personList: [],
       // 设备id
-      equipmentId: ''
+      equipmentId: '',
+      // 公司列表
+      companyList: []
     }
   },
   created() {
     this.fetchData()
-    this.getOnlyDeptInfo()
     this.getAllUserInfo()
+    // 获取公司列表
+    this.getCompanyList()
   },
   methods: {
     // api
+    // 获取公司列表
+    getCompanyList() {
+      getCompanyList().then(res => {
+        this.companyList = res
+      }).catch(err => this.$message.error(err))
+    },
     // 根据page,size获取当前表格数据
     fetchData() {
       getDeviceInfoByPage(this.currentPage, this.pageSize).then(res => {
@@ -353,12 +360,6 @@ export default {
         }
       }).catch(err => this.$message.error(err))
     },
-    // 获取部门信息
-    getOnlyDeptInfo() {
-      getOnlyDeptInfo().then(res => {
-        this.deptList = res
-      }).catch(err => this.$message.error(err))
-    },
     // 获取所有人的信息
     getAllUserInfo() {
       getAllUserInfo().then(res => {
@@ -368,6 +369,7 @@ export default {
     // 添加设备信息
     addTableData() {
       this.editDialogVisible = false
+      this.dialogData.companyName = this.companyList.filter(item => item.companyId === this.dialogData.companyId)[0].companyName
       addDeviceInfo(this.dialogData).then(res => {
         this.equipmentId = res
         this.$nextTick(() => this.$refs.upload.submit())
@@ -379,7 +381,6 @@ export default {
       this.editDialogVisible = false
       // 获取保留的文件路径
       this.dialogData.equipmentImgUrl = this.fileList.filter(item => item.status === 'success').map(item => item.url)
-      console.log(this.dialogData)
       editDeviceInfoById(this.dialogData.equipmentId, this.dialogData).then(res => {
         const waitForUpload = this.fileList.filter(item => item.status === 'ready')
         if (waitForUpload.length > 0) {
