@@ -25,6 +25,7 @@
               ></el-date-picker>
               <span style="margin-left: 10px" v-if="rate.isShowDay">日：</span>
               <el-date-picker
+                size="small"
                 v-if="rate.isShowDay"
                 v-model="rate.day"
                 type="date"
