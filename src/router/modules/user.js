@@ -6,7 +6,7 @@ import Layout from '@/layout'
 const userRouter = {
   path: '/ucenter',
   component: Layout,
-  redirect: '/ucenter/userInfo',
+  redirect: '/ucenter/UserInfo',
   name: 'Ucenter',
   alwaysShow: true,
   meta: {
@@ -25,11 +25,12 @@ const userRouter = {
       }
     },
     {
-      path: 'departmentsInfo',
-      name: 'Ucenter.departmentsInfo',
-      component: () => import('@/views/ucenter/departmentsInfo'),
+      path: 'Company',
+      name: 'Ucenter.Company',
+      component: () => import('@/views/ucenter/company'),
       meta: {
-        title: '部门管理'
+        title: '公司管理',
+        auths: ['ucenter_company_page']
       }
     },
     {

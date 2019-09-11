@@ -16,44 +16,104 @@
             {{o}}
           </div>-->
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-              <div class="text item m-10">
-                input[0][0] : {{inputArrayData[0][0]}}
-              </div>
+            <div class="text item m-10">
+              <span>
+                库位1 :
+              </span>
+              <span v-if="inputArrayData[0][0]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
+            </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-          <div class="text item m-10">
-            input[1][0] :  {{inputArrayData[1][0]}}
-          </div>
+            <div class="text item m-10">
+              库位2 :
+              <span v-if="inputArrayData[0][1]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
+            </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-          <div class="text item m-10">
-            input[2][0] :  {{inputArrayData[2][0]}}
-          </div>
+            <div class="text item m-10">
+              库位3 :
+              <span v-if="inputArrayData[0][2]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
+            </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-          <div class="text item m-10">
-            input[3][0] :  {{inputArrayData[3][0]}}
-          </div>
+            <div class="text item m-10">
+              库位4 :
+              <span v-if="inputArrayData[0][3]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
+            </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-          <div class="text item m-10">
-            output[0][0] :  {{outputArrayData[0][0]}}
-          </div>
+            <div class="text item m-10">
+              库位5 :
+              <span v-if="inputArrayData[0][4]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
+            </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-          <div class="text item m-10">
-            output[1][0] : {{outputArrayData[1][0]}}
-          </div>
+            <div class="text item m-10">
+              库位6 :
+              <span v-if="inputArrayData[0][5]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
+            </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-          <div class="text item m-10">
-            output[2][0] : {{outputArrayData[2][0]}}
-          </div>
+            <div class="text item m-10">
+              毛坯工件 :
+              <span v-if="inputArrayData[0][6]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
+            </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-          <div class="text item m-10">
-            output[3][0] : {{outputArrayData[3][0]}}
-          </div>
+            <div class="text item m-10">
+              半成品工件 :
+              <span v-if="inputArrayData[0][7]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
+            </div>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
+            <div class="text item m-10">
+              成品工件 :
+              <span v-if="inputArrayData[1][0]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
+            </div>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
+            <div class="text item m-10">
+              检测到卡 :
+              <span v-if="inputArrayData[1][1]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
+            </div>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
+            <div class="text item m-10">
+              相机联机 :
+              <span v-if="inputArrayData[1][2]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
+            </div>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
+            <div class="text item m-10">
+              红色工件 :
+              <span v-if="inputArrayData[1][3]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
+            </div>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
+            <div class="text item m-10">
+              黄色工件 :
+              <span v-if="inputArrayData[1][4]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
+            </div>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
+            <div class="text item m-10">
+              蓝色工件 :
+              <span v-if="inputArrayData[1][5]===0?false:true" class="sparkGreen"></span>
+              <span v-else class="sparkGray"></span>
+            </div>
           </el-col>
         </el-card>
         <el-card :class="isMobile?'h-auto':'h-num-r mt-5'">
@@ -122,7 +182,7 @@ export default {
   methods: {
     openWebSocket() {
       // 建立连接对象
-      const socket = new this.$sockjs(process.env.VUE_APP_WS_MN)
+      const socket = new this.$sockjs(process.env.VUE_APP_WS_DATABOX)
       // 获取STOMP子协议的客户端对象
       this.stompClient = this.$stomp.over(socket)
       this.stompClient.debug = null
@@ -131,8 +191,8 @@ export default {
         Authorization: this.$store.getters.authorization
       }
       this.stompClient.connect(headers, () => {
-        console.log(`开启websocket并已连接，服务器地址：${process.env.VUE_APP_WS_MN}，订阅的主题为：${process.env.VUE_APP_TOPIC_PER_MN}`)
-        this.stompClient.subscribe(process.env.VUE_APP_TOPIC_PER_MN, msg => {
+        console.log(`开启websocket并已连接，服务器地址：${process.env.VUE_APP_WS_DATABOX}，订阅的主题为：${process.env.VUE_APP_TOPIC_PER_DATABOX}`)
+        this.stompClient.subscribe(process.env.VUE_APP_TOPIC_PER_DATABOX, msg => {
           // console.log(JSON.parse(msg.body))
           // this.tableData = JSON.parse(msg.body)
           this.initData(JSON.parse(msg.body))
@@ -191,6 +251,9 @@ export default {
         this.stompClient.disconnect()
         console.log('关闭websocket')
       }
+    },
+    sparkGray(index) {
+      return 'sparkGray' + index
     }
   }
 }
@@ -214,5 +277,28 @@ export default {
         margin: 0 auto;
         display: block;
       }
+    }
+    .sparkGreen{
+      width: 15px;
+      height: 15px;
+      background: #54d51c;
+      display: block;
+      border-radius: 20px;
+      float: right;
+      margin-right:10px;
+      animation:myGreenLight 1s;
+      animation-iteration-count: infinite;
+    }
+    .sparkGray{
+      width: 15px;
+      height: 15px;
+      background: #898989;
+      display: block;
+      border-radius: 20px;
+      float: right;
+      margin-right:10px;
+    }
+    .liteStyle{
+      text-align: right;
     }
 </style>

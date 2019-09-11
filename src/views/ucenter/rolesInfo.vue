@@ -139,6 +139,8 @@ export default {
       },
       // url与页面对应关系
       urlData: [
+        { resourceUrl: '/file', name: '文件管理' },
+        { resourceUrl: '/ucenter/companys', name: '公司管理' },
         { resourceUrl: '/alarm', name: '报警模块' },
         { resourceUrl: '/equipment', name: '设备管理' },
         { resourceUrl: '/maintain/item', name: '保养项目' },
@@ -165,6 +167,8 @@ export default {
   created() {
     // 组件创建完后获取第一页数据
     this.fetchData()
+    // 获取全部权限
+    this.getActionsList()
   },
   methods: {
     // 获取当前权限表格数据
@@ -202,22 +206,19 @@ export default {
       this.dialogData = { name: '', roleCode: 'ROLECODE' }
       // 将选中的清空
       this.checkedActions = []
-      // 获取全部权限选项
-      this.getActionsList()
     },
     // 根据id获取权限
     getRolesInfoById(id) {
       getRolesInfoById(id).then(res => {
         this.dialogData = res
         this.checkedActions = res.actions.map(item => item.adminActionId)
+        console.log(this.checkedActions)
       }).catch(err => this.$message.error(err))
     },
     // 点击编辑按钮，弹框显示，并回显数据
     editRow(row) {
       this.dialogAction = 'edit'
       this.dialogVisible = true
-      // 获取全部权限选项
-      this.getActionsList()
       // 获取当前id的权限
       this.getRolesInfoById(row.adminRoleId)
     },
@@ -290,7 +291,7 @@ export default {
   font-size: 14px;
 }
 .dialog /deep/ .el-tree {
-  width: 30%;
-  margin-left: 35%;
+  width: 40%;
+  margin-left: 30%;
 }
 </style>

@@ -12,6 +12,8 @@ import repairRouter from './modules/repair'
 import maintainRouter from './modules/maintain'
 import deviceRouter from './modules/device'
 import noticeRouter from './modules/notice'
+import fileAdminRouter from './modules/fileAdmin'
+import fileUserRouter from './modules/fileUser'
 
 Vue.use(Router)
 
@@ -52,6 +54,10 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  // 文件管理
+  fileAdminRouter,
+  // 文件管理
+  fileUserRouter,
   // 用户
   userRouter,
   // 盒子信息

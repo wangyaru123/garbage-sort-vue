@@ -13,7 +13,19 @@ const dataApplicationRouter = {
       path: 'onlineData',
       name: 'DataApplication.OnlineData',
       component: () => import('@/views/dataApplication/onlineData/index'),
-      meta: { title: 'NewData' }
+      meta: { title: '设备状态' }
+    },
+    {
+      path: 'salesStatistics',
+      name: 'DataApplication.salesStatistics',
+      component: () => import('@/views/dataApplication/salesStatistics/index'),
+      meta: { title: '销售查询' }
+    },
+    {
+      path: 'equipmentStatistics',
+      name: 'DataApplication.EquipmentStatistics',
+      component: () => import('@/views/dataApplication/equipmentStatistics/index'),
+      meta: { title: '设备统计' }
     },
     {
       path: 'index',
