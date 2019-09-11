@@ -47,11 +47,11 @@
               <el-button type="primary" size="small" @click="searchRate">查询</el-button>
             </div>
           </div>
-          <el-col :span="12">
-            <utilizationRateChart chartId="utilizationRateChart" ref="rateBarChart" titleName="设备利用率"></utilizationRateChart>
-          </el-col>
-          <el-col :span="12">
+          <el-col :span="7">
             <circle-chart chartId="circleChart" ref="ratePieChart" titleName="设备利用率"></circle-chart>
+          </el-col>
+          <el-col :span="17">
+            <utilizationRateChart chartId="utilizationRateChart" ref="rateBarChart" titleName="设备利用率"></utilizationRateChart>
           </el-col>
         </el-card>
       </el-col>
@@ -108,11 +108,11 @@
               <el-button type="primary" size="small" @click="searchFault">查询</el-button>
             </div>
           </div>
-          <el-col :span="12">
-            <failureRateChart chartId="failureRateChart" ref="faultBarChart" titleName="故障率"></failureRateChart>
-          </el-col>
-          <el-col :span="12">
+          <el-col :span="7">
             <circle-chart-two chartId="circleChartTwo" ref="faultPieChart" titleName="故障率"></circle-chart-two>
+          </el-col>
+          <el-col :span="17">
+            <failureRateChart chartId="failureRateChart" ref="faultBarChart" titleName="故障率"></failureRateChart>
           </el-col>
         </el-card>
       </el-col>
