@@ -116,25 +116,11 @@
           </el-col>
         </el-card>
       </el-col>
-      <!--按省份统计-->
-      <el-col :span="24">
-        <el-card class="mt-5">
-          <statisticsStateChart chartId="mobilityChart" titleName="按省份统计"></statisticsStateChart>
-        </el-card>
-      </el-col>
-      <!--按年份统计-->
-      <el-col :span="24">
-        <el-card class="mt-5">
-          <statisticsStateChartByYear chartId="outputChart" titleName="按年份统计"></statisticsStateChartByYear>
-        </el-card>
-      </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import statisticsStateChart from './component/statisticsStateChart'
-import statisticsStateChartByYear from './component/statisticsStateChartByYear'
 import utilizationRateChart from './component/utilizationRateChart'
 import CircleChart from './component/circleChart'
 import failureRateChart from './component/failureRateChart'
@@ -143,8 +129,6 @@ import { getRateByYear, getRateByMouth, getRateByDay, getRateByTime } from '@/ap
 
 export default {
   components: {
-    statisticsStateChart,
-    statisticsStateChartByYear,
     utilizationRateChart,
     CircleChart,
     failureRateChart,
