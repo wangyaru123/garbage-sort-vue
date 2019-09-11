@@ -17,9 +17,9 @@
           </div>-->
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <div class="text item m-10">
-              <div class="text-r">
+              <span>
                 库位1 :
-              </div>
+              </span>
               <span v-if="inputArrayData[0][0]===0?false:true" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
             </div>
@@ -288,7 +288,6 @@ export default {
       margin-right:10px;
       animation:myGreenLight 1s;
       animation-iteration-count: infinite;
-      text-align: left;
     }
     .sparkGray{
       width: 15px;
