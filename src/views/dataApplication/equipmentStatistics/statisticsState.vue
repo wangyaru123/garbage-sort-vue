@@ -191,6 +191,8 @@ export default {
   created() {
   },
   mounted: function () {
+    this.getRateByDay('rateBarChart', 'ratePieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
+    this.getRateByDay('faultBarChart', 'faultPieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
   },
   beforeDestroy() {
   },
@@ -222,34 +224,6 @@ export default {
     changeRateDay() { // 选择日的触发
     },
     changeRateTime() { // 选择时的触发
-    },
-    // 展示年利用率
-    getRateByYear(refNameBar, refNamePie, param) {
-      getRateByYear(param).then(res => {
-        this.$refs[refNameBar].updateDataChart(res, this.mouth_data) // bar形图
-        this.$refs[refNamePie].updateDataChart(this.getRate(res)) // pie形图
-      }).catch(err => this.$message.error(err))
-    },
-    // 展示月利用率
-    getRateByMouth(refNameBar, refNamePie, param) {
-      getRateByMouth(param).then(res => {
-        this.$refs[refNameBar].updateDataChart(res, this.day_data.slice(0, res.length))
-        this.$refs[refNamePie].updateDataChart(this.getRate(res))
-      }).catch(err => this.$message.error(err))
-    },
-    // 展示时利用率
-    getRateByTime(refNameBar, refNamePie, param, bar_time) {
-      getRateByTime(param).then(res => {
-        this.$refs[refNameBar].updateDataChart([res], bar_time)
-        this.$refs[refNamePie].updateDataChart(res)
-      }).catch(err => this.$message.error(err))
-    },
-    // 展示日利用率
-    getRateByDay(refNameBar, refNamePie, param) {
-      getRateByDay(param).then(res => {
-        this.$refs[refNameBar].updateDataChart(res, this.time_data)
-        this.$refs[refNamePie].updateDataChart(this.getRate(res))
-      }).catch(err => this.$message.error(err))
     },
     searchRate() { // 提交 rate 时间
       if (this.rate.isShowYear && this.rate.year) { // 展示年利用率
@@ -313,6 +287,34 @@ export default {
       }
     },
     // *** 公用方法 ***************************************************************************
+    // 展示年利用率
+    getRateByYear(refNameBar, refNamePie, param) {
+      getRateByYear(param).then(res => {
+        this.$refs[refNameBar].updateDataChart(res, this.mouth_data) // bar形图
+        this.$refs[refNamePie].updateDataChart(this.getRate(res)) // pie形图
+      }).catch(err => this.$message.error(err))
+    },
+    // 展示月利用率
+    getRateByMouth(refNameBar, refNamePie, param) {
+      getRateByMouth(param).then(res => {
+        this.$refs[refNameBar].updateDataChart(res, this.day_data.slice(0, res.length))
+        this.$refs[refNamePie].updateDataChart(this.getRate(res))
+      }).catch(err => this.$message.error(err))
+    },
+    // 展示时利用率
+    getRateByTime(refNameBar, refNamePie, param, bar_time) {
+      getRateByTime(param).then(res => {
+        this.$refs[refNameBar].updateDataChart([res], bar_time)
+        this.$refs[refNamePie].updateDataChart(res)
+      }).catch(err => this.$message.error(err))
+    },
+    // 展示日利用率
+    getRateByDay(refNameBar, refNamePie, param) {
+      getRateByDay(param).then(res => {
+        this.$refs[refNameBar].updateDataChart(res, this.time_data)
+        this.$refs[refNamePie].updateDataChart(this.getRate(res))
+      }).catch(err => this.$message.error(err))
+    },
     getLocalTime(_date, tem) { // 格式化时间
       const date = _date // 时间戳为10位需乘1000，为13位则不用
       const Y = date.getFullYear() // 年
@@ -340,4 +342,3 @@ export default {
 
 <style lang="scss" scoped>
 </style>
-
