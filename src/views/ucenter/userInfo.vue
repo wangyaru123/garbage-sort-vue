@@ -41,7 +41,7 @@
               </div>
               <div class="flexbox mt-5">
                 邮箱:
-                <div>{{item.companyName}}</div>
+                <div>{{item.schoolName}}</div>
               </div>
               <div class="flexbox mt-5">
                 最后登录时间:
@@ -105,9 +105,9 @@
               <span>{{ scope.row.email}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="公司" align="center" width="180px">
+          <el-table-column label="学校" align="center" width="180px">
             <template slot-scope="scope">
-              <span>{{ scope.row.companyName}}</span>
+              <span>{{ scope.row.schoolName}}</span>
             </template>
           </el-table-column>
           <el-table-column label="最后登录时间" align="center" v-if="sensitivePageAuth" width="160px">
@@ -189,9 +189,9 @@
         <el-form-item label="邮箱:">
           <el-input v-model="dialogData.email"></el-input>
         </el-form-item>
-        <el-form-item label="公司:">
-          <el-select v-model="dialogData.companyId" placeholder="请选择" size="small">
-            <el-option v-for="item in companyList" :key="item.companyId" :value="item.companyId" :label="item.companyName"></el-option>
+        <el-form-item label="学校:">
+          <el-select v-model="dialogData.schoolId" placeholder="请选择" size="small">
+            <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="是否是超级用户:">
@@ -225,7 +225,7 @@
 
 <script>
 import { getUserNoSenInfoByPage, getUserSenInfoByPage, getUserNoSenInfoById, getUserSenInfoById, addUserInfo, updateUserInfoBySys, updateUserInfoByUser, deleteUserInfoById, resetPassword, getUserRoles, getAllRoles, bindingRoles } from '@/api/ucenter/userInfo.js'
-import { getCompanyList } from '@/api/ucenter/company.js'
+import { getSchoolList } from '@/api/ucenter/school.js'
 
 export default {
   computed: {
@@ -298,15 +298,15 @@ export default {
       rolesDialogData: {},
       // 角色列表
       userRolesData: [],
-      // 公司列表
-      companyList: []
+      // 学校列表
+      schoolList: []
     }
   },
   created() {
     // 组件创建完后获取第一页数据
     this.fetchData()
-    // 获取公司列表
-    this.getCompanyList()
+    // 获取学校列表
+    this.getSchoolList()
     // 获取角色列表
     if (this.saveRolesAuth) this.getAllRoles()
   },
@@ -317,10 +317,10 @@ export default {
         this.rolesList = res
       }).catch(err => this.$message.error(err))
     },
-    // 获取公司列表
-    getCompanyList() {
-      getCompanyList().then(res => {
-        this.companyList = res
+    // 获取学校列表
+    getSchoolList() {
+      getSchoolList().then(res => {
+        this.schoolList = res
       }).catch(err => this.$message.error(err))
     },
     // 获取非敏感信息列表
@@ -341,13 +341,13 @@ export default {
     fetchData() {
       if (this.sensitivePageAuth) this.getUserSenInfo()
       else this.getUserNoSenInfo()
-      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', lastLoginTime: '', companyId: '', companyName: '', isSys: true, isEnable: true }
+      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', lastLoginTime: '', schoolId: '', schoolName: '', isSys: true, isEnable: true }
     },
     // 添加用户信息
     addClick() {
       this.dialogAction = 'add'
       this.dialogVisible = true
-      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', lastLoginTime: '', companyId: '', companyName: '', isSys: true, isEnable: true }
+      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', lastLoginTime: '', schoolId: '', schoolName: '', isSys: true, isEnable: true }
     },
     // 根据id获取非敏感信息
     getNoSenDialogData(adminId) {
@@ -372,7 +372,7 @@ export default {
     },
     // 新增用户
     addUserInfo() {
-      this.dialogData.companyName = this.companyList.filter(item => item.companyId === this.dialogData.companyId)[0].companyName
+      this.dialogData.schoolName = this.schoolList.filter(item => item.schoolId === this.dialogData.schoolId)[0].schoolName
       addUserInfo(this.dialogData).then(res => {
         this.dialogVisible = false
         this.$message.success('添加成功')
@@ -381,7 +381,7 @@ export default {
     },
     // 系统管理员更新用户信息
     updateUserInfoBySys() {
-      this.dialogData.companyName = this.companyList.filter(item => item.companyId === this.dialogData.companyId)[0].companyName
+      this.dialogData.schoolName = this.schoolList.filter(item => item.schoolId === this.dialogData.schoolId)[0].schoolName
       updateUserInfoBySys(this.dialogData.adminId, this.dialogData).then(res => {
         this.dialogVisible = false
         this.$message.success('修改成功')
@@ -405,7 +405,7 @@ export default {
     // 点击取消，隐藏弹窗
     cancel() {
       this.dialogVisible = false
-      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', lastLoginTime: '', companyId: '', companyName: '', isSys: true, isEnable: true }
+      this.dialogData = { adminId: null, username: '', name: '', sex: 1, mobile: '', telephone: '', email: '', lastLoginTime: '', schoolId: '', schoolName: '', isSys: true, isEnable: true }
     },
     // 删除单条已提交报警信息
     deleteTableData(id) {

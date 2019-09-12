@@ -9,15 +9,15 @@
           layout="prev, jumper, next, total"
           :page-size="10"
           :total="total"
-          @size-change="getCompanyByPage"
-          @current-change="getCompanyByPage"
+          @size-change="getSchoolByPage"
+          @current-change="getSchoolByPage"
           :current-page.sync="currentPage"
         ></el-pagination>
       </div>
       <div class="pt-40" id="padding-card-13">
         <el-card class="box-card m-5" v-for="(item,index) in tableData" :key="index">
           <div slot="header" class="flexbox font-size-13 text-gray">
-            <div>{{item.companyName}}</div>
+            <div>{{item.schoolName}}</div>
           </div>
           <div class="text item flexbox">
             <div style="width:100%">
@@ -57,49 +57,39 @@
     <!-- PC端- -->
     <div v-else>
       <el-row>
-        <el-button type="primary" size="small" round @click="addClick">添加公司</el-button>
+        <el-button type="primary" size="small" round @click="addClick">添加学校</el-button>
         <el-table :data="tableData" border stripe class="mt-10">
           <el-table-column label="序号" fixed width="50px" type="index" align="center">
             <template slot-scope="scope">
               <span>{{ scope.$index + 1 }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="公司名称" fixed align="center">
+          <el-table-column label="学校名称" fixed align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.companyName}}</span>
+              <span>{{ scope.row.schoolName}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="法人" fixed align="center">
+          <el-table-column label="类别" fixed align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.legalPerson}}</span>
+              <span>{{ sortList.filter( item => item.sort === scope.row.sort )[0].desc }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="业务范围" align="center" min-width="200px">
+          <el-table-column label="地址" align="center" min-width="200px">
             <template slot-scope="scope">
-              <span>{{ scope.row.businessScope}}</span>
+              <span>{{ scope.row.address}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="成立日期" width="180px" align="center">
+          <el-table-column label="电话" width="180px" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.establishmentDate.split(" ")[0]}}</span>
+              <span>{{ scope.row.mobile}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="企业性质" align="center">
+          <el-table-column label="联系人" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.natureOfBusiness }}</span>
+              <span>{{ scope.row.contact }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="所在位置" align="center" width="120px">
-            <template slot-scope="scope">
-              <span>{{ scope.row.location}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="注册资本" align="center" width="180px">
-            <template slot-scope="scope">
-              <span>{{ scope.row.registeredCapital}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="备注" align="center" width="160px">
+          <el-table-column label="备注" align="center" width="120px">
             <template slot-scope="scope">
               <span>{{ scope.row.remarks}}</span>
             </template>
@@ -114,8 +104,8 @@
         <el-pagination
           class="mt-10 text-r"
           background
-          @size-change="getCompanyByPage"
-          @current-change="getCompanyByPage"
+          @size-change="getSchoolByPage"
+          @current-change="getSchoolByPage"
           :current-page.sync="currentPage"
           :page-sizes="[10, 20, 50, 100]"
           :page-size.sync="pageSize"
@@ -127,26 +117,22 @@
     <!-- 添加或编辑用户信息 -->
     <el-dialog :visible.sync="dialogVisible" title="请填写用户信息">
       <el-form label-position="right" label-width="140px" :model="dialogData">
-        <el-form-item label="公司名称：">
-          <el-input v-model="dialogData.companyName"></el-input>
+        <el-form-item label="学校名称：">
+          <el-input v-model="dialogData.schoolName"></el-input>
         </el-form-item>
-        <el-form-item label="业务范围：">
-          <el-input v-model="dialogData.businessScope"></el-input>
+        <el-form-item label="类别：">
+          <el-select v-model="dialogData.sort" placeholder="请选择" size="small">
+            <el-option v-for="item in sortList" :key="item.sort" :value="item.sort" :label="item.desc"></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="成立日期:">
-          <el-date-picker v-model="dialogData.establishmentDate" value-format="yyyy-MM-DD 00:00:00" type="date" placeholder="选择日期"></el-date-picker>
+        <el-form-item label="地址：">
+          <el-input v-model="dialogData.address"></el-input>
         </el-form-item>
-        <el-form-item label="法人:">
-          <el-input v-model="dialogData.legalPerson"></el-input>
+        <el-form-item label="电话：">
+          <el-input v-model="dialogData.mobile"></el-input>
         </el-form-item>
-        <el-form-item label="企业性质:">
-          <el-input v-model="dialogData.natureOfBusiness"></el-input>
-        </el-form-item>
-        <el-form-item label="所在位置:">
-          <el-input v-model="dialogData.location"></el-input>
-        </el-form-item>
-        <el-form-item label="注册资本:">
-          <el-input v-model="dialogData.registeredCapital"></el-input>
+        <el-form-item label="联系人：">
+          <el-input v-model="dialogData.contact"></el-input>
         </el-form-item>
         <el-form-item label="备注:">
           <el-input v-model="dialogData.remarks"></el-input>
@@ -161,7 +147,7 @@
 </template>
 
 <script>
-import { getCompanyByPage, getCompanyById, addCompany, updateCompany, deleteCompany } from '@/api/ucenter/company.js'
+import { getSchoolByPage, getSchoolById, addSchool, updateSchool, deleteSchool } from '@/api/ucenter/school.js'
 
 export default {
   computed: {
@@ -185,47 +171,49 @@ export default {
       // 弹框显示
       dialogVisible: false,
       // 弹框数据
-      dialogData: {}
+      dialogData: {},
+      // 类别列表
+      sortList: [{ sort: 1, desc: '考核点' }, { sort: 2, desc: '培训点' }, { sort: 3, desc: '即是考核点又是培训点' }]
     }
   },
   created() {
-    this.getCompanyByPage()
+    this.getSchoolByPage()
   },
   methods: {
-    // 获取公司列表
-    getCompanyByPage() {
-      getCompanyByPage(this.currentPage, this.pageSize).then(res => {
+    // 获取学校列表
+    getSchoolByPage() {
+      getSchoolByPage(this.currentPage, this.pageSize).then(res => {
         this.tableData = res.list
         this.total = res.total
       }).catch(err => this.$message.error(err))
     },
-    // 根据id获取公司信息
-    getCompanyById(adminId) {
-      getCompanyById(adminId).then(res => {
+    // 根据id获取学校信息
+    getSchoolById(adminId) {
+      getSchoolById(adminId).then(res => {
         this.dialogData = res
       }).catch(err => this.$message.error(err))
     },
-    // 新增公司
-    addCompany() {
-      addCompany(this.dialogData).then(res => {
+    // 新增学校
+    addSchool() {
+      addSchool(this.dialogData).then(res => {
         this.dialogVisible = false
         this.$message.success('添加成功')
-        this.getCompanyByPage()
+        this.getSchoolByPage()
       }).catch(err => this.$message.error(err))
     },
-    // 更新当前公司的信息
-    updateCompany() {
-      updateCompany(this.dialogData.companyId, this.dialogData).then(res => {
+    // 更新当前学校的信息
+    updateSchool() {
+      updateSchool(this.dialogData.schoolId, this.dialogData).then(res => {
         this.dialogVisible = false
         this.$message.success('修改成功')
-        this.getCompanyByPage()
+        this.getSchoolByPage()
       }).catch(err => this.$message.error(err))
     },
     // 删除单条已提交报警信息
-    deleteCompany(id) {
-      deleteCompany(id).then(res => {
+    deleteSchool(id) {
+      deleteSchool(id).then(res => {
         this.$message.success('删除成功')
-        this.getCompanyByPage()
+        this.getSchoolByPage()
       }).catch(err => this.$message.error(err))
     },
     // 添加用户信息
@@ -238,12 +226,12 @@ export default {
     editRow(row) {
       this.dialogAction = 'edit'
       this.dialogVisible = true
-      this.getCompanyById(row.companyId)
+      this.getSchoolById(row.schoolId)
     },
     // 点击确定按钮,保存用户信息
     submitClick() {
-      if (this.dialogAction === 'add') this.addCompany()
-      else this.updateCompany()
+      if (this.dialogAction === 'add') this.addSchool()
+      else this.updateSchool()
     },
     // 点击取消，隐藏弹窗
     cancel() {
@@ -256,7 +244,7 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => this.deleteCompany(row.companyId))
+      }).then(() => this.deleteSchool(row.schoolId))
         .catch(() => this.$message.info('取消删除'))
     }
   }

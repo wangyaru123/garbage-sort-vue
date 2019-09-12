@@ -38,7 +38,7 @@
               </div>
               <div class="flexbox mt-5">
                 公司:
-                <div>{{item.companyName}}</div>
+                <div>{{item.schoolName}}</div>
               </div>
               <div class="flexbox mt-5">
                 负责人:
@@ -62,7 +62,7 @@
               </div>
               <div class="flexbox mt-5">
                 安装单位:
-                <div>{{item.installCompany}}</div>
+                <div>{{item.installschool}}</div>
               </div>
               <div class="flexbox mt-5">
                 设备厂家:
@@ -115,7 +115,7 @@
           </el-table-column>
           <el-table-column label="公司" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.companyName}}</span>
+              <span>{{ scope.row.schoolName}}</span>
             </template>
           </el-table-column>
           <el-table-column label="负责人" fixed="right" width="100px" align="center">
@@ -145,7 +145,7 @@
           </el-table-column>
           <el-table-column label="安装单位" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.installCompany}}</span>
+              <span>{{ scope.row.installschool}}</span>
             </template>
           </el-table-column>
           <el-table-column label="设备厂家" align="center">
@@ -194,8 +194,8 @@
               <el-input v-model="dialogData.equipmentDetails"></el-input>
             </el-form-item>
             <el-form-item label="公司:">
-              <el-select v-model="dialogData.companyId" placeholder="请选择" size="small">
-                <el-option v-for="item in companyList" :key="item.companyId" :value="item.companyId" :label="item.companyName"></el-option>
+              <el-select v-model="dialogData.schoolId" placeholder="请选择" size="small">
+                <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="负责人：" :rules="{ required: true, message: '请选择负责人', trigger: 'change' }">
@@ -218,7 +218,7 @@
               <el-date-picker v-model="dialogData.installTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
             </el-form-item>
             <el-form-item label="安装单位：">
-              <el-input v-model="dialogData.installCompany"></el-input>
+              <el-input v-model="dialogData.installschool"></el-input>
             </el-form-item>
             <el-form-item label="设备厂家：">
               <el-input v-model="dialogData.equipmentManufacturer"></el-input>
@@ -261,7 +261,7 @@
 <script>
 import { getDeviceInfoByPage, getDeviceInfoById, editDeviceInfoById, addDeviceInfo, deleteDeviceInfoById } from '@/api/deviceModule.js'
 import { getAllUserInfo } from '@/api/ucenter/userInfo.js'
-import { getCompanyList } from '@/api/ucenter/company.js'
+import { getSchoolList } from '@/api/ucenter/school.js'
 import { parseTime } from '@/utils/index'
 
 export default {
@@ -321,21 +321,21 @@ export default {
       // 设备id
       equipmentId: '',
       // 公司列表
-      companyList: []
+      schoolList: []
     }
   },
   created() {
     this.fetchData()
     this.getAllUserInfo()
     // 获取公司列表
-    this.getCompanyList()
+    this.getSchoolList()
   },
   methods: {
     // api
     // 获取公司列表
-    getCompanyList() {
-      getCompanyList().then(res => {
-        this.companyList = res
+    getSchoolList() {
+      getSchoolList().then(res => {
+        this.schoolList = res
       }).catch(err => this.$message.error(err))
     },
     // 根据page,size获取当前表格数据
@@ -369,7 +369,7 @@ export default {
     // 添加设备信息
     addTableData() {
       this.editDialogVisible = false
-      this.dialogData.companyName = this.companyList.filter(item => item.companyId === this.dialogData.companyId)[0].companyName
+      this.dialogData.schoolName = this.schoolList.filter(item => item.schoolId === this.dialogData.schoolId)[0].schoolName
       addDeviceInfo(this.dialogData).then(res => {
         this.equipmentId = res
         this.$nextTick(() => this.$refs.upload.submit())
@@ -452,7 +452,7 @@ export default {
         inherentAssetNum: '',
         installLocation: '',
         installTime: parseTime(new Date()),
-        installCompany: '',
+        installschool: '',
         equipmentManufacturer: ''
       }
     },
