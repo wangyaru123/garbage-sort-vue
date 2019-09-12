@@ -172,9 +172,6 @@
             <el-form-item label="位置号：">
               <el-input v-model="dialogData.seat"></el-input>
             </el-form-item>
-            <el-form-item label="类别：">
-              <el-input v-model="dialogData.type"></el-input>
-            </el-form-item>
             <el-form-item label="学校：">
               <el-select v-model="dialogData.schoolId" placeholder="请选择" size="small">
                 <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
@@ -182,9 +179,6 @@
             </el-form-item>
             <el-form-item label="是否绑定：">
               <el-switch v-model="dialogData.isBind" active-color="#288AF1" inactive-color="#ff4949"></el-switch>
-            </el-form-item>
-            <el-form-item label="盒子id：">
-              <el-input v-model="dialogData.boxId"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -253,7 +247,7 @@ export default {
     },
     // upload组件上传图片的Action路由地址
     uploadActionUrl() {
-      return process.env.VUE_APP_HTTP_DEVICE + '/equipment/images/_upload/' + this.deviceId
+      return process.env.VUE_APP_HTTP_DEVICE + '/equipment/devices/_upload/' + this.deviceId
     },
     // 添加权限
     addAuth() {
