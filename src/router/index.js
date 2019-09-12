@@ -54,10 +54,6 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-  // 文件管理
-  fileAdminRouter,
-  // 文件管理
-  fileUserRouter,
   // 用户
   userRouter,
   // 盒子信息
@@ -74,6 +70,10 @@ export const asyncRoutes = [
   deviceRouter,
   // 消息通知
   noticeRouter,
+  // 文件管理
+  fileAdminRouter,
+  // 文件管理
+  fileUserRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

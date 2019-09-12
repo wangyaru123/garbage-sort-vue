@@ -28,20 +28,7 @@
     <!-- PC端- -->
     <div v-else>
       <el-row>
-        <el-upload
-          class="upload-demo"
-          ref="upload"
-          :headers="headers"
-          :action="uploadActionUrl"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :on-success="handleSuccessPicture"
-          :file-list="fileList"
-          :auto-upload="false"
-        >
-          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-        </el-upload>
+        <el-button type="primary" size="small" round @click="addClick">上传文件</el-button>
         <el-table :data="tableData" border stripe class="mt-10">
           <el-table-column label="序号" width="50px" type="index" align="center">
             <template slot-scope="scope">
@@ -80,6 +67,22 @@
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
         ></el-pagination>
+        <el-dialog :visible.sync="dialogVisible" title="请选择文件" class="center-dialog">
+          <el-upload
+            class="upload-demo"
+            ref="upload"
+            :headers="headers"
+            :action="uploadActionUrl"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :on-success="handleSuccessPicture"
+            :file-list="fileList"
+            :auto-upload="false"
+          >
+            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+            <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+          </el-upload>
+        </el-dialog>
       </el-row>
     </div>
   </div>
@@ -116,8 +119,6 @@ export default {
       pageSize: 10,
       // 当前页的表格数据
       tableData: [],
-      // 新增还是编辑
-      dialogAction: [],
       // 弹框显示
       dialogVisible: false,
       // 弹框数据
@@ -150,6 +151,10 @@ export default {
         this.getfileAdminByPage()
       }).catch(err => this.$message.error(err))
     },
+    // 添加用户信息
+    addClick() {
+      this.dialogVisible = true
+    },
     submitUpload() {
       this.$refs.upload.submit()
     },
@@ -163,6 +168,7 @@ export default {
     handleSuccessPicture(response, file, fileList) {
       if (fileList.length > 0 && fileList[fileList.length - 1].status === 'success') {
         this.$message.success('上传成功')
+        this.dialogVisible = false
         this.getfileAdminByPage()
         this.fileList = []
       }
@@ -191,4 +197,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.center-dialog /deep/ .el-dialog__body {
+  text-align: center;
+  padding-bottom: 80px;
+}
 </style>

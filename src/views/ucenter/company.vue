@@ -136,7 +136,7 @@
         <el-form-item label="成立日期:">
           <el-date-picker v-model="dialogData.establishmentDate" value-format="yyyy-MM-DD 00:00:00" type="date" placeholder="选择日期"></el-date-picker>
         </el-form-item>
-        <el-form-item label="负责人:">
+        <el-form-item label="法人:">
           <el-input v-model="dialogData.legalPerson"></el-input>
         </el-form-item>
         <el-form-item label="企业性质:">
