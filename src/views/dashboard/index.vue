@@ -134,44 +134,6 @@ export default {
   border: 1px solid #0491ab;
   border-radius: 15px;
 }
-.corner-main {
-  position: absolute;
-  height: 30px;
-  width: 30px;
-}
-.corner-left-top {
-  top: -1px;
-  left: -1px;
-  border-top-left-radius: 15px;
-  border-left: 2px solid #77baee;
-  border-top: 2px solid #77baee;
-  box-shadow: -2px -2px 5px -2px #77baee;
-}
-.corner-right-top {
-  top: -1px;
-  right: -1px;
-  border-top-right-radius: 15px;
-  // border-top: 2px solid #77baee;
-  border-top: 2px solid #77baee;
-  border-right: 2px solid #77baee;
-  box-shadow: 2px -2px 5px -2px #77baee;
-}
-.corner-left-bottom {
-  left: -1px;
-  bottom: -1px;
-  border-bottom-left-radius: 15px;
-  border-bottom: 2px solid #77baee;
-  border-left: 2px solid #77baee;
-  box-shadow: -2px 2px 5px -2px #77baee;
-}
-.corner-right-bottom {
-  right: -1px;
-  bottom: -1px;
-  border-bottom-right-radius: 15px;
-  border-bottom: 2px solid #77baee;
-  border-right: 2px solid #77baee;
-  box-shadow: 2px 2px 5px -2px #77baee;
-}
 .ver-m {
   margin-top: 50px;
 }
