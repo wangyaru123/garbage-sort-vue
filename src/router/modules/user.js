@@ -16,7 +16,7 @@ const userRouter = {
   },
   children: [
     {
-      path: 'userInfo',
+      path: 'UserInfo',
       name: 'Ucenter.UserInfo',
       component: () => import('@/views/ucenter/userInfo'),
       meta: {
@@ -34,7 +34,7 @@ const userRouter = {
       }
     },
     {
-      path: 'rolesInfo',
+      path: 'RolesInfo',
       name: 'Ucenter.RolesInfo',
       component: () => import('@/views/ucenter/rolesInfo'),
       meta: {

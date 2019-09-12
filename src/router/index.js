@@ -13,7 +13,6 @@ import maintainRouter from './modules/maintain'
 import deviceRouter from './modules/device'
 import noticeRouter from './modules/notice'
 import fileAdminRouter from './modules/fileAdmin'
-import fileUserRouter from './modules/fileUser'
 
 Vue.use(Router)
 
@@ -72,8 +71,6 @@ export const asyncRoutes = [
   noticeRouter,
   // 文件管理
   fileAdminRouter,
-  // 文件管理
-  fileUserRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

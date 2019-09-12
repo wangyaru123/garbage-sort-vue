@@ -1,32 +1,178 @@
 <template>
-  <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
-    <div class="dashboard-text" v-for="(value,name,index) in accessTokenDecode" :key="index">{{name}}:{{value}}</div>
+  <div class="main-layout">
+    <el-row class="content">
+      <el-col :span="8">
+        <div class="item" v-if="userSensitivePageAuth || userNosensitivePageAuth" @click="toUserPage">
+          <h1 class="text-c ver-m">用户中心</h1>
+        </div>
+      </el-col>
+      <el-col :span="8" v-if="boxPageAuth" @click="toBoxPage">
+        <div class="item">
+          <h1 class="text-c ver-m">盒子信息</h1>
+        </div>
+      </el-col>
+      <el-col :span="8" v-if="alarmPageAuth" @click="toAlarmPage">
+        <div class="item">
+          <h1 class="text-c ver-m">报警模块</h1>
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="item" v-if="devicePageAuth" @click="toDevicePage">
+          <h1 class="text-c ver-m">设备管理</h1>
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="item" v-if="noticePageAuth" @click="toNoticePage">
+          <h1 class="text-c ver-m">消息通知</h1>
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="item" v-if="fileAdminPageAuth || fileUserPageAuth" @click="toFilePage">
+          <h1 class="text-c ver-m">文件管理</h1>
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-
 export default {
-  name: 'Dashboard',
   computed: {
-    ...mapGetters([
-      'name'
-    ]),
-    ...mapState('user', ['accessToken', 'accessTokenDecode'])
+    // 查询用户中心权限
+    userSensitivePageAuth() {
+      return this.$store.state.user.accessTokenDecode.authorities && this.$store.state.user.accessTokenDecode.authorities.includes('ucenter_admin_sensitive_page')
+    },
+    // 查询用户中心权限
+    userNosensitivePageAuth() {
+      return this.$store.state.user.accessTokenDecode.authorities && this.$store.state.user.accessTokenDecode.authorities.includes('ucenter_admin_nonsentive_page')
+    },
+    // 查询盒子中心权限
+    boxPageAuth() {
+      return this.$store.state.user.accessTokenDecode.authorities && this.$store.state.user.accessTokenDecode.authorities.includes('box_page')
+    },
+    // 查询报警中心权限
+    alarmPageAuth() {
+      return this.$store.state.user.accessTokenDecode.authorities && this.$store.state.user.accessTokenDecode.authorities.includes('alarm_info_page')
+    },
+    // 查询设备中心权限
+    devicePageAuth() {
+      return this.$store.state.user.accessTokenDecode.authorities && this.$store.state.user.accessTokenDecode.authorities.includes('equipment_page')
+    },
+    // 查询消息中心权限
+    noticePageAuth() {
+      return this.$store.state.user.accessTokenDecode.authorities && this.$store.state.user.accessTokenDecode.authorities.includes('maintain_message_page')
+    },
+    // 查询文件管理权限
+    fileAdminPageAuth() {
+      return this.$store.state.user.accessTokenDecode.authorities && this.$store.state.user.accessTokenDecode.authorities.includes('file_admin_page')
+    },
+    // 查询文件管理权限
+    fileUserPageAuth() {
+      return this.$store.state.user.accessTokenDecode.authorities && this.$store.state.user.accessTokenDecode.authorities.includes('file_user_page')
+    }
+  },
+  data() {
+    return {
+    }
+  },
+  methods: {
+    toUserPage() {
+      this.$router.push({
+        path: '/ucenter/UserInfo'
+      })
+    },
+    toBoxPage() {
+      this.$router.push({
+        path: '/boxInfoModule/boxInfo'
+      })
+    },
+    toAlarmPage() {
+      this.$router.push({
+        path: '/alarmModule/alarmInfo'
+      })
+    },
+    toDevicePage() {
+      this.$router.push({
+        path: '/deviceModule/index'
+      })
+    },
+    toNoticePage() {
+      this.$router.push({
+        path: '/deviceModule/index'
+      })
+    },
+    toFilePage() {
+      if (this.fileAdminPageAuth) {
+        this.$router.push({
+          path: '/fileAdminModule/sys'
+        })
+      } else {
+        this.$router.push({
+          path: '/fileAdminModule/user'
+        })
+      }
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.dashboard {
-  &-container {
-    margin: 30px;
-  }
-  &-text {
-    font-size: 30px;
-    line-height: 46px;
-  }
+.content {
+  height: 90%;
+}
+.el-col {
+  padding: 80px 20px;
+  // border: 1px solid red;
+}
+.item {
+  height: 150px;
+  line-height: 150px;
+  width: 300px;
+  margin:0 auto;
+  background-color: rgba(164, 224, 244, 0.5);
+  position: relative;
+  border: 1px solid #0491ab;
+  border-radius: 15px;
+}
+.corner-main {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+}
+.corner-left-top {
+  top: -1px;
+  left: -1px;
+  border-top-left-radius: 15px;
+  border-left: 2px solid #77baee;
+  border-top: 2px solid #77baee;
+  box-shadow: -2px -2px 5px -2px #77baee;
+}
+.corner-right-top {
+  top: -1px;
+  right: -1px;
+  border-top-right-radius: 15px;
+  // border-top: 2px solid #77baee;
+  border-top: 2px solid #77baee;
+  border-right: 2px solid #77baee;
+  box-shadow: 2px -2px 5px -2px #77baee;
+}
+.corner-left-bottom {
+  left: -1px;
+  bottom: -1px;
+  border-bottom-left-radius: 15px;
+  border-bottom: 2px solid #77baee;
+  border-left: 2px solid #77baee;
+  box-shadow: -2px 2px 5px -2px #77baee;
+}
+.corner-right-bottom {
+  right: -1px;
+  bottom: -1px;
+  border-bottom-right-radius: 15px;
+  border-bottom: 2px solid #77baee;
+  border-right: 2px solid #77baee;
+  box-shadow: 2px 2px 5px -2px #77baee;
+}
+.ver-m {
+  margin-top: 50px;
 }
 </style>
