@@ -257,7 +257,7 @@ export default {
       // 接收消息处理
       const that = this
       this.client.on('message', function (topic, message) {
-        console.log('订阅的消息:' + topic + ',' + message.toString()) // 打印消息内容
+        // console.log('订阅的消息:' + topic + ',' + message.toString()) // 打印消息内容
         try {
           that.initData(JSON.parse(message.toString()))
         } catch (e) {
