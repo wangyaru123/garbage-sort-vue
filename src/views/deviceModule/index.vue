@@ -41,10 +41,6 @@
                 <div>{{item.schoolName}}</div>
               </div>
               <div class="flexbox mt-5">
-                负责人:
-                <div>{{item.adminName}}</div>
-              </div>
-              <div class="flexbox mt-5">
                 启用时间:
                 <div>{{item.enableTime}}</div>
               </div>
@@ -183,7 +179,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="生产时间：">
-              <el-input v-model="dialogData.productionTime"></el-input>
+              <el-date-picker v-model="dialogData.productionTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
             </el-form-item>
             <el-form-item label="安装地点：">
               <el-input v-model="dialogData.installLocation"></el-input>
@@ -228,7 +224,6 @@
 
 <script>
 import { getDeviceInfoByPage, getDeviceInfoById, editDeviceInfoById, addDeviceInfo, deleteDeviceInfoById } from '@/api/deviceModule.js'
-import { getAllUserInfo } from '@/api/ucenter/userInfo.js'
 import { getSchoolList } from '@/api/ucenter/school.js'
 import { parseTime } from '@/utils/index'
 
@@ -284,8 +279,6 @@ export default {
       dialogImageUrl: [],
       // 上传图片列表
       fileList: [],
-      // 负责人列表
-      personList: [],
       // 设备id
       deviceId: '',
       // 学校列表
@@ -296,7 +289,6 @@ export default {
   },
   created() {
     this.fetchData()
-    this.getAllUserInfo()
     // 获取学校列表
     this.getSchoolList()
   },
@@ -328,12 +320,6 @@ export default {
             return { name: name, url: item }
           })
         }
-      }).catch(err => this.$message.error(err))
-    },
-    // 获取所有人的信息
-    getAllUserInfo() {
-      getAllUserInfo().then(res => {
-        this.personList = res
       }).catch(err => this.$message.error(err))
     },
     // 添加设备信息
@@ -435,8 +421,6 @@ export default {
     },
     // 修改设备信息，点击确定按钮
     editSubmitClick() {
-      // 负责人adminName
-      this.dialogData.adminName = this.personList.filter(item => item.id === this.dialogData.adminId)[0].name
       if (this.dialogAction === 'add') this.addTableData()
       else this.editTableData()
     },

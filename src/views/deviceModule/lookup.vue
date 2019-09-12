@@ -82,7 +82,10 @@
         <el-row :gutter="10" class="text-c">
           <el-col :span="8" class="mt-10" v-for="(item,index) in tableData" :key="index">
             <el-card>
-              <img :src="aImg" />
+              <img
+                :src=" item.type === 'A' ? ( item.isBind ? aBindImg : aImg ) : ( item.isBind ? bBindImg : bImg ) "
+                :class="item.isBind ? 'bind' : '' "
+              />
             </el-card>
           </el-col>
         </el-row>
@@ -167,6 +170,10 @@ import { getDeviceInfoByPage, getDeviceInfoById, editDeviceInfoById, addDeviceIn
 import { getAllUserInfo } from '@/api/ucenter/userInfo.js'
 import { getSchoolList } from '@/api/ucenter/school.js'
 import { parseTime } from '@/utils/index'
+import aImg from '@/assets/A.png'
+import bImg from '@/assets/B.png'
+import aBindImg from '@/assets/Abind.png'
+import bBindImg from '@/assets/Bbind.png'
 
 export default {
   name: 'DragDialogDemo',
@@ -200,6 +207,10 @@ export default {
   },
   data() {
     return {
+      aImg,
+      bImg,
+      aBindImg,
+      bBindImg,
       // 表格总数据条数
       total: 0,
       // 当前页
@@ -224,6 +235,8 @@ export default {
       personList: [],
       // 设备id
       deviceId: '',
+      // 学校id
+      schoolId: '',
       // 学校列表
       schoolList: [],
       // 是否绑定列表
@@ -413,5 +426,8 @@ export default {
 }
 .editDialog /deep/ .el-date-editor.el-input {
   max-width: 200px;
+}
+.bind /deep/ .el-card__body {
+  background-color: #ccffff;
 }
 </style>
