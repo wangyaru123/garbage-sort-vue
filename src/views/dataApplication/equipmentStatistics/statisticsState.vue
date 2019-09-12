@@ -13,11 +13,12 @@
                 <el-option label="时利用率" value="4"></el-option>
               </el-select>
               <span style="margin-left: 10px" v-if="rate.isShowYear">年：</span>
-              <el-date-picker v-if="rate.isShowYear" v-model="rate.year" type="year" format="yyyy 年" placeholder="选择年" @change="changeRateYear"></el-date-picker>
+              <el-date-picker size="small" v-if="rate.isShowYear" v-model="rate.year" type="year" format="yyyy 年" placeholder="选择年" @change="changeRateYear"></el-date-picker>
               <span style="margin-left: 10px" v-if="rate.isShowMouth">月：</span>
               <el-date-picker
                 v-if="rate.isShowMouth"
                 v-model="rate.mouth"
+                size="small"
                 type="month"
                 format="yyyy 年 MM 月"
                 placeholder="选择月"
