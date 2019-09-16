@@ -4,6 +4,7 @@ import Router from 'vue-router'
 /* Layout */
 import Layout from '@/layout'
 
+import billboardRouter from './modules/billboard'
 import userRouter from './modules/user'
 import boxRouter from './modules/box'
 import dataApplicationRouter from './modules/dataApplication'
@@ -53,6 +54,8 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  // 看板
+  billboardRouter,
   // 用户
   userRouter,
   // 盒子信息
