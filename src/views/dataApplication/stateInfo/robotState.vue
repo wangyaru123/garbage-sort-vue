@@ -174,9 +174,9 @@
           <robotStateChartArea :chartId="chartIds[0]" :titleName="titleNames[0]" :legendData="legendDatas[0]" ref="angleChart"></robotStateChartArea>
         </el-col>
         <!-- 机器人位置 -->
-        <el-col :lg="12" :md="24" :sm="24" class="mt-5">
+        <!--<el-col :lg="12" :md="24" :sm="24" class="mt-5">
           <robotStateChartArea :chartId="chartIds[1]" :titleName="titleNames[1]" :legendData="legendDatas[1]" ref="positionChart"></robotStateChartArea>
-        </el-col>
+        </el-col>-->
       </el-row>
     </el-card>
   </div>
@@ -231,13 +231,11 @@ export default {
   methods: {
     // 更新图表数据
     updateData(data, time) {
-      this.$refs.angleChart.updateDataChart(data.DbAxisPos, time)
-      this.$refs.positionChart.updateDataChart(data.DbCartPos, time)
+      this.$refs.angleChart.updateDataChart(data, time)
     },
     // 清除图表数据
     clearChartData() {
       this.$refs.angleChart.clearChartData()
-      this.$refs.positionChart.clearChartData()
     }
   }
 }
