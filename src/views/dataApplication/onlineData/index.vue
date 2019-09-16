@@ -219,7 +219,7 @@ export default {
       options: {
         connectTimeout: 40000,
         clientId: '35e1acdbc2664baca8da1701eac58874',
-        username: 'web-SZ-2019001:DV-20190001',
+        username: 'xixuyang',
         password: '123456',
         clean: true
       },
@@ -271,7 +271,7 @@ export default {
       // 接收消息处理
       const that = this
       this.client.on('message', function (topic, message) {
-        console.log('订阅的消息:' + topic + ',' + message.toString()) // 打印消息内容
+        // console.log('订阅的消息:' + topic + ',' + message.toString()) // 打印消息内容
         try {
           that.initData(JSON.parse(message.toString()))
         } catch (e) {
