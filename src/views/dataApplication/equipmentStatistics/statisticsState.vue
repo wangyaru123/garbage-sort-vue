@@ -121,6 +121,62 @@
           </el-col>
         </el-card>
       </el-col>
+      <!--稼动率3开始-->
+      <el-col :span="24">
+        <el-card class="mt-5">
+          <div slot="header">
+            <div :class="isMobile?'controlDiv' : ''">
+              <el-select size="small" v-model="utilizationRate.model" placeholder @change="changeUtilizationRateModel">
+                <el-option label="年利用率" value="1"></el-option>
+                <el-option label="月利用率" value="2"></el-option>
+                <el-option label="日利用率" value="3"></el-option>
+                <el-option label="时利用率" value="4"></el-option>
+              </el-select>
+              <span style="margin-left: 10px" v-if="utilizationRate.isShowYear">年：</span>
+              <el-date-picker size="small" v-if="utilizationRate.isShowYear" v-model="utilizationRate.year" type="year" format="yyyy 年" placeholder="选择年" @change="changeUtilizationRateYear"></el-date-picker>
+              <span style="margin-left: 10px" v-if="utilizationRate.isShowMouth">月：</span>
+              <el-date-picker
+                v-if="utilizationRate.isShowMouth"
+                v-model="utilizationRate.mouth"
+                size="small"
+                type="month"
+                format="yyyy 年 MM 月"
+                placeholder="选择月"
+                @change="changeUtilizationRateMouth"
+              ></el-date-picker>
+              <span style="margin-left: 10px" v-if="utilizationRate.isShowDay">日：</span>
+              <el-date-picker
+                size="small"
+                v-if="utilizationRate.isShowDay"
+                v-model="utilizationRate.day"
+                type="date"
+                format="yyyy 年 MM 月 dd 日"
+                placeholder="选择日"
+                @change="changeUtilizationRateDay"
+              ></el-date-picker>
+              <span style="margin-left: 10px" v-if="utilizationRate.isShowTime">时间：</span>
+              <el-date-picker
+                v-if="utilizationRate.isShowTime"
+                v-model="utilizationRate.time"
+                type="datetimerange"
+                size="small"
+                is-range
+                range-separator="To"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+                @change="changeUtilizationRateTime"
+              ></el-date-picker>
+              <el-button type="primary" size="small" @click="searchUtilizationRate">查询</el-button>
+            </div>
+          </div>
+          <el-col :xs="24" :sm="7" :md="7" :lg="7" :xl="7" >
+            <URCircleChart chartId="URCircleChart" ref="utilizationRatePieChart" titleName="稼动率"></URCircleChart>
+          </el-col>
+          <el-col :xs="24" :sm="17" :md="17" :lg="17" :xl="17" >
+            <URChart chartId="URChart" ref="utilizationRateBarChart" titleName="稼动率"></URChart>
+          </el-col>
+        </el-card>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -130,6 +186,8 @@ import utilizationRateChart from './component/utilizationRateChart'
 import CircleChart from './component/circleChart'
 import failureRateChart from './component/failureRateChart'
 import circleChartTwo from './component/circleChartTwo'
+import URCircleChart from './component/URCircleChart' // 稼动率饼图
+import URChart from './component/URChart' // 稼动率棒图
 import { getRateByYear, getRateByMouth, getRateByDay, getRateByTime } from '@/api/dataBox/equipmentStatistics.js'
 
 export default {
@@ -137,7 +195,9 @@ export default {
     utilizationRateChart,
     CircleChart,
     failureRateChart,
-    circleChartTwo
+    circleChartTwo,
+    URCircleChart,
+    URChart
   },
   computed: {
     // 是否为手机
@@ -171,6 +231,18 @@ export default {
         day: '',
         time: ''
       },
+      // 稼动率
+      utilizationRate: {
+        model: '3',
+        isShowYear: false,
+        isShowMouth: false,
+        isShowDay: true,
+        isShowTime: false,
+        year: '',
+        mouth: '',
+        day: '',
+        time: ''
+      },
       // *****************
       mouth_data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
       day_data: ['1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -188,6 +260,7 @@ export default {
   mounted: function () {
     this.getRateByDay('rateBarChart', 'ratePieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
     this.getRateByDay('faultBarChart', 'faultPieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
+    this.getRateByDay('utilizationRateBarChart', 'utilizationRatePieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
   },
   beforeDestroy() {
   },
@@ -225,7 +298,7 @@ export default {
         const param = { year: this.getLocalTime(this.rate.year, 1), ioType: 'I', byteIndex: 0, bitIndex: 0 }
         this.getRateByYear('rateBarChart', 'ratePieChart', param)
       } else if (this.rate.isShowMouth && this.rate.mouth) { // 展示月利用率
-        const param = { year: this.getLocalTime(this.rate.mouth, 1), month: this.getLocalTime(this.fault.mouth, 2), ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        const param = { year: this.getLocalTime(this.rate.mouth, 1), month: this.getLocalTime(this.rate.mouth, 2), ioType: 'I', byteIndex: 0, bitIndex: 0 }
         this.getRateByMouth('rateBarChart', 'ratePieChart', param)
       } else if (this.rate.isShowTime && this.rate.time) { // 展示时利用率
         const param = { startTime: this.getLocalTime(this.rate.time[0], 0), stopTime: this.getLocalTime(this.rate.time[1], 0), ioType: 'I', byteIndex: 0, bitIndex: 0 }
@@ -279,6 +352,50 @@ export default {
       } else if (this.fault.isShowDay && this.fault.day) {
         const param = { date: this.getLocalTime(this.fault.day, 3), ioType: 'I', byteIndex: 0, bitIndex: 0 }
         this.getRateByDay('faultBarChart', 'faultPieChart', param)
+      }
+    },
+    // **** 稼动率 **********************************************
+    changeUtilizationRateModel() { // 选择模式
+      if (this.utilizationRate.model === '1') {
+        this.utilizationRate.isShowYear = true
+        this.utilizationRate.isShowMouth = this.utilizationRate.isShowDay = this.utilizationRate.isShowTime = false
+        this.utilizationRate.year = this.utilizationRate.mouth = this.utilizationRate.day = this.utilizationRate.time = ''
+      } else if (this.utilizationRate.model === '2') {
+        this.utilizationRate.isShowMouth = true
+        this.utilizationRate.isShowYear = this.utilizationRate.isShowDay = this.utilizationRate.isShowTime = false
+        this.utilizationRate.year = this.utilizationRate.mouth = this.utilizationRate.day = this.utilizationRate.time = ''
+      } else if (this.utilizationRate.model === '3') {
+        this.utilizationRate.isShowDay = true
+        this.utilizationRate.isShowYear = this.utilizationRate.isShowMouth = this.utilizationRate.isShowTime = false
+        this.utilizationRate.year = this.utilizationRate.mouth = this.utilizationRate.day = this.utilizationRate.time = ''
+      } else if (this.utilizationRate.model === '4') {
+        this.utilizationRate.isShowTime = true
+        this.utilizationRate.isShowYear = this.utilizationRate.isShowMouth = this.utilizationRate.isShowDay = false
+        this.utilizationRate.year = this.utilizationRate.mouth = this.utilizationRate.day = this.utilizationRate.time = ''
+      }
+    },
+    changeUtilizationRateYear() { // 选择年的触发
+    },
+    changeUtilizationRateMouth() { // 选择月的触发
+    },
+    changeUtilizationRateDay() { // 选择日的触发
+    },
+    changeUtilizationRateTime() { // 选择时的触发
+    },
+    searchUtilizationRate() { // 提交 rate 时间
+      if (this.utilizationRate.isShowYear && this.utilizationRate.year) { // 展示年利用率
+        const param = { year: this.getLocalTime(this.utilizationRate.year, 1), ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        this.getRateByYear('utilizationRateBarChart', 'utilizationRatePieChart', param)
+      } else if (this.utilizationRate.isShowMouth && this.utilizationRate.mouth) { // 展示月利用率
+        const param = { year: this.getLocalTime(this.utilizationRate.mouth, 1), month: this.getLocalTime(this.utilizationRate.mouth, 2), ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        this.getRateByMouth('utilizationRateBarChart', 'utilizationRatePieChart', param)
+      } else if (this.utilizationRate.isShowTime && this.utilizationRate.time) { // 展示时利用率
+        const param = { startTime: this.getLocalTime(this.utilizationRate.time[0], 0), stopTime: this.getLocalTime(this.utilizationRate.time[1], 0), ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        const bar_time = [this.getLocalTime(this.utilizationRate.time[0], 0) + ' 至 ' + this.getLocalTime(this.utilizationRate.time[1], 0)]
+        this.getRateByTime('utilizationRateBarChart', 'utilizationRatePieChart', param, bar_time)
+      } else if (this.utilizationRate.isShowDay && this.utilizationRate.day) { // 展示日利用率
+        const param = { date: this.getLocalTime(this.utilizationRate.day, 3), ioType: 'I', byteIndex: 0, bitIndex: 0 }
+        this.getRateByDay('utilizationRateBarChart', 'utilizationRatePieChart', param)
       }
     },
     // *** 公用方法 ***************************************************************************
