@@ -79,13 +79,10 @@
         <el-select v-model="schoolId" size="small" placeholder="请选择" @change="getDeviceInfoByPage">
           <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
         </el-select>
-        <el-row :gutter="10" class="text-c">
-          <el-col :span="8" class="mt-10" v-for="(item,index) in tableData" :key="index">
-            <el-card>
-              <img
-                :src=" item.type === 'A' ? ( item.isBind ? aBindImg : aImg ) : ( item.isBind ? bBindImg : bImg ) "
-                :class="item.isBind ? 'bind' : '' "
-              />
+        <el-row :gutter="20" class="text-c">
+          <el-col :span="6" class="mt-10" v-for="(item,index) in tableData" :key="index" @click.native="editRow( item.deviceId )">
+            <el-card :class="item.isBind ? 'bind' : '' ">
+              <img :src=" item.type === 'A' ? ( item.isBind ? aBindImg : aImg ) : ( item.isBind ? bBindImg : bImg ) " fit="fill" />
             </el-card>
           </el-col>
         </el-row>
@@ -97,38 +94,37 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="设备名称：" :rules="{ required: true, message: '请输入设备名称', trigger: 'blur' }">
-              <el-input v-model="dialogData.deviceName"></el-input>
+              <span>{{dialogData.deviceName}}</span>
             </el-form-item>
             <el-form-item label="设备编码：" :rules="{ required: true, message: '请输入设备名称', trigger: 'blur' }">
-              <el-input v-model="dialogData.deviceCode"></el-input>
+              <span>{{dialogData.deviceCode}}</span>
             </el-form-item>
             <el-form-item label="位置号：">
-              <el-input v-model="dialogData.seat"></el-input>
+              <span>{{dialogData.seat}}</span>
             </el-form-item>
             <el-form-item label="类别：">
-              <el-input v-model="dialogData.type"></el-input>
+              <span>{{dialogData.type}}</span>
             </el-form-item>
             <el-form-item label="学校：">
-              <el-select v-model="dialogData.schoolId" placeholder="请选择" size="small">
-                <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
-              </el-select>
+              <span>{{schoolList.filter(item=>item.schoolId===dialogData.schoolId).schoolName}}</span>
             </el-form-item>
             <el-form-item label="是否绑定：">
-              <el-switch v-model="dialogData.isBind" active-color="#288AF1" inactive-color="#ff4949"></el-switch>
+              <el-switch v-model="dialogData.isBind" active-color="#288AF1" inactive-color="#ff4949" disabled></el-switch>
             </el-form-item>
             <el-form-item label="盒子id：">
-              <el-input v-model="dialogData.boxId"></el-input>
+              <span>{{dialogData.boxId}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="生产时间：">
-              <el-input v-model="dialogData.productionTime"></el-input>
+              <span>{{dialogData.productionTime}}</span>
             </el-form-item>
             <el-form-item label="安装地点：">
-              <el-input v-model="dialogData.installLocation"></el-input>
+              <span>{{dialogData.installLocation}}</span>
             </el-form-item>
             <el-form-item label="安装时间：">
-              <el-date-picker v-model="dialogData.installTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
+              <span>{{dialogData.installTime}}</span>
+              <!-- <el-date-picker v-model="dialogData.installTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker> -->
             </el-form-item>
             <el-form-item label="设备图片：">
               <el-upload
@@ -139,14 +135,9 @@
                 :action="uploadActionUrl"
                 multiple
                 list-type="picture-card"
-                :before-upload="beforeAvatarUpload"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemove"
-                :on-change="changePicture"
-                :on-success="handleSuccessPicture"
-                :on-error="handleErrorPicture"
                 :file-list="fileList"
                 :limit="1"
+                disabled
               >
                 <i class="el-icon-plus"></i>
               </el-upload>
@@ -156,20 +147,14 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <div class="text-c">
-          <el-button type="primary" size="medium" @click="editSubmitClick">确定</el-button>
-          <el-button type="info" size="medium" @click="editCancel">取消</el-button>
-        </div>
       </el-form>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getDeviceInfoByPage, getDeviceInfoById, editDeviceInfoById, addDeviceInfo, deleteDeviceInfoById } from '@/api/deviceModule.js'
-import { getAllUserInfo } from '@/api/ucenter/userInfo.js'
+import { getDeviceInfoByPage, getDeviceInfoById } from '@/api/deviceModule.js'
 import { getSchoolList } from '@/api/ucenter/school.js'
-import { parseTime } from '@/utils/index'
 import aImg from '@/assets/A.png'
 import bImg from '@/assets/B.png'
 import aBindImg from '@/assets/Abind.png'
@@ -223,16 +208,12 @@ export default {
       editDialogVisible: false,
       // 弹框回显报警信息数据
       dialogData: {},
-      // 设置弹窗是添加还是编辑
-      dialogAction: 'add',
       // 放大图片
       imgDialogVisible: false,
       // 放大图片
       dialogImageUrl: [],
       // 上传图片列表
       fileList: [],
-      // 负责人列表
-      personList: [],
       // 设备id
       deviceId: '',
       // 学校id
@@ -245,7 +226,6 @@ export default {
   },
   created() {
     this.getDeviceInfoByPage()
-    this.getAllUserInfo()
     // 获取学校列表
     this.getSchoolList()
   },
@@ -280,70 +260,7 @@ export default {
         }
       }).catch(err => this.$message.error(err))
     },
-    // 获取所有人的信息
-    getAllUserInfo() {
-      getAllUserInfo().then(res => {
-        this.personList = res
-      }).catch(err => this.$message.error(err))
-    },
-    // 添加设备信息
-    addTableData() {
-      this.editDialogVisible = false
-      this.dialogData.schoolName = this.schoolList.filter(item => item.schoolId === this.dialogData.schoolId)[0].schoolName
-      addDeviceInfo(this.dialogData).then(res => {
-        this.deviceId = res
-        this.$nextTick(() => this.$refs.upload.submit())
-        this.getDeviceInfoByPage()
-      }).catch(err => this.$message.error(err))
-    },
-    // 保存修改的报警信息
-    editTableData() {
-      this.editDialogVisible = false
-      // 获取保留的文件路径
-      this.dialogData.imgUrl = this.fileList.filter(item => item.status === 'success').map(item => item.url)
-      editDeviceInfoById(this.dialogData.deviceId, this.dialogData).then(res => {
-        const waitForUpload = this.fileList.filter(item => item.status === 'ready')
-        if (waitForUpload.length > 0) {
-          // 在表单提交成功之后再上传文件
-          this.$nextTick(() => this.$refs.upload.submit())
-        } else {
-          this.getDeviceInfoByPage()
-        }
-      }).catch(err => this.$message.error(err))
-    },
-    // 删除单条已提交报警信息
-    deleteTableData(id) {
-      deleteDeviceInfoById(id).then(res => {
-        this.$message.success('删除成功')
-        this.getDeviceInfoByPage()
-      }).catch(err => this.$message.error(err))
-    },
     // 页面操作
-    // 上传图片前的校验
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp'
-      const isLimit = file.size / 1024 / 1024 < 15
-      if (!isJPG) {
-        this.$message.error('上传图片只能是jpg、jpeg、png、gif、bmp格式!')
-      }
-      if (!isLimit) {
-        this.$message.error('上传头像图片大小不能超过15MB!')
-      }
-      return isJPG && isLimit
-    },
-    // 删除图片事件,将filelist赋值,用来标识是否有图片
-    handleRemove(file, fileList) {
-      this.fileList = fileList
-    },
-    // 放大图片
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url
-      this.imgDialogVisible = true
-    },
-    // 添加图片事件,将filelist赋值,用来标识是否有图片
-    changePicture(file, fileList) {
-      this.fileList = fileList
-    },
     // 成功上传图片到服务器
     handleSuccessPicture(response, file, fileList) {
       if (fileList.length > 0 && fileList[fileList.length - 1].status === 'success') {
@@ -355,54 +272,11 @@ export default {
     // 上传图片失败
     handleErrorPicture(response, file, fileList) {
     },
-    // 点击添加按钮，弹框显示
-    addRow() {
-      this.dialogAction = 'add'
-      this.editDialogVisible = true
-      this.fileList = []
-      // 初始化弹窗数据
-      this.dialogData = {
-        deviceName: '',
-        category: '',
-        equipmentAlias: '',
-        equipmentModel: '',
-        equipmentDetails: '',
-        adminName: '',
-        enableTime: parseTime(new Date()),
-        inherentAssetNum: '',
-        installLocation: '',
-        installTime: parseTime(new Date()),
-        installschool: '',
-        equipmentManufacturer: ''
-      }
-    },
     // 点击编辑按钮，弹框显示，并回显数据
     editRow(id) {
-      this.dialogAction = 'edit'
       this.editDialogVisible = true
       this.fileList = []
       this.getDialogData(id)
-    },
-    // 修改设备信息，点击确定按钮
-    editSubmitClick() {
-      // 负责人adminName
-      this.dialogData.adminName = this.personList.filter(item => item.id === this.dialogData.adminId)[0].name
-      if (this.dialogAction === 'add') this.addTableData()
-      else this.editTableData()
-    },
-    // 编辑报警信息弹框,点击取消，隐藏弹窗
-    editCancel() {
-      this.editDialogVisible = false
-      this.dialogData = {}
-    },
-    // 确认删除
-    deleteRow(id) {
-      this.$confirm('此操作将删除该行, 是否删除?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => this.deleteTableData(id))
-        .catch(() => this.$message.info('取消删除'))
     },
     // 移动端点击卡片进入详情页面
     subAlarmDetailInfo(id) {
