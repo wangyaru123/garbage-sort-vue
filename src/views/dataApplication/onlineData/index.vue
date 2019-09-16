@@ -4,174 +4,170 @@
     <el-row :gutter="5">
       <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
         <el-card :class="isMobile?'h-auto':'h-num-l'">
+          <div class="alignCenter">
+          <el-select size="small" v-model="choose_machine_area" placeholder @change="changeMachineArea()">
+            <el-option v-for="(item, idx) in machine" :key="item.area_id" :label="item.area_name" :value="idx"></el-option>
+          </el-select>
+          <el-select size="small" v-model="choose_machine_device" placeholder @change="changeMachineDevice()">
+            <el-option v-for="(item, idx) in device" :key="item.id" :label="item.name" :value="idx"></el-option>
+          </el-select>
+          </div>
           <img :src="machineImg" class="sidebar-logo" alt="">
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
         <!--开关量-->
-        <el-card :class="isMobile?'h-auto':'h-num-r'">
+        <el-card class="pb-10">
           <div slot="header" class="clearfix">
             <div>开关量</div>
           </div>
           <!--<div v-for="o in inputInfo" :key="o" class="text item m-10">
             {{o}}
           </div>-->
-          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-            <div class="text item m-10">
-              <span>
-                库位1 :
-              </span>
+          <el-col :span="12" class="mt-10">
+            <el-col :span="12" class="text-r">库位1：</el-col>
+            <el-col :span="12">
               <span v-if="inputArrayData[0][0]==='0'?false:true" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
-            </div>
+            </el-col>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-            <div class="text item m-10">
-              库位2 :
+          <el-col :span="12" class="mt-10">
+            <el-col :span="12" class="text-r"> 库位2：</el-col>
+            <el-col :span="12">
               <span v-if="inputArrayData[0][1]==='0'?false:true" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
-            </div>
+            </el-col>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-            <div class="text item m-10">
-              库位3 :
+          <el-col :span="12" class="mt-10">
+            <el-col :span="12" class="text-r">库位3：</el-col>
+            <el-col :span="12">
               <span v-if="inputArrayData[0][2]==='0'?false:true" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
-            </div>
+            </el-col>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-            <div class="text item m-10">
-              库位4 :
+          <el-col :span="12" class="mt-10">
+            <el-col :span="12" class="text-r">库位4：</el-col>
+            <el-col :span="12">
               <span v-if="inputArrayData[0][3]==='0'?false:true" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
-            </div>
+            </el-col>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-            <div class="text item m-10">
-              库位5 :
+          <el-col :span="12" class="mt-10">
+            <el-col :span="12" class="text-r">库位5：</el-col>
+            <el-col :span="12">
               <span v-if="inputArrayData[1][0]==='0'?false:true" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
-            </div>
+            </el-col>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-            <div class="text item m-10">
-              库位6 :
+          <el-col :span="12" class="mt-10">
+            <el-col :span="12" class="text-r">库位6：</el-col>
+            <el-col :span="12">
               <span v-if="inputArrayData[1][1]==='0'?false:true" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
-            </div>
+            </el-col>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-            <div class="text item m-10">
-              毛坯工件 :
+          <el-col :span="12" class="mt-10">
+            <el-col :span="12" class="text-r">毛坯工件：</el-col>
+            <el-col :span="12">
               <span v-if="inputArrayData[1][2]==='0'?false:true" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
-            </div>
+            </el-col>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-            <div class="text item m-10">
-              半成品工件 :
+          <el-col :span="12" class="mt-10">
+            <el-col :span="12" class="text-r">半成品工件：</el-col>
+            <el-col :span="12">
               <span v-if="inputArrayData[1][3]==='0'?false:true" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
-            </div>
+            </el-col>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-            <div class="text item m-10">
-              成品工件 :
+          <el-col :span="12" class="mt-10">
+            <el-col :span="12" class="text-r">成品工件：</el-col>
+            <el-col :span="12">
               <span v-if="inputArrayData[1][0]==='0'?false:true" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
-            </div>
+            </el-col>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-            <div class="text item m-10">
-              检测到卡 :
+          <el-col :span="12" class="mt-10">
+            <el-col :span="12" class="text-r">检测到卡：</el-col>
+            <el-col :span="12">
               <span v-if="inputArrayData[1][1]==='0'?false:true" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
-            </div>
+            </el-col>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-            <div class="text item m-10">
-              相机联机 :
+          <el-col :span="12" class="mt-10">
+            <el-col :span="12" class="text-r">相机联机：</el-col>
+            <el-col :span="12">
               <span v-if="inputArrayData[1][2]==='0'?false:true" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
-            </div>
+            </el-col>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-            <div class="text item m-10">
-              红色工件 :
+          <el-col :span="12" class="mt-10">
+            <el-col :span="12" class="text-r">红色工件：</el-col>
+            <el-col :span="12">
               <span v-if="inputArrayData[1][3]==='0'?false:true" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
-            </div>
+            </el-col>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-            <div class="text item m-10">
-              黄色工件 :
+          <el-col :span="12" class="mt-10 mb-10">
+            <el-col :span="12" class="text-r">黄色工件：</el-col>
+            <el-col :span="12">
               <span v-if="inputArrayData[2][0]==='0'?false:true" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
-            </div>
+            </el-col>
           </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-            <div class="text item m-10">
-              蓝色工件 :
+          <el-col :span="12" class="mt-10 mb-10">
+            <el-col :span="12" class="text-r">蓝色工件：</el-col>
+            <el-col :span="12">
               <span v-if="inputArrayData[2][1]==='0'?false:true" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
-            </div>
+            </el-col>
           </el-col>
         </el-card>
         <!--机器人-->
-        <el-card :class="isMobile?'h-auto':'h-num-r mt-5'">
+        <el-card :class="isMobile?'h-auto':'h-num-r mt-5 pb-10'">
           <div slot="header" class="clearfix">
             <div>机器人</div>
           </div>
           <div class="text item m-10">
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-              <div class="text item m-10">
-                <span>关节1坐标：</span><span>{{robotInfo[0]}}</span>
-              </div>
+            <el-col :span="12" class="mt-10">
+              <el-col :span="12" class="text-r">关节1坐标：</el-col>
+              <el-col :span="12" class="alignLeft">{{robotInfo[0]}}</el-col>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-              <div class="text item m-10">
-                <span>关节2坐标：</span><span>{{robotInfo[1]}}</span>
-              </div>
+            <el-col :span="12" class="mt-10">
+              <el-col :span="12" class="text-r">关节2坐标：</el-col>
+              <el-col :span="12" class="alignLeft">{{robotInfo[1]}}</el-col>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-              <div class="text item m-10">
-                <span>关节3坐标：</span><span>{{robotInfo[2]}}</span>
-              </div>
+            <el-col :span="12" class="mt-10">
+              <el-col :span="12" class="text-r">关节3坐标：</el-col>
+              <el-col :span="12" class="alignLeft">{{robotInfo[2]}}</el-col>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-              <div class="text item m-10">
-                <span>关节4坐标：</span><span>{{robotInfo[3]}}</span>
-              </div>
+            <el-col :span="12" class="mt-10">
+              <el-col :span="12" class="text-r">关节4坐标：</el-col>
+              <el-col :span="12" class="alignLeft">{{robotInfo[3]}}</el-col>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-              <div class="text item m-10">
-                <span>关节5坐标：</span><span>{{robotInfo[4]}}</span>
-              </div>
+            <el-col :span="12" class="mt-10">
+              <el-col :span="12" class="text-r">关节5坐标：</el-col>
+              <el-col :span="12" class="alignLeft">{{robotInfo[4]}}</el-col>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-              <div class="text item m-10">
-                <span>关节6坐标：</span><span>{{robotInfo[5]}}</span>
-              </div>
+            <el-col :span="12" class="mt-10">
+              <el-col :span="12" class="text-r">关节6坐标：</el-col>
+              <el-col :span="12" class="alignLeft">{{robotInfo[5]}}</el-col>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-              <div class="text item m-10">
-                <span>速度百分比：</span><span>{{robotInfo[6]}}</span>
-              </div>
+            <el-col :span="12" class="mt-10">
+              <el-col :span="12" class="text-r">速度百分比：</el-col>
+              <el-col :span="12" class="alignLeft">{{robotInfo[6]}}</el-col>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-              <div class="text item m-10">
-                <span>操作模式：</span><span>{{robotInfo[7]}}</span>
-              </div>
+            <el-col :span="12" class="mt-10">
+              <el-col :span="12" class="text-r">操作模式：</el-col>
+              <el-col :span="12" class="alignLeft">{{robotInfo[7]}}</el-col>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-              <div class="text item m-10">
-                <span>当前状态：</span><span>{{robotInfo[8]}}</span>
-              </div>
+            <el-col :span="12" class="mt-10 mb-10">
+              <el-col :span="12" class="text-r">当前状态：</el-col>
+              <el-col :span="12" class="alignLeft">{{robotInfo[8]}}</el-col>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-              <div class="text item m-10">
-                <span>错误状态：</span><span>{{robotInfo[9]}}</span>
-              </div>
+            <el-col :span="12" class="mt-10 mb-10">
+              <el-col :span="12" class="text-r">错误状态：</el-col>
+              <el-col :span="12" class="alignLeft">{{robotInfo[9]}}</el-col>
             </el-col>
           </div>
         </el-card>
@@ -192,6 +188,7 @@
 <script>
 import machineImg from '@/assets/machine.png'
 import mqtt from 'mqtt'
+import { getMachine } from '@/api/dataBox/onlineData.js'
 
 export default {
   computed: {
@@ -222,21 +219,38 @@ export default {
       options: {
         connectTimeout: 40000,
         clientId: '35e1acdbc2664baca8da1701eac58874',
-        username: 'xxy',
+        username: 'web-SZ-2019001:DV-20190001',
         password: '123456',
         clean: true
-      }
+      },
+      // 设备
+      machine: [
+        {
+          area_id: 0,
+          area_name: '苏州',
+          device: [
+            { name: '设备1', id: 0, module: [{ description: '成品仓储模块', topic: 'web-SZ-2019001:DV-20190001' }] },
+            { name: '设备2', id: 1, module: [{ description: '成品仓储模块', topic: 'xxy' }] },
+            { name: '设备3', id: 2 }
+          ]
+        },
+        { area_id: 1, area_name: '郑州', device: [{ name: '设备11', topic: 'web-SZ-2019001:DV-20190001' }, { name: '设备12', topic: 'web-SZ-2019001:DV-20190002' }, { name: '设备13', topic: 'web-SZ-2019001:DV-20190003' }] },
+        { area_id: 2, area_name: '新乡' }
+      ],
+      device: [],
+      choose_machine_area: 0, // 当前选择区域
+      choose_machine_device: 0 // 当前选择设备
     }
   },
   created() {
     // this.openWebSocket()
   },
   mounted: function() {
-    this.mqttConnect()
+    this.initDevice() // 初始设备
   },
   beforeDestroy() {
     // this.closeWebSocket()
-    this.client.end()
+    this.client.end() // 关闭订阅
   },
   methods: {
     // mqtt
@@ -248,7 +262,7 @@ export default {
         console.log('连接成功：' + e)
         this.client.subscribe(this.theme, { qos: 1 }, (error) => {
           if (!error) {
-            console.log('订阅成功')
+            console.log('订阅成功：订阅主题【' + this.theme + '】')
           } else {
             console.log('订阅失败：' + error)
           }
@@ -257,7 +271,7 @@ export default {
       // 接收消息处理
       const that = this
       this.client.on('message', function (topic, message) {
-        // console.log('订阅的消息:' + topic + ',' + message.toString()) // 打印消息内容
+        console.log('订阅的消息:' + topic + ',' + message.toString()) // 打印消息内容
         try {
           that.initData(JSON.parse(message.toString()))
         } catch (e) {
@@ -292,7 +306,7 @@ export default {
         console.log('fail : ' + error)
       })
     },
-    initData(data) {
+    initData(data) { // 订阅数据解析
       const input = data.Input
       const output = data.Output
       const robot = data.sensorData
@@ -355,6 +369,34 @@ export default {
     },
     sparkGray(index) {
       return 'sparkGray' + index
+    },
+    changeMachineArea() { // 区域选择
+      if (this.machine[this.choose_machine_area].device) { // 如果选择区域有设备
+        this.device = this.machine[this.choose_machine_area].device // 更新设备
+        this.choose_machine_device = 0 // 更新默认设备
+        if (this.device[0].module) {
+          this.theme = this.device[0].module[0].topic // 更新默认设备，更新订阅主题
+        }
+      } else {
+        this.device = [] // 区域无设备 置空设备选择框
+        this.choose_machine_device = '' // 清空默认设备
+      }
+    },
+    changeMachineDevice() { // 选择设备
+      this.client.end() // 关闭订阅
+      if (this.device[this.choose_machine_device].module) {
+        this.theme = this.device[this.choose_machine_device].module[0].topic // 更新订阅主题
+        this.mqttConnect() // 重新订阅
+      }
+    },
+    initDevice() { // 初始化设备，并完成订阅
+      getMachine().then(res => {
+        this.machine[0].device[0].module = res // 初始化设备，默认只初始化第一个设备的第一个module
+        this.device = this.machine[0].device // 初始化设备
+        this.choose_machine_device = this.device[0].id
+        this.theme = this.device[0].module[0].topic // 初始化 订阅主题
+        this.mqttConnect() // 开始订阅
+      }).catch(err => this.$message.error(err))
     }
   }
 }
@@ -372,34 +414,35 @@ export default {
     display: flex;
     align-items: center;
   }
+  .alignCenter{
+    display: flex;
+    justify-content:center;
+    /deep/ .el-select{
+      margin: 4px;
+     }
+  }
   .h-auto,.h-num-l{
     img {
-      width: 75%;
+      width: 70%;
       margin: 0 auto;
       display: block;
     }
   }
-  .sparkGreen{
+  .sparkGreen,.sparkGray{
     width: 15px;
     height: 15px;
     background: #54d51c;
-    display: block;
+    display: inline-block;
     border-radius: 20px;
-    float: right;
-    margin-right:10px;
-    animation:myGreenLight 1s;
-    animation-iteration-count: infinite;
+    margin-top: 2px;
   }
   .sparkGray{
-    width: 15px;
-    height: 15px;
     background: #898989;
-    display: block;
-    border-radius: 20px;
-    float: right;
-    margin-right:10px;
   }
-  .liteStyle{
-    text-align: right;
+  .alignLeft{
+    text-align: left;
+  }
+  .pb-10{
+    padding-bottom: 10px;
   }
 </style>

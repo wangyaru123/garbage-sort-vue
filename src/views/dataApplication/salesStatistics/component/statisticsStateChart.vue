@@ -44,7 +44,12 @@ export default {
               alignWithLabel: true
             },
             axisLabel: {
-              interval: 0
+              interval: 0,
+              rotate: 0,
+              margin: 10,
+              textStyle: {
+                fontSize: ''
+              }
             }
           }
         ],
@@ -80,8 +85,17 @@ export default {
   mounted() {
     this.initChart()
     this.doResizeChart()
+    if (this.$store.state.app.isMobile) {
+      this.setMobileOption() // 更新手机端显示
+    }
   },
   created() {
+  },
+  computed: {
+    isMobile() {
+      alert('====')
+      return this.$store.state.app.isMobile
+    }
   },
   beforeDestroy() {
     this.closeResize()
@@ -109,6 +123,12 @@ export default {
       window.removeEventListener('resize', this.__resizeHanlder)
       this.chart.dispose()
       this.chart = null
+    },
+    setMobileOption() { // 更新手机端显示
+      this.options.xAxis[0].axisLabel.rotate = 45
+      this.options.xAxis[0].axisLabel.margin = 5
+      this.options.xAxis[0].axisLabel.textStyle.fontSize = 9
+      this.chart.setOption(this.options)
     }
   }
 }

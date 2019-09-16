@@ -44,7 +44,7 @@ export default {
               alignWithLabel: true
             },
             axisLabel: {
-              interval: 0
+              interval: 1
             }
           }
         ],
