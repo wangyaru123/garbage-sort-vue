@@ -105,4 +105,40 @@ export function getDeviceNameList() {
   })
 }
 
+/**
+ * 绑定
+ *
+ * @export bindingData
+ * @param {*} params
+ * @returns
+ */
+export function bindingData(params) {
+  return new Promise((resolve, reject) => {
+    request({
+      url: `${deviceUrl}/equipment/connection`,
+      method: 'post',
+      data: params
+    }).then(result => resolve(result))
+      .catch(error => reject(error))
+  })
+}
+
+/**
+ * 绑定
+ *
+ * @export unbindingData
+ * @param {*} params
+ * @returns
+ */
+export function unbindingData(params) {
+  return new Promise((resolve, reject) => {
+    request({
+      url: `${deviceUrl}/equipment/un-connection`,
+      method: 'post',
+      data: params
+    }).then(result => resolve(result))
+      .catch(error => reject(error))
+  })
+}
+
 // #endregion

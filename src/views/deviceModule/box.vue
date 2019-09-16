@@ -216,7 +216,8 @@ export default {
     },
     // 根据id回显数据
     getDialogData(id) {
-      getBoxesInfoById(id).then(res => {
+      const params = { id: id }
+      getBoxesInfoById(params).then(res => {
         this.dialogData = res
       }).catch(err => this.$message.error(err))
     },

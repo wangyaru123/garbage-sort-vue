@@ -28,11 +28,12 @@ export function getBoxesInfoByPage(page, size, params) {
  * @param {*} params { id: '1'}
  * @returns
  */
-export function getBoxesInfoById(id) {
+export function getBoxesInfoById(params) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${deviceUrl}/equipment/boxes/${id}`,
-      method: 'get'
+      url: `${deviceUrl}/equipment/boxes`,
+      method: 'get',
+      params: params
     }).then(result => resolve(result))
       .catch(error => reject(error))
   })
