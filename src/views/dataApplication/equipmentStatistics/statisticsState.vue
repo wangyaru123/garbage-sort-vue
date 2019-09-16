@@ -49,10 +49,10 @@
               <el-button type="primary" size="small" @click="searchRate">查询</el-button>
             </div>
           </div>
-          <el-col :span="7">
+          <el-col :xs="24" :sm="7" :md="7" :lg="7" :xl="7" >
             <circle-chart chartId="circleChart" ref="ratePieChart" titleName="设备利用率"></circle-chart>
           </el-col>
-          <el-col :span="17">
+          <el-col :xs="24" :sm="17" :md="17" :lg="17" :xl="17" >
             <utilizationRateChart chartId="utilizationRateChart" ref="rateBarChart" titleName="设备利用率"></utilizationRateChart>
           </el-col>
         </el-card>
@@ -70,6 +70,7 @@
               </el-select>
               <span style="margin-left: 10px" v-if="fault.isShowYear">年：</span>
               <el-date-picker
+                size="small"
                 v-if="fault.isShowYear"
                 v-model="fault.year"
                 type="year"
@@ -79,6 +80,7 @@
               ></el-date-picker>
               <span style="margin-left: 10px" v-if="fault.isShowMouth">月：</span>
               <el-date-picker
+                size="small"
                 v-if="fault.isShowMouth"
                 v-model="fault.mouth"
                 type="month"
@@ -88,6 +90,7 @@
               ></el-date-picker>
               <span style="margin-left: 10px" v-if="fault.isShowDay">日：</span>
               <el-date-picker
+                size="small"
                 v-if="fault.isShowDay"
                 v-model="fault.day"
                 type="date"
@@ -110,10 +113,10 @@
               <el-button type="primary" size="small" @click="searchFault">查询</el-button>
             </div>
           </div>
-          <el-col :span="7">
+          <el-col :xs="24" :sm="7" :md="7" :lg="7" :xl="7" >
             <circle-chart-two chartId="circleChartTwo" ref="faultPieChart" titleName="故障率"></circle-chart-two>
           </el-col>
-          <el-col :span="17">
+          <el-col :xs="24" :sm="17" :md="17" :lg="17" :xl="17" >
             <failureRateChart chartId="failureRateChart" ref="faultBarChart" titleName="故障率"></failureRateChart>
           </el-col>
         </el-card>

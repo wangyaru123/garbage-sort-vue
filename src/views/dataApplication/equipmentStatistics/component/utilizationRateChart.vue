@@ -44,7 +44,12 @@ export default {
               alignWithLabel: true
             },
             axisLabel: {
-              interval: 0
+              interval: 1
+              // rotate: 45,
+              // margin: 10,
+              // textStyle: {
+              //   color: '#222'
+              // }
             }
           }
         ],
