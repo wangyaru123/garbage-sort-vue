@@ -125,7 +125,6 @@ export default {
       this.chart = null
     },
     setMobileOption() { // 更新手机端显示
-      this.options.xAxis[0].axisLabel.interval = 1
       this.options.xAxis[0].axisLabel.rotate = 45
       this.options.xAxis[0].axisLabel.margin = 5
       this.options.xAxis[0].axisLabel.textStyle.fontSize = 9
