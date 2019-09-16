@@ -3,14 +3,18 @@
     <div class="title">“1+X”工业机器人应用编程</div>
     <div class="content">
       <el-col :lg="5" :md="5" :sm="5" class="content-layout">
-        <div class="item pb-10">上</div>
+        <div class="item pb-10">
+          <device-online></device-online>
+        </div>
         <div class="item pt-10">上</div>
       </el-col>
       <el-col :lg="14" :md="14" :sm="14" class="content-layout">
-        <deviceMap></deviceMap>
+        <device-map></device-map>
       </el-col>
       <el-col :lg="5" :md="5" :sm="5" class="content-layout">
-        <div class="item pb-10">上</div>
+        <div class="item pb-10">
+          <device-alarm></device-alarm>
+        </div>
         <div class="item pt-10">上</div>
       </el-col>
     </div>
@@ -19,9 +23,14 @@
 
 <script>
 import deviceMap from './component/deviceMap'
+import deviceOnline from './component/deviceOnline'
+import deviceAlarm from './component/deviceAlarm'
+
 export default {
   components: {
-    deviceMap
+    deviceMap,
+    deviceOnline,
+    deviceAlarm
   },
   data() {
     return {
@@ -45,6 +54,7 @@ export default {
   line-height: 80px;
   font-size: 28px;
   color: #00ffcc;
+  border-bottom: 1px solid #009fff;
 }
 .content {
   height: calc(100vh - 80px);
