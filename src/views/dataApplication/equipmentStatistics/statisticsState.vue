@@ -5,7 +5,7 @@
       <el-col :span="24">
         <el-card>
           <div slot="header">
-            <div>
+            <div :class="isMobile?'controlDiv' : ''">
               <el-select size="small" v-model="rate.model" placeholder @change="changeRateModel">
                 <el-option label="年利用率" value="1"></el-option>
                 <el-option label="月利用率" value="2"></el-option>
@@ -61,7 +61,7 @@
       <el-col :span="24">
         <el-card class="mt-5">
           <div slot="header">
-            <div>
+            <div :class="isMobile?'controlDiv' : ''">
               <el-select size="small" v-model="fault.model" placeholder @change="changeFaultModel">
                 <el-option label="年故障率" value="1"></el-option>
                 <el-option label="月故障率" value="2"></el-option>
@@ -138,6 +138,12 @@ export default {
     CircleChart,
     failureRateChart,
     circleChartTwo
+  },
+  computed: {
+    // 是否为手机
+    isMobile() {
+      return this.$store.state.app.isMobile
+    }
   },
   data: function () {
     return {
@@ -330,4 +336,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+ .controlDiv /deep/ .el-select,.controlDiv /deep/ .el-input{
+    width: 122px;
+  }
 </style>
