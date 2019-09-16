@@ -114,7 +114,7 @@
               <el-tag :type="scope.row.isBind?'':'danger'">{{ scope.row.isBind?'是':'否'}}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="盒子id" align="center">
+          <el-table-column label="盒子ID" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.boxId}}</span>
             </template>
@@ -223,7 +223,7 @@
 </template>
 
 <script>
-import { getDeviceInfoByPage, getDeviceInfoById, editDeviceInfoById, addDeviceInfo, deleteDeviceInfoById } from '@/api/deviceModule.js'
+import { getDeviceInfoByPage, getDeviceInfoById, editDeviceInfoById, addDeviceInfo, deleteDeviceInfoById } from '@/api/deviceModule/index.js'
 import { getSchoolList } from '@/api/ucenter/school.js'
 import { parseTime } from '@/utils/index'
 
