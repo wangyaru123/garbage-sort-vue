@@ -410,7 +410,7 @@ export default {
     height: auto;
   }
   .h-num-l{
-    height: 88vh;
+    height: 92vh;
     display: flex;
     align-items: center;
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="p-10">
+  <div :class="isMobile?'p-5':'p-10'" >
     <!--<el-row>
       <el-col :xs="24" :lg="16">
         <div>

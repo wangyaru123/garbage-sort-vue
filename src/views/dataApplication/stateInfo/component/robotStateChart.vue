@@ -179,7 +179,8 @@ export default {
   width: 100%;
 }
 .h-320 {
-  height: calc((100vh - 374px) * 0.5);
+  // height: calc((100vh - 374px) * 0.5);
+  height: 310px;
 }
 .h-280 {
   height: 280px;
