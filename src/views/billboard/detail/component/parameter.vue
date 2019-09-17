@@ -20,18 +20,6 @@
           </el-col>
         </el-row>
         <el-row class="data-style">
-          <el-col :span="10">检测到卡</el-col>
-          <el-col :span="7" class="text-c">
-            <span>10</span>
-          </el-col>
-        </el-row>
-        <el-row class="data-style">
-          <el-col :span="10">相机联机</el-col>
-          <el-col :span="7" class="text-c">
-            <span>***</span>
-          </el-col>
-        </el-row>
-        <el-row class="data-style">
           <el-col :span="10">速度百分比</el-col>
           <el-col :span="7" class="text-c">
             <span>90%</span>

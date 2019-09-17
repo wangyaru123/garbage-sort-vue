@@ -32,19 +32,7 @@
           </el-col>
         </el-row>
         <el-row class="data-style">
-          <el-col :span="10">生产时间</el-col>
-          <el-col :span="7" class="text-c">
-            <span>&nbsp; ***</span>
-          </el-col>
-        </el-row>
-        <el-row class="data-style">
           <el-col :span="10">安装地点</el-col>
-          <el-col :span="7" class="text-c">
-            <span>&nbsp; ***</span>
-          </el-col>
-        </el-row>
-        <el-row class="data-style">
-          <el-col :span="10">安装时间</el-col>
           <el-col :span="7" class="text-c">
             <span>&nbsp; ***</span>
           </el-col>
