@@ -19,54 +19,32 @@
       <div class="pt-40" id="padding-card-13">
         <el-card class="box-card m-5" v-for="(item,index) in tableData" :key="index">
           <div slot="header" class="flexbox font-size-13 text-gray">
-            <div>{{item.equipmentName}}</div>
-            <div class="text-r">{{ item.category}}</div>
+            <div>{{item.deviceCode}}</div>
+            <div class="text-r">
+              <el-tag :type="item.isBind?'':'danger'">{{ item.isBind?'已绑定':'未绑定'}}</el-tag>
+            </div>
           </div>
           <div class="text item flexbox">
             <div style="width:100%">
               <div class="flexbox mt-5">
-                设备别名:
-                <div>{{item.equipmentAlias}}</div>
+                位置号:
+                <div>{{item.seat}}</div>
               </div>
               <div class="flexbox mt-5">
-                设备型号:
-                <div>{{item.equipmentModel}}</div>
+                类别:
+                <div>{{item.type}}</div>
               </div>
               <div class="flexbox mt-5">
-                设备详情:
-                <div>{{item.equipmentDetails}}</div>
+                学校:
+                <div>{{item.schoolName}}</div>
               </div>
               <div class="flexbox mt-5">
-                使用部门:
-                <div>{{item.department}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                负责人:
-                <div>{{item.adminName}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                启用时间:
-                <div>{{item.enableTime}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                固有资产号:
-                <div>{{item.inherentAssetNum}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                安装位置:
+                安装地点:
                 <div>{{item.installLocation}}</div>
               </div>
               <div class="flexbox mt-5">
                 安装时间:
                 <div>{{item.installTime}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                安装单位:
-                <div>{{item.installCompany}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                设备厂家:
-                <div>{{item.equipmentManufacturer}}</div>
               </div>
             </div>
           </div>
@@ -83,57 +61,27 @@
               <span>{{ scope.$index + 1 }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="设备名称" fixed="left" align="center">
+          <el-table-column label="设备编码" fixed="left" width="100px" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.equipmentName}}</span>
+              <span>{{ scope.row.deviceCode }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="设备图片" fixed="left" align="center">
+          <el-table-column label="位置号" align="center">
             <template slot-scope="scope">
-              <img v-for="(img,index) in scope.row.equipmentImgUrl" :src="img" :key="index" class="img-style-small" alt="无图片" />
+              <span>{{ scope.row.seat}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="所属大设备" fixed="left" width="100px" align="center">
+          <el-table-column label="类别" fixed="left" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.category }}</span>
+              <span>{{ scope.row.type }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="设备别名" align="center">
+          <el-table-column label="学校" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.equipmentAlias}}</span>
+              <span>{{ scope.row.schoolName}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="设备型号" fixed="left" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.equipmentModel }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="设备详情" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.equipmentDetails}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="使用部门" fixed="right" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.department}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="负责人" fixed="right" width="100px" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.adminName}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="启用时间" width="180px" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.enableTime}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="固有资产号" width="150px" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.inherentAssetNum}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="安装位置" align="center">
+          <el-table-column label="安装地点" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.installLocation}}</span>
             </template>
@@ -143,20 +91,27 @@
               <span>{{ scope.row.installTime}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="安装单位" align="center">
+          <el-table-column label="是否绑定" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.installCompany}}</span>
+              <el-tag :type="scope.row.isBind?'':'danger'">{{ scope.row.isBind?'是':'否'}}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="设备厂家" align="center">
+          <el-table-column label="绑定" fixed="right" width="90px" align="center" v-if="updateAuth">
             <template slot-scope="scope">
-              <span>{{ scope.row.equipmentManufacturer}}</span>
+              <el-button type="success" size="mini" @click="binding( scope.row.deviceId )" v-if="!scope.row.isBind">绑定</el-button>
+              <el-button type="danger" size="mini" @click="unbinding( scope.row.deviceId, scope.row.boxId )" v-else>解绑</el-button>
             </template>
           </el-table-column>
           <el-table-column label="操作" fixed="right" width="150px" align="center" v-if="updateAuth || deleteAuth">
             <template slot-scope="scope">
-              <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.equipmentId )" v-if="updateAuth"></el-button>
-              <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.row.equipmentId )" v-if="deleteAuth"></el-button>
+              <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.deviceId )" v-if="updateAuth"></el-button>
+              <el-button
+                type="danger"
+                size="mini"
+                icon="el-icon-delete"
+                @click="deleteRow( scope.row.deviceId , scope.row.isBind )"
+                v-if="deleteAuth"
+              ></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -177,77 +132,32 @@
     <el-dialog :visible.sync="editDialogVisible" title="请填写设备信息(*是必填项)" class="editDialog">
       <el-form label-position="right" label-width="120px" :model="dialogData" ref="ruleForm">
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="设备名称：" :rules="{ required: true, message: '请输入设备名称', trigger: 'blur' }">
-              <el-input v-model="dialogData.equipmentName"></el-input>
-            </el-form-item>
-            <el-form-item label="所属大设备：" :rules="{ required: true, message: '请输入所属大设备', trigger: 'blur' }">
-              <el-input v-model="dialogData.category"></el-input>
-            </el-form-item>
-            <el-form-item label="设备别名：">
-              <el-input v-model="dialogData.equipmentAlias"></el-input>
-            </el-form-item>
-            <el-form-item label="设备型号：">
-              <el-input v-model="dialogData.equipmentModel"></el-input>
-            </el-form-item>
-            <el-form-item label="设备详情：">
-              <el-input v-model="dialogData.equipmentDetails"></el-input>
-            </el-form-item>
-            <el-form-item label="使用部门：" :rules="{ required: true, message: '请选择部门', trigger: 'change' }">
-              <el-select v-model="dialogData.department" placeholder="请选择" size="small">
-                <el-option v-for="item in deptList" :key="item.departmentId" :value="item.name" :label="item.name"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="负责人：" :rules="{ required: true, message: '请选择负责人', trigger: 'change' }">
-              <el-select v-model="dialogData.adminId" placeholder="请选择" size="small">
-                <el-option v-for="item in personList" :key="item.id" :value="item.id" :label="item.name"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="启用时间：">
-              <el-date-picker v-model="dialogData.enableTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
-            </el-form-item>
-            <el-form-item label="固有资产号：">
-              <el-input v-model="dialogData.inherentAssetNum"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="安装位置：">
-              <el-input v-model="dialogData.installLocation"></el-input>
-            </el-form-item>
-            <el-form-item label="安装时间：">
-              <el-date-picker v-model="dialogData.installTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
-            </el-form-item>
-            <el-form-item label="安装单位：">
-              <el-input v-model="dialogData.installCompany"></el-input>
-            </el-form-item>
-            <el-form-item label="设备厂家：">
-              <el-input v-model="dialogData.equipmentManufacturer"></el-input>
-            </el-form-item>
-            <el-form-item label="设备图片：">
-              <el-upload
-                enctype="multipart/form-data"
-                ref="upload"
-                :headers="headers"
-                :auto-upload="false"
-                :action="uploadActionUrl"
-                multiple
-                list-type="picture-card"
-                :before-upload="beforeAvatarUpload"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemove"
-                :on-change="changePicture"
-                :on-success="handleSuccessPicture"
-                :on-error="handleErrorPicture"
-                :file-list="fileList"
-                :limit="1"
-              >
-                <i class="el-icon-plus"></i>
-              </el-upload>
-              <el-dialog :visible.sync="imgDialogVisible" :modal-append-to-body="false" :modal="false">
-                <img width="100%" :src="dialogImageUrl" alt />
-              </el-dialog>
-            </el-form-item>
-          </el-col>
+          <el-form-item label="设备编码：" :rules="{ required: true, message: '请输入设备编码', trigger: 'blur' }">
+            <el-input v-model="dialogData.deviceCode"></el-input>
+          </el-form-item>
+          <el-form-item label="位置号：">
+            <el-input v-model="dialogData.seat"></el-input>
+          </el-form-item>
+          <el-form-item label="类别：">
+            <el-select v-model="dialogData.type" placeholder="请选择" size="small">
+              <el-option value="A" label="A"></el-option>
+              <el-option value="B" label="B"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="学校：">
+            <el-select v-model="dialogData.schoolId" placeholder="请选择" size="small">
+              <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="生产时间：">
+            <el-date-picker v-model="dialogData.productionTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
+          </el-form-item>
+          <el-form-item label="安装地点：">
+            <el-input v-model="dialogData.installLocation"></el-input>
+          </el-form-item>
+          <el-form-item label="安装时间：">
+            <el-date-picker v-model="dialogData.installTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
+          </el-form-item>
         </el-row>
         <div class="text-c">
           <el-button type="primary" size="medium" @click="editSubmitClick">确定</el-button>
@@ -255,17 +165,40 @@
         </div>
       </el-form>
     </el-dialog>
+    <!-- 绑定弹框 -->
+    <el-dialog :visible.sync="bindingDialogVisible" title="请输入盒子编码进行搜索" class="bindingDialog">
+      <el-form label-position="right" label-width="120px" :model="bindingdialogData" ref="ruleForm">
+        <el-row>
+          <el-form-item label="盒子编码：">
+            <el-select
+              v-model="boxValue"
+              filterable
+              remote
+              reserve-keyword
+              placeholder="请输入关键词"
+              :remote-method="getBoxesInfoById"
+              :loading="loading"
+            >
+              <el-option v-for="item in boxList" :key="item.boxId" :label="item.boxCode" :value="item.boxId"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-row>
+        <div class="text-c">
+          <el-button type="primary" size="medium" @click="bindSubmitClick">确定</el-button>
+          <el-button type="info" size="medium" @click="bindCancel">取消</el-button>
+        </div>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getDeviceInfoByPage, getDeviceInfoById, editDeviceInfoById, addDeviceInfo, deleteDeviceInfoById } from '@/api/deviceModule.js'
-import { getOnlyDeptInfo } from '@/api/ucenter/departmentsInfo.js'
-import { getAllUserInfo } from '@/api/ucenter/userInfo.js'
+import { getDeviceInfoByPage, getDeviceInfoById, editDeviceInfoById, addDeviceInfo, deleteDeviceInfoById, bindingData, unbindingData } from '@/api/deviceModule/index.js'
+import { getBoxesInfoById } from '@/api/deviceModule/box.js'
+import { getSchoolList } from '@/api/ucenter/school.js'
 import { parseTime } from '@/utils/index'
 
 export default {
-  name: 'DragDialogDemo',
   computed: {
     // 是否为手机
     isMobile() {
@@ -279,7 +212,7 @@ export default {
     },
     // upload组件上传图片的Action路由地址
     uploadActionUrl() {
-      return process.env.VUE_APP_HTTP_DEVICE + '/equipment/images/_upload/' + this.equipmentId
+      return process.env.VUE_APP_HTTP_DEVICE + '/equipment/devices/_upload/' + this.deviceId
     },
     // 添加权限
     addAuth() {
@@ -306,31 +239,52 @@ export default {
       tableData: [],
       // 编辑报警信息弹框显示
       editDialogVisible: false,
+      // 绑定弹框
+      bindingDialogVisible: false,
       // 弹框回显报警信息数据
       dialogData: {},
+      // 绑定弹框数据
+      bindingdialogData: {},
       // 设置弹窗是添加还是编辑
       dialogAction: 'add',
-      // 添加和编辑设备信息时获取部门列表
-      deptList: [],
-      // 放大图片
-      imgDialogVisible: false,
-      // 放大图片
-      dialogImageUrl: [],
-      // 上传图片列表
-      fileList: [],
-      // 负责人列表
-      personList: [],
       // 设备id
-      equipmentId: ''
+      deviceId: '',
+      // 盒子id
+      boxId: '',
+      // 学校列表
+      schoolList: [],
+      // 输入框中设备编码值
+      boxValue: '',
+      // 盒子数据列表
+      boxList: [],
+      // 加载
+      loading: false,
+      // 是否绑定列表
+      isBindList: [{ isBind: 0, desc: '未绑定' }, { isBind: 1, desc: '已绑定' }]
     }
   },
   created() {
     this.fetchData()
-    this.getOnlyDeptInfo()
-    this.getAllUserInfo()
+    // 获取学校列表
+    this.getSchoolList()
   },
   methods: {
     // api
+    // 获取学校列表
+    getSchoolList() {
+      getSchoolList().then(res => {
+        this.schoolList = res
+      }).catch(err => this.$message.error(err))
+    },
+    // 获取盒子列表
+    getBoxesInfoById(query) {
+      this.loading = true
+      const params = { code: query }
+      getBoxesInfoById(params).then(res => {
+        this.loading = false
+        this.boxList = res
+      }).catch(err => this.$message.error(err))
+    },
     // 根据page,size获取当前表格数据
     fetchData() {
       getDeviceInfoByPage(this.currentPage, this.pageSize).then(res => {
@@ -342,52 +296,23 @@ export default {
     getDialogData(id) {
       getDeviceInfoById(id).then(res => {
         this.dialogData = res
-        this.equipmentId = this.dialogData.equipmentId
-        if (!res.equipmentImgUrl) this.fileList = []
-        else {
-          this.fileList = res.equipmentImgUrl.map(item => {
-            const tmp = item.split('/')
-            const name = tmp.length > 0 ? tmp[tmp.length - 1] : '文件'
-            return { name: name, url: item }
-          })
-        }
-      }).catch(err => this.$message.error(err))
-    },
-    // 获取部门信息
-    getOnlyDeptInfo() {
-      getOnlyDeptInfo().then(res => {
-        this.deptList = res
-      }).catch(err => this.$message.error(err))
-    },
-    // 获取所有人的信息
-    getAllUserInfo() {
-      getAllUserInfo().then(res => {
-        this.personList = res
+        this.deviceId = this.dialogData.deviceId
       }).catch(err => this.$message.error(err))
     },
     // 添加设备信息
     addTableData() {
-      this.editDialogVisible = false
+      this.dialogData.schoolName = this.schoolList.filter(item => item.schoolId === this.dialogData.schoolId)[0].schoolName
       addDeviceInfo(this.dialogData).then(res => {
-        this.equipmentId = res
-        this.$nextTick(() => this.$refs.upload.submit())
+        this.editDialogVisible = false
+        this.deviceId = res
         this.fetchData()
       }).catch(err => this.$message.error(err))
     },
     // 保存修改的报警信息
     editTableData() {
-      this.editDialogVisible = false
-      // 获取保留的文件路径
-      this.dialogData.equipmentImgUrl = this.fileList.filter(item => item.status === 'success').map(item => item.url)
-      console.log(this.dialogData)
-      editDeviceInfoById(this.dialogData.equipmentId, this.dialogData).then(res => {
-        const waitForUpload = this.fileList.filter(item => item.status === 'ready')
-        if (waitForUpload.length > 0) {
-          // 在表单提交成功之后再上传文件
-          this.$nextTick(() => this.$refs.upload.submit())
-        } else {
-          this.fetchData()
-        }
+      editDeviceInfoById(this.dialogData.deviceId, this.dialogData).then(res => {
+        this.editDialogVisible = false
+        this.fetchData()
       }).catch(err => this.$message.error(err))
     },
     // 删除单条已提交报警信息
@@ -397,75 +322,47 @@ export default {
         this.fetchData()
       }).catch(err => this.$message.error(err))
     },
-    // 页面操作
-    // 上传图片前的校验
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp'
-      const isLimit = file.size / 1024 / 1024 < 15
-      if (!isJPG) {
-        this.$message.error('上传图片只能是jpg、jpeg、png、gif、bmp格式!')
-      }
-      if (!isLimit) {
-        this.$message.error('上传头像图片大小不能超过15MB!')
-      }
-      return isJPG && isLimit
-    },
-    // 删除图片事件,将filelist赋值,用来标识是否有图片
-    handleRemove(file, fileList) {
-      this.fileList = fileList
-    },
-    // 放大图片
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url
-      this.imgDialogVisible = true
-    },
-    // 添加图片事件,将filelist赋值,用来标识是否有图片
-    changePicture(file, fileList) {
-      this.fileList = fileList
-    },
-    // 成功上传图片到服务器
-    handleSuccessPicture(response, file, fileList) {
-      if (fileList.length > 0 && fileList[fileList.length - 1].status === 'success') {
+    // 添加设备信息
+    bindingData() {
+      this.bindingDialogVisible = false
+      const params = { boxId: this.boxValue, deviceId: this.deviceId }
+      bindingData(params).then(res => {
+        this.$message.success('绑定成功')
         this.fetchData()
-        if (this.act === 'add') this.$message.success('添加成功')
-        else this.$message.success('更新成功')
-      }
+      }).catch(err => this.$message.error(err))
     },
-    // 上传图片失败
-    handleErrorPicture(response, file, fileList) {
+    // 添加设备信息
+    unbindingData() {
+      const params = { boxId: this.boxId, deviceId: this.deviceId }
+      unbindingData(params).then(res => {
+        this.$message.success('解绑成功')
+        this.fetchData()
+      }).catch(err => this.$message.error(err))
     },
+    // 页面操作
     // 点击添加按钮，弹框显示
     addRow() {
       this.dialogAction = 'add'
       this.editDialogVisible = true
-      this.fileList = []
       // 初始化弹窗数据
       this.dialogData = {
-        equipmentName: '',
-        category: '',
-        equipmentAlias: '',
-        equipmentModel: '',
-        equipmentDetails: '',
-        adminName: '',
-        enableTime: parseTime(new Date()),
-        inherentAssetNum: '',
+        deviceCode: '',
+        seat: '',
+        type: '',
+        schoolId: '',
+        productionTime: parseTime(new Date()),
         installLocation: '',
-        installTime: parseTime(new Date()),
-        installCompany: '',
-        equipmentManufacturer: ''
+        installTime: parseTime(new Date())
       }
     },
     // 点击编辑按钮，弹框显示，并回显数据
     editRow(id) {
       this.dialogAction = 'edit'
       this.editDialogVisible = true
-      this.fileList = []
       this.getDialogData(id)
     },
     // 修改设备信息，点击确定按钮
     editSubmitClick() {
-      // 负责人adminName
-      this.dialogData.adminName = this.personList.filter(item => item.id === this.dialogData.adminId)[0].name
       if (this.dialogAction === 'add') this.addTableData()
       else this.editTableData()
     },
@@ -475,20 +372,39 @@ export default {
       this.dialogData = {}
     },
     // 确认删除
-    deleteRow(id) {
-      this.$confirm('此操作将删除该行, 是否删除?', '提示', {
+    deleteRow(id, isBind) {
+      this.$confirm(isBind ? '此操作将删除该行并解绑, 是否删除?' : '此操作将删除该行, 是否删除', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => this.deleteTableData(id))
         .catch(() => this.$message.info('取消删除'))
     },
-    // 移动端点击卡片进入详情页面
-    subAlarmDetailInfo(id) {
-      this.$router.push({
-        path: '/repairModule/subAlarmDetailInfo',
-        query: { id: id }
-      })
+    // 绑定信息，点击确定按钮
+    bindSubmitClick() {
+      this.bindingData()
+    },
+    // 绑定弹框,点击取消，隐藏弹窗
+    bindCancel() {
+      this.bindingDialogVisible = false
+      this.dialogData = {}
+    },
+    // 绑定
+    binding(deviceId) {
+      this.deviceId = deviceId
+      this.boxValue = ''
+      this.bindingDialogVisible = true
+    },
+    // 解绑
+    unbinding(deviceId, boxId) {
+      this.deviceId = deviceId
+      this.boxId = boxId
+      this.$confirm('此操作将解绑, 是否解绑?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => this.unbindingData())
+        .catch(() => this.$message.info('取消解绑'))
     }
   }
 }
@@ -496,14 +412,17 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../styles/mobileStyle.scss";
-// el-dialog默认宽度50%，两栏放不下
-.editDialog .el-dialog {
-  width: 65%;
+
+.editDialog /deep/ .el-dialog {
+  width: 40%;
 }
 .editDialog /deep/ .el-input__inner {
-  max-width: 200px;
+  max-width: 400px;
 }
 .editDialog /deep/ .el-date-editor.el-input {
-  max-width: 200px;
+  max-width: 400px;
+}
+.bindingDialog /deep/ .el-dialog {
+  width: 30%;
 }
 </style>

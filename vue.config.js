@@ -47,6 +47,6 @@ module.exports = {
   },
   // 主要用于部署，以子模块的形式部署，路由：/sensor-setting
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/box-framework-vue/'
+    ? '/one-plus-x/'
     : '/'
 }

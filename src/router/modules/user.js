@@ -16,7 +16,7 @@ const userRouter = {
   },
   children: [
     {
-      path: 'userInfo',
+      path: 'UserInfo',
       name: 'Ucenter.UserInfo',
       component: () => import('@/views/ucenter/userInfo'),
       meta: {
@@ -25,16 +25,16 @@ const userRouter = {
       }
     },
     {
-      path: 'Company',
-      name: 'Ucenter.Company',
-      component: () => import('@/views/ucenter/company'),
+      path: 'School',
+      name: 'Ucenter.School',
+      component: () => import('@/views/ucenter/school'),
       meta: {
-        title: '公司管理',
-        auths: ['ucenter_company_page']
+        title: '学校管理',
+        auths: ['ucenter_school_page']
       }
     },
     {
-      path: 'rolesInfo',
+      path: 'RolesInfo',
       name: 'Ucenter.RolesInfo',
       component: () => import('@/views/ucenter/rolesInfo'),
       meta: {

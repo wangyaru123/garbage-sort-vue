@@ -4,6 +4,7 @@ import Router from 'vue-router'
 /* Layout */
 import Layout from '@/layout'
 
+import billboardRouter from './modules/billboard'
 import userRouter from './modules/user'
 import boxRouter from './modules/box'
 import dataApplicationRouter from './modules/dataApplication'
@@ -13,7 +14,6 @@ import maintainRouter from './modules/maintain'
 import deviceRouter from './modules/device'
 import noticeRouter from './modules/notice'
 import fileAdminRouter from './modules/fileAdmin'
-import fileUserRouter from './modules/fileUser'
 
 Vue.use(Router)
 
@@ -54,6 +54,8 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  // 看板
+  billboardRouter,
   // 用户
   userRouter,
   // 盒子信息
@@ -72,8 +74,6 @@ export const asyncRoutes = [
   noticeRouter,
   // 文件管理
   fileAdminRouter,
-  // 文件管理
-  fileUserRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

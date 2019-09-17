@@ -184,7 +184,7 @@ export default {
           item.name = this.urlData.filter(i => item.resourceUrl === i.resourceUrl)[0].name
         })
         this.treeData = res
-        console.log(this.treeData)
+        // console.log(this.treeData)
         // this.actionsList = res
       }).catch(err => this.$message.error(err))
     },
@@ -212,7 +212,7 @@ export default {
       getRolesInfoById(id).then(res => {
         this.dialogData = res
         this.checkedActions = res.actions.map(item => item.adminActionId)
-        console.log(this.checkedActions)
+        // console.log(this.checkedActions)
       }).catch(err => this.$message.error(err))
     },
     // 点击编辑按钮，弹框显示，并回显数据

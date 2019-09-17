@@ -11,11 +11,12 @@ const deviceUrl = process.env.VUE_APP_HTTP_DEVICE
  * @param {*} params { page: '1', size: '10' }
  * @returns
  */
-export function getDeviceInfoByPage(page, size) {
+export function getDeviceInfoByPage(page, size, params) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${deviceUrl}/equipment/equips/${page}/${size}`,
-      method: 'get'
+      url: `${deviceUrl}/equipment/devices/${page}/${size}`,
+      method: 'get',
+      params: params
     }).then(result => resolve(result))
       .catch(error => reject(error))
   })
@@ -30,7 +31,7 @@ export function getDeviceInfoByPage(page, size) {
 export function getDeviceInfoById(id) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${deviceUrl}/equipment/equips/${id}`,
+      url: `${deviceUrl}/equipment/devices/${id}`,
       method: 'get'
     }).then(result => resolve(result))
       .catch(error => reject(error))
@@ -46,7 +47,7 @@ export function getDeviceInfoById(id) {
 export function editDeviceInfoById(id, params) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${deviceUrl}/equipment/equips/${id}`,
+      url: `${deviceUrl}/equipment/devices/${id}`,
       method: 'put',
       data: params
     }).then(result => resolve(result))
@@ -63,7 +64,7 @@ export function editDeviceInfoById(id, params) {
 export function addDeviceInfo(params) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${deviceUrl}/equipment/equips`,
+      url: `${deviceUrl}/equipment/devices`,
       method: 'post',
       data: params
     }).then(result => resolve(result))
@@ -80,7 +81,7 @@ export function addDeviceInfo(params) {
 export function deleteDeviceInfoById(id) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${deviceUrl}/equipment/equips/${id}`,
+      url: `${deviceUrl}/equipment/devices/${id}`,
       method: 'delete'
     }).then(result => resolve(result))
       .catch(error => reject(error))
@@ -97,8 +98,44 @@ export function deleteDeviceInfoById(id) {
 export function getDeviceNameList() {
   return new Promise((resolve, reject) => {
     request({
-      url: `${deviceUrl}/equipment/equips-name`,
+      url: `${deviceUrl}/equipment/devices-name`,
       method: 'get'
+    }).then(result => resolve(result))
+      .catch(error => reject(error))
+  })
+}
+
+/**
+ * 绑定
+ *
+ * @export bindingData
+ * @param {*} params
+ * @returns
+ */
+export function bindingData(params) {
+  return new Promise((resolve, reject) => {
+    request({
+      url: `${deviceUrl}/equipment/connection`,
+      method: 'post',
+      data: params
+    }).then(result => resolve(result))
+      .catch(error => reject(error))
+  })
+}
+
+/**
+ * 绑定
+ *
+ * @export unbindingData
+ * @param {*} params
+ * @returns
+ */
+export function unbindingData(params) {
+  return new Promise((resolve, reject) => {
+    request({
+      url: `${deviceUrl}/equipment/un-connection`,
+      method: 'post',
+      data: params
     }).then(result => resolve(result))
       .catch(error => reject(error))
   })

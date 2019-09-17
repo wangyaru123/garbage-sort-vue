@@ -50,14 +50,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.dashboard {
-  &-container {
-    margin: 30px;
-  }
-  &-text {
-    font-size: 30px;
-    line-height: 46px;
-  }
+.content {
+  height: 90%;
+}
+.el-col {
+  padding: 80px 20px;
+  // border: 1px solid red;
+}
+.item {
+  height: 150px;
+  line-height: 150px;
+  width: 300px;
+  margin:0 auto;
+  background-color: rgba(164, 224, 244, 0.5);
+  position: relative;
+  border: 1px solid #0491ab;
+  border-radius: 15px;
+}
+.ver-m {
+  margin-top: 50px;
 }
 .h-num,.h-auto{
   height: calc(100vh - 210px);

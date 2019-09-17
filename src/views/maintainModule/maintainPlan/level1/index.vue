@@ -177,7 +177,7 @@
 
 <script>
 import { getPlanDataByPage, addPlanData, getPlanTime, deletePlanData } from '@/api/maintainModule/plan/level1.js'
-import { getDeviceNameList } from '@/api/deviceModule.js'
+import { getDeviceNameList } from '@/api/deviceModule/index.js'
 import { getCategoryList, getCycleData } from '@/api/maintainModule/rules/level1.js'
 import { getAllUserInfo } from '@/api/ucenter/userInfo.js'
 
