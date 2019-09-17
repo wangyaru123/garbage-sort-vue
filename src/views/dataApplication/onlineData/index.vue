@@ -127,55 +127,55 @@
           </el-col>
         </el-card>
         <!--机器人-->
-        <el-card :class="isMobile?'h-auto':'h-num-r mt-5 pb-10'">
+        <el-card class="pb-10 mt-5">
           <div slot="header" class="clearfix">
             <div>机器人</div>
           </div>
           <div class="text item m-10">
             <el-col :span="12" class="mt-10">
-              <el-col :span="12" class="text-r">关节1坐标：</el-col>
-              <el-col :span="12" class="alignLeft">{{robotInfo[0]}}</el-col>
+              <el-col :span="13" class="text-r">关节1坐标：</el-col>
+              <el-col :span="11" class="alignLeft">{{robotInfo[0]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10">
-              <el-col :span="12" class="text-r">关节2坐标：</el-col>
-              <el-col :span="12" class="alignLeft">{{robotInfo[1]}}</el-col>
+              <el-col :span="13" class="text-r">关节2坐标：</el-col>
+              <el-col :span="11" class="alignLeft">{{robotInfo[1]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10">
-              <el-col :span="12" class="text-r">关节3坐标：</el-col>
-              <el-col :span="12" class="alignLeft">{{robotInfo[2]}}</el-col>
+              <el-col :span="13" class="text-r">关节3坐标：</el-col>
+              <el-col :span="11" class="alignLeft">{{robotInfo[2]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10">
-              <el-col :span="12" class="text-r">关节4坐标：</el-col>
-              <el-col :span="12" class="alignLeft">{{robotInfo[3]}}</el-col>
+              <el-col :span="13" class="text-r">关节4坐标：</el-col>
+              <el-col :span="11" class="alignLeft">{{robotInfo[3]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10">
-              <el-col :span="12" class="text-r">关节5坐标：</el-col>
-              <el-col :span="12" class="alignLeft">{{robotInfo[4]}}</el-col>
+              <el-col :span="13" class="text-r">关节5坐标：</el-col>
+              <el-col :span="11" class="alignLeft">{{robotInfo[4]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10">
-              <el-col :span="12" class="text-r">关节6坐标：</el-col>
-              <el-col :span="12" class="alignLeft">{{robotInfo[5]}}</el-col>
+              <el-col :span="13" class="text-r">关节6坐标：</el-col>
+              <el-col :span="11" class="alignLeft">{{robotInfo[5]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10">
-              <el-col :span="12" class="text-r">速度百分比：</el-col>
-              <el-col :span="12" class="alignLeft">{{robotInfo[6]}}</el-col>
+              <el-col :span="13" class="text-r">速度百分比：</el-col>
+              <el-col :span="11" class="alignLeft">{{robotInfo[6]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10">
-              <el-col :span="12" class="text-r">操作模式：</el-col>
-              <el-col :span="12" class="alignLeft">{{robotInfo[7]}}</el-col>
+              <el-col :span="13" class="text-r">操作模式：</el-col>
+              <el-col :span="11" class="alignLeft">{{robotInfo[7]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10 mb-10">
-              <el-col :span="12" class="text-r">当前状态：</el-col>
-              <el-col :span="12" class="alignLeft">{{robotInfo[8]}}</el-col>
+              <el-col :span="13" class="text-r">当前状态：</el-col>
+              <el-col :span="11" class="alignLeft">{{robotInfo[8]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10 mb-10">
-              <el-col :span="12" class="text-r">错误状态：</el-col>
-              <el-col :span="12" class="alignLeft">{{robotInfo[9]}}</el-col>
+              <el-col :span="13" class="text-r">错误状态：</el-col>
+              <el-col :span="11" class="alignLeft">{{robotInfo[9]}}</el-col>
             </el-col>
           </div>
         </el-card>
         <!--其他-->
-        <el-card :class="isMobile?'h-auto':'h-num-r mt-5'">
+        <el-card class="pb-10 mt-5">
           <div slot="header" class="clearfix">
             <div>其他</div>
           </div>
@@ -433,7 +433,7 @@ export default {
   }
   .h-auto{
     /deep/ .el-select{
-     width:120px;
+     width:150px;
     }
   }
   .sparkGreen,.sparkGray{
