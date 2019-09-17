@@ -4,18 +4,22 @@
     <div class="content">
       <el-col :lg="5" :md="5" :sm="5" class="content-layout">
         <div class="item pb-10">
+          <device-profile></device-profile>
+        </div>
+        <div class="item pt-10">
           <device-online></device-online>
         </div>
-        <div class="item pt-10">上</div>
       </el-col>
       <el-col :lg="14" :md="14" :sm="14" class="content-layout">
         <device-map></device-map>
       </el-col>
       <el-col :lg="5" :md="5" :sm="5" class="content-layout">
         <div class="item pb-10">
-          <device-alarm></device-alarm>
+          <device-alarm-stat></device-alarm-stat>
         </div>
-        <div class="item pt-10">上</div>
+        <div class="item pt-10">
+          <device-alarm-detail></device-alarm-detail>
+        </div>
       </el-col>
     </div>
   </div>
@@ -24,13 +28,17 @@
 <script>
 import deviceMap from './component/deviceMap'
 import deviceOnline from './component/deviceOnline'
-import deviceAlarm from './component/deviceAlarm'
+import deviceProfile from './component/deviceProfile'
+import deviceAlarmStat from './component/deviceAlarmStat'
+import deviceAlarmDetail from './component/deviceAlarmDetail'
 
 export default {
   components: {
     deviceMap,
     deviceOnline,
-    deviceAlarm
+    deviceAlarmStat,
+    deviceProfile,
+    deviceAlarmDetail
   },
   data() {
     return {

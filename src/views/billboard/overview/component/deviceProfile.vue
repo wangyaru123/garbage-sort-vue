@@ -5,16 +5,16 @@
     <div class="corner bottom-left-corner"></div>
     <div class="corner bottom-right-corner"></div>
     <div class="content">
-      <div class="title">报警统计</div>
+      <div class="title">设备概况</div>
       <div :id="chartId" class="chart-style"></div>
       <div class="data">
         <div class="data-style">
-          <span class="data-name">报警总数：</span>
-          <span class="data-value">2115</span>
+          <span class="data-name">设备总数：</span>
+          <span class="data-value">20</span>
         </div>
         <div class="data-style">
-          <span class="data-name">今日报警：</span>
-          <span class="data-value">130</span>
+          <span class="data-name">在线设备：</span>
+          <span class="data-value">7</span>
         </div>
       </div>
     </div>
@@ -27,44 +27,56 @@ import { debounce } from '@/utils'
 export default {
   data() {
     return {
-      chartId: 'overviewDeviceAlarmEchart',
+      chartId: 'overviewDeviceProfileEchart',
       options: {
-        grid: {
-          top: 20,
-          left: 40,
-          right: 15,
-          bottom: 30
-        },
-        xAxis: {
-          type: 'category',
-          data: ['1', '2', '3', '4', '5', '6', '7'],
-          axisLine: {
-            lineStyle: {
-              type: 'solid',
-              color: '#ffffff',
-              width: '1'
-            }
-          }
-        },
-        yAxis: {
-          type: 'value',
-          axisLine: {
-            lineStyle: {
-              type: 'solid',
-              color: '#ffffff',
-              width: '1'
-            }
+        color: ['#9fcee2', '#eae0ab'],
+        legend: {
+          orient: 'horizontal',
+          left: 'center',
+          top: '5%',
+          textStyle: {
+            color: 'white'
           },
-          splitLine: {
-            lineStyle: {
-              color: '#535d69'
+          data: ['在线', '离线']
+        },
+        radius: [0, '10%'],
+        series: [
+          {
+            name: '设备在线',
+            type: 'pie',
+            radius: '71%',
+            center: ['45%', '60%'],
+            data: [
+              { value: 520, name: '在线' },
+              { value: 310, name: '离线' }
+            ],
+            itemStyle: {
+              emphasis: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            },
+            label: {
+              normal: {
+                show: true,
+                position: 'inside',
+                formatter: '{d}%', // 模板变量有 {a}、{b}、{c}、{d}，分别表示系列名，数据名，数据值，百分比。{d}数据会根据value值计算百分比
+                textStyle: {
+                  align: 'center',
+                  baseline: 'middle',
+                  fontFamily: '微软雅黑',
+                  fontSize: 16,
+                  fontWeight: 'bolder',
+                  color: 'green'
+                }
+              },
+              emphasis: {
+                show: true
+              }
             }
           }
-        },
-        series: [{
-          data: [120, 200, 150, 80, 70, 110, 130],
-          type: 'bar'
-        }]
+        ]
       }
     }
   },
@@ -152,7 +164,6 @@ export default {
   border-right: 3px solid #009fff;
   border-bottom: 3px solid #009fff;
 }
-
 .content {
   width: 100%;
   height: 100%;
@@ -179,11 +190,12 @@ export default {
 .data-style {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 100%
 }
 .data-name {
   font-size: 16px;
   margin-left: 20px;
+  color: #9b9e9b;
 }
 .data-value {
   font-size: 20px;
