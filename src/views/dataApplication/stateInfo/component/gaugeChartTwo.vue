@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import echarts from 'echarts'
 import { debounce } from '@/utils'
 require('echarts/theme/macarons') // echarts theme
 // const animationDuration = 6000
@@ -54,7 +53,7 @@ export default {
               }
             },
             splitLine: { // 分割线样式（及10、20等长线样式）
-             // show: false, // 不显示大的分割线
+              // show: false, 不显示大的分割线
               length: 10,
               lineStyle: { // 属性lineStyle控制线条样式
                 width: 1

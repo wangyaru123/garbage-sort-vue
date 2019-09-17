@@ -8,6 +8,7 @@
 import { debounce } from '@/utils'
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
+
 export default {
   // 父组件传入的属性值
   props: {
@@ -18,6 +19,7 @@ export default {
   },
   data() {
     return {
+      clearTimeSet: '', // 定时器
       chart: null,
       chartOptions: {
         title: {
@@ -102,6 +104,7 @@ export default {
   mounted() {
     this.initChart()
     this.updateResize()
+    this.setTime()
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -110,12 +113,13 @@ export default {
     window.removeEventListener('resize', this.__resizeHanlder)
     this.chart.dispose()
     this.chart = null
+    clearInterval(this.clearTimeSet)
   },
   methods: {
     // 初始化图表
     initChart() {
-      for (var i = 0; i < 300; i++) {
-        this.chartOptions.xAxis.data.push(this.$dayjs().subtract(300 - i, 'second').format('HH:mm:ss'))
+      for (let i = 0; i < 300; i++) {
+        this.chartOptions.xAxis.data.push(this.$dayjs().subtract(300 - i, 'second').format('HH:mm:ss:SSS'))
         this.chartOptions.series[0].data.push(0)
         this.chartOptions.series[1].data.push(0)
         this.chartOptions.series[2].data.push(0)
@@ -145,30 +149,36 @@ export default {
         this.chartOptions.xAxis.data.shift()
         this.chartOptions.xAxis.data.push(time)
       }
-      for (var i = 0; i < 6; i++) {
+      for (let i = 0; i < 6; i++) {
         if (this.chartOptions.series[i].data.length < 300) {
           this.chartOptions.series[i].data.push(data[i])
         } else {
           this.chartOptions.series[i].data.shift()
           this.chartOptions.series[i].data.push(data[i])
+          // this.chart.setOption(this.chartOptions)
         }
       }
-      this.chart.setOption(this.chartOptions)
+      // this.chart.dispose()
     },
     // 清除图表数据
     clearChartData() {
       this.chartOptions.xAxis.data.length = 0
-      for (var i = 0; i < 6; i++) {
+      for (let i = 0; i < 6; i++) {
         this.chartOptions.series[i].data.length = 0
       }
       // 重新初始化
-      for (i = 0; i < 300; i++) {
+      for (let i = 0; i < 300; i++) {
         this.chartOptions.xAxis.data.push(this.$dayjs().subtract(300 - i, 'second').format('HH:mm:ss'))
-        for (var j = 0; j < 6; j++) {
+        for (let j = 0; j < 6; j++) {
           this.chartOptions.series[j].data.push(0)
         }
       }
       this.chart.setOption(this.chartOptions)
+    },
+    setTime() {
+      this.clearTimeSet = setInterval(() => {
+        this.chart.setOption(this.chartOptions)
+      }, 500)
     }
   }
 }

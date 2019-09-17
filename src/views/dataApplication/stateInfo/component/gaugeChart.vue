@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import echarts from 'echarts'
 import { debounce } from '@/utils'
 require('echarts/theme/macarons') // echarts theme
 // const animationDuration = 6000
@@ -20,7 +19,7 @@ export default {
       chart: null,
       options: {
         title: {
-          text: '仪表盘',
+          text: '仪表盘'
         },
         tooltip: {
           formatter: '{a} <br/>{b} : {c}%'
@@ -45,7 +44,7 @@ export default {
                 fontSize: 18
               }
             },
-            data: [{ value: 30, /*name: '完成率'*/ }],
+            data: [{ value: 30 }],
             axisLine: {
               lineStyle: {
                 color: [ // 表盘颜色
@@ -76,7 +75,7 @@ export default {
               // show: false, // 隐藏刻度
               color: 'black',
               distance: -38, // 文字离表盘的距离
-              formatter:function(v) {
+              formatter: function(v) {
                 switch (v + '') {
                   case '15' : return '手动'
                   case '50' : return '自动'

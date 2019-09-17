@@ -188,6 +188,9 @@
           </el-card>
         </el-col>
         <!-- 机器人位置 -->
+        <!--<el-col :lg="12" :md="24" :sm="24" class="mt-5">
+          <robotStateChartArea :chartId="chartIds[1]" :titleName="titleNames[1]" :legendData="legendDatas[1]" ref="positionChart"></robotStateChartArea>
+        </el-col>-->
         <el-col :lg="12" :md="24" :sm="24" class="mt-10 no-shadow">
           <!--<robotStateChartArea :chartId="chartIds[1]" :titleName="titleNames[1]" :legendData="legendDatas[1]" ref="positionChart"></robotStateChartArea>-->
           <el-card class="pb-10 tableHeight">
@@ -270,13 +273,11 @@ export default {
   methods: {
     // 更新图表数据
     updateData(data, time) {
-      this.$refs.angleChart.updateDataChart(data.DbAxisPos, time)
-      this.$refs.positionChart.updateDataChart(data.DbCartPos, time)
+      this.$refs.angleChart.updateDataChart(data, time)
     },
     // 清除图表数据
     clearChartData() {
       this.$refs.angleChart.clearChartData()
-      this.$refs.positionChart.clearChartData()
     }
   }
 }
