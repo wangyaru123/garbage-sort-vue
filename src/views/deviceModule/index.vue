@@ -114,7 +114,7 @@
               <el-tag :type="scope.row.isBind?'':'danger'">{{ scope.row.isBind?'是':'否'}}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="盒子id" align="center">
+          <el-table-column label="盒子ID" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.boxId}}</span>
             </template>
@@ -132,6 +132,16 @@
           <el-table-column label="安装时间" width="180px" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.installTime}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="绑定" fixed="right" width="90px" align="center">
+            <template slot-scope="scope">
+              <el-button type="success" size="mini" @click="binding( scope.row.deviceId )" v-if="updateAuth">绑定</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column label="解绑" fixed="right" width="90px" align="center">
+            <template slot-scope="scope">
+              <el-button type="danger" size="mini" @click="unbinding( scope.row.deviceId )" v-if="updateAuth">解绑</el-button>
             </template>
           </el-table-column>
           <el-table-column label="操作" fixed="right" width="150px" align="center" v-if="updateAuth || deleteAuth">
@@ -219,11 +229,39 @@
         </div>
       </el-form>
     </el-dialog>
+    <!-- 绑定弹框 -->
+    <el-dialog :visible.sync="bindingDialogVisible" title="请输入盒子编码进行搜索" class="editDialog">
+      <el-form label-position="right" label-width="120px" :model="bindingdialogData" ref="ruleForm">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="设备编码：">
+              <el-select
+                v-model="boxValue"
+                multiple
+                filterable
+                remote
+                reserve-keyword
+                placeholder="请输入关键词"
+                :remote-method="getBoxesInfoById"
+                :loading="loading"
+              >
+                <el-option v-for="item in boxList" :key="item.boxId" :label="item.boxId" :value="item.boxId"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <div class="text-c">
+          <el-button type="primary" size="medium" @click="bindSubmitClick">确定</el-button>
+          <el-button type="info" size="medium" @click="bindCancel">取消</el-button>
+        </div>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getDeviceInfoByPage, getDeviceInfoById, editDeviceInfoById, addDeviceInfo, deleteDeviceInfoById } from '@/api/deviceModule.js'
+import { getDeviceInfoByPage, getDeviceInfoById, editDeviceInfoById, addDeviceInfo, deleteDeviceInfoById, bindingData, unbindingData } from '@/api/deviceModule/index.js'
+import { getBoxesInfoById } from '@/api/deviceModule/box.js'
 import { getSchoolList } from '@/api/ucenter/school.js'
 import { parseTime } from '@/utils/index'
 
@@ -269,8 +307,12 @@ export default {
       tableData: [],
       // 编辑报警信息弹框显示
       editDialogVisible: false,
+      // 绑定弹框
+      bindingDialogVisible: false,
       // 弹框回显报警信息数据
       dialogData: {},
+      // 绑定弹框数据
+      bindingdialogData: {},
       // 设置弹窗是添加还是编辑
       dialogAction: 'add',
       // 放大图片
@@ -281,8 +323,16 @@ export default {
       fileList: [],
       // 设备id
       deviceId: '',
+      // 盒子id
+      boxId: '',
       // 学校列表
       schoolList: [],
+      // 输入框中设备编码值
+      boxValue: '',
+      // 盒子数据列表
+      boxList: [],
+      // 加载
+      loading: false,
       // 是否绑定列表
       isBindList: [{ isBind: 0, desc: '未绑定' }, { isBind: 1, desc: '已绑定' }]
     }
@@ -298,6 +348,15 @@ export default {
     getSchoolList() {
       getSchoolList().then(res => {
         this.schoolList = res
+      }).catch(err => this.$message.error(err))
+    },
+    // 获取盒子列表
+    getBoxesInfoById() {
+      this.loading = true
+      const params = { code: this.boxValue }
+      getBoxesInfoById(params).then(res => {
+        this.loading = false
+        this.boxList = res
       }).catch(err => this.$message.error(err))
     },
     // 根据page,size获取当前表格数据
@@ -351,6 +410,22 @@ export default {
     deleteTableData(id) {
       deleteDeviceInfoById(id).then(res => {
         this.$message.success('删除成功')
+        this.fetchData()
+      }).catch(err => this.$message.error(err))
+    },
+    // 添加设备信息
+    bindingData() {
+      const params = { boxId: this.boxId, deviceId: this.deviceId }
+      bindingData(params).then(res => {
+        this.$message.success('绑定成功')
+        this.fetchData()
+      }).catch(err => this.$message.error(err))
+    },
+    // 添加设备信息
+    unbindingData() {
+      const params = { boxId: this.boxId, deviceId: this.deviceId }
+      unbindingData(params).then(res => {
+        this.$message.success('解绑成功')
         this.fetchData()
       }).catch(err => this.$message.error(err))
     },
@@ -437,6 +512,25 @@ export default {
         type: 'warning'
       }).then(() => this.deleteTableData(id))
         .catch(() => this.$message.info('取消删除'))
+    },
+    // 绑定信息，点击确定按钮
+    bindSubmitClick() {
+      this.bindingData()
+    },
+    // 绑定弹框,点击取消，隐藏弹窗
+    bindCancel() {
+      this.editDialogVisible = false
+      this.dialogData = {}
+    },
+    // 绑定
+    binding(deviceId) {
+      this.deviceId = deviceId
+      this.bindingDialogVisible = true
+    },
+    // 解绑
+    unbinding(deviceId) {
+      this.deviceId = deviceId
+      this.unbindingData()
     },
     // 移动端点击卡片进入详情页面
     subAlarmDetailInfo(id) {

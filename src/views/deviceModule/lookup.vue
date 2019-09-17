@@ -153,7 +153,7 @@
 </template>
 
 <script>
-import { getDeviceInfoByPage, getDeviceInfoById } from '@/api/deviceModule.js'
+import { getDeviceInfoByPage, getDeviceInfoById } from '@/api/deviceModule/index.js'
 import { getSchoolList } from '@/api/ucenter/school.js'
 import aImg from '@/assets/A.png'
 import bImg from '@/assets/B.png'

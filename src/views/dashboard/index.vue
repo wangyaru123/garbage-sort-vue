@@ -33,7 +33,7 @@ export default {
       machineImg,
       machineImgRight,
       titleName: '“1+X”工业机器人应用编程',
-      copyRight: 'Copyright © 2016-2020 江苏汇博机器人技术股份有限公司   备案号：苏ICP备13048870号'
+      copyRight: 'Copyright © 2016-2020 江苏汇博机器人技术股份有限公司'
     }
   },
   name: 'Dashboard',

@@ -259,7 +259,7 @@
 </template>
 
 <script>
-import { getDeviceInfoByPage, getDeviceInfoById, editDeviceInfoById, addDeviceInfo, deleteDeviceInfoById } from '@/api/deviceModule.js'
+import { getDeviceInfoByPage, getDeviceInfoById, editDeviceInfoById, addDeviceInfo, deleteDeviceInfoById } from '@/api/deviceModule/index.js'
 import { getAllUserInfo } from '@/api/ucenter/userInfo.js'
 import { getSchoolList } from '@/api/ucenter/school.js'
 import { parseTime } from '@/utils/index'

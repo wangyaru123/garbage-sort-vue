@@ -150,7 +150,7 @@
 <script>
 import { getLibraryByPage, getLibraryById, addLibrary, updateLibrary, deleteLibrary } from '@/api/maintainModule/deviceMaintainLibrary.js'
 import { getCategoryList, getCycleData } from '@/api/maintainModule/rules/level1.js'
-import { getDeviceNameList } from '@/api/deviceModule.js'
+import { getDeviceNameList } from '@/api/deviceModule/index.js'
 import { Group, Cell } from 'vux'
 
 export default {
