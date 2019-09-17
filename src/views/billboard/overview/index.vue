@@ -1,8 +1,8 @@
 <template>
-  <div class="total-layout">
+  <div :class="isMobile? 'total-layout-mobile':'total-layout'">
     <div class="title">“1+X”工业机器人应用编程</div>
-    <div class="content">
-      <el-col :lg="5" :md="5" :sm="5" class="content-layout">
+    <el-row class="content">
+      <el-col :lg="5" :md="24" :sm="24" class="content-layout">
         <div class="item pb-10">
           <device-profile></device-profile>
         </div>
@@ -10,10 +10,10 @@
           <device-online></device-online>
         </div>
       </el-col>
-      <el-col :lg="14" :md="14" :sm="14" class="content-layout">
+      <el-col :lg="14" :md="24" :sm="24" class="content-layout">
         <device-map></device-map>
       </el-col>
-      <el-col :lg="5" :md="5" :sm="5" class="content-layout">
+      <el-col :lg="5" :md="24" :sm="24" class="content-layout">
         <div class="item pb-10">
           <device-alarm-stat></device-alarm-stat>
         </div>
@@ -21,7 +21,7 @@
           <device-alarm-detail></device-alarm-detail>
         </div>
       </el-col>
-    </div>
+    </el-row>
   </div>
 </template>
 
@@ -44,13 +44,18 @@ export default {
     return {
 
     }
+  },
+  computed: {
+    isMobile() {
+      return this.$store.state.app.isMobile
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .total-layout {
-  background-color: #002035;
+  background: #002035;
   height: 100vh;
   width: 100vw;
   color: white;
@@ -65,14 +70,26 @@ export default {
   border-bottom: 1px solid #009fff;
 }
 .content {
-  height: calc(100vh - 80px);
+  min-height: calc(100vh - 80px);
   color: white;
-  .content-layout {
-    height: 100%;
-    padding: 10px;
-  }
+}
+
+.content-layout {
+  height: calc(100vh - 80px);
+  padding: 10px;
 }
 .item {
   height: 50%;
+}
+
+.total-layout-mobile {
+  background-color: #002035;
+  min-height: 100vh;
+  width: 100%;
+  color: white;
+  .content-layout {
+    height: 100vh;
+    padding: 10px;
+  }
 }
 </style>
