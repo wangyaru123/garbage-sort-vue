@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '潘多拉魔盒',
+  title: '1+X设备工业云平台',
 
   /**
    * @type {boolean} true | false

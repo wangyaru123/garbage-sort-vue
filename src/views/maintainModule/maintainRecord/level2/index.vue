@@ -169,7 +169,7 @@
 
 <script>
 import { getRecordDataById, updateRecordDataById, confirmRecord, getRecordDataByCheckerId, getRecordDataByConfirmId, getRecordDataByAdduser } from '@/api/maintainModule/record/level2.js'
-import { getDeviceNameList } from '@/api/deviceModule.js'
+import { getDeviceNameList } from '@/api/deviceModule/index.js'
 import { Group, Cell } from 'vux'
 import BigImg from '@/components/BigImg'
 

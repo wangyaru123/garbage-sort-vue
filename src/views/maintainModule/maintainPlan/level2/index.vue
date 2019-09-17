@@ -173,7 +173,7 @@
 import { getPlanDataByPage, addPlanData, updatePlanTimeById, deletePlanData, getRuleDataByCategory } from '@/api/maintainModule/plan/level2.js'
 import { getAllUserInfo } from '@/api/ucenter/userInfo.js'
 import { getCategoryList } from '@/api/maintainModule/rules/level1.js'
-import { getDeviceNameList } from '@/api/deviceModule.js'
+import { getDeviceNameList } from '@/api/deviceModule/index.js'
 
 import { Group, Cell } from 'vux'
 

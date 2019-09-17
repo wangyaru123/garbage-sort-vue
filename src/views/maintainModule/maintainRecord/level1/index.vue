@@ -128,7 +128,7 @@
 
 <script>
 import { getRecordDataByConfirmor, getRecordDataByChecker, getRecordDataByAdduser, editResult, confirmRecord } from '@/api/maintainModule/record/level1.js'
-import { getDeviceNameList } from '@/api/deviceModule.js'
+import { getDeviceNameList } from '@/api/deviceModule/index.js'
 import { Group, Cell } from 'vux'
 
 export default {

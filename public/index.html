@@ -7,6 +7,8 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>box-framework-vue</title>
   </head>
+  <!-- 必须放在id为app的前面，不然刷新页面的时候会出现无法找到百度地图的问题，因为页面先初始化 -->
+  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=VgtchRKx3GVwKKp4x46nbsdc0tLgcvhB"></script>
   <body>
     <noscript>
       <strong>We're sorry but box-framework-vue doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>

@@ -2,19 +2,19 @@ import request from '@/utils/request'
 
 const ucenterUrl = process.env.VUE_APP_HTTP_UCENTER
 
-// #region 公司信息相关的接口
+// #region 学校信息相关的接口
 
 /**
- * 分页查询公司信息
+ * 分页查询学校信息
  *
- * @export getCompanyByPage
+ * @export getSchoolByPage
  * @param {*} params { page: '1', size: '10' }
  * @returns
  */
-export function getCompanyByPage(page, size) {
+export function getSchoolByPage(page, size) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${ucenterUrl}/ucenter/companys/${page}/${size}`,
+      url: `${ucenterUrl}/ucenter/schools/${page}/${size}`,
       method: 'get'
     }).then(result => resolve(result))
       .catch(error => reject(error))
@@ -22,16 +22,16 @@ export function getCompanyByPage(page, size) {
 }
 
 /**
- * 查询单条公司信息
+ * 查询单条学校信息
  *
- * @export getCompanyById
+ * @export getSchoolById
  * @param {*} id
  * @returns
  */
-export function getCompanyById(id) {
+export function getSchoolById(id) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${ucenterUrl}/ucenter/companys/${id}`,
+      url: `${ucenterUrl}/ucenter/schools/${id}`,
       method: 'get'
     }).then(result => resolve(result))
       .catch(error => reject(error))
@@ -39,16 +39,16 @@ export function getCompanyById(id) {
 }
 
 /**
- * 添加公司信息
+ * 添加学校信息
  *
- * @export addCompany
+ * @export addSchool
  * @param {*} params
  * @returns
  */
-export function addCompany(params) {
+export function addSchool(params) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${ucenterUrl}/ucenter/companys`,
+      url: `${ucenterUrl}/ucenter/schools`,
       method: 'post',
       data: params
     }).then(result => resolve(result))
@@ -57,16 +57,16 @@ export function addCompany(params) {
 }
 
 /**
- * 更新公司信息
+ * 更新学校信息
  *
- * @export updateCompany
+ * @export updateSchool
  * @param {*} id
  * @returns
  */
-export function updateCompany(id, params) {
+export function updateSchool(id, params) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${ucenterUrl}/ucenter/companys/${id}`,
+      url: `${ucenterUrl}/ucenter/schools/${id}`,
       method: 'put',
       data: params
     }).then(result => resolve(result))
@@ -75,16 +75,16 @@ export function updateCompany(id, params) {
 }
 
 /**
- * 删除公司信息
+ * 删除学校信息
  *
- * @export deleteCompany
+ * @export deleteSchool
  * @param {*} id
  * @returns
  */
-export function deleteCompany(id) {
+export function deleteSchool(id) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${ucenterUrl}/ucenter/companys/${id}`,
+      url: `${ucenterUrl}/ucenter/schools/${id}`,
       method: 'delete'
     }).then(result => resolve(result))
       .catch(error => reject(error))
@@ -92,16 +92,16 @@ export function deleteCompany(id) {
 }
 
 /**
- * 获取公司列表
+ * 获取学校列表
  *
- * @export getCompanyList
+ * @export getSchoolList
  * @param {*}
  * @returns
  */
-export function getCompanyList() {
+export function getSchoolList() {
   return new Promise((resolve, reject) => {
     request({
-      url: `${ucenterUrl}/ucenter/companys/name`,
+      url: `${ucenterUrl}/ucenter/schools/name`,
       method: 'get'
     }).then(result => resolve(result))
       .catch(error => reject(error))
