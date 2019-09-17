@@ -81,11 +81,6 @@
               <span>{{ scope.row.schoolName}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="是否绑定" align="center">
-            <template slot-scope="scope">
-              <el-tag :type="scope.row.isBind?'':'danger'">{{ scope.row.isBind?'是':'否'}}</el-tag>
-            </template>
-          </el-table-column>
           <el-table-column label="安装地点" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.installLocation}}</span>
@@ -94,6 +89,11 @@
           <el-table-column label="安装时间" width="180px" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.installTime}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="是否绑定" align="center">
+            <template slot-scope="scope">
+              <el-tag :type="scope.row.isBind?'':'danger'">{{ scope.row.isBind?'是':'否'}}</el-tag>
             </template>
           </el-table-column>
           <el-table-column label="绑定" fixed="right" width="90px" align="center" v-if="updateAuth">
@@ -163,7 +163,7 @@
     <el-dialog :visible.sync="bindingDialogVisible" title="请输入盒子编码进行搜索" class="bindingDialog">
       <el-form label-position="right" label-width="120px" :model="bindingdialogData" ref="ruleForm">
         <el-row>
-          <el-form-item label="设备编码：">
+          <el-form-item label="盒子编码：">
             <el-select
               v-model="boxValue"
               filterable

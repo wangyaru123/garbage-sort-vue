@@ -49,7 +49,7 @@
               <span>{{ scope.$index + 1 }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="设备编码" align="center">
+          <el-table-column label="盒子编码" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.boxCode}}</span>
             </template>
@@ -88,7 +88,7 @@
     <el-dialog :visible.sync="editDialogVisible" title="请填写盒子信息(*是必填项)" class="editDialog">
       <el-form label-position="right" label-width="120px" :model="dialogData" ref="ruleForm">
         <el-row>
-          <el-form-item label="设备编码：" :rules="{ required: true, message: '请输入设备编码', trigger: 'blur' }">
+          <el-form-item label="盒子编码：" :rules="{ required: true, message: '请输入盒子编码', trigger: 'blur' }">
             <el-input v-model="dialogData.boxCode"></el-input>
           </el-form-item>
           <el-form-item label="生产时间：" :rules="{ required: true, message: '请输入生产时间', trigger: 'blur' }">
