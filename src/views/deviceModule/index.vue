@@ -19,34 +19,24 @@
       <div class="pt-40" id="padding-card-13">
         <el-card class="box-card m-5" v-for="(item,index) in tableData" :key="index">
           <div slot="header" class="flexbox font-size-13 text-gray">
-            <div>{{item.deviceName}}</div>
-            <div class="text-r">{{ item.category}}</div>
+            <div>{{item.deviceCode}}</div>
+            <div class="text-r">
+              <el-tag :type="item.isBind?'':'danger'">{{ item.isBind?'已绑定':'未绑定'}}</el-tag>
+            </div>
           </div>
           <div class="text item flexbox">
             <div style="width:100%">
               <div class="flexbox mt-5">
-                设备别名:
-                <div>{{item.equipmentAlias}}</div>
+                位置号:
+                <div>{{item.seat}}</div>
               </div>
               <div class="flexbox mt-5">
-                设备型号:
-                <div>{{item.equipmentModel}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                设备详情:
-                <div>{{item.equipmentDetails}}</div>
+                类别:
+                <div>{{item.type}}</div>
               </div>
               <div class="flexbox mt-5">
                 学校:
                 <div>{{item.schoolName}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                启用时间:
-                <div>{{item.enableTime}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                固有资产号:
-                <div>{{item.inherentAssetNum}}</div>
               </div>
               <div class="flexbox mt-5">
                 安装地点:
@@ -55,14 +45,6 @@
               <div class="flexbox mt-5">
                 安装时间:
                 <div>{{item.installTime}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                安装单位:
-                <div>{{item.installschool}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                设备厂家:
-                <div>{{item.equipmentManufacturer}}</div>
               </div>
             </div>
           </div>
@@ -77,16 +59,6 @@
           <el-table-column label="序号" fixed="left" width="50px" type="index" align="center">
             <template slot-scope="scope">
               <span>{{ scope.$index + 1 }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="设备名称" fixed="left" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.deviceName}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="设备图片" fixed="left" align="center">
-            <template slot-scope="scope">
-              <img v-for="(img,index) in scope.row.imgUrl" :src="img" :key="index" class="img-style-small" alt="无图片" />
             </template>
           </el-table-column>
           <el-table-column label="设备编码" fixed="left" width="100px" align="center">
@@ -114,16 +86,6 @@
               <el-tag :type="scope.row.isBind?'':'danger'">{{ scope.row.isBind?'是':'否'}}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="盒子ID" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.boxId}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="生产时间" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.productionTime}}</span>
-            </template>
-          </el-table-column>
           <el-table-column label="安装地点" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.installLocation}}</span>
@@ -134,20 +96,22 @@
               <span>{{ scope.row.installTime}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="绑定" fixed="right" width="90px" align="center">
+          <el-table-column label="绑定" fixed="right" width="90px" align="center" v-if="updateAuth">
             <template slot-scope="scope">
-              <el-button type="success" size="mini" @click="binding( scope.row.deviceId )" v-if="updateAuth">绑定</el-button>
-            </template>
-          </el-table-column>
-          <el-table-column label="解绑" fixed="right" width="90px" align="center">
-            <template slot-scope="scope">
-              <el-button type="danger" size="mini" @click="unbinding( scope.row.deviceId )" v-if="updateAuth">解绑</el-button>
+              <el-button type="success" size="mini" @click="binding( scope.row.deviceId, scope.row.deviceId )" v-if="!scope.row.isBind">绑定</el-button>
+              <el-button type="danger" size="mini" @click="unbinding( scope.row.deviceId )" v-else>解绑</el-button>
             </template>
           </el-table-column>
           <el-table-column label="操作" fixed="right" width="150px" align="center" v-if="updateAuth || deleteAuth">
             <template slot-scope="scope">
               <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.deviceId )" v-if="updateAuth"></el-button>
-              <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.row.deviceId )" v-if="deleteAuth"></el-button>
+              <el-button
+                type="danger"
+                size="mini"
+                icon="el-icon-delete"
+                @click="deleteRow( scope.row.deviceId , scope.row.isBind )"
+                v-if="deleteAuth"
+              ></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -168,60 +132,26 @@
     <el-dialog :visible.sync="editDialogVisible" title="请填写设备信息(*是必填项)" class="editDialog">
       <el-form label-position="right" label-width="120px" :model="dialogData" ref="ruleForm">
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="设备名称：" :rules="{ required: true, message: '请输入设备名称', trigger: 'blur' }">
-              <el-input v-model="dialogData.deviceName"></el-input>
-            </el-form-item>
-            <el-form-item label="设备编码：" :rules="{ required: true, message: '请输入设备名称', trigger: 'blur' }">
-              <el-input v-model="dialogData.deviceCode"></el-input>
-            </el-form-item>
-            <el-form-item label="位置号：">
-              <el-input v-model="dialogData.seat"></el-input>
-            </el-form-item>
-            <el-form-item label="学校：">
-              <el-select v-model="dialogData.schoolId" placeholder="请选择" size="small">
-                <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="是否绑定：">
-              <el-switch v-model="dialogData.isBind" active-color="#288AF1" inactive-color="#ff4949"></el-switch>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="生产时间：">
-              <el-date-picker v-model="dialogData.productionTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
-            </el-form-item>
-            <el-form-item label="安装地点：">
-              <el-input v-model="dialogData.installLocation"></el-input>
-            </el-form-item>
-            <el-form-item label="安装时间：">
-              <el-date-picker v-model="dialogData.installTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
-            </el-form-item>
-            <el-form-item label="设备图片：">
-              <el-upload
-                enctype="multipart/form-data"
-                ref="upload"
-                :headers="headers"
-                :auto-upload="false"
-                :action="uploadActionUrl"
-                multiple
-                list-type="picture-card"
-                :before-upload="beforeAvatarUpload"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemove"
-                :on-change="changePicture"
-                :on-success="handleSuccessPicture"
-                :on-error="handleErrorPicture"
-                :file-list="fileList"
-                :limit="1"
-              >
-                <i class="el-icon-plus"></i>
-              </el-upload>
-              <el-dialog :visible.sync="imgDialogVisible" :modal-append-to-body="false" :modal="false">
-                <img width="100%" :src="dialogImageUrl" alt />
-              </el-dialog>
-            </el-form-item>
-          </el-col>
+          <el-form-item label="设备编码：" :rules="{ required: true, message: '请输入设备编码', trigger: 'blur' }">
+            <el-input v-model="dialogData.deviceCode"></el-input>
+          </el-form-item>
+          <el-form-item label="位置号：">
+            <el-input v-model="dialogData.seat"></el-input>
+          </el-form-item>
+          <el-form-item label="学校：">
+            <el-select v-model="dialogData.schoolId" placeholder="请选择" size="small">
+              <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="生产时间：">
+            <el-date-picker v-model="dialogData.productionTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
+          </el-form-item>
+          <el-form-item label="安装地点：">
+            <el-input v-model="dialogData.installLocation"></el-input>
+          </el-form-item>
+          <el-form-item label="安装时间：">
+            <el-date-picker v-model="dialogData.installTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
+          </el-form-item>
         </el-row>
         <div class="text-c">
           <el-button type="primary" size="medium" @click="editSubmitClick">确定</el-button>
@@ -230,25 +160,22 @@
       </el-form>
     </el-dialog>
     <!-- 绑定弹框 -->
-    <el-dialog :visible.sync="bindingDialogVisible" title="请输入盒子编码进行搜索" class="editDialog">
+    <el-dialog :visible.sync="bindingDialogVisible" title="请输入盒子编码进行搜索" class="bindingDialog">
       <el-form label-position="right" label-width="120px" :model="bindingdialogData" ref="ruleForm">
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="设备编码：">
-              <el-select
-                v-model="boxValue"
-                multiple
-                filterable
-                remote
-                reserve-keyword
-                placeholder="请输入关键词"
-                :remote-method="getBoxesInfoById"
-                :loading="loading"
-              >
-                <el-option v-for="item in boxList" :key="item.boxId" :label="item.boxId" :value="item.boxId"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
+          <el-form-item label="设备编码：">
+            <el-select
+              v-model="boxValue"
+              filterable
+              remote
+              reserve-keyword
+              placeholder="请输入关键词"
+              :remote-method="getBoxesInfoById"
+              :loading="loading"
+            >
+              <el-option v-for="item in boxList" :key="item.boxId" :label="item.boxCode" :value="item.boxId"></el-option>
+            </el-select>
+          </el-form-item>
         </el-row>
         <div class="text-c">
           <el-button type="primary" size="medium" @click="bindSubmitClick">确定</el-button>
@@ -266,7 +193,6 @@ import { getSchoolList } from '@/api/ucenter/school.js'
 import { parseTime } from '@/utils/index'
 
 export default {
-  name: 'DragDialogDemo',
   computed: {
     // 是否为手机
     isMobile() {
@@ -315,16 +241,12 @@ export default {
       bindingdialogData: {},
       // 设置弹窗是添加还是编辑
       dialogAction: 'add',
-      // 放大图片
-      imgDialogVisible: false,
-      // 放大图片
-      dialogImageUrl: [],
-      // 上传图片列表
-      fileList: [],
       // 设备id
       deviceId: '',
       // 盒子id
       boxId: '',
+      // 是否绑定
+      isBind: false,
       // 学校列表
       schoolList: [],
       // 输入框中设备编码值
@@ -351,9 +273,9 @@ export default {
       }).catch(err => this.$message.error(err))
     },
     // 获取盒子列表
-    getBoxesInfoById() {
+    getBoxesInfoById(query) {
       this.loading = true
-      const params = { code: this.boxValue }
+      const params = { code: query }
       getBoxesInfoById(params).then(res => {
         this.loading = false
         this.boxList = res
@@ -371,39 +293,22 @@ export default {
       getDeviceInfoById(id).then(res => {
         this.dialogData = res
         this.deviceId = this.dialogData.deviceId
-        if (!res.imgUrl) this.fileList = []
-        else {
-          this.fileList = res.imgUrl.map(item => {
-            const tmp = item.split('/')
-            const name = tmp.length > 0 ? tmp[tmp.length - 1] : '文件'
-            return { name: name, url: item }
-          })
-        }
       }).catch(err => this.$message.error(err))
     },
     // 添加设备信息
     addTableData() {
-      this.editDialogVisible = false
       this.dialogData.schoolName = this.schoolList.filter(item => item.schoolId === this.dialogData.schoolId)[0].schoolName
       addDeviceInfo(this.dialogData).then(res => {
+        this.editDialogVisible = false
         this.deviceId = res
-        this.$nextTick(() => this.$refs.upload.submit())
         this.fetchData()
       }).catch(err => this.$message.error(err))
     },
     // 保存修改的报警信息
     editTableData() {
-      this.editDialogVisible = false
-      // 获取保留的文件路径
-      this.dialogData.imgUrl = this.fileList.filter(item => item.status === 'success').map(item => item.url)
       editDeviceInfoById(this.dialogData.deviceId, this.dialogData).then(res => {
-        const waitForUpload = this.fileList.filter(item => item.status === 'ready')
-        if (waitForUpload.length > 0) {
-          // 在表单提交成功之后再上传文件
-          this.$nextTick(() => this.$refs.upload.submit())
-        } else {
-          this.fetchData()
-        }
+        this.editDialogVisible = false
+        this.fetchData()
       }).catch(err => this.$message.error(err))
     },
     // 删除单条已提交报警信息
@@ -415,7 +320,8 @@ export default {
     },
     // 添加设备信息
     bindingData() {
-      const params = { boxId: this.boxId, deviceId: this.deviceId }
+      this.bindingDialogVisible = false
+      const params = { boxId: this.boxValue, deviceId: this.deviceId }
       bindingData(params).then(res => {
         this.$message.success('绑定成功')
         this.fetchData()
@@ -423,75 +329,31 @@ export default {
     },
     // 添加设备信息
     unbindingData() {
-      const params = { boxId: this.boxId, deviceId: this.deviceId }
+      const params = { boxId: this.boxValue, deviceId: this.deviceId }
       unbindingData(params).then(res => {
         this.$message.success('解绑成功')
         this.fetchData()
       }).catch(err => this.$message.error(err))
     },
     // 页面操作
-    // 上传图片前的校验
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp'
-      const isLimit = file.size / 1024 / 1024 < 15
-      if (!isJPG) {
-        this.$message.error('上传图片只能是jpg、jpeg、png、gif、bmp格式!')
-      }
-      if (!isLimit) {
-        this.$message.error('上传头像图片大小不能超过15MB!')
-      }
-      return isJPG && isLimit
-    },
-    // 删除图片事件,将filelist赋值,用来标识是否有图片
-    handleRemove(file, fileList) {
-      this.fileList = fileList
-    },
-    // 放大图片
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url
-      this.imgDialogVisible = true
-    },
-    // 添加图片事件,将filelist赋值,用来标识是否有图片
-    changePicture(file, fileList) {
-      this.fileList = fileList
-    },
-    // 成功上传图片到服务器
-    handleSuccessPicture(response, file, fileList) {
-      if (fileList.length > 0 && fileList[fileList.length - 1].status === 'success') {
-        this.fetchData()
-        if (this.act === 'add') this.$message.success('添加成功')
-        else this.$message.success('更新成功')
-      }
-    },
-    // 上传图片失败
-    handleErrorPicture(response, file, fileList) {
-    },
     // 点击添加按钮，弹框显示
     addRow() {
       this.dialogAction = 'add'
       this.editDialogVisible = true
-      this.fileList = []
       // 初始化弹窗数据
       this.dialogData = {
-        deviceName: '',
-        category: '',
-        equipmentAlias: '',
-        equipmentModel: '',
-        equipmentDetails: '',
-        adminName: '',
-        enableTime: parseTime(new Date()),
-        inherentAssetNum: '',
+        deviceCode: '',
+        seat: '',
+        schoolId: '',
+        productionTime: parseTime(new Date()),
         installLocation: '',
-        installTime: parseTime(new Date()),
-        installschool: '',
-        equipmentManufacturer: ''
+        installTime: parseTime(new Date())
       }
     },
     // 点击编辑按钮，弹框显示，并回显数据
     editRow(id) {
       this.dialogAction = 'edit'
       this.editDialogVisible = true
-      this.fileList = []
       this.getDialogData(id)
     },
     // 修改设备信息，点击确定按钮
@@ -505,8 +367,8 @@ export default {
       this.dialogData = {}
     },
     // 确认删除
-    deleteRow(id) {
-      this.$confirm('此操作将删除该行, 是否删除?', '提示', {
+    deleteRow(id, isBind) {
+      this.$confirm(isBind ? '此操作将删除该行并解绑, 是否删除?' : '此操作将删除该行, 是否删除', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -519,18 +381,24 @@ export default {
     },
     // 绑定弹框,点击取消，隐藏弹窗
     bindCancel() {
-      this.editDialogVisible = false
+      this.bindingDialogVisible = false
       this.dialogData = {}
     },
     // 绑定
-    binding(deviceId) {
+    binding(deviceId, isBind) {
       this.deviceId = deviceId
+      this.isBind = isBind
       this.bindingDialogVisible = true
     },
     // 解绑
     unbinding(deviceId) {
       this.deviceId = deviceId
-      this.unbindingData()
+      this.$confirm('此操作将解绑, 是否解绑?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => this.unbindingData())
+        .catch(() => this.$message.info('取消解绑'))
     },
     // 移动端点击卡片进入详情页面
     subAlarmDetailInfo(id) {
@@ -545,14 +413,17 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../styles/mobileStyle.scss";
-// el-dialog默认宽度50%，两栏放不下
-.editDialog .el-dialog {
-  width: 65%;
+
+.editDialog /deep/ .el-dialog {
+  width: 40%;
 }
 .editDialog /deep/ .el-input__inner {
-  max-width: 200px;
+  max-width: 400px;
 }
 .editDialog /deep/ .el-date-editor.el-input {
-  max-width: 200px;
+  max-width: 400px;
+}
+.bindingDialog /deep/ .el-dialog {
+  width: 30%;
 }
 </style>

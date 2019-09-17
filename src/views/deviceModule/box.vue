@@ -19,46 +19,20 @@
       <div class="pt-40" id="padding-card-13">
         <el-card class="box-card m-5" v-for="(item,index) in tableData" :key="index">
           <div slot="header" class="flexbox font-size-13 text-gray">
-            <div>{{item.BoxesName}}</div>
+            <div>{{item.boxCode}}</div>
             <div class="text-r">{{ item.category}}</div>
           </div>
           <div class="text item flexbox">
             <div style="width:100%">
               <div class="flexbox mt-5">
-                设备别名:
-                <div>{{item.equipmentAlias}}</div>
+                数据键名:
+                <div>{{item.dataKey}}</div>
               </div>
               <div class="flexbox mt-5">
-                设备型号:
-                <div>{{item.equipmentModel}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                设备详情:
-                <div>{{item.equipmentDetails}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                启用时间:
-                <div>{{item.enableTime}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                固有资产号:
-                <div>{{item.inherentAssetNum}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                安装地点:
-                <div>{{item.installLocation}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                安装时间:
-                <div>{{item.installTime}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                安装单位:
-                <div>{{item.installschool}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                设备厂家:
-                <div>{{item.equipmentManufacturer}}</div>
+                是否绑定:
+                <div>
+                  <el-tag :type="item.isBind?'':'danger'">{{ item.isBind?'是':'否'}}</el-tag>
+                </div>
               </div>
             </div>
           </div>
@@ -75,19 +49,14 @@
               <span>{{ scope.$index + 1 }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="设备编码" fixed="left" align="center">
+          <el-table-column label="设备编码" align="center">
             <template slot-scope="scope">
               <span>{{ scope.row.boxCode}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="生产时间" fixed="left" align="center">
+          <el-table-column label="数据键名" align="center">
             <template slot-scope="scope">
-              <span>{{ scope.row.productionTime}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="数据键名" fixed="left" width="100px" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.datakey }}</span>
+              <span>{{ scope.row.dataKey }}</span>
             </template>
           </el-table-column>
           <el-table-column label="是否绑定" align="center">
@@ -95,12 +64,7 @@
               <el-tag :type="scope.row.isBind?'':'danger'">{{ scope.row.isBind?'是':'否'}}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="设备ID" fixed="left" align="center">
-            <template slot-scope="scope">
-              <span>{{ scope.row.deviceId }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作" fixed="right" width="150px" align="center" v-if="updateAuth || deleteAuth">
+          <el-table-column label="操作" width="150px" align="center" v-if="updateAuth || deleteAuth">
             <template slot-scope="scope">
               <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.boxId )" v-if="updateAuth"></el-button>
               <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.row.boxId )" v-if="deleteAuth"></el-button>
@@ -120,18 +84,18 @@
         ></el-pagination>
       </el-row>
     </div>
-    <!-- 编辑设备信息弹框 -->
-    <el-dialog :visible.sync="editDialogVisible" title="请填写设备信息(*是必填项)" class="editDialog">
+    <!-- 编辑盒子信息弹框 -->
+    <el-dialog :visible.sync="editDialogVisible" title="请填写盒子信息(*是必填项)" class="editDialog">
       <el-form label-position="right" label-width="120px" :model="dialogData" ref="ruleForm">
         <el-row>
-          <el-form-item label="设备编码：" :rules="{ required: true, message: '请输入设备名称', trigger: 'blur' }">
+          <el-form-item label="设备编码：" :rules="{ required: true, message: '请输入设备编码', trigger: 'blur' }">
             <el-input v-model="dialogData.boxCode"></el-input>
           </el-form-item>
-          <el-form-item label="生产时间：" :rules="{ required: true, message: '请输入设备名称', trigger: 'blur' }">
+          <el-form-item label="生产时间：" :rules="{ required: true, message: '请输入生产时间', trigger: 'blur' }">
             <el-date-picker v-model="dialogData.productionTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
           </el-form-item>
           <el-form-item label="数据键名：">
-            <el-input v-model="dialogData.datakey"></el-input>
+            <el-input v-model="dialogData.dataKey"></el-input>
           </el-form-item>
         </el-row>
         <div class="text-c">
@@ -251,7 +215,7 @@ export default {
       // 初始化弹窗数据
       this.dialogData = {
         boxCode: '',
-        datakey: '',
+        dataKey: '',
         productionTime: parseTime(new Date())
       }
     },
@@ -293,9 +257,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../styles/mobileStyle.scss";
-// el-dialog默认宽度50%，两栏放不下
-.editDialog .el-dialog {
-  width: 65%;
+
+.editDialog /deep/ .el-dialog {
+  width: 30%;
 }
 .editDialog /deep/ .el-input__inner {
   max-width: 200px;
