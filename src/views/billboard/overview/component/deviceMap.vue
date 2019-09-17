@@ -5,7 +5,6 @@
 
 <script>
 import { debounce } from '@/utils'
-import 'echarts/extension/bmap/bmap'
 
 var data = [
   { name: '海门', value: 9 },
@@ -422,7 +421,6 @@ export default {
         },
         bmap: {
           center: [104.114129, 37.550339],
-          // center: [120.15, 30.28],
           zoom: 5,
           roam: true,
           mapStyle: {
@@ -529,7 +527,7 @@ export default {
         },
         series: [
           {
-            name: 'pm2.5',
+            name: '培训点',
             type: 'scatter',
             coordinateSystem: 'bmap',
             data: convertData(data),
@@ -553,7 +551,7 @@ export default {
             }
           },
           {
-            name: 'Top 5',
+            name: '考核点',
             type: 'effectScatter',
             coordinateSystem: 'bmap',
             data: convertData(data.sort(function (a, b) {

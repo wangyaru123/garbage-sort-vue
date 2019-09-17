@@ -8,6 +8,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 import echarts from 'echarts'
+import 'echarts/extension/bmap/bmap'
 import stomp from 'stompjs'
 import sockjs from 'sockjs-client'
 import dayjs from 'dayjs'
