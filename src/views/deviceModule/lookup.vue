@@ -158,13 +158,6 @@ export default {
       this.editDialogVisible = true
       this.fileList = []
       this.getDialogData(id)
-    },
-    // 移动端点击卡片进入详情页面
-    subAlarmDetailInfo(id) {
-      this.$router.push({
-        path: '/repairModule/subAlarmDetailInfo',
-        query: { id: id }
-      })
     }
   }
 }

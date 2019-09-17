@@ -243,13 +243,6 @@ export default {
         type: 'warning'
       }).then(() => this.deleteTableData(id))
         .catch(() => this.$message.info('取消删除'))
-    },
-    // 移动端点击卡片进入详情页面
-    subAlarmDetailInfo(id) {
-      this.$router.push({
-        path: '/repairModule/subAlarmDetailInfo',
-        query: { id: id }
-      })
     }
   }
 }

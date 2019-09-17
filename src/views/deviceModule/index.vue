@@ -98,8 +98,8 @@
           </el-table-column>
           <el-table-column label="绑定" fixed="right" width="90px" align="center" v-if="updateAuth">
             <template slot-scope="scope">
-              <el-button type="success" size="mini" @click="binding( scope.row.deviceId, scope.row.deviceId )" v-if="!scope.row.isBind">绑定</el-button>
-              <el-button type="danger" size="mini" @click="unbinding( scope.row.deviceId )" v-else>解绑</el-button>
+              <el-button type="success" size="mini" @click="binding( scope.row.deviceId )" v-if="!scope.row.isBind">绑定</el-button>
+              <el-button type="danger" size="mini" @click="unbinding( scope.row.deviceId, scope.row.boxId )" v-else>解绑</el-button>
             </template>
           </el-table-column>
           <el-table-column label="操作" fixed="right" width="150px" align="center" v-if="updateAuth || deleteAuth">
@@ -137,6 +137,12 @@
           </el-form-item>
           <el-form-item label="位置号：">
             <el-input v-model="dialogData.seat"></el-input>
+          </el-form-item>
+          <el-form-item label="类别：">
+            <el-select v-model="dialogData.type" placeholder="请选择" size="small">
+              <el-option value="A" label="A"></el-option>
+              <el-option value="B" label="B"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="学校：">
             <el-select v-model="dialogData.schoolId" placeholder="请选择" size="small">
@@ -245,8 +251,6 @@ export default {
       deviceId: '',
       // 盒子id
       boxId: '',
-      // 是否绑定
-      isBind: false,
       // 学校列表
       schoolList: [],
       // 输入框中设备编码值
@@ -329,7 +333,7 @@ export default {
     },
     // 添加设备信息
     unbindingData() {
-      const params = { boxId: this.boxValue, deviceId: this.deviceId }
+      const params = { boxId: this.boxId, deviceId: this.deviceId }
       unbindingData(params).then(res => {
         this.$message.success('解绑成功')
         this.fetchData()
@@ -344,6 +348,7 @@ export default {
       this.dialogData = {
         deviceCode: '',
         seat: '',
+        type: '',
         schoolId: '',
         productionTime: parseTime(new Date()),
         installLocation: '',
@@ -385,27 +390,21 @@ export default {
       this.dialogData = {}
     },
     // 绑定
-    binding(deviceId, isBind) {
+    binding(deviceId) {
       this.deviceId = deviceId
-      this.isBind = isBind
+      this.boxValue = ''
       this.bindingDialogVisible = true
     },
     // 解绑
-    unbinding(deviceId) {
+    unbinding(deviceId, boxId) {
       this.deviceId = deviceId
+      this.boxId = boxId
       this.$confirm('此操作将解绑, 是否解绑?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => this.unbindingData())
         .catch(() => this.$message.info('取消解绑'))
-    },
-    // 移动端点击卡片进入详情页面
-    subAlarmDetailInfo(id) {
-      this.$router.push({
-        path: '/repairModule/subAlarmDetailInfo',
-        query: { id: id }
-      })
     }
   }
 }
