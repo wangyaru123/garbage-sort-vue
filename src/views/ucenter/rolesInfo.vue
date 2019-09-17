@@ -140,7 +140,7 @@ export default {
       // url与页面对应关系
       urlData: [
         { resourceUrl: '/file', name: '文件管理' },
-        { resourceUrl: '/ucenter/companys', name: '公司管理' },
+        { resourceUrl: '/ucenter/schools', name: '学校管理' },
         { resourceUrl: '/alarm', name: '报警模块' },
         { resourceUrl: '/equipment', name: '设备管理' },
         { resourceUrl: '/maintain/item', name: '保养项目' },

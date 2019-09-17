@@ -7,7 +7,25 @@
     <div class="content">
       <div class="title">设备报警</div>
       <div class="data">
-        <el-row v-for="index in 6" :key="index" class="data-style">
+        <el-row class="data-style">
+          <el-col :span="10">报警信息</el-col>
+          <el-col :span="7" class="text-c">
+            <span>&nbsp; **********</span>
+          </el-col>
+        </el-row>
+        <el-row class="data-style">
+          <el-col :span="10">开始时间</el-col>
+          <el-col :span="7" class="text-c">
+            <span>&nbsp; **********</span>
+          </el-col>
+        </el-row>
+        <el-row class="data-style">
+          <el-col :span="10">结束时间</el-col>
+          <el-col :span="7" class="text-c">
+            <span>&nbsp; **********</span>
+          </el-col>
+        </el-row>
+        <!-- <el-row v-for="index in 6" :key="index" class="data-style">
           <el-col :span="10">浙江**大学{{index}}</el-col>
           <el-col :span="7" class="text-c">
             <el-tag size="mini" effect="dark" type="success">在线 </el-tag>
@@ -17,7 +35,7 @@
             <el-tag size="mini" effect="dark" type="danger">离线 </el-tag>
             <span>&nbsp; 5</span>
           </el-col>
-        </el-row>
+        </el-row>-->
       </div>
     </div>
   </div>
