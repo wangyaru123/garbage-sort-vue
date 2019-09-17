@@ -4,14 +4,17 @@
     <el-row :gutter="5">
       <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
         <el-card :class="isMobile?'h-auto':'h-num-l'">
-          <div class="alignCenter">
-          <el-select size="small" v-model="choose_machine_area" placeholder @change="changeMachineArea()">
-            <el-option v-for="(item, idx) in machine" :key="item.area_id" :label="item.area_name" :value="idx"></el-option>
-          </el-select>
-          <el-select size="small" v-model="choose_machine_device" placeholder @change="changeMachineDevice()">
-            <el-option v-for="(item, idx) in device" :key="item.id" :label="item.name" :value="idx"></el-option>
-          </el-select>
+          <div slot="header" class="clearfix alignCenter">
+            <div>
+              <el-select size="small" v-model="choose_machine_area" placeholder @change="changeMachineArea()">
+                <el-option v-for="(item, idx) in machine" :key="item.area_id" :label="item.area_name" :value="idx"></el-option>
+              </el-select>
+              <el-select size="small" v-model="choose_machine_device" placeholder @change="changeMachineDevice()">
+                <el-option v-for="(item, idx) in device" :key="item.id" :label="item.name" :value="idx"></el-option>
+              </el-select>
+            </div>
           </div>
+
           <img :src="machineImg" class="sidebar-logo" alt="">
         </el-card>
       </el-col>
@@ -219,7 +222,7 @@ export default {
       options: {
         connectTimeout: 40000,
         clientId: '35e1acdbc2664baca8da1701eac58874',
-        username: 'web-SZ-2019001:DV-20190001',
+        username: 'xixuyang',
         password: '123456',
         clean: true
       },
@@ -271,7 +274,7 @@ export default {
       // 接收消息处理
       const that = this
       this.client.on('message', function (topic, message) {
-        console.log('订阅的消息:' + topic + ',' + message.toString()) // 打印消息内容
+        // console.log('订阅的消息:' + topic + ',' + message.toString()) // 打印消息内容
         try {
           that.initData(JSON.parse(message.toString()))
         } catch (e) {
@@ -409,11 +412,11 @@ export default {
   .h-auto{
     height: auto;
   }
-  .h-num-l{
-    height: 88vh;
+  .el-card__body{
     display: flex;
     align-items: center;
   }
+
   .alignCenter{
     display: flex;
     justify-content:center;
@@ -421,11 +424,17 @@ export default {
       margin: 4px;
      }
   }
+  .h-num-l{
+    height: 88vh;
+  }
   .h-auto,.h-num-l{
     img {
       width: 70%;
       margin: 0 auto;
       display: block;
+    }
+    /deep/ .el-card__header{
+      border-bottom:none;
     }
   }
   .sparkGreen,.sparkGray{

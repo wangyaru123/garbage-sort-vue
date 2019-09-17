@@ -4,7 +4,7 @@
       <div slot="header" class="flexbox">
         <div class="font-25">统计分析</div>
       </div>
-      <statisticsStateChart chartId="mobilityChart" titleName="每日稼动率"></statisticsStateChart>
+      <!--<statisticsStateChart chartId="mobilityChart" titleName="每日稼动率"></statisticsStateChart>-->
       <statisticsStateChart chartId="outputChart" titleName="每日产量"></statisticsStateChart>
     </el-card>
   </div>

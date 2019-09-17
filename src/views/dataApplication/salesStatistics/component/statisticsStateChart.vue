@@ -1,5 +1,5 @@
 <template>
-  <div :id="chartId" style="width:100%;height:160px"></div>
+  <div :id="chartId" style="width:100%;height:160px" :class="isMobile"></div>
 </template>
 
 <script>
@@ -93,7 +93,11 @@ export default {
   },
   computed: {
     isMobile() {
-      alert('====')
+      if (this.$store.state.app.isMobile) {
+        this.setMobileOption()
+      } else {
+        // this.setPcOption()
+      }
       return this.$store.state.app.isMobile
     }
   },
@@ -128,6 +132,12 @@ export default {
       this.options.xAxis[0].axisLabel.rotate = 45
       this.options.xAxis[0].axisLabel.margin = 5
       this.options.xAxis[0].axisLabel.textStyle.fontSize = 9
+      this.chart.setOption(this.options)
+    },
+    setPcOption() { // 更新pc端显示
+      this.options.xAxis[0].axisLabel.rotate = 0
+      this.options.xAxis[0].axisLabel.margin = 10
+      this.options.xAxis[0].axisLabel.textStyle.fontSize = 12
       this.chart.setOption(this.options)
     }
   }
