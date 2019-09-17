@@ -75,16 +75,16 @@
           <table class="mt-5 table table-bordered text-c" cellspacing="0" width="100%" v-else>
             <tbody>
               <tr>
-                <td>报警状态</td>
-                <td>急停状态</td>
-                <td>权限状态</td>
-                <td>伺服状态</td>
-                <td>轴运动状态</td>
-                <td>程序运行状态</td>
-                <td>程序加载状态</td>
-                <td>程序暂停状态</td>
-                <td>程序加载状态</td>
-                <td>程序暂停状态</td>
+                <td>手压使能信号-常开</td>
+                <td>示教器急停、手压急停信号-常闭</td>
+                <td>机器人夹爪工具张开状态光电信号</td>
+                <td>机器人夹爪工具闭合状态光电信号</td>
+                <td>机器人快换手抓气动系统电磁阀1</td>
+                <td>机器人快换手抓气动系统电磁阀2</td>
+                <td>机器人快换手抓气动系统电磁阀3</td>
+                <td>机器人快换手抓气动系统电磁阀4</td>
+                <td>机器人快换手抓气动系统电磁阀5</td>
+                <!--<td>程序暂停状态</td>-->
               </tr>
               <tr>
                 <td>
@@ -114,9 +114,9 @@
                 <td>
                   <span class="iconfont icon-yuan" :class="robotData.ProgLoadStatus?'true-color':'false-color'"></span>
                 </td>
-                <td>
+                <!--<td>
                   <span class="iconfont icon-yuan" :class="robotData.ProgHoldStatus?'true-color':'false-color'"></span>
-                </td>
+                </td>-->
               </tr>
             </tbody>
           </table>
