@@ -4,17 +4,19 @@
     <div class="corner top-right-corner"></div>
     <div class="corner bottom-left-corner"></div>
     <div class="corner bottom-right-corner"></div>
-    <div class="data-content">
+    <div class="content">
       <div class="title">报警统计</div>
       <div :id="chartId" class="chart-style"></div>
-      <el-row type="flex" justify="space-between" class="data-style">
-        <span class="data-name">报警总数：</span>
-        <span class="data-value">211</span>
-      </el-row>
-      <el-row type="flex" justify="space-between" class="data-style">
-        <span class="data-name">今日报警：</span>
-        <span class="data-value">17</span>
-      </el-row>
+      <div class="data">
+        <div class="data-style">
+          <span class="data-name">报警总数：</span>
+          <span class="data-value">2115</span>
+        </div>
+        <div class="data-style">
+          <span class="data-name">今日报警：</span>
+          <span class="data-value">130</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -27,54 +29,42 @@ export default {
     return {
       chartId: 'overviewDeviceAlarmEchart',
       options: {
-        color: ['#9fcee2', '#eae0ab'],
-        legend: {
-          orient: 'horizontal',
-          left: 'center',
-          top: '5%',
-          textStyle: {
-            color: 'white'
-          },
-          data: ['报警总数', '今日报警']
+        grid: {
+          top: 20,
+          left: 40,
+          right: 15,
+          bottom: 30
         },
-        radius: [0, '10%'],
-        series: [
-          {
-            name: '设备在线',
-            type: 'pie',
-            radius: '71%',
-            center: ['45%', '60%'],
-            data: [
-              { value: 520, name: '报警总数' },
-              { value: 310, name: '今日报警' }
-            ],
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            },
-            label: {
-              normal: {
-                show: true,
-                position: 'inside',
-                formatter: '{d}%', // 模板变量有 {a}、{b}、{c}、{d}，分别表示系列名，数据名，数据值，百分比。{d}数据会根据value值计算百分比
-                textStyle: {
-                  align: 'center',
-                  baseline: 'middle',
-                  fontFamily: '微软雅黑',
-                  fontSize: 16,
-                  fontWeight: 'bolder',
-                  color: 'green'
-                }
-              },
-              emphasis: {
-                show: true
-              }
+        xAxis: {
+          type: 'category',
+          data: ['1', '2', '3', '4', '5', '6', '7'],
+          axisLine: {
+            lineStyle: {
+              type: 'solid',
+              color: '#ffffff',
+              width: '1'
             }
           }
-        ]
+        },
+        yAxis: {
+          type: 'value',
+          axisLine: {
+            lineStyle: {
+              type: 'solid',
+              color: '#ffffff',
+              width: '1'
+            }
+          },
+          splitLine: {
+            lineStyle: {
+              color: '#535d69'
+            }
+          }
+        },
+        series: [{
+          data: [120, 200, 150, 80, 70, 110, 130],
+          type: 'bar'
+        }]
       }
     }
   },
@@ -162,25 +152,38 @@ export default {
   border-right: 3px solid #009fff;
   border-bottom: 3px solid #009fff;
 }
-.data-content {
+
+.content {
   width: 100%;
   height: 100%;
   padding: 10px;
-  .title{
-    font-size: 22px;
+  .title {
+    font-size: 20px;
+    height: 30px;
+    padding-left: 10px;
+    color: #dee3e6;
+    background: -webkit-linear-gradient(left, #00d1fa, #064975, #001e31);
   }
 }
 .chart-style {
   width: 100%;
   height: 70%;
 }
-.data-style{
-  text-align: center;
+.data {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: calc(30% - 30px);
+}
+.data-style {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 .data-name {
   font-size: 16px;
   margin-left: 20px;
-  margin-bottom: 20px;
 }
 .data-value {
   font-size: 20px;
