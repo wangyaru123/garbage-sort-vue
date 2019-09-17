@@ -1,129 +1,34 @@
 <template>
-  <div class="p-10">
-    <el-row>
-      <el-col :xs="24" :lg="16">
-        <div>
-          <el-select v-model="singleframeValue" size="small" placeholder="请选择" @change="onChangeProductLine">
-            <el-option v-for="item in singleframeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-          </el-select>
-        </div>
-      </el-col>
-      <el-col :xs="24" :lg="8" :class="isMobile?'mt-5':'text-r'">
-        <el-button type="primary" round size="small" @click="toIoPage">查看IO</el-button>
-        <el-button type="primary" round size="small" @click="toAlarmPage">查看报警</el-button>
-      </el-col>
-    </el-row>
-    <statisticsState></statisticsState>
-    <plcState :plcData="plcData" v-if="plcData"></plcState>
+  <div class="isMobile?'p-5':'p-10'">
     <robotState :robotData="robotData" ref="robotState">></robotState>
   </div>
 </template>
 
 <script>
-import statisticsState from './statisticsState'
-import plcState from './plcState'
+
 import robotState from './robotState'
+import mqtt from 'mqtt'
 
 export default {
   components: {
-    statisticsState,
-    plcState,
     robotState
   },
   data() {
     return {
-      singleframeValue: '1#',
-      singleframeList: [{ value: '1#', label: '单柜1' }],
-      singleframeData: {},
-      plcData: {
-        BufferCache: {
-          ProductCode: 7,
-          ProductModel: 190,
-          SprayGlazeCount: 1,
-          FirstProgramNumber: 7,
-          FirstAtomizingValue: 0,
-          FirstFanValue: 0,
-          FirstSprayGunValue: 0,
-          SecondProgramNumber: 0,
-          SecondAtomizingValue: 0,
-          SecondFanValue: 0,
-          SecondSprayGunValue: 0,
-          ThirdProgramNumber: 0,
-          ThirdAtomizingValue: 0,
-          ThirdFanValue: 0,
-          ThirdSprayGunValue: 0,
-          LoadMaterialLocation: 1,
-          Retention: 1
-        },
-        AutoCache: {
-          ProductCode: 59,
-          ProductModel: 990,
-          SprayGlazeCount: 1,
-          FirstProgramNumber: 59,
-          FirstAtomizingValue: 0,
-          FirstFanValue: 0,
-          FirstSprayGunValue: 0,
-          SecondProgramNumber: 0,
-          SecondAtomizingValue: 0,
-          SecondFanValue: 0,
-          SecondSprayGunValue: 0,
-          ThirdProgramNumber: 0,
-          ThirdAtomizingValue: 0,
-          ThirdFanValue: 0,
-          ThirdSprayGunValue: 0,
-          LoadMaterialLocation: 1,
-          Retention: 1
-        },
-        OneCache: {
-          ProductCode: 59,
-          ProductModel: 990,
-          SprayGlazeCount: 1,
-          FirstProgramNumber: 59,
-          FirstAtomizingValue: 0,
-          FirstFanValue: 0,
-          FirstSprayGunValue: 0,
-          SecondProgramNumber: 0,
-          SecondAtomizingValue: 0,
-          SecondFanValue: 0,
-          SecondSprayGunValue: 0,
-          ThirdProgramNumber: 0,
-          ThirdAtomizingValue: 0,
-          ThirdFanValue: 0,
-          ThirdSprayGunValue: 0,
-          LoadMaterialLocation: 1,
-          Retention: 1
-        },
-        TwoCache: {
-          ProductCode: 59,
-          ProductModel: 990,
-          SprayGlazeCount: 1,
-          FirstProgramNumber: 59,
-          FirstAtomizingValue: 0,
-          FirstFanValue: 0,
-          FirstSprayGunValue: 0,
-          SecondProgramNumber: 0,
-          SecondAtomizingValue: 0,
-          SecondFanValue: 0,
-          SecondSprayGunValue: 0,
-          ThirdProgramNumber: 0,
-          ThirdAtomizingValue: 0,
-          ThirdFanValue: 0,
-          ThirdSprayGunValue: 0,
-          LoadMaterialLocation: 1,
-          Retention: 1
-        },
-        SprayGlazy: {
-          CurrentProductCode: 59,
-          CurrentProductModel: 990,
-          CurrentGoalFrequency: 1,
-          CurrentFrequency: 1,
-          ProgramNumber: 59,
-          WaitProductCode: 59,
-          WaitProductModel: 990,
-          WaitGoalFrequency: 1,
-          WaitFrequency: 1
-        }
+      // mqtt
+      client: '',
+      // addr: 'ws://47.92.5.140:8083/mqtt',
+      addr: 'ws://192.168.0.133:8083/mqtt',
+      theme: 'web-SZ-2019001:DV-20190001',
+      options: {
+        connectTimeout: 40000,
+        clientId: '35e1acdbc2664baca8da1701eac58874',
+        username: 'admin',
+        password: 'public',
+        clean: true
       },
+      // 机器人数据
+      robotInfo: [],
       robotData: {
         ErrorStatus: 0,
         HstopStatus: 1,
@@ -149,82 +54,65 @@ export default {
     }
   },
   created() {
-    this.openWebSocket()
+    this.mqttConnect()
   },
   beforeDestroy() {
-    this.closeWebSocket()
   },
   methods: {
-    // 切换产线
-    onChangeProductLine() {
-      if (this.stompClient && this.stompClient.connected) {
-        if (this.subscription != null) {
-          console.log('取消当前的订阅主题')
-          this.subscription.unsubscribe()
+    // mqtt
+    mqttConnect() {
+      // 连接mqtt
+      this.client = mqtt.connect(this.addr, this.options)
+      // 订阅
+      this.client.on('connect', (e) => {
+        console.log('连接成功：' + e)
+        this.client.subscribe(this.theme, { qos: 1 }, (error) => {
+          if (!error) {
+            console.log('订阅成功：订阅主题【' + this.theme + '】')
+          } else {
+            console.log('订阅失败：' + error)
+          }
+        })
+      })
+      // 接收消息处理
+      const that = this
+      this.client.on('message', function (topic, message) {
+        // console.log('订阅的消息:' + topic + ',' + message.toString()) // 打印消息内容
+        try {
+          that.initData(JSON.parse(message.toString()))
+        } catch (e) {
         }
-        this.subscribeData()
-        console.log('切换到[机器人' + this.singleframeValue + ']的数据')
-      } else {
-        this.$message.error('连接已断开，无法订阅数据，请重新刷新页面')
-      }
-      this.$refs.robotState.clearChartData()
-    },
-    // 开启websocket
-    openWebSocket() {
-      // 建立连接对象
-      const socket = new this.$sockjs(process.env.VUE_APP_WS_SINGLEFRAME)
-      // 获取STOMP子协议的客户端对象
-      this.stompClient = this.$stomp.over(socket)
-      this.stompClient.debug = null
-      // 定义客户端的认证信息,按需求配置
-      const headers = {
-        Authorization: ''
-      }
-      this.stompClient.connect(headers, () => {
-        console.log(`开启websocket并已连接，服务器地址：${process.env.VUE_APP_WS_SINGLEFRAME}`)
-        this.subscribeData()
-      }, error => {
-        console.log('fail' + error)
+      })
+      // 断开发起重连
+      this.client.on('reconnect', (error) => {
+        console.log('xxy 正在重连:', error)
+      })
+      // 链接异常处理
+      this.client.on('error', (error) => {
+        console.log('xxy 连接失败:', error)
       })
     },
-    // 订阅数据
-    subscribeData() {
-      this.subscription = this.stompClient.subscribe(process.env.VUE_APP_TOPIC_PER_SINGLEFRAME, msg => {
-        this.singleframeData = JSON.parse(msg.body)
-        // 获取数据长度
-        const stateDataLength = Object.keys(this.singleframeData).length
-        // 清空单柜列表
-        this.singleframeList = []
-        // 处理单柜列表
-        for (let i = 0; i < stateDataLength; i++) {
-          this.singleframeList.push({ value: `${i + 1}#`, label: `单柜${i + 1}` })
+    initData(data) { // 订阅数据解析
+      const robot = data.sensorData
+      const time = this.$dayjs().format('HH:mm:ss:SSS')
+      // 机器人数据解析
+      if (robot) {
+        for (let i = 0; i < robot.length; i++) {
+          if (robot[i].key === 'PhysicalJoints') {
+            if (robot[i].value.length !== 6) {
+              const value_tem = JSON.parse(robot[i].value)
+              this.robotInfo[0] = value_tem[0]
+              this.robotInfo[1] = value_tem[1]
+              this.robotInfo[2] = value_tem[2]
+              this.robotInfo[3] = value_tem[3]
+              this.robotInfo[4] = value_tem[4]
+              this.robotInfo[5] = Math.abs(value_tem[5]) > 180 ? (value_tem[5] > 0 ? value_tem[5] - 360 : value_tem[5] + 360) : value_tem[5]
+            }
+          }
         }
-        // 获取plc数据
-        this.plcData = JSON.parse(this.singleframeData[`${this.singleframeValue}`]).MelsecPLC
-        // 获取机器人数据
-        this.robotData = JSON.parse(this.singleframeData[`${this.singleframeValue}`]).Robot
-        var time = this.$dayjs().format('HH:mm:ss')
-        this.$refs.robotState.updateData(this.robotData, time)
-      })
-    },
-    // 关闭websocket1
-    closeWebSocket() {
-      if (this.stompClient != null) {
-        this.stompClient.disconnect()
-        console.log('关闭websocket')
+        console.log(time)
+        this.$refs.robotState.updateData(this.robotInfo, time)
       }
-    },
-    toIoPage() {
-      this.$router.push({
-        path: '/dataApplication/ioMonitor',
-        query: { singleframeValue: this.singleframeValue }
-      })
-    },
-    toAlarmPage() {
-      this.$router.push({
-        path: '/dataApplication/alarmInfo',
-        query: { singleframeValue: this.singleframeValue }
-      })
     }
   }
 }

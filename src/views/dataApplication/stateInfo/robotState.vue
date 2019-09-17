@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5">
+  <div>
     <el-card>
       <div slot="header" class="flexbox">
         <div class="font-25">机器人</div>
@@ -169,13 +169,48 @@
         </el-col>
       </el-row>
       <el-row :gutter="10">
+        <!-- 仪表盘1 -->
+        <el-col :lg="12" :md="24" :sm="24" class="mt-5 no-shadow">
+          <el-card class="box-card">
+          <gaugeChart chartId="gaugeChart" ref="rateBarChart"></gaugeChart>
+          </el-card>
+        </el-col>
+        <!-- 仪表盘2 -->
+        <el-col :lg="12" :md="24" :sm="24" class="mt-5 no-shadow">
+          <el-card class="box-card">
+          <gaugeChartTwo chartId="gaugeChartTwo" ref="rateBarChart"></gaugeChartTwo>
+          </el-card>
+        </el-col>
         <!-- 机器人角度 -->
-        <el-col :lg="12" :md="24" :sm="24" class="mt-5">
+        <el-col :lg="12" :md="24" :sm="24" class="mt-10 no-shadow">
+          <el-card class="pb-10">
           <robotStateChartArea :chartId="chartIds[0]" :titleName="titleNames[0]" :legendData="legendDatas[0]" ref="angleChart"></robotStateChartArea>
+          </el-card>
         </el-col>
         <!-- 机器人位置 -->
-        <el-col :lg="12" :md="24" :sm="24" class="mt-5">
+        <!--<el-col :lg="12" :md="24" :sm="24" class="mt-5">
           <robotStateChartArea :chartId="chartIds[1]" :titleName="titleNames[1]" :legendData="legendDatas[1]" ref="positionChart"></robotStateChartArea>
+        </el-col>-->
+        <el-col :lg="12" :md="24" :sm="24" class="mt-10 no-shadow">
+          <!--<robotStateChartArea :chartId="chartIds[1]" :titleName="titleNames[1]" :legendData="legendDatas[1]" ref="positionChart"></robotStateChartArea>-->
+          <el-card class="pb-10 tableHeight">
+            <table class="mt-5 table table-bordered text-c" cellspacing="0" width="100%">
+              <tbody>
+              <tr>
+                <td width="60">序号</td><td>消息</td>
+              </tr>
+              <tr>
+                <td width="60">01</td><td>消息</td>
+              </tr>
+              <tr>
+                <td width="60">02</td><td>消息</td>
+              </tr>
+              <tr>
+                <td width="60">03</td><td>消息</td>
+              </tr>
+              </tbody>
+            </table>
+          </el-card>
         </el-col>
       </el-row>
     </el-card>
@@ -184,13 +219,20 @@
 
 <script>
 import robotStateChartArea from './component/robotStateChart'
+import gaugeChart from './component/gaugeChart'
+import gaugeChartTwo from './component/gaugeChartTwo'
 export default {
   // 父组件传入的属性值
   props: {
     robotData: null
   },
+  mounted: function () {
+    this.getRateByDay('rateBarChart', 'ratePieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
+  },
   components: {
-    robotStateChartArea
+    robotStateChartArea,
+    gaugeChart,
+    gaugeChartTwo
   },
   data() {
     return {
@@ -231,13 +273,11 @@ export default {
   methods: {
     // 更新图表数据
     updateData(data, time) {
-      this.$refs.angleChart.updateDataChart(data.DbAxisPos, time)
-      this.$refs.positionChart.updateDataChart(data.DbCartPos, time)
+      this.$refs.angleChart.updateDataChart(data, time)
     },
     // 清除图表数据
     clearChartData() {
       this.$refs.angleChart.clearChartData()
-      this.$refs.positionChart.clearChartData()
     }
   }
 }
@@ -270,5 +310,12 @@ export default {
 }
 .box-card /deep/ .el-card__body {
   display: flex;
+}
+.pb-10{
+  padding-bottom: 10px;
+}
+.tableHeight{
+  height: 342px;
+  overflow-y: auto;
 }
 </style>
