@@ -411,7 +411,6 @@ export default {
     display: flex;
     align-items: center;
   }
-
   .alignCenter{
     display: flex;
     justify-content:center;
@@ -430,6 +429,11 @@ export default {
     }
     /deep/ .el-card__header{
       border-bottom:none;
+    }
+  }
+  .h-auto{
+    /deep/ .el-select{
+     width:120px;
     }
   }
   .sparkGreen,.sparkGray{
