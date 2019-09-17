@@ -5,7 +5,7 @@
     <div class="corner bottom-left-corner"></div>
     <div class="corner bottom-right-corner"></div>
     <div class="content">
-      <div class="title">最近7天运行时长</div>
+      <div class="title">机器人关节角度</div>
       <div :id="chartId" class="chart-style"></div>
     </div>
   </div>
@@ -19,7 +19,7 @@ export default {
     return {
       chartId: 'overviewRobotInfoEchart',
       // 图标中数据个数
-      totalNumber: 50,
+      totalNumber: 30,
       options: {
         grid: {
           top: 30,
@@ -46,7 +46,7 @@ export default {
         tooltip: {
           trigger: 'axis',
           axisPointer: {
-            type: 'cross'
+            type: 'line'
           }
           // padding: [5, 10]
         },
@@ -83,6 +83,9 @@ export default {
             showSymbol: false,
             hoverAnimation: false,
             smooth: true,
+            itemStyle: {
+              color: 'yellow'
+            },
             data: []
           },
           {
@@ -91,6 +94,9 @@ export default {
             showSymbol: false,
             hoverAnimation: false,
             smooth: true,
+            itemStyle: {
+              color: 'blue'
+            },
             data: []
           },
           {
@@ -99,6 +105,9 @@ export default {
             showSymbol: false,
             hoverAnimation: false,
             smooth: true,
+            itemStyle: {
+              color: 'gray'
+            },
             data: []
           },
           {
@@ -107,6 +116,9 @@ export default {
             showSymbol: false,
             hoverAnimation: false,
             smooth: true,
+            itemStyle: {
+              color: 'red'
+            },
             data: []
           },
           {
@@ -115,6 +127,9 @@ export default {
             showSymbol: false,
             hoverAnimation: false,
             smooth: true,
+            itemStyle: {
+              color: 'orange'
+            },
             data: []
           },
           {
@@ -123,6 +138,9 @@ export default {
             showSymbol: false,
             hoverAnimation: false,
             smooth: true,
+            itemStyle: {
+              color: 'green'
+            },
             data: []
           }
         ]
