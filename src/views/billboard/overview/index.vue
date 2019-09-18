@@ -3,7 +3,7 @@
     <div class="title">
       <img v-if="!isMobile" src="../../../assets/billboard/h1Posco.png" class="pl-10 float-l" alt />
       <span class="title-name">“1+X”工业机器人应用编程</span>
-      <img v-if="!isMobile" src="../../../assets/billboard/homeIcon.png" class="go-back" alt @click="goBack" title="返回首页"/>
+      <img v-if="!isMobile" src="../../../assets/billboard/homeIcon.png" class="go-back" alt @click="goBack" title="返回首页" />
     </div>
     <el-row class="content">
       <el-col :lg="5" :md="24" :sm="24" class="content-layout">
@@ -14,7 +14,7 @@
           <device-online></device-online>
         </div>
       </el-col>
-      <el-col :lg="14" :md="24" :sm="24" class="content-layout">
+      <el-col :lg="14" :md="24" :sm="24" class="content-layout" :style="{height:(isMobile?'70vh':'')}">
         <device-map></device-map>
       </el-col>
       <el-col :lg="5" :md="24" :sm="24" class="content-layout">
