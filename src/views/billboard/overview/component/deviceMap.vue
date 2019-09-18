@@ -434,10 +434,10 @@ export default {
           formatter: function (params) {
             const html = `
             <div style='background-color: rgba(0,30,49,0.7);position: relative;box-shadow: inset 0px 0px 4px 0px #00ffff;'>
-              <div style=' position: absolute;width: 25px;height: 25px;top: -1px;left: -1px;border-left: 3px solid #009fff;border-top: 3px solid #009fff;'></div>
-              <div style=' position: absolute;width: 25px;height: 25px;top: -1px;right: -1px;border-right: 3px solid #009fff;border-top: 3px solid #009fff;'></div>
-              <div style=' position: absolute;width: 25px;height: 25px;bottom: -1px;left: -1px;border-left: 3px solid #009fff;border-bottom: 3px solid #009fff;'></div>
-              <div style=' position: absolute;width: 25px;height: 25px;bottom: -1px;right: -1px;border-right: 3px solid #009fff;border-bottom: 3px solid #009fff;'></div>
+              <div style=' position: absolute;width: 25px;height: 25px;top: -5px;left: -5px;border-left: 2px solid #009fff;border-top: 2px solid #009fff;'></div>
+              <div style=' position: absolute;width: 25px;height: 25px;top: -5px;right: -5px;border-right: 2px solid #009fff;border-top: 2px solid #009fff;'></div>
+              <div style=' position: absolute;width: 25px;height: 25px;bottom: -5px;left: -5px;border-left: 2px solid #009fff;border-bottom: 2px solid #009fff;'></div>
+              <div style=' position: absolute;width: 25px;height: 25px;bottom: -5px;right: -5px;border-right: 2px solid #009fff;border-bottom: 2px solid #009fff;'></div>
               <div style='padding: 10px;'>
                 <p style="padding:3px;">${params.seriesName}</p>
                 <p style="padding:3px;">位置：${params.data.name}</p>
