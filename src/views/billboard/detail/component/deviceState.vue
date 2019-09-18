@@ -7,21 +7,15 @@
     <div class="content">
       <div class="title">设备状态</div>
       <div class="data">
-        <el-row class="data-style">
-          <el-col :span="10">机器人</el-col>
-          <el-col :span="7">
+        <el-row type="flex" align="middle" class="data-style">
+          <el-col :span="10" class="text-c">机器人</el-col>
+          <el-col :span="14">
             <div class="circle online"></div>
           </el-col>
         </el-row>
-        <el-row class="data-style">
-          <el-col :span="10">PLC</el-col>
-          <el-col :span="7">
-            <div class="circle outline"></div>
-          </el-col>
-        </el-row>
-        <el-row class="data-style">
-          <el-col :span="10">robot</el-col>
-          <el-col :span="7">
+        <el-row type="flex" align="middle" class="data-style">
+          <el-col :span="10" class="text-c">PLC</el-col>
+          <el-col :span="14">
             <div class="circle outline"></div>
           </el-col>
         </el-row>
@@ -124,7 +118,6 @@ export default {
   // border-bottom: 1px solid #124667;
   height: 35px;
   margin: 0px 15px;
-  padding-top: 5px;
 }
 .circle {
   width: 15px;

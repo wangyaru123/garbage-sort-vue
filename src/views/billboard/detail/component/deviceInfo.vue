@@ -8,32 +8,32 @@
       <div class="title">设备信息</div>
       <div class="data">
         <el-row class="data-style">
-          <el-col :span="10">设备编码</el-col>
-          <el-col :span="7" class="text-c">
+          <el-col :span="10" class="bg text-c">设备编码</el-col>
+          <el-col :span="14" class="text-c">
             <span>&nbsp; 111</span>
           </el-col>
         </el-row>
         <el-row class="data-style">
-          <el-col :span="10">位置号</el-col>
-          <el-col :span="7" class="text-c">
+          <el-col :span="10" class="bg text-c">位置号</el-col>
+          <el-col :span="14" class="text-c">
             <span>&nbsp; 1</span>
           </el-col>
         </el-row>
         <el-row class="data-style">
-          <el-col :span="10">类别</el-col>
-          <el-col :span="7" class="text-c">
+          <el-col :span="10" class="bg text-c">类别</el-col>
+          <el-col :span="14" class="text-c">
             <span>&nbsp; A</span>
           </el-col>
         </el-row>
         <el-row class="data-style">
-          <el-col :span="10">学校</el-col>
-          <el-col :span="7" class="text-c">
+          <el-col :span="10" class="bg text-c">学校</el-col>
+          <el-col :span="14" class="text-c">
             <span>&nbsp; ***</span>
           </el-col>
         </el-row>
         <el-row class="data-style">
-          <el-col :span="10">安装地点</el-col>
-          <el-col :span="7" class="text-c">
+          <el-col :span="10" class="bg text-c">安装地点</el-col>
+          <el-col :span="14" class="text-c">
             <span>&nbsp; ***</span>
           </el-col>
         </el-row>
@@ -133,9 +133,13 @@ export default {
   width: 100%;
 }
 .data-style {
-  border-bottom: 1px solid #124667;
-  height: 35px;
   margin: 0px 15px;
-  padding-top: 5px;
+}
+.data-style .el-col {
+  height: 100%;
+  line-height: 100%;
+}
+.bg {
+  background: rgba(255, 255, 255, 0.1);
 }
 </style>

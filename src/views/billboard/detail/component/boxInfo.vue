@@ -7,7 +7,7 @@
     <div class="content">
       <div class="title">盒子信息</div>
       <div class="data">
-        <el-row class="data-style">
+        <el-row type="flex" align="middle" class="data-style">
           <el-col :span="3">
             <div class="circle"></div>
           </el-col>
@@ -16,7 +16,7 @@
             <span>&nbsp; 111</span>
           </el-col>
         </el-row>
-        <el-row class="data-style">
+        <el-row type="flex" align="middle" class="data-style">
           <el-col :span="3">
             <div class="circle"></div>
           </el-col>
@@ -25,7 +25,7 @@
             <span>&nbsp; 111</span>
           </el-col>
         </el-row>
-        <el-row class="data-style">
+        <el-row type="flex" align="middle" class="data-style">
           <el-col :span="3">
             <div class="circle"></div>
           </el-col>
@@ -132,7 +132,6 @@ export default {
 .data-style {
   height: 35px;
   margin: 0px 15px;
-  padding-top: 5px;
 }
 .circle {
   width: 10px;
