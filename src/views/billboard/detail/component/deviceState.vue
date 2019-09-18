@@ -8,28 +8,17 @@
       <div class="title">设备状态</div>
       <div class="data">
         <el-row type="flex" align="middle" class="data-style">
-          <el-col :span="10" class="text-c">机器人</el-col>
-          <el-col :span="14">
-            <div class="circle online"></div>
+          <el-col :span="8" class="text-c">机器人</el-col>
+          <el-col :span="16" class="text-c">
+             <el-tag size="mini" effect="dark" type="success">在线 </el-tag>
           </el-col>
         </el-row>
         <el-row type="flex" align="middle" class="data-style">
-          <el-col :span="10" class="text-c">PLC</el-col>
-          <el-col :span="14">
-            <div class="circle outline"></div>
+          <el-col :span="8" class="text-c">PLC</el-col>
+          <el-col :span="16" class="text-c">
+             <el-tag size="mini" effect="dark" type="success">在线 </el-tag>
           </el-col>
         </el-row>
-        <!-- <el-row v-for="index in 6" :key="index" class="data-style">
-          <el-col :span="10">浙江**大学{{index}}</el-col>
-          <el-col :span="7" class="text-c">
-            <el-tag size="mini" effect="dark" type="success">在线 </el-tag>
-            <span>&nbsp; 5</span>
-          </el-col>
-          <el-col :span="7" class="text-c">
-            <el-tag size="mini" effect="dark" type="danger">离线 </el-tag>
-            <span>&nbsp; 5</span>
-          </el-col>
-        </el-row>-->
       </div>
     </div>
   </div>

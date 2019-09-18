@@ -35,12 +35,12 @@ export default {
             color: 'grey'
           },
           data: [
-            { name: '1轴', icon: 'circle' },
-            { name: '2轴', icon: 'circle' },
-            { name: '3轴', icon: 'circle' },
-            { name: '4轴', icon: 'circle' },
-            { name: '5轴', icon: 'circle' },
-            { name: '6轴', icon: 'circle' }
+            { name: '1', icon: 'circle' },
+            { name: '2', icon: 'circle' },
+            { name: '3', icon: 'circle' },
+            { name: '4', icon: 'circle' },
+            { name: '5', icon: 'circle' },
+            { name: '6', icon: 'circle' }
           ]
         },
         tooltip: {
@@ -78,7 +78,7 @@ export default {
         },
         series: [
           {
-            name: '1轴',
+            name: '1',
             type: 'line',
             showSymbol: false,
             hoverAnimation: false,
@@ -89,7 +89,7 @@ export default {
             data: []
           },
           {
-            name: '2轴',
+            name: '2',
             type: 'line',
             showSymbol: false,
             hoverAnimation: false,
@@ -100,7 +100,7 @@ export default {
             data: []
           },
           {
-            name: '3轴',
+            name: '3',
             type: 'line',
             showSymbol: false,
             hoverAnimation: false,
@@ -111,7 +111,7 @@ export default {
             data: []
           },
           {
-            name: '4轴',
+            name: '4',
             type: 'line',
             showSymbol: false,
             hoverAnimation: false,
@@ -122,7 +122,7 @@ export default {
             data: []
           },
           {
-            name: '5轴',
+            name: '5',
             type: 'line',
             showSymbol: false,
             hoverAnimation: false,
@@ -133,7 +133,7 @@ export default {
             data: []
           },
           {
-            name: '6轴',
+            name: '6',
             type: 'line',
             showSymbol: false,
             hoverAnimation: false,

@@ -8,33 +8,33 @@
       <div class="title">设备信息</div>
       <div class="data">
         <el-row class="data-style">
-          <el-col :span="10" class="bg text-c">设备编码</el-col>
-          <el-col :span="14" class="text-c">
-            <span>&nbsp; 111</span>
+          <el-col :span="8" type="flex" align="middle" class="bg p-5 text-c">设备编码</el-col>
+          <el-col :span="16" class="text-c p-5">
+            <span>xxx-xxx-xxx-xxx</span>
           </el-col>
         </el-row>
         <el-row class="data-style">
-          <el-col :span="10" class="bg text-c">位置号</el-col>
-          <el-col :span="14" class="text-c">
-            <span>&nbsp; 1</span>
+          <el-col :span="8" class="bg text-c p-5">位置号</el-col>
+          <el-col :span="16" class="text-c p-5">
+            <span>11</span>
           </el-col>
         </el-row>
         <el-row class="data-style">
-          <el-col :span="10" class="bg text-c">类别</el-col>
-          <el-col :span="14" class="text-c">
-            <span>&nbsp; A</span>
+          <el-col :span="8" class="bg text-c p-5">类别</el-col>
+          <el-col :span="16" class="text-c p-5">
+            <span>A</span>
           </el-col>
         </el-row>
         <el-row class="data-style">
-          <el-col :span="10" class="bg text-c">学校</el-col>
-          <el-col :span="14" class="text-c">
-            <span>&nbsp; ***</span>
+          <el-col :span="8" class="bg text-c p-5">学校</el-col>
+          <el-col :span="16" class="text-c p-5">
+            <span>浙江**大学</span>
           </el-col>
         </el-row>
         <el-row class="data-style">
-          <el-col :span="10" class="bg text-c">安装地点</el-col>
-          <el-col :span="14" class="text-c">
-            <span>&nbsp; ***</span>
+          <el-col :span="8" class="bg text-c p-5">安装地点</el-col>
+          <el-col :span="16" class="text-c p-5">
+            <span>**省**市**区**街道**号</span>
           </el-col>
         </el-row>
         <!-- <el-row v-for="index in 6" :key="index" class="data-style">
