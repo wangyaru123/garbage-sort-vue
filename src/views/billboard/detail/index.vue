@@ -1,6 +1,10 @@
 <template>
   <div class="total-layout">
-    <div class="title">“1+X”工业机器人应用编程</div>
+    <div class="title">
+      <img v-if="!isMobile" src="../../../assets/billboard/h1Posco.png" class="pl-10 float-l" alt />
+      <span class="title-name">“1+X”工业机器人应用编程</span>
+      <img v-if="!isMobile" src="../../../assets/billboard/homeIcon.png" class="go-back" alt @click="goBack" title="返回首页" />
+    </div>
     <div class="content">
       <el-col :lg="5" :md="5" :sm="5" class="content-layout">
         <div class="item-h33 p-10">
@@ -68,6 +72,16 @@ export default {
     return {
 
     }
+  },
+  computed: {
+    isMobile() {
+      return this.$store.state.app.isMobile
+    }
+  },
+  methods: {
+    goBack() {
+      this.$router.push({ name: 'Dashboard' })
+    }
   }
 }
 </script>
@@ -87,6 +101,17 @@ export default {
   font-size: 28px;
   color: #00ffcc;
   border-bottom: 1px solid #009fff;
+  .title-name {
+    background: radial-gradient(center, #00adcf, #02263e, #002035);
+    background: -webkit-radial-gradient(center, #00adcf, #02263e, #002035);
+  }
+}
+.go-back {
+  height: 40px;
+  width: 40px;
+  margin: 20px;
+  float: right;
+  cursor: pointer;
 }
 .content {
   height: calc(100vh - 80px);
