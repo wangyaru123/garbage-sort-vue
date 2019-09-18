@@ -6,7 +6,7 @@
     <el-row :gutter="5">
         <el-card class="box-card">
           <div slot="header" class="text-c">
-            <h4><b>{{titleName}}</b></h4>
+            <h3><b>{{titleName}}</b></h3>
           </div>
         <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" :class="isMobile?'h-auto':'h-num mb-10'">
               <img :src="machineImgRight" alt="">
@@ -70,20 +70,23 @@ export default {
 .ver-m {
   margin-top: 50px;
 }
+.el-card{
+  background: #e3f3ff;
+  box-shadow: none;
+}
+.p-5,.p-10{
+  background: #fff;
+ }
 .h-num,.h-auto{
   height: calc(100vh - 210px);
   display: flex;
   align-items: center;
   justify-content:center;
-  background: #e3f3ff;
-  &:first-child {
-    border-right:1px solid #f5faff
-  }
   img {
     width: 55%;
   }
 }
 .h-auto{
-  height: 35vh;
+  height: 37vh;
 }
 </style>
