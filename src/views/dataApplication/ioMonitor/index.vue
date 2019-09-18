@@ -34,11 +34,25 @@
 </template>
 
 <script>
-import { resolveRepositoryData } from '@/utils/resolutIo.js'
+// import { resolveRepositoryData } from '@/utils/resolutIo.js'
+import mqtt from 'mqtt'
 
 export default {
   data() {
     return {
+      // mqtt
+      client: '',
+      // addr: 'ws://47.92.5.140:8083/mqtt',
+      addr: 'ws://192.168.0.133:8083/mqtt',
+      theme: 'web-SZ-2019001:DV-20190001',
+      options: {
+        connectTimeout: 40000,
+        clientId: '35e1acdbc2664baca8da1701eac58874',
+        username: 'admin',
+        password: 'public',
+        clean: true
+      },
+      // *** 原始代码 *****
       singleframeValue: '1#',
       singleframeList: [{ value: '1#', label: '单柜1' }],
       tableData: [
@@ -86,6 +100,7 @@ export default {
         { enable: false, byte: 6, bit: 7, number: 'D703.7', desc: '喷枪清洗气路' },
         { enable: false, byte: 7, bit: 0, number: 'D703.8', desc: '喷枪清洗水路' }
       ]
+      // *** 原始代码 *****
     }
   },
   computed: {
@@ -95,12 +110,49 @@ export default {
     }
   },
   created() {
-    this.openWebSocket()
+    // this.openWebSocket()
   },
   beforeDestroy() {
-    this.closeWebSocket()
+    // this.closeWebSocket()
   },
   methods: {
+    // mqtt
+    mqttConnect() {
+      // 连接mqtt
+      this.client = mqtt.connect(this.addr, this.options)
+      // 订阅
+      this.client.on('connect', (e) => {
+        console.log('连接成功：' + e)
+        this.client.subscribe(this.theme, { qos: 1 }, (error) => {
+          if (!error) {
+            console.log('订阅成功：订阅主题【' + this.theme + '】')
+          } else {
+            console.log('订阅失败：' + error)
+          }
+        })
+      })
+      // 接收消息处理
+      // const that = this
+      this.client.on('message', function (topic, message) {
+        // console.log('订阅的消息:' + topic + ',' + message.toString()) // 打印消息内容
+        try {
+          // that.initData(JSON.parse(message.toString()))
+        } catch (e) {
+        }
+      })
+      // 断开发起重连
+      this.client.on('reconnect', (error) => {
+        console.log('xxy 正在重连:', error)
+      })
+      // 链接异常处理
+      this.client.on('error', (error) => {
+        console.log('xxy 连接失败:', error)
+      })
+    },
+    // 切换产线
+    onChangeProductLine() {
+    }
+    /* // ***** 原始代码 *********************************************************
     // 切换产线
     onChangeProductLine() {
       if (this.stompClient && this.stompClient.connected) {
@@ -164,6 +216,7 @@ export default {
         path: '/dataApplication/ioMonitor/index'
       })
     }
+    // ***** 原始代码 **********************************************************/
   }
 }
 </script>
