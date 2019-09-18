@@ -1,0 +1,205 @@
+<template>
+  <div class="main-style">
+    <div class="corner top-left-corner"></div>
+    <div class="corner top-right-corner"></div>
+    <div class="corner bottom-left-corner"></div>
+    <div class="corner bottom-right-corner"></div>
+    <div class="content">
+      <div class="title">设备利用率</div>
+      <div :id="chartId" class="chart-style"></div>
+      <div class="data">
+        <!--<div class="data-style">
+          <span class="data-name">设备总数：</span>
+          <span class="data-value">20</span>
+        </div>-->
+        <!--<div class="data-style">
+          <span class="data-name">在线设备：</span>
+          <span class="data-value">7</span>
+        </div>-->
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { debounce } from '@/utils'
+
+export default {
+  data() {
+    return {
+      chartId: 'pieChartLeft',
+      options: {
+        color: ['#18d8f5', '#ff5c37'],
+        legend: {
+          orient: 'horizontal',
+          left: 'center',
+          top: '5%',
+          textStyle: {
+            color: 'white'
+          },
+          data: ['在线', '离线']
+        },
+        radius: [0, '10%'],
+        series: [
+          {
+            name: '设备在线',
+            type: 'pie',
+            radius: '71%',
+            center: ['45%', '60%'],
+            data: [
+              { value: 520, name: '在线' },
+              { value: 310, name: '离线' }
+            ],
+            itemStyle: {
+              emphasis: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            },
+            label: {
+              normal: {
+                show: true,
+                position: 'inside',
+                formatter: '{d}%', // 模板变量有 {a}、{b}、{c}、{d}，分别表示系列名，数据名，数据值，百分比。{d}数据会根据value值计算百分比
+                textStyle: {
+                  align: 'center',
+                  baseline: 'middle',
+                  fontFamily: '微软雅黑',
+                  fontSize: 16,
+                  fontWeight: 'bolder',
+                  color: '#fff'
+                }
+              },
+              emphasis: {
+                show: true
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  created() {
+  },
+  mounted() {
+    this.initChart()
+    this.updateResize()
+  },
+  beforeDestroy() {
+    this.closeResize()
+  },
+  computed: {
+    isMobile() {
+      return this.$store.state.app.isMobile
+    }
+  },
+  watch: {
+    //  手机端的时候，默认isMobile是false，在变化时尺寸没有修改，则图表不会自适应
+    isMobile(newValue, oldValue) {
+      if (this.chart) {
+        this.chart.resize()
+      }
+    }
+  },
+  methods: {
+    initData() {
+    },
+    initChart() {
+      this.chart = this.$echarts.init(document.getElementById(this.chartId))
+      this.chart.setOption(this.options)
+    },
+    //  自动适配宽度
+    updateResize() {
+      this.__resizeHanlder = debounce(() => {
+        if (this.chart) this.chart.resize()
+      }, 100)
+      window.addEventListener('resize', this.__resizeHanlder)
+    },
+    // 关闭自适应事件
+    closeResize() {
+      window.removeEventListener('resize', this.__resizeHanlder)
+      if (!this.chart) return
+      this.chart.dispose()
+      this.chart = null
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.main-style {
+ // background-color: #001e31;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-shadow:0 0 5px #00ffff inset;
+}
+.corner {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+}
+/*
+.top-left-corner {
+  top: -1px;
+  left: -1px;
+  border-left: 3px solid #009fff;
+  border-top: 3px solid #009fff;
+}
+.top-right-corner {
+  top: -1px;
+  right: -1px;
+  border-right: 3px solid #009fff;
+  border-top: 3px solid #009fff;
+}
+.bottom-left-corner {
+  bottom: -1px;
+  left: -1px;
+  border-left: 3px solid #009fff;
+  border-bottom: 3px solid #009fff;
+}
+.bottom-right-corner {
+  bottom: -1px;
+  right: -1px;
+  border-right: 3px solid #009fff;
+  border-bottom: 3px solid #009fff;
+}*/
+.content {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  .title {
+    font-size: 20px;
+    height: 30px;
+    padding-left: 10px;
+    color: #dee3e6;
+   // background: -webkit-linear-gradient(left, #00d1fa, #064975, #001e31);
+  }
+}
+.chart-style {
+  width: 100%;
+  height: 80%;
+}
+.data {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: calc(30% - 30px);
+}
+.data-style {
+  display: flex;
+  justify-content: space-between;
+  width: 100%
+}
+.data-name {
+  font-size: 16px;
+  margin-left: 20px;
+  color: #9b9e9b;
+}
+.data-value {
+  font-size: 20px;
+  margin-right: 20px;
+}
+</style>
