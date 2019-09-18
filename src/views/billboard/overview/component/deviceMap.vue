@@ -411,6 +411,8 @@ export default {
     return {
       chartId: 'overviewDeviceMapEchart',
       chart: null,
+      index: 0,
+      timer: null,
       chartOptions: {
         // title: {
         //   text: '全国主要城市空气质量 - 百度地图',
@@ -420,7 +422,7 @@ export default {
           trigger: 'item',
           formatter: function (params) {
             const html = `
-            <div style='background-color: #001e31;width: 200px; height: 100px;position: relative;box-shadow: inset 0px 0px 4px 0px #00ffff;'>
+            <div style='background-color: rgba(0,30,49,0.1);width: 200px; height: 100px;position: relative;box-shadow: inset 0px 0px 4px 0px #00ffff;'>
               <div style=' position: absolute;width: 25px;height: 25px;top: -1px;left: -1px;border-left: 3px solid #009fff;border-top: 3px solid #009fff;'></div>
               <div style=' position: absolute;width: 25px;height: 25px;top: -1px;right: -1px;border-right: 3px solid #009fff;border-top: 3px solid #009fff;'></div>
               <div style=' position: absolute;width: 25px;height: 25px;bottom: -1px;left: -1px;border-left: 3px solid #009fff;border-bottom: 3px solid #009fff;'></div>
@@ -428,7 +430,7 @@ export default {
               <div style=' width: 200px;height: 100px;padding: 10px;'>
                 <p style="padding:3px;">${params.seriesName}</p>
                 <p style="padding:3px;">位置：${params.data.name}</p>
-                <p style="padding:3px;">数据：${params.data.value[1]}</p>
+                <p style="padding:3px;">数量：${params.data.value[2]}</p>
               </div>
             </div>
             `
@@ -609,6 +611,7 @@ export default {
   },
   beforeDestroy() {
     this.closeResize()
+    this.stopTimer()
   },
   computed: {
     isMobile() {
@@ -629,6 +632,23 @@ export default {
     initChart() {
       this.chart = this.$echarts.init(document.getElementById(this.chartId))
       this.chart.setOption(this.chartOptions)
+      this.startTimer()
+    },
+    startTimer() {
+      this.timer = setInterval(() => {
+        this.chart.dispatchAction({
+          type: 'showTip',
+          seriesIndex: 0,
+          dataIndex: this.index
+        })
+        this.index++
+        if (this.index >= this.chartOptions.series[0].data.length) this.index = 0
+      }, 3000)
+    },
+    stopTimer() {
+      if (this.timer != null) {
+        clearInterval(this.timer)
+      }
     },
     //  自动适配宽度
     updateResize() {
