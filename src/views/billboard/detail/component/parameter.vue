@@ -163,7 +163,7 @@ h3 {
 .circle {
   width: 20px;
   height: 20px;
-  margin: 10px auto;
+  margin: 20px auto;
   border-radius: 50%;
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
