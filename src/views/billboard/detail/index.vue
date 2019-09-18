@@ -1,12 +1,12 @@
 <template>
-  <div class="total-layout">
+  <div :class="isMobile? 'total-layout-mobile':'total-layout'">
     <div class="title">
       <img v-if="!isMobile" src="../../../assets/billboard/h1Posco.png" class="pl-10 float-l" alt />
       <span class="title-name">“1+X”工业机器人应用编程</span>
       <img v-if="!isMobile" src="../../../assets/billboard/homeIcon.png" class="go-back" alt @click="goBack" title="返回首页" />
     </div>
-    <div class="content">
-      <el-col :lg="5" :md="5" :sm="5" class="content-layout">
+    <el-row class="content">
+      <el-col :lg="5" :md="24" :sm="24" class="content-layout">
         <div class="item-h33 p-10">
           <device-info></device-info>
         </div>
@@ -17,20 +17,18 @@
           <parameter></parameter>
         </div>
       </el-col>
-      <el-col :lg="14" :md="14" :sm="14" class="content-layout">
-        <div class="item-h50">
-          <el-col :lg="12" :md="12" :sm="12" class="h100 p-10">
-            <operation-ratio></operation-ratio>
-          </el-col>
-          <el-col :lg="12" :md="12" :sm="12" class="h100 p-10">
-            <use-duration></use-duration>
-          </el-col>
-        </div>
-        <div class="item-h50 p-10">
+      <el-col :lg="14" :md="24" :sm="24" class="content-layout">
+        <el-col :lg="12" :md="24" :sm="24" class="p-10" :class="isMobile? 'item-h33':'item-h50'">
+          <operation-ratio></operation-ratio>
+        </el-col>
+        <el-col :lg="12" :md="24" :sm="24" class="p-10" :class="isMobile? 'item-h33':'item-h50'">
+          <use-duration></use-duration>
+        </el-col>
+        <el-col :lg="24" :md="24" :sm="24" class="p-10" :class="isMobile? 'item-h33':'item-h50'">
           <robot-info></robot-info>
-        </div>
+        </el-col>
       </el-col>
-      <el-col :lg="5" :md="5" :sm="5" class="content-layout">
+      <el-col :lg="5" :md="24" :sm="24" class="content-layout">
         <div class="item-h33 p-10">
           <device-location></device-location>
         </div>
@@ -41,7 +39,7 @@
           <device-alarm></device-alarm>
         </div>
       </el-col>
-    </div>
+    </el-row>
   </div>
 </template>
 
@@ -114,11 +112,12 @@ export default {
   cursor: pointer;
 }
 .content {
-  height: calc(100vh - 80px);
+  min-height: calc(100vh - 80px);
   color: white;
-  .content-layout {
-    height: 100%;
-  }
+}
+
+.content-layout {
+  height: calc(100vh - 80px);
 }
 .item-h33 {
   height: 33.3%;
@@ -134,5 +133,15 @@ export default {
 }
 .h100 {
   height: 100%;
+}
+.total-layout-mobile {
+  background-color: #002035;
+  min-height: 100vh;
+  width: 100%;
+  color: white;
+  .content-layout {
+    min-height: 150vh;
+    padding: 10px;
+  }
 }
 </style>
