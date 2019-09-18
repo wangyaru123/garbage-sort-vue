@@ -14,7 +14,7 @@
           <device-online></device-online>
         </div>
       </el-col>
-      <el-col :lg="14" :md="24" :sm="24" class="content-layout" :style="{height:(isMobile?'70vh':'')}">
+      <el-col :lg="14" :md="24" :sm="24" class="content-layout" :style="{height:(isMobile?'50vh':'')}">
         <device-map></device-map>
       </el-col>
       <el-col :lg="5" :md="24" :sm="24" class="content-layout">
@@ -108,7 +108,7 @@ export default {
   width: 100%;
   color: white;
   .content-layout {
-    height: 100vh;
+    height: 120vh;
     padding: 10px;
   }
 }

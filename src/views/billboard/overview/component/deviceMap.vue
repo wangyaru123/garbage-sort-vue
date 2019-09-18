@@ -428,14 +428,15 @@ export default {
         // },
         tooltip: {
           trigger: 'item',
+          backgroundColor: 'rgba(0,30,49,0)',
           formatter: function (params) {
             const html = `
-            <div style='background-color: rgba(0,30,49,0.1);width: 200px; height: 100px;position: relative;box-shadow: inset 0px 0px 4px 0px #00ffff;'>
+            <div style='background-color: rgba(0,30,49,0.7);position: relative;box-shadow: inset 0px 0px 4px 0px #00ffff;'>
               <div style=' position: absolute;width: 25px;height: 25px;top: -1px;left: -1px;border-left: 3px solid #009fff;border-top: 3px solid #009fff;'></div>
               <div style=' position: absolute;width: 25px;height: 25px;top: -1px;right: -1px;border-right: 3px solid #009fff;border-top: 3px solid #009fff;'></div>
               <div style=' position: absolute;width: 25px;height: 25px;bottom: -1px;left: -1px;border-left: 3px solid #009fff;border-bottom: 3px solid #009fff;'></div>
               <div style=' position: absolute;width: 25px;height: 25px;bottom: -1px;right: -1px;border-right: 3px solid #009fff;border-bottom: 3px solid #009fff;'></div>
-              <div style=' width: 200px;height: 100px;padding: 10px;'>
+              <div style='padding: 10px;'>
                 <p style="padding:3px;">${params.seriesName}</p>
                 <p style="padding:3px;">位置：${params.data.name}</p>
                 <p style="padding:3px;">数量：${params.data.value[2]}</p>
@@ -447,6 +448,7 @@ export default {
         },
         bmap: {
           center: [104.114129, 37.550339],
+          // center: [120.114129, 37.320002],
           zoom: 5,
           roam: true,
           mapStyle: {
@@ -637,11 +639,16 @@ export default {
   methods: {
     initData() {
     },
+    // 初始化图表
     initChart() {
       this.chart = this.$echarts.init(document.getElementById(this.chartId))
       this.chart.setOption(this.chartOptions)
-      this.startTimer()
+      // 延迟启动定时器
+      setTimeout(() => {
+        if (this.isMobile === false) this.startTimer()
+      }, 2000)
     },
+    // 开启定时器
     startTimer() {
       this.timer = setInterval(() => {
         this.chart.dispatchAction({
@@ -653,6 +660,7 @@ export default {
         if (this.index >= this.chartOptions.series[0].data.length) this.index = 0
       }, 3000)
     },
+    // 关闭定时器
     stopTimer() {
       if (this.timer != null) {
         clearInterval(this.timer)
