@@ -6,10 +6,10 @@
         <div class="item-h33 p-10">
           <device-info></device-info>
         </div>
-        <div class="item-h33 p-10">
+        <div class="item-h22 p-10">
           <device-state></device-state>
         </div>
-        <div class="item-h33 p-10">
+        <div class="item-h44 p-10">
           <parameter></parameter>
         </div>
       </el-col>
@@ -30,11 +30,11 @@
         <div class="item-h33 p-10">
           <device-location></device-location>
         </div>
-        <div class="item-h33 p-10">
-          <device-alarm></device-alarm>
-        </div>
-        <div class="item-h33 p-10">
+        <div class="item-h22 p-10">
           <box-info></box-info>
+        </div>
+        <div class="item-h44 p-10">
+          <device-alarm></device-alarm>
         </div>
       </el-col>
     </div>
@@ -97,6 +97,12 @@ export default {
 }
 .item-h33 {
   height: 33.3%;
+}
+.item-h22 {
+  height: 22.2%;
+}
+.item-h44 {
+  height: 44.4%;
 }
 .item-h50 {
   height: 50%;
