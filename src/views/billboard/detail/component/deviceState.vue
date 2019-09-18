@@ -115,7 +115,6 @@ export default {
   width: 100%;
 }
 .data-style {
-  // border-bottom: 1px solid #124667;
   height: 35px;
   margin: 0px 15px;
 }

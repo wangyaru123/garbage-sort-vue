@@ -17,7 +17,7 @@
           <el-col :span="8">
             <div class="border-right">
               <p>成品工件</p>
-              <div class="circle online"></div>
+              <div class="circle outline"></div>
             </div>
           </el-col>
           <el-col :span="8">
