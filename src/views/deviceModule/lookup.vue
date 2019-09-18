@@ -5,14 +5,17 @@
       <el-select v-model="schoolId" size="small" placeholder="请选择" @change="getDeviceInfoByPage">
         <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
       </el-select>
-      <el-row :gutter="20" class="text-c">
+      <el-row :gutter="20">
         <el-col :span="6" class="mt-10" v-for="(item,index) in tableData" :key="index" @click.native="editRow( item.deviceId )">
-          <el-card :body-style="{ padding: '0px' }" :class="item.isBind ? 'bind' : '' ">
-            <img class="image" :src=" item.type === 'A' ? ( item.isBind ? aBindImg : aImg ) : ( item.isBind ? bBindImg : bImg ) " fit="fill" />
-            <div style="padding: 14px;">
+          <el-card :body-style="{ padding: '0px' }">
+            <div :class="item.isBind ? 'bind' : '' ">
+              <img class="image" :src=" item.type === 'A' ? ( item.isBind ? aBindImg : aImg ) : ( item.isBind ? bBindImg : bImg ) " fit="fill" />
+            </div>
+            <div class="bottom-div">
+              <p>设备编码：{{ item.deviceCode }}</p>
               <div class="bottom clearfix">
-                <span>{{ item.deviceCode }}</span>
-                <span>{{ item.type }}</span>
+                <span>类型：{{ item.type }}</span>
+                <span class="right" :class="item.isBind?'text-success':'text-danger'">{{ item.isBind?'已绑定':'未绑定' }}</span>
               </div>
             </div>
           </el-card>
@@ -60,10 +63,10 @@
 <script>
 import { getDeviceInfoByPage, getDeviceInfoById } from '@/api/deviceModule/index.js'
 import { getSchoolList } from '@/api/ucenter/school.js'
-import aImg from '@/assets/machine.png'
-import bImg from '@/assets/machineRight.png'
-import aBindImg from '@/assets/machineBind.png'
-import bBindImg from '@/assets/machineRightBind.png'
+import aImg from '@/assets/machineRight.png'
+import bImg from '@/assets/machine.png'
+import aBindImg from '@/assets/machineRightBind.png'
+import bBindImg from '@/assets/machineBind.png'
 
 export default {
   name: 'DragDialogDemo',
@@ -169,13 +172,16 @@ export default {
 .editDialog /deep/ .el-dialog {
   width: 30%;
 }
+
 .editDialog /deep/ .el-input__inner {
   max-width: 200px;
 }
+
 .editDialog /deep/ .el-date-editor.el-input {
   max-width: 200px;
 }
-.bind /deep/ .el-card__body {
+
+.bind {
   background-color: #ccffff;
 }
 
@@ -184,7 +190,7 @@ export default {
   line-height: 12px;
 }
 
-.button {
+.right {
   padding: 0;
   float: right;
 }
@@ -205,5 +211,10 @@ export default {
 
 .clearfix:after {
   clear: both;
+}
+
+.bottom-div {
+  padding: 14px;
+  border-top: 1px solid #eee;
 }
 </style>

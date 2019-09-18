@@ -5,9 +5,9 @@
     <div class="corner bottom-left-corner"></div>
     <div class="corner bottom-right-corner"></div>
     <div class="content">
-      <div class="title">报警详情</div>
+      <div class="title">设备报警</div>
       <div class="data">
-        <el-row v-for="index in 4" :key="index" class="data-style">
+        <el-row v-for="index in 3" :key="index" class="data-style">
           <div>
             <span class="school">浙江**大学{{index}}</span>
             <span class="float-r device-num">xxxx-xxxx-xxxx</span>
@@ -21,6 +21,17 @@
             <span class="float-r alarm-content">机器人通信异常</span>
           </div>
         </el-row>
+        <!-- <el-row v-for="index in 6" :key="index" class="data-style">
+          <el-col :span="10">浙江**大学{{index}}</el-col>
+          <el-col :span="7" class="text-c">
+            <el-tag size="mini" effect="dark" type="success">在线 </el-tag>
+            <span>&nbsp; 5</span>
+          </el-col>
+          <el-col :span="7" class="text-c">
+            <el-tag size="mini" effect="dark" type="danger">离线 </el-tag>
+            <span>&nbsp; 5</span>
+          </el-col>
+        </el-row>-->
       </div>
     </div>
   </div>
