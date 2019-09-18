@@ -7,34 +7,44 @@
     <div class="content">
       <div class="title">设备数据</div>
       <div class="data">
-        <el-row class="data-style">
-          <el-col :span="10">毛坯工件</el-col>
-          <el-col :span="7" class="text-c">
-            <span>100</span>
+        <el-row class="data-style data-style-first">
+          <el-col :span="8">
+            <div class="border-right">
+              <p>毛坯工件</p>
+              <h2>100</h2>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div class="border-right">
+              <p>半成品工件</p>
+              <h2>10</h2>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div>
+              <p>成品工件</p>
+              <h2>90</h2>
+            </div>
           </el-col>
         </el-row>
         <el-row class="data-style">
-          <el-col :span="10">成品工件</el-col>
-          <el-col :span="7" class="text-c">
-            <span>10</span>
+          <el-col :span="8">
+            <div class="border-right">
+              <p>速度百分比</p>
+              <h2>90%</h2>
+            </div>
           </el-col>
-        </el-row>
-        <el-row class="data-style">
-          <el-col :span="10">速度百分比</el-col>
-          <el-col :span="7" class="text-c">
-            <span>90%</span>
+          <el-col :span="8">
+            <div class="border-right">
+              <p>操作模式</p>
+              <h2>***</h2>
+            </div>
           </el-col>
-        </el-row>
-        <el-row class="data-style">
-          <el-col :span="10">操作模式</el-col>
-          <el-col :span="7" class="text-c">
-            <span>***</span>
-          </el-col>
-        </el-row>
-        <el-row class="data-style">
-          <el-col :span="10">当前状态</el-col>
-          <el-col :span="7">
-            <div class="circle online"></div>
+          <el-col :span="8">
+            <div>
+              <p>当前状态</p>
+              <div class="circle online"></div>
+            </div>
           </el-col>
         </el-row>
         <!-- <el-row v-for="index in 6" :key="index" class="data-style">
@@ -133,15 +143,32 @@ export default {
   width: 100%;
 }
 .data-style {
-  border-bottom: 1px solid #124667;
-  height: 35px;
+  height: 50%;
   margin: 0px 15px;
   padding-top: 5px;
 }
+.data-style-first {
+  border-bottom: 1px solid #124667;
+}
+.data-style .el-col {
+  height: 100%;
+  line-height: 100%;
+  padding-top: 10%;
+}
+.data-style-first .el-col {
+  padding-top: 20%;
+}
+.data-style .el-col div {
+  text-align: center;
+  padding: 5px;
+}
+.data-style .el-col .border-right {
+  border-right: 1px solid #124667;
+}
 .circle {
-  width: 15px;
-  height: 15px;
-  margin:0 auto;
+  width: 20px;
+  height: 20px;
+  margin: 20px auto;
   border-radius: 50%;
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
@@ -151,7 +178,7 @@ export default {
   box-shadow: inset 4px 4px 4px 4px #00ffff;
 }
 .outline {
-  background-color: #F49033;
-  box-shadow: inset 4px 4px 4px 4px #F49033;
+  background-color: #f49033;
+  box-shadow: inset 4px 4px 4px 4px #f49033;
 }
 </style>

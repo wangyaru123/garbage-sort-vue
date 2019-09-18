@@ -7,23 +7,19 @@
     <div class="content">
       <div class="title">设备报警</div>
       <div class="data">
-        <el-row class="data-style">
-          <el-col :span="10">报警信息</el-col>
-          <el-col :span="7" class="text-c">
-            <span>&nbsp; **********</span>
-          </el-col>
-        </el-row>
-        <el-row class="data-style">
-          <el-col :span="10">开始时间</el-col>
-          <el-col :span="7" class="text-c">
-            <span>&nbsp; **********</span>
-          </el-col>
-        </el-row>
-        <el-row class="data-style">
-          <el-col :span="10">结束时间</el-col>
-          <el-col :span="7" class="text-c">
-            <span>&nbsp; **********</span>
-          </el-col>
+        <el-row v-for="index in 3" :key="index" class="data-style">
+          <div>
+            <span class="school">浙江**大学{{index}}</span>
+            <span class="float-r device-num">xxxx-xxxx-xxxx</span>
+          </div>
+          <div>
+            <span>发生时间：</span>
+            <span class="float-r">2019-08-06 14:56:13</span>
+          </div>
+          <div>
+            <span>报警内容：</span>
+            <span class="float-r alarm-content">机器人通信异常</span>
+          </div>
         </el-row>
         <!-- <el-row v-for="index in 6" :key="index" class="data-style">
           <el-col :span="10">浙江**大学{{index}}</el-col>
@@ -122,8 +118,17 @@ export default {
 }
 .data-style {
   border-bottom: 1px solid #124667;
-  height: 35px;
   margin: 0px 15px;
-  padding-top: 5px;
+  padding: 5px 0px;
+  color: #9b9e9b;
+}
+.school {
+  color: #0d8eff;
+}
+.device-num {
+  color: #0cca0b;
+}
+.alarm-content {
+  color: white;
 }
 </style>

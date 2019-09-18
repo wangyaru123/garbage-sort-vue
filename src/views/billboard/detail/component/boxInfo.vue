@@ -8,18 +8,27 @@
       <div class="title">盒子信息</div>
       <div class="data">
         <el-row class="data-style">
+          <el-col :span="3">
+            <div class="circle"></div>
+          </el-col>
           <el-col :span="10">盒子编码</el-col>
           <el-col :span="7" class="text-c">
             <span>&nbsp; 111</span>
           </el-col>
         </el-row>
         <el-row class="data-style">
+          <el-col :span="3">
+            <div class="circle"></div>
+          </el-col>
           <el-col :span="10">数据键名</el-col>
           <el-col :span="7" class="text-c">
             <span>&nbsp; 111</span>
           </el-col>
         </el-row>
         <el-row class="data-style">
+          <el-col :span="3">
+            <div class="circle"></div>
+          </el-col>
           <el-col :span="10">是否绑定</el-col>
           <el-col :span="7" class="text-c">
             <el-tag size="mini" type="success">已绑定</el-tag>
@@ -121,9 +130,17 @@ export default {
   width: 100%;
 }
 .data-style {
-  border-bottom: 1px solid #124667;
   height: 35px;
   margin: 0px 15px;
   padding-top: 5px;
+}
+.circle {
+  width: 10px;
+  height: 10px;
+  margin: 5px auto;
+  border-radius: 50%;
+  background-color: #fff;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
 }
 </style>
