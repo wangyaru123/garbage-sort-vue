@@ -429,6 +429,8 @@ export default {
         tooltip: {
           trigger: 'item',
           backgroundColor: 'rgba(0,30,49,0)',
+          // 防止提示框跑到图表外面
+          confine: true,
           formatter: function (params) {
             const html = `
             <div style='background-color: rgba(0,30,49,0.7);position: relative;box-shadow: inset 0px 0px 4px 0px #00ffff;'>
