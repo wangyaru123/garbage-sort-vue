@@ -7,7 +7,25 @@
     <div class="content">
       <div class="title">盒子信息</div>
       <div class="data">
-        <el-row v-for="index in 6" :key="index" class="data-style">
+        <el-row class="data-style">
+          <el-col :span="10">盒子编码</el-col>
+          <el-col :span="7" class="text-c">
+            <span>&nbsp; 111</span>
+          </el-col>
+        </el-row>
+        <el-row class="data-style">
+          <el-col :span="10">数据键名</el-col>
+          <el-col :span="7" class="text-c">
+            <span>&nbsp; 111</span>
+          </el-col>
+        </el-row>
+        <el-row class="data-style">
+          <el-col :span="10">是否绑定</el-col>
+          <el-col :span="7" class="text-c">
+            <el-tag size="mini" type="success">已绑定</el-tag>
+          </el-col>
+        </el-row>
+        <!-- <el-row v-for="index in 6" :key="index" class="data-style">
           <el-col :span="10">浙江**大学{{index}}</el-col>
           <el-col :span="7" class="text-c">
             <el-tag size="mini" effect="dark" type="success">在线 </el-tag>
@@ -17,7 +35,7 @@
             <el-tag size="mini" effect="dark" type="danger">离线 </el-tag>
             <span>&nbsp; 5</span>
           </el-col>
-        </el-row>
+        </el-row>-->
       </div>
     </div>
   </div>

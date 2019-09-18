@@ -7,7 +7,37 @@
     <div class="content">
       <div class="title">设备数据</div>
       <div class="data">
-        <el-row v-for="index in 6" :key="index" class="data-style">
+        <el-row class="data-style">
+          <el-col :span="10">毛坯工件</el-col>
+          <el-col :span="7" class="text-c">
+            <span>100</span>
+          </el-col>
+        </el-row>
+        <el-row class="data-style">
+          <el-col :span="10">成品工件</el-col>
+          <el-col :span="7" class="text-c">
+            <span>10</span>
+          </el-col>
+        </el-row>
+        <el-row class="data-style">
+          <el-col :span="10">速度百分比</el-col>
+          <el-col :span="7" class="text-c">
+            <span>90%</span>
+          </el-col>
+        </el-row>
+        <el-row class="data-style">
+          <el-col :span="10">操作模式</el-col>
+          <el-col :span="7" class="text-c">
+            <span>***</span>
+          </el-col>
+        </el-row>
+        <el-row class="data-style">
+          <el-col :span="10">当前状态</el-col>
+          <el-col :span="7">
+            <div class="circle online"></div>
+          </el-col>
+        </el-row>
+        <!-- <el-row v-for="index in 6" :key="index" class="data-style">
           <el-col :span="10">浙江**大学{{index}}</el-col>
           <el-col :span="7" class="text-c">
             <el-tag size="mini" effect="dark" type="success">在线 </el-tag>
@@ -17,7 +47,7 @@
             <el-tag size="mini" effect="dark" type="danger">离线 </el-tag>
             <span>&nbsp; 5</span>
           </el-col>
-        </el-row>
+        </el-row>-->
       </div>
     </div>
   </div>
@@ -107,5 +137,21 @@ export default {
   height: 35px;
   margin: 0px 15px;
   padding-top: 5px;
+}
+.circle {
+  width: 15px;
+  height: 15px;
+  margin:0 auto;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+}
+.online {
+  background-color: #00ffff;
+  box-shadow: inset 4px 4px 4px 4px #00ffff;
+}
+.outline {
+  background-color: #F49033;
+  box-shadow: inset 4px 4px 4px 4px #F49033;
 }
 </style>

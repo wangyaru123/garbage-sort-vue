@@ -333,34 +333,29 @@ export default {
       }
       // 机器人数据解析
       if (robot) {
-        const robot_tem = []
-        for (let i = 0; i < robot.length; i++) {
-          if (robot[i].key === 'PhysicalJoints') {
-            if (robot[i].value.length !== 6) {
-              const value_tem = JSON.parse(robot[i].value)
-              robot_tem[0] = value_tem[0] + ' 度'
-              robot_tem[1] = value_tem[1] + ' 度'
-              robot_tem[2] = value_tem[2] + ' 度'
-              robot_tem[3] = value_tem[3] + ' 度'
-              robot_tem[4] = value_tem[4] + ' 度'
-              robot_tem[5] = value_tem[5] + ' 度'
-            }
-          }
-          if (robot[i].key === 'SpeedRatio') {
-            robot_tem[6] = robot[i].value + ' %'
-          }
-          if (robot[i].key === 'OperationMode') {
-            robot_tem[7] = robot[i].value
-          }
-          if (robot[i].key === 'CtrlState') {
-            robot_tem[8] = robot[i].value
-          }
-          if (robot[i].key === 'ErrorState') {
-            robot_tem[9] = robot[i].value
+        const pj_PhysicalJoints = robot.PhysicalJoints
+        if (pj_PhysicalJoints) {
+          if (pj_PhysicalJoints.value.length !== 6) {
+            const value_tem = JSON.parse(pj_PhysicalJoints.value)
+            this.robotInfo[0] = value_tem[0] + ' 度'
+            this.robotInfo[1] = value_tem[1] + ' 度'
+            this.robotInfo[2] = value_tem[2] + ' 度'
+            this.robotInfo[3] = value_tem[3] + ' 度'
+            this.robotInfo[4] = value_tem[4] + ' 度'
+            this.robotInfo[5] = value_tem[5] + ' 度'
           }
         }
-        if (robot_tem !== []) {
-          this.robotInfo = robot_tem
+        if (robot.SpeedRatio) {
+          this.robotInfo[6] = robot.SpeedRatio.value + ' %'
+        }
+        if (robot.OperationMode) {
+          this.robotInfo[7] = robot.OperationMode.value
+        }
+        if (robot.CtrlState) {
+          this.robotInfo[8] = robot.CtrlState.value
+        }
+        if (robot.ErrorState) {
+          this.robotInfo[9] = robot.ErrorState.value
         }
       }
     },
@@ -416,7 +411,6 @@ export default {
     display: flex;
     align-items: center;
   }
-
   .alignCenter{
     display: flex;
     justify-content:center;
@@ -435,6 +429,11 @@ export default {
     }
     /deep/ .el-card__header{
       border-bottom:none;
+    }
+  }
+  .h-auto{
+    /deep/ .el-select{
+     width:120px;
     }
   }
   .sparkGreen,.sparkGray{

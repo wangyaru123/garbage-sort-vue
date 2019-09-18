@@ -97,22 +97,28 @@ export default {
       const time = this.$dayjs().format('HH:mm:ss:SSS')
       // 机器人数据解析
       if (robot) {
-        for (let i = 0; i < robot.length; i++) {
-          if (robot[i].key === 'PhysicalJoints') {
-            if (robot[i].value.length !== 6) {
-              const value_tem = JSON.parse(robot[i].value)
-              this.robotInfo[0] = value_tem[0]
-              this.robotInfo[1] = value_tem[1]
-              this.robotInfo[2] = value_tem[2]
-              this.robotInfo[3] = value_tem[3]
-              this.robotInfo[4] = value_tem[4]
-              this.robotInfo[5] = Math.abs(value_tem[5]) > 180 ? (value_tem[5] > 0 ? value_tem[5] - 360 : value_tem[5] + 360) : value_tem[5]
-            }
+        const pj = robot.PhysicalJoints
+        if (pj) {
+          if (pj.value.length !== 6) {
+            const value_tem = JSON.parse(pj.value)
+            this.robotInfo[0] = value_tem[0]
+            this.robotInfo[1] = value_tem[1]
+            this.robotInfo[2] = value_tem[2]
+            this.robotInfo[3] = value_tem[3]
+            this.robotInfo[4] = value_tem[4]
+            this.robotInfo[5] = Math.abs(value_tem[5]) > 180 ? (value_tem[5] > 0 ? value_tem[5] - 360 : value_tem[5] + 360) : value_tem[5]
+            // this.robotInfo[5] = this.getModelData(value_tem[5])
           }
         }
-        console.log(time)
+        // console.log(time)
         this.$refs.robotState.updateData(this.robotInfo, time)
       }
+    },
+    getModelData(data) { // 将机器人第六轴数据 模型到 -180 到 180 之间
+      while (data > 360) {
+        data = data - 360
+      }
+      return data - data / 180 * 360
     }
   }
 }
