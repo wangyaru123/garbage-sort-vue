@@ -39,9 +39,10 @@ export default {
             splitNumber: 20, // 分割20份
             center: ['50%', '55%'],
             detail: {
-              formatter: '程序',
+              formatter: '运行模式',
               textStyle: {
-                fontSize: 18
+                fontSize: 18,
+                fontFamily: 'Microsoft YaHei'
               }
             },
             data: [{ value: 30 }],
