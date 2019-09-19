@@ -58,6 +58,10 @@ export default {
                 textStyle: {
                   color: '#000',
                   fontSize: 16
+                },
+                formatter: function (params) {
+                  if (params.value > 0) return params.value
+                  else return ''
                 }
               },
               color: new this.$echarts.graphic.LinearGradient(
