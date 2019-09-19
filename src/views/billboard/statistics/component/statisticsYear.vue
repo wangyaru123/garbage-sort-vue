@@ -56,7 +56,7 @@ export default {
                 show: true,
                 position: 'insideTop',
                 textStyle: {
-                  color: '#000',
+                  color: '#fff',
                   fontSize: 16
                 },
                 formatter: function (params) {
