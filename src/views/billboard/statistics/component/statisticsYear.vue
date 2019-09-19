@@ -5,7 +5,7 @@
     <div class="corner bottom-left-corner"></div>
     <div class="corner bottom-right-corner"></div>
     <div class="content">
-      <div class="title">按年统计</div>
+      <div class="title">设备安装按年统计</div>
       <div :id="chartId" class="chart-style"></div>
     </div>
   </div>
@@ -21,10 +21,10 @@ export default {
       options: {
         color: ['#3398DB'],
         grid: {
-          top: 20,
+          top: 40,
           left: 40,
           right: 15,
-          bottom: '11%'
+          bottom: 20
         },
         xAxis: {
           type: 'category',
@@ -50,12 +50,12 @@ export default {
         series: [{
           data: [800, 1000, 1500, 1800, 2000, 3000, 4000, 6000, 8000],
           type: 'bar',
-          barWidth: 30,
+          barWidth: '40%',
           itemStyle: {
             normal: {
               label: {
                 show: true,
-                position: 'insideTop',
+                position: 'top',
                 textStyle: {
                   color: '#fff',
                   fontSize: 12
@@ -85,6 +85,9 @@ export default {
               )
             }
           }
+        }, {
+          data: [800, 1000, 1500, 1800, 2000, 3000, 4000, 6000, 8000],
+          type: 'line'
         }]
       }
     }

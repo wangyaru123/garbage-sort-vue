@@ -6,7 +6,7 @@
     <div class="corner bottom-left-corner"></div>
     <div class="corner bottom-right-corner"></div>
     <div class="content">
-      <div class="title">按省分布</div>
+      <div class="title">设备安装按省分布</div>
       <div :id="chartId" class="map-style"></div>
     </div>
   </div>
@@ -127,6 +127,7 @@ export default {
           min: 0,
           max: 200,
           calculable: true,
+          show: false,
           inRange: {
             color: ['#50a3ba', '#eac736', '#d94e5d']
           },
@@ -157,9 +158,10 @@ export default {
             type: 'scatter',
             coordinateSystem: 'geo',
             data: convertData(data),
-            symbolSize: function (val) {
-              return val[2] / 10
-            },
+            // symbolSize: function (val) {
+            //   return val[2] / 10
+            // },
+            symbolSize: 1,
             label: {
               normal: {
                 show: true,
@@ -210,6 +212,17 @@ export default {
     initChart() {
       this.chart = this.$echarts.init(document.getElementById(this.chartId))
       this.chart.setOption(this.chartOptions)
+      setTimeout(() => {
+        if (this.isMobile === true) {
+          this.chartOptions.series[0].label.normal.formatter = '{@[2]}'
+          this.chart.setOption(this.chartOptions)
+        } else {
+          this.chartOptions.series[0].label.normal.formatter = params => {
+            return params.name + ' : ' + params.value[2]
+          }
+          this.chart.setOption(this.chartOptions)
+        }
+      }, 1000)
     },
     //  自动适配宽度
     updateResize() {
