@@ -50,6 +50,7 @@ export default {
         series: [{
           data: [800, 1000, 1500, 1800, 2000, 3000, 4000, 6000, 8000],
           type: 'bar',
+          barWidth: 30,
           itemStyle: {
             normal: {
               label: {
@@ -57,7 +58,7 @@ export default {
                 position: 'insideTop',
                 textStyle: {
                   color: '#fff',
-                  fontSize: 16
+                  fontSize: 12
                 },
                 formatter: function (params) {
                   if (params.value > 0) return params.value

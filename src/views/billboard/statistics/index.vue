@@ -14,7 +14,7 @@
           <statistics-year></statistics-year>
         </div>
       </el-col>
-      <el-col :lg="16" :md="24" :sm="24" class="content-layout" :style="{height:(isMobile?'70vh':'')}">
+      <el-col :lg="16" :md="24" :sm="24" class="content-layout" :style="{height:(isMobile?'50vh':'')}">
         <device-map></device-map>
       </el-col>
     </el-row>
