@@ -231,7 +231,7 @@ export default {
 <style lang="scss" scoped>
 .map-style {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 30px);
   // padding: 20px;
 }
 .main-style {
