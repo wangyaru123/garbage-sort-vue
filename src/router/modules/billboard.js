@@ -21,6 +21,12 @@ const billboardRouter = {
       component: () => import('@/views/billboard/detail/index'),
       name: 'Billboard.Detail',
       meta: { title: '设备详情' }
+    },
+    {
+      path: 'statistics',
+      component: () => import('@/views/billboard/statistics/index'),
+      name: 'Billboard.Statistics',
+      meta: { title: '数量统计' }
     }
   ]
 }
