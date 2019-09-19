@@ -14,7 +14,6 @@
               </el-select>
             </div>
           </div>
-
           <img :src="machineImg" class="sidebar-logo" alt="">
         </el-card>
       </el-col>

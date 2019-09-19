@@ -88,31 +88,31 @@
               </tr>
               <tr>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.ErrorStatus?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[0]===1?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.HstopStatus?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[1]===1?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.AuthorityStatus?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[2]===1?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.ServoStatus?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[3]===1?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.AxisMoveStatus?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[4]===1?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.ProgMoveStatus?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[5]===1?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.ProgLoadStatus?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[6]===1?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.ProgHoldStatus?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[7]===1?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.ProgLoadStatus?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[8]===1?'true-color':'false-color'"></span>
                 </td>
                 <!--<td>
                   <span class="iconfont icon-yuan" :class="robotData.ProgHoldStatus?'true-color':'false-color'"></span>
@@ -128,7 +128,7 @@
                 </div>
                 <div class="right-div">
                   <p class="text-gray">模式状态</p>
-                  <p class="font-25">{{robotData.ModeStatus===1?'手动':robotData.ModeStatus===2?'自动':'远程'}}</p>
+                  <p class="font-25">{{robotData.ModeStatus===1?'手动':robotData.ModeStatus===2?'等待自动':'自动'}}</p>
                 </div>
               </el-card>
             </el-col>
@@ -172,13 +172,13 @@
         <!-- 仪表盘1 -->
         <el-col :lg="12" :md="24" :sm="24" class="mt-5 no-shadow">
           <el-card class="box-card">
-          <gaugeChart chartId="gaugeChart" ref="rateBarChart"></gaugeChart>
+          <gaugeChart chartId="gaugeChart" ref="modeBarChart"></gaugeChart>
           </el-card>
         </el-col>
         <!-- 仪表盘2 -->
         <el-col :lg="12" :md="24" :sm="24" class="mt-5 no-shadow">
           <el-card class="box-card">
-          <gaugeChartTwo chartId="gaugeChartTwo" ref="rateBarChart"></gaugeChartTwo>
+          <gaugeChartTwo chartId="gaugeChartTwo" ref="speedBarChart"></gaugeChartTwo>
           </el-card>
         </el-col>
         <!-- 机器人角度 -->
@@ -194,22 +194,53 @@
         <el-col :lg="12" :md="24" :sm="24" class="mt-10 no-shadow">
           <!--<robotStateChartArea :chartId="chartIds[1]" :titleName="titleNames[1]" :legendData="legendDatas[1]" ref="positionChart"></robotStateChartArea>-->
           <el-card class="pb-10 tableHeight">
-            <table class="mt-5 table table-bordered text-c" cellspacing="0" width="100%">
+            <el-table :data="robotData.log" border stripe :class="isMobile?'mt-5':''">
+              <el-table-column label="id" align="center">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.id }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="title" align="center">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.title }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="desc" align="center">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.desc }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="tstamp" width="100px" align="center">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.tstamp.replace('T','') }}</span>
+                </template>
+              </el-table-column>
+            </el-table>
+            <!--<table class="mt-5 table table-bordered text-c" cellspacing="0" width="100%">
               <tbody>
               <tr>
-                <td width="60">序号</td><td>消息</td>
+                <td width="60">序号</td><td>机器人运行状态信息</td>
               </tr>
               <tr>
-                <td width="60">01</td><td>消息</td>
+                <td width="60">01</td><td>{{robotData.log[0]}}</td>
               </tr>
               <tr>
-                <td width="60">02</td><td>消息</td>
+                <td width="60">02</td><td>{{robotData.log[1]}}</td>
               </tr>
               <tr>
-                <td width="60">03</td><td>消息</td>
+                <td width="60">03</td><td>{{robotData.log[2]}}</td>
+              </tr>
+              <tr>
+                <td width="60">04</td><td>{{robotData.log[3]}}</td>
+              </tr>
+              <tr>
+                <td width="60">05</td><td>{{robotData.log[4]}}</td>
+              </tr>
+              <tr>
+                <td width="60">06</td><td>{{robotData.log[5]}}</td>
               </tr>
               </tbody>
-            </table>
+            </table>-->
           </el-card>
         </el-col>
       </el-row>
@@ -221,13 +252,13 @@
 import robotStateChartArea from './component/robotStateChart'
 import gaugeChart from './component/gaugeChart'
 import gaugeChartTwo from './component/gaugeChartTwo'
+
 export default {
   // 父组件传入的属性值
   props: {
     robotData: null
   },
   mounted: function () {
-    this.getRateByDay('rateBarChart', 'ratePieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
   },
   components: {
     robotStateChartArea,
@@ -274,6 +305,14 @@ export default {
     // 更新图表数据
     updateData(data, time) {
       this.$refs.angleChart.updateDataChart(data, time)
+    },
+    // 更新模式图形数据
+    updateModeData(data) {
+      this.$refs.modeBarChart.updateDataChart(data)
+    },
+    // 更新速度图形数据
+    updateSpeedData(data) {
+      this.$refs.speedBarChart.updateDataChart(data)
     },
     // 清除图表数据
     clearChartData() {
