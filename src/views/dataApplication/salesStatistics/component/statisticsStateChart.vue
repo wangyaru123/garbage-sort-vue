@@ -85,19 +85,21 @@ export default {
   mounted() {
     this.initChart()
     this.doResizeChart()
-    if (this.$store.state.app.isMobile) {
-      this.setMobileOption() // 更新手机端显示
-    }
   },
   created() {
+    // if (document.body.clientWidth < 800) {
+    //   this.setMobileOption()
+    // } else {
+    //   this.setPcOption()
+    // }
   },
   computed: {
     isMobile() {
-      if (this.$store.state.app.isMobile) {
-        this.setMobileOption()
-      } else {
-        // this.setPcOption()
-      }
+      // if (this.$store.state.app.isMobile) {
+      //   this.setMobileOption()
+      // } else {
+      //   this.setPcOption()
+      // }
       return this.$store.state.app.isMobile
     }
   },
@@ -128,18 +130,18 @@ export default {
       this.chart.dispose()
       this.chart = null
     },
-    setMobileOption() { // 更新手机端显示
-      this.options.xAxis[0].axisLabel.rotate = 45
-      this.options.xAxis[0].axisLabel.margin = 5
-      this.options.xAxis[0].axisLabel.textStyle.fontSize = 9
-      this.chart.setOption(this.options)
-    },
-    setPcOption() { // 更新pc端显示
-      this.options.xAxis[0].axisLabel.rotate = 0
-      this.options.xAxis[0].axisLabel.margin = 10
-      this.options.xAxis[0].axisLabel.textStyle.fontSize = 12
-      this.chart.setOption(this.options)
-    }
+    // setMobileOption() { // 更新手机端显示
+    //   this.options.xAxis[0].axisLabel.rotate = 45
+    //   this.options.xAxis[0].axisLabel.margin = 5
+    //   this.options.xAxis[0].axisLabel.textStyle.fontSize = 9
+    //   this.chart.setOption(this.options)
+    // },
+    // setPcOption() { // 更新pc端显示
+    //   this.options.xAxis[0].axisLabel.rotate = 0
+    //   this.options.xAxis[0].axisLabel.margin = 10
+    //   this.options.xAxis[0].axisLabel.textStyle.fontSize = 12
+    //   this.chart.setOption(this.options)
+    // }
   }
 }
 </script>

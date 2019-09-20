@@ -491,6 +491,9 @@ export default {
   }
   .h-num-l{
     height: 88vh;
+    /deep/ .el-select{
+     width:140px
+    }
   }
   .h-auto,.h-num-l{
     img {
@@ -504,16 +507,15 @@ export default {
   }
   .h-auto{
     /deep/ .el-select{
-     width:150px;
+     width:100px;
     }
   }
   .sparkGreen,.sparkGray{
-    width: 15px;
-    height: 15px;
+    width: 18px;
+    height: 18px;
     background: #54d51c;
     display: inline-block;
     border-radius: 20px;
-    margin-top: 2px;
   }
   .sparkGray{
     background: #898989;
