@@ -2,30 +2,20 @@
   <div :class="isMobile? 'total-layout-mobile':'total-layout'">
     <div class="title">
       <img v-if="!isMobile" src="../../../assets/billboard/h1Posco.png" class="pl-10 float-l" alt />
-      <img v-if="!isMobile" src="../../../assets/billboard/extra.png" alt="">
       <span class="title-name">“1+X”工业机器人应用编程</span>
-      <img v-if="!isMobile" src="../../../assets/billboard/extra.png" alt="">
       <img v-if="!isMobile" src="../../../assets/billboard/homeIcon.png" class="go-back" alt @click="goBack" title="返回首页" />
     </div>
     <el-row class="content">
-      <el-col :lg="5" :md="24" :sm="24" class="content-layout">
+      <el-col :lg="8" :md="24" :sm="24" class="content-layout">
         <div class="item pb-10">
-          <device-profile></device-profile>
+          <statistics-month></statistics-month>
         </div>
         <div class="item pt-10">
-          <device-online></device-online>
+          <statistics-year></statistics-year>
         </div>
       </el-col>
-      <el-col :lg="14" :md="24" :sm="24" class="content-layout" :style="{height:(isMobile?'50vh':'')}">
+      <el-col :lg="16" :md="24" :sm="24" class="content-layout" :style="{height:(isMobile?'50vh':'')}">
         <device-map></device-map>
-      </el-col>
-      <el-col :lg="5" :md="24" :sm="24" class="content-layout">
-        <div class="item pb-10">
-          <device-alarm-stat></device-alarm-stat>
-        </div>
-        <div class="item pt-10">
-          <device-alarm-detail></device-alarm-detail>
-        </div>
       </el-col>
     </el-row>
   </div>
@@ -33,18 +23,14 @@
 
 <script>
 import deviceMap from './component/deviceMap'
-import deviceOnline from './component/deviceOnline'
-import deviceProfile from './component/deviceProfile'
-import deviceAlarmStat from './component/deviceAlarmStat'
-import deviceAlarmDetail from './component/deviceAlarmDetail'
+import statisticsMonth from './component/statisticsMonth'
+import statisticsYear from './component/statisticsYear'
 
 export default {
   components: {
     deviceMap,
-    deviceOnline,
-    deviceAlarmStat,
-    deviceProfile,
-    deviceAlarmDetail
+    statisticsMonth,
+    statisticsYear
   },
   data() {
     return {
@@ -110,7 +96,7 @@ export default {
   width: 100%;
   color: white;
   .content-layout {
-    height: 120vh;
+    height: 100vh;
     padding: 10px;
   }
 }

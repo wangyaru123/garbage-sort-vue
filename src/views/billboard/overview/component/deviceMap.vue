@@ -419,6 +419,8 @@ export default {
     return {
       chartId: 'overviewDeviceMapEchart',
       chart: null,
+      index: 0,
+      timer: null,
       chartOptions: {
         // title: {
         //   text: '全国主要城市空气质量 - 百度地图',
@@ -426,17 +428,20 @@ export default {
         // },
         tooltip: {
           trigger: 'item',
+          backgroundColor: 'rgba(0,30,49,0)',
+          // 防止提示框跑到图表外面
+          confine: true,
           formatter: function (params) {
             const html = `
-            <div style='background-color: #001e31;width: 200px; height: 100px;position: relative;box-shadow: inset 0px 0px 4px 0px #00ffff;'>
-              <div style=' position: absolute;width: 25px;height: 25px;top: -1px;left: -1px;border-left: 3px solid #009fff;border-top: 3px solid #009fff;'></div>
-              <div style=' position: absolute;width: 25px;height: 25px;top: -1px;right: -1px;border-right: 3px solid #009fff;border-top: 3px solid #009fff;'></div>
-              <div style=' position: absolute;width: 25px;height: 25px;bottom: -1px;left: -1px;border-left: 3px solid #009fff;border-bottom: 3px solid #009fff;'></div>
-              <div style=' position: absolute;width: 25px;height: 25px;bottom: -1px;right: -1px;border-right: 3px solid #009fff;border-bottom: 3px solid #009fff;'></div>
-              <div style=' width: 200px;height: 100px;padding: 10px;'>
+            <div style='background-color: rgba(0,30,49,0.7);position: relative;box-shadow: inset 0px 0px 4px 0px #00ffff;'>
+              <div style=' position: absolute;width: 25px;height: 25px;top: -5px;left: -5px;border-left: 2px solid #009fff;border-top: 2px solid #009fff;'></div>
+              <div style=' position: absolute;width: 25px;height: 25px;top: -5px;right: -5px;border-right: 2px solid #009fff;border-top: 2px solid #009fff;'></div>
+              <div style=' position: absolute;width: 25px;height: 25px;bottom: -5px;left: -5px;border-left: 2px solid #009fff;border-bottom: 2px solid #009fff;'></div>
+              <div style=' position: absolute;width: 25px;height: 25px;bottom: -5px;right: -5px;border-right: 2px solid #009fff;border-bottom: 2px solid #009fff;'></div>
+              <div style='padding: 10px;'>
                 <p style="padding:3px;">${params.seriesName}</p>
                 <p style="padding:3px;">位置：${params.data.name}</p>
-                <p style="padding:3px;">数据：${params.data.value[1]}</p>
+                <p style="padding:3px;">数量：${params.data.value[2]}</p>
               </div>
             </div>
             `
@@ -445,6 +450,7 @@ export default {
         },
         bmap: {
           center: [104.114129, 37.550339],
+          // center: [120.114129, 37.320002],
           zoom: 5,
           roam: true,
           mapStyle: {
@@ -617,6 +623,7 @@ export default {
   },
   beforeDestroy() {
     this.closeResize()
+    this.stopTimer()
   },
   computed: {
     isMobile() {
@@ -634,9 +641,32 @@ export default {
   methods: {
     initData() {
     },
+    // 初始化图表
     initChart() {
       this.chart = this.$echarts.init(document.getElementById(this.chartId))
       this.chart.setOption(this.chartOptions)
+      // 延迟启动定时器
+      setTimeout(() => {
+        if (this.isMobile === false) this.startTimer()
+      }, 2000)
+    },
+    // 开启定时器
+    startTimer() {
+      this.timer = setInterval(() => {
+        this.chart.dispatchAction({
+          type: 'showTip',
+          seriesIndex: 0,
+          dataIndex: this.index
+        })
+        this.index++
+        if (this.index >= this.chartOptions.series[0].data.length) this.index = 0
+      }, 3000)
+    },
+    // 关闭定时器
+    stopTimer() {
+      if (this.timer != null) {
+        clearInterval(this.timer)
+      }
     },
     //  自动适配宽度
     updateResize() {
