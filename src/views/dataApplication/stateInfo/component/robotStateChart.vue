@@ -136,7 +136,7 @@ export default {
         if (this.chart) {
           this.chart.resize()
         }
-      }, 500)
+      }, 100)
       window.addEventListener('resize', this.__resizeHanlder)
     },
     // 更新图表中的数据
@@ -178,7 +178,7 @@ export default {
     setTime() {
       this.clearTimeSet = setInterval(() => {
         this.chart.setOption(this.chartOptions)
-      }, 100)
+      }, 500)
     }
   }
 }

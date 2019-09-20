@@ -26,104 +26,101 @@
           <div slot="header" class="clearfix">
             <div>开关量</div>
           </div>
-          <!--<div v-for="o in inputInfo" :key="o" class="text item m-10">
-            {{o}}
-          </div>-->
           <el-col :span="12" class="mt-10">
             <el-col :span="12" class="text-r">库位1：</el-col>
             <el-col :span="12">
-              <span v-if="inputArrayData[0][0]==='0'?false:true" class="sparkGreen"></span>
+              <span v-if="switchInfo[0]==='1'?true:false" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
             </el-col>
           </el-col>
           <el-col :span="12" class="mt-10">
             <el-col :span="12" class="text-r"> 库位2：</el-col>
             <el-col :span="12">
-              <span v-if="inputArrayData[0][1]==='0'?false:true" class="sparkGreen"></span>
+              <span v-if="switchInfo[1]==='1'?true:false" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
             </el-col>
           </el-col>
           <el-col :span="12" class="mt-10">
             <el-col :span="12" class="text-r">库位3：</el-col>
             <el-col :span="12">
-              <span v-if="inputArrayData[0][2]==='0'?false:true" class="sparkGreen"></span>
+              <span v-if="switchInfo[2]==='1'?true:false" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
             </el-col>
           </el-col>
           <el-col :span="12" class="mt-10">
             <el-col :span="12" class="text-r">库位4：</el-col>
             <el-col :span="12">
-              <span v-if="inputArrayData[0][3]==='0'?false:true" class="sparkGreen"></span>
+              <span v-if="switchInfo[3]==='1'?true:false" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
             </el-col>
           </el-col>
           <el-col :span="12" class="mt-10">
             <el-col :span="12" class="text-r">库位5：</el-col>
             <el-col :span="12">
-              <span v-if="inputArrayData[1][0]==='0'?false:true" class="sparkGreen"></span>
+              <span v-if="switchInfo[4]==='1'?true:false" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
             </el-col>
           </el-col>
           <el-col :span="12" class="mt-10">
             <el-col :span="12" class="text-r">库位6：</el-col>
             <el-col :span="12">
-              <span v-if="inputArrayData[1][1]==='0'?false:true" class="sparkGreen"></span>
+              <span v-if="switchInfo[5]==='1'?true:false" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
             </el-col>
           </el-col>
           <el-col :span="12" class="mt-10">
             <el-col :span="12" class="text-r">毛坯工件：</el-col>
             <el-col :span="12">
-              <span v-if="inputArrayData[1][2]==='0'?false:true" class="sparkGreen"></span>
+              <span v-if="switchInfo[6]==='1'?true:false" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
             </el-col>
           </el-col>
           <el-col :span="12" class="mt-10">
             <el-col :span="12" class="text-r">半成品工件：</el-col>
             <el-col :span="12">
-              <span v-if="inputArrayData[1][3]==='0'?false:true" class="sparkGreen"></span>
+              <span v-if="switchInfo[7]==='1'?true:false" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
             </el-col>
           </el-col>
           <el-col :span="12" class="mt-10">
             <el-col :span="12" class="text-r">成品工件：</el-col>
             <el-col :span="12">
-              <span v-if="inputArrayData[1][0]==='0'?false:true" class="sparkGreen"></span>
+              <span v-if="switchInfo[8]==='1'?true:false" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
             </el-col>
           </el-col>
           <el-col :span="12" class="mt-10">
             <el-col :span="12" class="text-r">检测到卡：</el-col>
             <el-col :span="12">
-              <span v-if="inputArrayData[1][1]==='0'?false:true" class="sparkGreen"></span>
+              <span v-if="switchInfo[9]==='1'?true:false" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
             </el-col>
           </el-col>
           <el-col :span="12" class="mt-10">
             <el-col :span="12" class="text-r">相机联机：</el-col>
             <el-col :span="12">
-              <span v-if="inputArrayData[1][2]==='0'?false:true" class="sparkGreen"></span>
+              <span v-if="switchInfo[10]==='1'?true:false" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
             </el-col>
           </el-col>
           <el-col :span="12" class="mt-10">
             <el-col :span="12" class="text-r">红色工件：</el-col>
             <el-col :span="12">
-              <span v-if="inputArrayData[1][3]==='0'?false:true" class="sparkGreen"></span>
+              <span v-if="switchInfo[11]==='1'?true:false" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
             </el-col>
           </el-col>
           <el-col :span="12" class="mt-10 mb-10">
             <el-col :span="12" class="text-r">黄色工件：</el-col>
             <el-col :span="12">
-              <span v-if="inputArrayData[2][0]==='0'?false:true" class="sparkGreen"></span>
+              <span v-if="switchInfo[12]==='1'?true:false" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
             </el-col>
           </el-col>
           <el-col :span="12" class="mt-10 mb-10">
             <el-col :span="12" class="text-r">蓝色工件：</el-col>
             <el-col :span="12">
-              <span v-if="inputArrayData[2][1]==='0'?false:true" class="sparkGreen"></span>
+              <span v-if="switchInfo[13]==='1'?true:false" class="sparkGreen"></span>
               <span v-else class="sparkGray"></span>
             </el-col>
           </el-col>
@@ -136,43 +133,43 @@
           <div class="text item m-10">
             <el-col :span="12" class="mt-10">
               <el-col :span="13" class="text-r">关节1坐标：</el-col>
-              <el-col :span="11" class="alignLeft">{{robotInfo[0]}}</el-col>
+              <el-col :span="11" class="alignLeft">{{robotData[1]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10">
               <el-col :span="13" class="text-r">关节2坐标：</el-col>
-              <el-col :span="11" class="alignLeft">{{robotInfo[1]}}</el-col>
+              <el-col :span="11" class="alignLeft">{{robotData[1]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10">
               <el-col :span="13" class="text-r">关节3坐标：</el-col>
-              <el-col :span="11" class="alignLeft">{{robotInfo[2]}}</el-col>
+              <el-col :span="11" class="alignLeft">{{robotData[2]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10">
               <el-col :span="13" class="text-r">关节4坐标：</el-col>
-              <el-col :span="11" class="alignLeft">{{robotInfo[3]}}</el-col>
+              <el-col :span="11" class="alignLeft">{{robotData[3]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10">
               <el-col :span="13" class="text-r">关节5坐标：</el-col>
-              <el-col :span="11" class="alignLeft">{{robotInfo[4]}}</el-col>
+              <el-col :span="11" class="alignLeft">{{robotData[4]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10">
               <el-col :span="13" class="text-r">关节6坐标：</el-col>
-              <el-col :span="11" class="alignLeft">{{robotInfo[5]}}</el-col>
+              <el-col :span="11" class="alignLeft">{{robotData[5]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10">
               <el-col :span="13" class="text-r">速度百分比：</el-col>
-              <el-col :span="11" class="alignLeft">{{robotInfo[6]}}</el-col>
+              <el-col :span="11" class="alignLeft">{{robotData[6]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10">
               <el-col :span="13" class="text-r">操作模式：</el-col>
-              <el-col :span="11" class="alignLeft">{{robotInfo[7]}}</el-col>
+              <el-col :span="11" class="alignLeft">{{robotData[7]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10 mb-10">
               <el-col :span="13" class="text-r">当前状态：</el-col>
-              <el-col :span="11" class="alignLeft">{{robotInfo[8]}}</el-col>
+              <el-col :span="11" class="alignLeft">{{robotData[8]}}</el-col>
             </el-col>
             <el-col :span="12" class="mt-10 mb-10">
               <el-col :span="13" class="text-r">错误状态：</el-col>
-              <el-col :span="11" class="alignLeft">{{robotInfo[9]}}</el-col>
+              <el-col :span="11" class="alignLeft">{{robotData[9]}}</el-col>
             </el-col>
           </div>
         </el-card>
@@ -213,10 +210,7 @@ export default {
   data() {
     return {
       machineImg, // 头像图片
-      websocket: '',
       robotData: ['', '', '', '', '', '', '', '', ''],
-      inputArrayData: [['0', '0', '0', '0'], ['0', '0', '0', '0'], ['0', '0', '0', '0'], ['0', '0', '0', '0']],
-      outputArrayData: [['0', '0', '0', '0'], ['0', '0', '0', '0'], ['0', '0', '0', '0'], ['0', '0', '0', '0']],
       // *** mqtt ***
       mqttConf: {
         client: '',
@@ -241,7 +235,8 @@ export default {
       modelInfo: [],
       choose_robot_idx: '', // 选择的机器人
       robotInfo: [],
-      PLCInfo: [] // PLC
+      PLCInfo: [], // PLC
+      switchInfo: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] // 开关量
     }
   },
   created() {
@@ -265,6 +260,16 @@ export default {
           this.mqttOperate() // 开始订阅
         }
       }).catch(err => this.$message.error(err))
+      /* const tem = '[{"id":1,"gmtCreate":"2019-05-07 09:11:22","gmtModified":"2019-09-19 17:00:53","key":"storage","description":"成品仓储模块","topic":"web-SZ-2019001:DV-2019001","equipmentId":1,"configSubmodules":[{"id":1,"moduleId":1,"key":"PLC-01","description":"PLC设备1","gmtCreate":"2019-09-11 15:18:57","gmtModified":"2019-09-11 15:19:00","type":"0"},{"id":2,"moduleId":1,"key":"Abb-01","description":"ABB机器人设备1","gmtCreate":"2019-09-11 15:27:58","gmtModified":"2019-09-11 15:28:01","type":"1"},{"id":3,"moduleId":1,"key":"PLC-02","description":"PLC设备2","gmtCreate":"2019-09-19 09:16:24","gmtModified":"2019-09-19 09:16:27","type":"0"},{"id":4,"moduleId":1,"key":"Abb-02","description":"ABB机器人设备2","gmtCreate":"2019-09-19 09:17:20","gmtModified":"2019-09-19 09:17:22","type":"1"}]}]'
+      const _a = JSON.parse(tem)
+      this.device[0].module = _a
+      this.modelInfo = _a // 初始model
+      this.choose_model_idx = 0
+      this.getRobotInfo(this.modelInfo[0])
+      if (this.robotInfo.length > 0) {
+        this.mqttConf.theme = this.modelInfo[0].topic // 更新订阅主题
+        this.mqttOperate() // 开始订阅
+      }*/
     },
     getRobotInfo(module) { // 获取model中的机器人
       this.robotInfo = []
@@ -290,8 +295,8 @@ export default {
       if (this.device[this.choose_device_idx].module) {
         this.modelInfo = this.device[this.choose_device_idx].module
         this.choose_model_idx = 0
-        this.getRobotInfo(this.modelInfo[0])
-        if (this.robotInfo.length > 0) {
+        if (this.modelInfo.length > 0) {
+          this.getRobotInfo(this.modelInfo[0])
           this.mqttConf.theme = this.modelInfo[0].topic // 更新订阅主题
           this.mqttOperate() // 开始订阅
         }
@@ -300,22 +305,20 @@ export default {
     changeModel() { // 选择model事件
       this.mqttConf.client.end() // 关闭订阅
       this.getRobotInfo(this.modelInfo[this.choose_model_idx])
-      if (this.robotInfo.length > 0) {
-        this.mqttConf.theme = this.modelInfo[this.choose_model_idx].topic // 更新订阅主题
-        this.mqttOperate() // 开始订阅
-      }
+      this.mqttConf.theme = this.modelInfo[this.choose_model_idx].topic // 更新订阅主题
+      this.mqttOperate() // 开始订阅
     },
     changeRobot() { // 选择机器人事件
     },
-    mqttConnect() { // mqtt
+    mqttOperate() { // mqtt
       // 连接mqtt
       this.mqttConf.client = mqtt.connect(this.mqttConf.addr, this.mqttConf.options)
       // 订阅
       this.mqttConf.client.on('connect', (e) => {
-        console.log('连接成功：' + e)
-        this.mqttConf.client.subscribe(this.theme, { qos: 1 }, (error) => {
+        console.log('连接成功：' + this.mqttConf.addr)
+        this.mqttConf.client.subscribe(this.mqttConf.theme, { qos: 1 }, (error) => {
           if (!error) {
-            console.log('订阅成功：订阅主题【' + this.theme + '】')
+            console.log('订阅成功：订阅主题【' + this.mqttConf.theme + '】')
           } else {
             console.log('订阅失败：' + error)
           }
@@ -341,14 +344,42 @@ export default {
     },
     initData(data) { // 订阅数据解析
       // IO 解析
-      this.PLCInfo.forEach(v => {
+      const plc_switch = []
+      /* this.PLCInfo.forEach(v => {
         for (const key in data) {
           if (key === v.key) {
             v.data = data[key]
           }
         }
-      })
-
+      })*/
+      let plc = ''
+      for (const key in data) {
+        if (key === 'PLC-01') {
+          plc = data[key]
+        }
+      }
+      if (plc !== '') {
+        const db = plc.DB201
+        if (db) {
+          plc_switch[0] = db.value.charAt(2)
+          plc_switch[1] = db.value.charAt(3)
+          plc_switch[2] = db.value.charAt(4)
+          plc_switch[3] = db.value.charAt(5)
+          plc_switch[4] = db.value.charAt(6)
+          plc_switch[5] = db.value.charAt(7)
+          plc_switch[6] = db.value.charAt(8)
+          plc_switch[7] = db.value.charAt(9)
+          plc_switch[8] = db.value.charAt(13)
+          plc_switch[9] = db.value.charAt(14)
+          plc_switch[10] = db.value.charAt(15)
+          plc_switch[11] = db.value.charAt(16)
+          plc_switch[12] = db.value.charAt(17)
+          plc_switch[13] = db.value.charAt(18)
+          if (plc_switch.length > 0) {
+            this.switchInfo = plc_switch
+          }
+        }
+      }
       // 机器人解析
       let robot = ''
       for (const key in data) {
@@ -357,27 +388,31 @@ export default {
         }
       }
       if (robot !== '') {
+        const r_tem = []
         const pj = robot.jointtarget
         if (pj) {
           const value_tem = JSON.parse(pj.value)
-          this.robotData[0] = value_tem[0] + ' 度'
-          this.robotData[1] = value_tem[1] + ' 度'
-          this.robotData[2] = value_tem[2] + ' 度'
-          this.robotData[3] = value_tem[3] + ' 度'
-          this.robotData[4] = value_tem[4] + ' 度'
-          this.robotData[5] = Math.abs(value_tem[5]) > 180 ? (value_tem[5] > 0 ? value_tem[5] - 360 : value_tem[5] + 360) : value_tem[5] + ' 度'
+          r_tem[0] = value_tem[0] + ' 度'
+          r_tem[1] = value_tem[1] + ' 度'
+          r_tem[2] = value_tem[2] + ' 度'
+          r_tem[3] = value_tem[3] + ' 度'
+          r_tem[4] = value_tem[4] + ' 度'
+          r_tem[5] = Math.abs(value_tem[5]) > 180 ? (value_tem[5] > 0 ? value_tem[5] - 360 : value_tem[5] + 360) : value_tem[5] + ' 度'
         }
         if (robot.SpeedRatio) {
-          this.robotInfo[6] = robot.SpeedRatio.value + ' %'
+          r_tem[6] = robot.SpeedRatio.value + ' %'
         }
         if (robot.OperationMode) {
-          this.robotInfo[7] = robot.OperationMode.value
+          r_tem[7] = robot.OperationMode.value
         }
         if (robot.CtrlState) {
-          this.robotInfo[8] = robot.CtrlState.value
+          r_tem[8] = robot.CtrlState.value
         }
         if (robot.ErrorState) {
-          this.robotInfo[9] = robot.ErrorState.value
+          r_tem[9] = robot.ErrorState.value
+        }
+        if (r_tem !== []) {
+          this.robotData = r_tem
         }
       }
       /* const input = data.Input

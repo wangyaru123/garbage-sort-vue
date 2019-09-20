@@ -127,10 +127,10 @@
           <div slot="header">
             <div :class="isMobile?'controlDiv' : ''">
               <el-select size="small" v-model="utilizationRate.model" placeholder @change="changeUtilizationRateModel">
-                <el-option label="年利用率" value="1"></el-option>
-                <el-option label="月利用率" value="2"></el-option>
-                <el-option label="日利用率" value="3"></el-option>
-                <el-option label="时利用率" value="4"></el-option>
+                <el-option label="年稼动率" value="1"></el-option>
+                <el-option label="月稼动率" value="2"></el-option>
+                <el-option label="日稼动率" value="3"></el-option>
+                <el-option label="时稼动率" value="4"></el-option>
               </el-select>
               <span style="margin-left: 10px" v-if="utilizationRate.isShowYear">年：</span>
               <el-date-picker size="small" v-if="utilizationRate.isShowYear" v-model="utilizationRate.year" type="year" format="yyyy 年" placeholder="选择年" @change="changeUtilizationRateYear"></el-date-picker>

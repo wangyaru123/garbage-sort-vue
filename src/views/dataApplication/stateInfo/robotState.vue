@@ -75,10 +75,10 @@
           <table class="mt-5 table table-bordered text-c" cellspacing="0" width="100%" v-else>
             <tbody>
               <tr>
-                <td>手压使能信号-常开</td>
-                <td>示教器急停、手压急停信号-常闭</td>
-                <td>机器人夹爪工具张开状态光电信号</td>
-                <td>机器人夹爪工具闭合状态光电信号</td>
+                <td>变位机装配模块气缸电磁阀</td>
+                <td>井式供料推头气缸电磁阀</td>
+                <td>桌面绿色按钮指示灯</td>
+                <td>桌面红色按钮指示灯</td>
                 <td>机器人快换手抓气动系统电磁阀1</td>
                 <td>机器人快换手抓气动系统电磁阀2</td>
                 <td>机器人快换手抓气动系统电磁阀3</td>
@@ -88,31 +88,31 @@
               </tr>
               <tr>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[0]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[0]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[1]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[1]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[2]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[2]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[3]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[3]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[4]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[4]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[5]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[5]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[6]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[6]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[7]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[7]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[8]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[8]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <!--<td>
                   <span class="iconfont icon-yuan" :class="robotData.ProgHoldStatus?'true-color':'false-color'"></span>
