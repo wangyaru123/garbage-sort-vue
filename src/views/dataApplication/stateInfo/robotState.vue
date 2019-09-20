@@ -195,52 +195,27 @@
           <!--<robotStateChartArea :chartId="chartIds[1]" :titleName="titleNames[1]" :legendData="legendDatas[1]" ref="positionChart"></robotStateChartArea>-->
           <el-card class="pb-10 tableHeight">
             <el-table :data="robotData.log" border stripe :class="isMobile?'mt-5':''">
-              <el-table-column label="id" align="center">
+              <el-table-column label="序号" align="center" width="80">
                 <template slot-scope="scope">
                   <span>{{ scope.row.id }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="title" align="center">
+              <el-table-column label="标题" align="center" width="150">
                 <template slot-scope="scope">
                   <span>{{ scope.row.title }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="desc" align="center">
+              <el-table-column label="详细信息" align="center">
                 <template slot-scope="scope">
                   <span>{{ scope.row.desc }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="tstamp" width="100px" align="center">
+              <el-table-column label="时间" width="100" align="center">
                 <template slot-scope="scope">
                   <span>{{ scope.row.tstamp.replace('T','') }}</span>
                 </template>
               </el-table-column>
             </el-table>
-            <!--<table class="mt-5 table table-bordered text-c" cellspacing="0" width="100%">
-              <tbody>
-              <tr>
-                <td width="60">序号</td><td>机器人运行状态信息</td>
-              </tr>
-              <tr>
-                <td width="60">01</td><td>{{robotData.log[0]}}</td>
-              </tr>
-              <tr>
-                <td width="60">02</td><td>{{robotData.log[1]}}</td>
-              </tr>
-              <tr>
-                <td width="60">03</td><td>{{robotData.log[2]}}</td>
-              </tr>
-              <tr>
-                <td width="60">04</td><td>{{robotData.log[3]}}</td>
-              </tr>
-              <tr>
-                <td width="60">05</td><td>{{robotData.log[4]}}</td>
-              </tr>
-              <tr>
-                <td width="60">06</td><td>{{robotData.log[5]}}</td>
-              </tr>
-              </tbody>
-            </table>-->
           </el-card>
         </el-col>
       </el-row>

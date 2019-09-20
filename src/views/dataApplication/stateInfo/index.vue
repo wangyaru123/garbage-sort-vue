@@ -45,7 +45,7 @@ export default {
       // *** 机器人数据 ***
       robotData: {
         io: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        ModeStatus: 2, // 模式状态
+        ModeStatus: 1, // 模式状态
         SpeedStatus: 100, // 速度状态
         ProjectName: '暂定', // 工程名
         ProgramName: '暂定', // 程序名
@@ -79,8 +79,11 @@ export default {
   },
   mounted() {
     this.initDevice()
+    this.setRZTime() // 启动日志定时器
   },
   beforeDestroy() {
+    this.mqttConf.client.end() // 关闭订阅
+    clearInterval(this.clearTimeSet) // 清除定时器
   },
   methods: {
     initDevice() { // 初始化设备
@@ -172,20 +175,19 @@ export default {
           robot = data[key]
         }
       }
+      if (robot === '') return
       const time = this.$dayjs().format('HH:mm:ss:SSS')
       // 机器人数据解析
       if (robot) {
         const pj = robot.jointtarget
         if (pj) {
-          if (pj.value.length !== 6) {
-            const value_tem = JSON.parse(pj.value)
-            this.robotData.robotPhysicalJoints[0] = value_tem[0]
-            this.robotData.robotPhysicalJoints[1] = value_tem[1]
-            this.robotData.robotPhysicalJoints[2] = value_tem[2]
-            this.robotData.robotPhysicalJoints[3] = value_tem[3]
-            this.robotData.robotPhysicalJoints[4] = value_tem[4]
-            this.robotData.robotPhysicalJoints[5] = Math.abs(value_tem[5]) > 180 ? (value_tem[5] > 0 ? value_tem[5] - 360 : value_tem[5] + 360) : value_tem[5]
-          }
+          const value_tem = JSON.parse(pj.value)
+          this.robotData.robotPhysicalJoints[0] = value_tem[0]
+          this.robotData.robotPhysicalJoints[1] = value_tem[1]
+          this.robotData.robotPhysicalJoints[2] = value_tem[2]
+          this.robotData.robotPhysicalJoints[3] = value_tem[3]
+          this.robotData.robotPhysicalJoints[4] = value_tem[4]
+          this.robotData.robotPhysicalJoints[5] = Math.abs(value_tem[5]) > 180 ? (value_tem[5] > 0 ? value_tem[5] - 360 : value_tem[5] + 360) : value_tem[5]
         }
         // console.log(time)
         // 机器人关节角度数据
@@ -212,7 +214,6 @@ export default {
         const rz = robot.log
         if (rz) {
           this.buffer_log = JSON.parse(rz.value)
-          this.setRZTime()
         }
         // 机器人IO数据
       }
@@ -232,7 +233,7 @@ export default {
     setTime() {
       this.clearTimeSet = setInterval(() => {
         this.analogData()
-      }, 100)
+      }, 500)
     },
     analogData() { // 模拟数据
       // IO数据
@@ -263,11 +264,9 @@ export default {
       const time = this.$dayjs().format('HH:mm:ss:SSS')
       this.$refs.robotState.updateData(this.robotInfo, time)
       // 日志
-      const c = this.temLog[Math.round(Math.random() * 2)]
-      if (this.robotData.log[5] !== c) {
-        this.robotData.log.shift()
-        this.robotData.log.push(c)
-      }
+      // const c = this.temLog[Math.round(Math.random() * 2)]
+      const rz = '[\n  {\n    "id": "15119",\n    "msgtype": "1",\n    "code": "10144",\n    "tstamp": "2019-09-19 T 17:01:29",\n    "title": "等待指令的模拟",\n    "desc": "等待指令（WaitTime, WaitUntil, WaitDO等）已由 Default User 在任务 T_ROB1 中模拟。",\n    "conseqs": "",\n    "causes": "",\n    "actions": "",\n    "argc": "2",\n    "arg1": "T_ROB1",\n    "arg2": "Default User"\n  },\n  {\n    "id": "15118",\n    "msgtype": "1",\n    "code": "10151",\n    "tstamp": "2019-09-19 T 17:01:00",\n    "title": "程序已启动",\n    "desc": "从任务的入口例行程序的第一个指令开始执行任务 T_ROB1 。起因是外部客户端。",\n    "conseqs": "",\n    "causes": "",\n    "actions": "",\n    "argc": "2",\n    "arg1": "1",\n    "arg2": "T_ROB1"\n  },\n  {\n    "id": "15117",\n    "msgtype": "1",\n    "code": "10053",\n    "tstamp": "2019-09-19 T 17:01:00",\n    "title": "返回就绪",\n    "desc": "返回移动就绪。",\n    "conseqs": "",\n    "causes": "",\n    "actions": "",\n    "argc": "1",\n    "arg1": "0"\n  },\n  {\n    "id": "15116",\n    "msgtype": "1",\n    "code": "10052",\n    "tstamp": "2019-09-19 T 17:01:00",\n    "title": "返回启动",\n    "desc": "返回移动已启动。",\n    "conseqs": "",\n    "causes": "",\n    "actions": "",\n    "argc": "1",\n    "arg1": "0"\n  },\n  {\n    "id": "15115",\n    "msgtype": "1",\n    "code": "10011",\n    "tstamp": "2019-09-19 T 17:01:00",\n    "title": "电机上电(ON) 状态",\n    "desc": "系统处于电机上电 (ON) 状态。",\n    "conseqs": "电机上电 (ON) 电路已经闭合，正在给机械手电机供电。可恢复正常操作。",\n    "causes": "",\n    "actions": "",\n    "argc": "0"\n  },\n  {\n    "id": "15114",\n    "msgtype": "1",\n    "code": "10010",\n    "tstamp": "2019-09-19 T 17:00:59",\n    "title": "电机下电 (OFF) 状态",\n    "desc": "系统处于电机下电 (OFF) 状态。从手动模式切换至自动模式，或者程序执行过程中电机上电 (ON) 电路被打开后，系统就会进入此状态。",\n    "conseqs": "闭合电机上电 (ON) 电路之前无法进行操作。此时，机械手轴被机械制闸固定在适当的位置。",\n    "causes": "",\n    "actions": "",\n    "argc": "0"\n  },\n  {\n    "id": "15113",\n    "msgtype": "1",\n    "code": "10149",\n    "tstamp": "2019-09-19 T 17:00:55",\n    "title": "程序指针移至例行程序",\n    "desc": "任务 T_ROB1 中的程序指针已经被 Default User 移至例行程序 main 。",\n    "conseqs": "",\n    "causes": "",\n    "actions": "",\n    "argc": "3",\n    "arg1": "T_ROB1",\n    "arg2": "main",\n    "arg3": "Default User"\n  },\n  {\n    "id": "15112",\n    "msgtype": "1",\n    "code": "10002",\n    "tstamp": "2019-09-19 T 17:00:55",\n    "title": "程序指针已经复位",\n    "desc": "任务 T_ROB1 的程序指针已经复位。",\n    "conseqs": "启动后，程序将在任务录入例行程序发出第一个指令时开始执行。请注意重新启动后机械手可能移动到非预期位置！",\n    "causes": "操作人员可能已经手动请求了此动作。",\n    "actions": "",\n    "argc": "3",\n    "arg1": "1",\n    "arg2": "0",\n    "arg3": "T_ROB1"\n  },\n  {\n    "id": "15111",\n    "msgtype": "1",\n    "code": "10148",\n    "tstamp": "2019-09-19 T 16:57:14",\n    "title": "IO设置",\n    "desc": "IO 信号 YV3 已由 Default User 更改为值 0。",\n    "conseqs": "",\n    "causes": "",\n    "actions": "",\n    "argc": "3",\n    "arg1": "YV3",\n    "arg2": "0",\n    "arg3": "Default User"\n  },\n  {\n    "id": "15110",\n    "msgtype": "1",\n    "code": "10148",\n    "tstamp": "2019-09-19 T 16:57:05",\n    "title": "IO设置",\n    "desc": "IO 信号 YV2 已由 Default User 更改为值 0。",\n    "conseqs": "",\n    "causes": "",\n    "actions": "",\n    "argc": "3",\n    "arg1": "YV2",\n    "arg2": "0",\n    "arg3": "Default User"\n  }\n]'
+      this.buffer_log = JSON.parse(rz)
     }
   }
 }

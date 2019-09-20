@@ -39,13 +39,13 @@ export default {
             splitNumber: 20, // 分割20份
             center: ['50%', '55%'],
             detail: {
-              formatter: '自动',
+              formatter: '手动',
               textStyle: {
                 fontSize: 18,
                 fontFamily: 'Microsoft YaHei'
               }
             },
-            data: [{ value: 84, name: '运行模式' }], // 16 手动，50 自动，84 远程
+            data: [{ value: 16, name: '运行模式' }], // 16 手动，50 自动，84 远程
             axisLine: {
               lineStyle: {
                 color: [ // 表盘颜色
