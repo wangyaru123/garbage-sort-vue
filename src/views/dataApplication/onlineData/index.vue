@@ -456,6 +456,9 @@ export default {
   }
   .h-num-l{
     height: 88vh;
+    /deep/ .el-select{
+     width:140px
+    }
   }
   .h-auto,.h-num-l{
     img {
@@ -469,7 +472,7 @@ export default {
   }
   .h-auto{
     /deep/ .el-select{
-     width:150px;
+     width:100px;
     }
   }
   .sparkGreen,.sparkGray{
