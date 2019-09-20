@@ -1,6 +1,6 @@
 <template>
   <div class="isMobile?'p-5':'p-10'">
-    <div class="mt-20 mb-5">
+    <div :class="isMobile?'mobileSelect m-5':'webSelect m-10'">
       <el-select size="small" v-model="choose_device_idx" placeholder @change="changeDevice">
         <el-option v-for="(item, idx) in device" :key="item.id" :label="item.name" :value="idx"></el-option>
       </el-select>
@@ -276,4 +276,15 @@ export default {
 .el-card__header {
   padding: 10px 15px;
 }
+.webSelect{
+  /deep/ .el-select{
+    z-index: 1;
+  }
+}
+  .mobileSelect{
+    /deep/ .el-select{
+       width:100px;
+      z-index: 1;
+    }
+  }
 </style>
