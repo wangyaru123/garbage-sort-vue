@@ -1,6 +1,14 @@
 
 <template>
-  <div :id="chartId" class="map-style"></div>
+  <div class="main-style">
+    <div class="corner top-left-corner"></div>
+    <div class="corner top-right-corner"></div>
+    <div class="corner bottom-left-corner"></div>
+    <div class="corner bottom-right-corner"></div>
+    <div class="content">
+      <div :id="chartId" class="map-style"></div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -417,7 +425,23 @@ export default {
         //   left: 'center'
         // },
         tooltip: {
-          trigger: 'item'
+          trigger: 'item',
+          formatter: function (params) {
+            const html = `
+            <div style='background-color: #001e31;width: 200px; height: 100px;position: relative;box-shadow: inset 0px 0px 4px 0px #00ffff;'>
+              <div style=' position: absolute;width: 25px;height: 25px;top: -1px;left: -1px;border-left: 3px solid #009fff;border-top: 3px solid #009fff;'></div>
+              <div style=' position: absolute;width: 25px;height: 25px;top: -1px;right: -1px;border-right: 3px solid #009fff;border-top: 3px solid #009fff;'></div>
+              <div style=' position: absolute;width: 25px;height: 25px;bottom: -1px;left: -1px;border-left: 3px solid #009fff;border-bottom: 3px solid #009fff;'></div>
+              <div style=' position: absolute;width: 25px;height: 25px;bottom: -1px;right: -1px;border-right: 3px solid #009fff;border-bottom: 3px solid #009fff;'></div>
+              <div style=' width: 200px;height: 100px;padding: 10px;'>
+                <p style="padding:3px;">${params.seriesName}</p>
+                <p style="padding:3px;">位置：${params.data.name}</p>
+                <p style="padding:3px;">数据：${params.data.value[1]}</p>
+              </div>
+            </div>
+            `
+            return html
+          }
         },
         bmap: {
           center: [104.114129, 37.550339],
@@ -636,5 +660,47 @@ export default {
   width: 100%;
   height: 100%;
   // padding: 20px;
+}
+.main-style {
+  background-color: #001e31;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-shadow: inset 0px 0px 4px 0px #00ffff;
+}
+.corner {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+}
+.top-left-corner {
+  top: -1px;
+  left: -1px;
+  border-left: 3px solid #009fff;
+  border-top: 3px solid #009fff;
+}
+.top-right-corner {
+  top: -1px;
+  right: -1px;
+  border-right: 3px solid #009fff;
+  border-top: 3px solid #009fff;
+}
+.bottom-left-corner {
+  bottom: -1px;
+  left: -1px;
+  border-left: 3px solid #009fff;
+  border-bottom: 3px solid #009fff;
+}
+.bottom-right-corner {
+  bottom: -1px;
+  right: -1px;
+  border-right: 3px solid #009fff;
+  border-bottom: 3px solid #009fff;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
 }
 </style>

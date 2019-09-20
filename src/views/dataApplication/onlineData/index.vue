@@ -6,15 +6,17 @@
         <el-card :class="isMobile?'h-auto':'h-num-l'">
           <div slot="header" class="clearfix alignCenter">
             <div>
-              <el-select size="small" v-model="choose_machine_area" placeholder @change="changeMachineArea()">
-                <el-option v-for="(item, idx) in machine" :key="item.area_id" :label="item.area_name" :value="idx"></el-option>
-              </el-select>
-              <el-select size="small" v-model="choose_machine_device" placeholder @change="changeMachineDevice()">
+              <el-select size="small" v-model="choose_device_idx" placeholder @change="changeDevice">
                 <el-option v-for="(item, idx) in device" :key="item.id" :label="item.name" :value="idx"></el-option>
+              </el-select>
+              <el-select size="small" v-model="choose_model_idx" placeholder @change="changeModel">
+                <el-option v-for="(item, idx) in modelInfo" :key="item.id" :label="item.description" :value="idx"></el-option>
+              </el-select>
+              <el-select size="small" v-model="choose_robot_idx" placeholder @change="changeRobot">
+                <el-option v-for="(item, idx) in robotInfo" :key="item.key" :label="item.description" :value="idx"></el-option>
               </el-select>
             </div>
           </div>
-
           <img :src="machineImg" class="sidebar-logo" alt="">
         </el-card>
       </el-col>
@@ -191,7 +193,7 @@
 <script>
 import machineImg from '@/assets/machine.png'
 import mqtt from 'mqtt'
-import { getMachine } from '@/api/dataBox/onlineData.js'
+import { getModel } from '@/api/dataBox/onlineData.js'
 
 export default {
   computed: {
@@ -212,37 +214,34 @@ export default {
     return {
       machineImg, // 头像图片
       websocket: '',
-      robotInfo: ['', '', '', '', '', '', '', '', ''],
+      robotData: ['', '', '', '', '', '', '', '', ''],
       inputArrayData: [['0', '0', '0', '0'], ['0', '0', '0', '0'], ['0', '0', '0', '0'], ['0', '0', '0', '0']],
       outputArrayData: [['0', '0', '0', '0'], ['0', '0', '0', '0'], ['0', '0', '0', '0'], ['0', '0', '0', '0']],
-      // mqtt
-      client: '',
-      addr: 'ws://47.92.5.140:8083/mqtt',
-      theme: 'xxy',
-      options: {
-        connectTimeout: 40000,
-        clientId: '35e1acdbc2664baca8da1701eac58874',
-        username: 'xixuyang',
-        password: '123456',
-        clean: true
+      // *** mqtt ***
+      mqttConf: {
+        client: '',
+        addr: 'ws://192.168.0.133:8083/mqtt', // 'ws://47.92.5.140:8083/mqtt
+        theme: 'web-SZ-2019001:DV-20190001',
+        options: {
+          connectTimeout: 40000,
+          clientId: '35e1acdbc2664baca8da1701eac58874',
+          username: 'admin',
+          password: 'public',
+          clean: true
+        }
       },
-      // 设备
-      machine: [
-        {
-          area_id: 0,
-          area_name: '苏州',
-          device: [
-            { name: '设备1', id: 0, module: [{ description: '成品仓储模块', topic: 'web-SZ-2019001:DV-20190001' }] },
-            { name: '设备2', id: 1, module: [{ description: '成品仓储模块', topic: 'xxy' }] },
-            { name: '设备3', id: 2 }
-          ]
-        },
-        { area_id: 1, area_name: '郑州', device: [{ name: '设备11', topic: 'web-SZ-2019001:DV-20190001' }, { name: '设备12', topic: 'web-SZ-2019001:DV-20190002' }, { name: '设备13', topic: 'web-SZ-2019001:DV-20190003' }] },
-        { area_id: 2, area_name: '新乡' }
+      // *** 选择框 ***
+      device: [ // 设备
+        { name: '设备1', id: 0, module: [{ description: '成品仓储模块', topic: 'web-SZ-2019001:DV-20190001' }] },
+        { name: '设备2', id: 1, module: [{ description: '测试模块', topic: 'xxy' }] },
+        { name: '设备3', id: 2 }
       ],
-      device: [],
-      choose_machine_area: 0, // 当前选择区域
-      choose_machine_device: 0 // 当前选择设备
+      choose_device_idx: 0, // 选择的设备
+      choose_model_idx: '', // 选择的model
+      modelInfo: [],
+      choose_robot_idx: '', // 选择的机器人
+      robotInfo: [],
+      PLCInfo: [] // PLC
     }
   },
   created() {
@@ -252,18 +251,69 @@ export default {
     this.initDevice() // 初始设备
   },
   beforeDestroy() {
-    // this.closeWebSocket()
-    this.client.end() // 关闭订阅
+    this.mqttConf.client.end() // 关闭订阅
   },
   methods: {
-    // mqtt
-    mqttConnect() {
+    initDevice() { // 初始化设备
+      getModel().then(res => {
+        this.device[0].module = res
+        this.modelInfo = res // 初始model
+        this.choose_model_idx = 0
+        this.getRobotInfo(this.modelInfo[0])
+        if (this.robotInfo.length > 0) {
+          this.mqttConf.theme = this.modelInfo[0].topic // 更新订阅主题
+          this.mqttOperate() // 开始订阅
+        }
+      }).catch(err => this.$message.error(err))
+    },
+    getRobotInfo(module) { // 获取model中的机器人
+      this.robotInfo = []
+      this.PLCInfo = []
+      this.choose_robot_idx = ''
+      if (module.configSubmodules) {
+        module.configSubmodules.forEach(v => {
+          if (v.type === '1') {
+            this.robotInfo.push({ key: v.key, description: v.description })
+            this.choose_robot_idx = 0
+          } else if (v.type === '0') {
+            this.PLCInfo.push({ key: v.key, description: v.description })
+          }
+        })
+      }
+    },
+    changeDevice() { // 选择设备事件
+      this.mqttConf.client.end() // 关闭订阅
+      this.modelInfo = []
+      this.choose_model_idx = ''
+      this.robotInfo = []
+      this.choose_robot_idx = ''
+      if (this.device[this.choose_device_idx].module) {
+        this.modelInfo = this.device[this.choose_device_idx].module
+        this.choose_model_idx = 0
+        this.getRobotInfo(this.modelInfo[0])
+        if (this.robotInfo.length > 0) {
+          this.mqttConf.theme = this.modelInfo[0].topic // 更新订阅主题
+          this.mqttOperate() // 开始订阅
+        }
+      }
+    },
+    changeModel() { // 选择model事件
+      this.mqttConf.client.end() // 关闭订阅
+      this.getRobotInfo(this.modelInfo[this.choose_model_idx])
+      if (this.robotInfo.length > 0) {
+        this.mqttConf.theme = this.modelInfo[this.choose_model_idx].topic // 更新订阅主题
+        this.mqttOperate() // 开始订阅
+      }
+    },
+    changeRobot() { // 选择机器人事件
+    },
+    mqttConnect() { // mqtt
       // 连接mqtt
-      this.client = mqtt.connect(this.addr, this.options)
+      this.mqttConf.client = mqtt.connect(this.mqttConf.addr, this.mqttConf.options)
       // 订阅
-      this.client.on('connect', (e) => {
+      this.mqttConf.client.on('connect', (e) => {
         console.log('连接成功：' + e)
-        this.client.subscribe(this.theme, { qos: 1 }, (error) => {
+        this.mqttConf.client.subscribe(this.theme, { qos: 1 }, (error) => {
           if (!error) {
             console.log('订阅成功：订阅主题【' + this.theme + '】')
           } else {
@@ -273,7 +323,7 @@ export default {
       })
       // 接收消息处理
       const that = this
-      this.client.on('message', function (topic, message) {
+      this.mqttConf.client.on('message', function (topic, message) {
         // console.log('订阅的消息:' + topic + ',' + message.toString()) // 打印消息内容
         try {
           that.initData(JSON.parse(message.toString()))
@@ -281,36 +331,56 @@ export default {
         }
       })
       // 断开发起重连
-      this.client.on('reconnect', (error) => {
+      this.mqttConf.client.on('reconnect', (error) => {
         console.log('xxy 正在重连:', error)
       })
       // 链接异常处理
-      this.client.on('error', (error) => {
+      this.mqttConf.client.on('error', (error) => {
         console.log('xxy 连接失败:', error)
       })
     },
-    // WebSocket
-    openWebSocket() {
-      // 建立连接对象
-      const socket = new this.$sockjs(process.env.VUE_APP_WS_DATABOX)
-      // 获取STOMP子协议的客户端对象
-      this.stompClient = this.$stomp.over(socket)
-      this.stompClient.debug = null
-      // 定义客户端的认证信息,按需求配置
-      const headers = {
-        Authorization: this.$store.getters.authorization
-      }
-      this.stompClient.connect(headers, () => {
-        // console.log(`开启websocket并已连接，服务器地址：${process.env.VUE_APP_WS_DATABOX}，订阅的主题为：${process.env.VUE_APP_TOPIC_PER_DATABOX}`)
-        this.stompClient.subscribe(process.env.VUE_APP_TOPIC_PER_DATABOX, msg => {
-          this.initData(JSON.parse(msg.body))
-        })
-      }, error => {
-        console.log('fail : ' + error)
-      })
-    },
     initData(data) { // 订阅数据解析
-      const input = data.Input
+      // IO 解析
+      this.PLCInfo.forEach(v => {
+        for (const key in data) {
+          if (key === v.key) {
+            v.data = data[key]
+          }
+        }
+      })
+
+      // 机器人解析
+      let robot = ''
+      for (const key in data) {
+        if (key === this.robotInfo[this.choose_robot_idx].key) {
+          robot = data[key]
+        }
+      }
+      if (robot !== '') {
+        const pj = robot.jointtarget
+        if (pj) {
+          const value_tem = JSON.parse(pj.value)
+          this.robotData[0] = value_tem[0] + ' 度'
+          this.robotData[1] = value_tem[1] + ' 度'
+          this.robotData[2] = value_tem[2] + ' 度'
+          this.robotData[3] = value_tem[3] + ' 度'
+          this.robotData[4] = value_tem[4] + ' 度'
+          this.robotData[5] = Math.abs(value_tem[5]) > 180 ? (value_tem[5] > 0 ? value_tem[5] - 360 : value_tem[5] + 360) : value_tem[5] + ' 度'
+        }
+        if (robot.SpeedRatio) {
+          this.robotInfo[6] = robot.SpeedRatio.value + ' %'
+        }
+        if (robot.OperationMode) {
+          this.robotInfo[7] = robot.OperationMode.value
+        }
+        if (robot.CtrlState) {
+          this.robotInfo[8] = robot.CtrlState.value
+        }
+        if (robot.ErrorState) {
+          this.robotInfo[9] = robot.ErrorState.value
+        }
+      }
+      /* const input = data.Input
       const output = data.Output
       const robot = data.sensorData
       if (input) {
@@ -357,44 +427,10 @@ export default {
         if (robot.ErrorState) {
           this.robotInfo[9] = robot.ErrorState.value
         }
-      }
-    },
-    closeWebSocket() {
-      if (this.stompClient != null) {
-        this.stompClient.disconnect()
-        console.log('关闭websocket')
-      }
+      }*/
     },
     sparkGray(index) {
       return 'sparkGray' + index
-    },
-    changeMachineArea() { // 区域选择
-      if (this.machine[this.choose_machine_area].device) { // 如果选择区域有设备
-        this.device = this.machine[this.choose_machine_area].device // 更新设备
-        this.choose_machine_device = 0 // 更新默认设备
-        if (this.device[0].module) {
-          this.theme = this.device[0].module[0].topic // 更新默认设备，更新订阅主题
-        }
-      } else {
-        this.device = [] // 区域无设备 置空设备选择框
-        this.choose_machine_device = '' // 清空默认设备
-      }
-    },
-    changeMachineDevice() { // 选择设备
-      this.client.end() // 关闭订阅
-      if (this.device[this.choose_machine_device].module) {
-        this.theme = this.device[this.choose_machine_device].module[0].topic // 更新订阅主题
-        this.mqttConnect() // 重新订阅
-      }
-    },
-    initDevice() { // 初始化设备，并完成订阅
-      getMachine().then(res => {
-        this.machine[0].device[0].module = res // 初始化设备，默认只初始化第一个设备的第一个module
-        this.device = this.machine[0].device // 初始化设备
-        this.choose_machine_device = this.device[0].id
-        this.theme = this.device[0].module[0].topic // 初始化 订阅主题
-        this.mqttConnect() // 开始订阅
-      }).catch(err => this.$message.error(err))
     }
   }
 }
