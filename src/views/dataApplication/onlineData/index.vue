@@ -437,12 +437,11 @@ export default {
     }
   }
   .sparkGreen,.sparkGray{
-    width: 15px;
-    height: 15px;
+    width: 18px;
+    height: 18px;
     background: #54d51c;
     display: inline-block;
     border-radius: 20px;
-    margin-top: 2px;
   }
   .sparkGray{
     background: #898989;
