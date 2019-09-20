@@ -195,12 +195,12 @@
           <!--<robotStateChartArea :chartId="chartIds[1]" :titleName="titleNames[1]" :legendData="legendDatas[1]" ref="positionChart"></robotStateChartArea>-->
           <el-card class="pb-10 tableHeight">
             <el-table :data="robotData.log" border stripe :class="isMobile?'mt-5':''" >
-              <el-table-column label="序号" align="center" width="80">
+              <el-table-column label="序号" align="center" :width="isMobile?'60':'80'">
                 <template slot-scope="scope">
                   <span>{{ scope.row.id }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="标题" align="center" width="150">
+              <el-table-column label="标题" align="center" :width="isMobile?'70':'150'">
                 <template slot-scope="scope">
                   <span>{{ scope.row.title }}</span>
                 </template>
@@ -210,7 +210,7 @@
                   <span>{{ scope.row.desc }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="时间" width="100" align="center">
+              <el-table-column label="时间" :width="isMobile?'60':'100'" align="center">
                 <template slot-scope="scope">
                   <span>{{ scope.row.tstamp.replace('T','') }}</span>
                 </template>
