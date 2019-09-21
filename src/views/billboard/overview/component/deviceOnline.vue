@@ -7,15 +7,59 @@
     <div class="content">
       <div class="title">设备在线</div>
       <div class="data">
-        <el-row v-for="index in 6" :key="index" class="data-style">
-          <el-col :span="10">浙江**大学{{index}}</el-col>
-          <el-col :span="7" class="text-c">
-            <el-tag size="mini" effect="dark" type="success">在线 </el-tag>
-            <span>&nbsp; 5</span>
+        <el-row class="data-style">
+          <el-col :span="12">杭州电子职业学校</el-col>
+          <el-col :span="6" class="text-c">
+            <el-tag size="mini" effect="dark" type="success">在线</el-tag>
+            <span>&nbsp; 0</span>
           </el-col>
-          <el-col :span="7" class="text-c">
-            <el-tag size="mini" effect="dark" type="danger">离线 </el-tag>
-            <span>&nbsp; 5</span>
+          <el-col :span="6" class="text-c">
+            <el-tag size="mini" effect="dark" type="danger">离线</el-tag>
+            <span>&nbsp; 4</span>
+          </el-col>
+        </el-row>
+        <el-row class="data-style">
+          <el-col :span="12">杭州高级技工学校</el-col>
+          <el-col :span="6" class="text-c">
+            <el-tag size="mini" effect="dark" type="success">在线</el-tag>
+            <span>&nbsp; 1</span>
+          </el-col>
+          <el-col :span="6" class="text-c">
+            <el-tag size="mini" effect="dark" type="danger">离线</el-tag>
+            <span>&nbsp; 2</span>
+          </el-col>
+        </el-row>
+        <el-row class="data-style">
+          <el-col :span="12">苏州技师学院</el-col>
+          <el-col :span="6" class="text-c">
+            <el-tag size="mini" effect="dark" type="success">在线</el-tag>
+            <span>&nbsp; 3</span>
+          </el-col>
+          <el-col :span="6" class="text-c">
+            <el-tag size="mini" effect="dark" type="danger">离线</el-tag>
+            <span>&nbsp; 0</span>
+          </el-col>
+        </el-row>
+        <el-row class="data-style">
+          <el-col :span="12">广州白云高级技工学校</el-col>
+          <el-col :span="6" class="text-c">
+            <el-tag size="mini" effect="dark" type="success">在线</el-tag>
+            <span>&nbsp; 4</span>
+          </el-col>
+          <el-col :span="6" class="text-c">
+            <el-tag size="mini" effect="dark" type="danger">离线</el-tag>
+            <span>&nbsp; 1</span>
+          </el-col>
+        </el-row>
+        <el-row class="data-style">
+          <el-col :span="12" class="school">广州市天河区技工学校</el-col>
+          <el-col :span="6" class="text-c">
+            <el-tag size="mini" effect="dark" type="success">在线</el-tag>
+            <span>&nbsp; 2</span>
+          </el-col>
+          <el-col :span="6" class="text-c">
+            <el-tag size="mini" effect="dark" type="danger">离线</el-tag>
+            <span>&nbsp; 2</span>
           </el-col>
         </el-row>
       </div>
@@ -104,8 +148,11 @@ export default {
 }
 .data-style {
   border-bottom: 1px solid #124667;
-  height: 35px;
-  margin: 0px 15px;
-  padding-top: 5px;
+  // height: 35px;
+  margin: 0px 0px;
+  padding: 5px 0px;
+  .school {
+    font-size: 14px;
+  }
 }
 </style>

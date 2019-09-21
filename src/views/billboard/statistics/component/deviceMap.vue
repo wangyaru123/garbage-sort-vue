@@ -107,7 +107,7 @@ var convertData = function (data) {
 export default {
   data() {
     return {
-      chartId: 'overviewDeviceMapEchart',
+      chartId: 'overviewStatisticEchart',
       chart: null,
       chartOptions: {
         backgroundColor: '#001e31',
