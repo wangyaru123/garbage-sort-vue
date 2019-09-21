@@ -1,19 +1,20 @@
 <template>
   <div :class="isMobile?'':'m-10'">
-    <el-row :class="isMobile?'m-5':'mb-10'">
+    <!--<el-row :class="isMobile?'m-5':'mb-10'">
       <el-select v-model="singleframeValue" size="small" placeholder="请选择" @change="singleframeChange">
         <el-option v-for="item in singleframeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
       </el-select>
       <span v-if="!isActive" type="danger" size="mini" class="float-r btn-style">离线</span>
-    </el-row>
+    </el-row>-->
     <io-sequence-chart ref="ioSequenceChart"></io-sequence-chart>
   </div>
 </template>
 
 <script>
-import { resolveIoStringData } from '@/api/common.js'
-import { getSingleBoxConfigioMointorData } from '@/api/configuration.js'
+// import { resolveIoStringData } from '@/api/common.js'
+// import { getSingleBoxConfigioMointorData } from '@/api/configuration.js'
 import ioSequenceChart from './components/ioSequenceChart'
+import mqtt from 'mqtt'
 
 export default {
   components: {
@@ -21,6 +22,19 @@ export default {
   },
   data() {
     return {
+      // *** mqtt ***
+      mqttConf: {
+        client: '',
+        addr: 'ws://192.168.0.133:8083/mqtt', // 'ws://47.92.5.140:8083/mqtt
+        theme: 'web-SZ-2019001:DV-2019001',
+        options: {
+          connectTimeout: 40000,
+          clientId: '35e1acdbc2664baca8da1701eac58875',
+          username: 'admin',
+          password: 'public',
+          clean: true
+        }
+      },
       // 是否在线
       isActive: true,
       // 单柜选择框默认值
@@ -36,14 +50,82 @@ export default {
     }
   },
   created() {
-    this.getIoParam()
-    this.openWebSocket()
+    // this.getIoParam()
+    // this.openWebSocket()
+  },
+  mounted() {
+    this.mqttOperate()
+    this.$refs.ioSequenceChart.resetChart(['库位1', '库位2', '库位3', '库位4', '库位5', '库位6', '毛坯工件', '半成品工件', '成品工件', '检测到卡', '相机联机', '红色工件', '黄色工件', '蓝色工件'])
   },
   beforeDestroy() {
-    this.closeWebSocket()
+    // this.closeWebSocket()
   },
   methods: {
-    // 初始化IO的数据
+    mqttOperate() { // mqtt
+      // 连接mqtt
+      this.mqttConf.client = mqtt.connect(this.mqttConf.addr, this.mqttConf.options)
+      // 订阅
+      this.mqttConf.client.on('connect', (e) => {
+        console.log('连接成功：' + this.mqttConf.addr)
+        this.mqttConf.client.subscribe(this.mqttConf.theme, { qos: 1 }, (error) => {
+          if (!error) {
+            console.log('订阅成功：订阅主题【' + this.mqttConf.theme + '】')
+          } else {
+            console.log('订阅失败：' + error)
+          }
+        })
+      })
+      // 接收消息处理
+      const that = this
+      this.mqttConf.client.on('message', function (topic, message) {
+        // console.log('订阅的消息:' + topic + ',' + message.toString()) // 打印消息内容
+        try {
+          that.initData(JSON.parse(message.toString()))
+        } catch (e) {
+        }
+      })
+      // 断开发起重连
+      this.mqttConf.client.on('reconnect', (error) => {
+        console.log('xxy 正在重连:', error)
+      })
+      // 链接异常处理
+      this.mqttConf.client.on('error', (error) => {
+        console.log('xxy 连接失败:', error)
+      })
+    },
+    initData(data) {
+      // IO 解析
+      const plc_switch = []
+      let plc = ''
+      for (const key in data) {
+        if (key === 'PLC-01') {
+          plc = data[key]
+        }
+      }
+      if (plc !== '') {
+        const db = plc.DB201
+        if (db) {
+          plc_switch[0] = parseInt(db.value.charAt(2))
+          plc_switch[1] = parseInt(db.value.charAt(3))
+          plc_switch[2] = parseInt(db.value.charAt(4))
+          plc_switch[3] = parseInt(db.value.charAt(5))
+          plc_switch[4] = parseInt(db.value.charAt(6))
+          plc_switch[5] = parseInt(db.value.charAt(7))
+          plc_switch[6] = parseInt(db.value.charAt(8))
+          plc_switch[7] = parseInt(db.value.charAt(9))
+          plc_switch[8] = parseInt(db.value.charAt(13))
+          plc_switch[9] = parseInt(db.value.charAt(14))
+          plc_switch[10] = parseInt(db.value.charAt(15))
+          plc_switch[11] = parseInt(db.value.charAt(16))
+          plc_switch[12] = parseInt(db.value.charAt(17))
+          plc_switch[13] = parseInt(db.value.charAt(18))
+        }
+        if (plc_switch.length > 0) {
+          this.$refs.ioSequenceChart.updateData(plc_switch)
+        }
+      }
+    }
+    /* // 初始化IO的数据
     getIoParam() {
       getSingleBoxConfigioMointorData()
         .then(res => {
@@ -53,6 +135,7 @@ export default {
         })
         .catch(err => { this.$message.error(err) })
     },
+
     // 切换单柜
     singleframeChange() {
       this.getIoParam()
@@ -107,7 +190,7 @@ export default {
     async updateChart() {
       const ioData = this.tableData.map(item => item.enable ? 1 : 0)
       this.$refs.ioSequenceChart.updateData(ioData)
-    }
+    }*/
   }
 }
 </script>

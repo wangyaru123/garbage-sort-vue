@@ -26,6 +26,12 @@ export default {
     statisticsStateChart,
     statisticsStateChartByYear
   },
+  computed: {
+    // 是否为手机
+    isMobile() {
+      return this.$store.state.app.isMobile
+    }
+  },
   data: function () {
     return {
     }

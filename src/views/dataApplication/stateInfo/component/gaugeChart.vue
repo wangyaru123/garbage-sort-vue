@@ -39,13 +39,13 @@ export default {
             splitNumber: 20, // 分割20份
             center: ['50%', '55%'],
             detail: {
-              formatter: '运行模式',
+              formatter: '手动',
               textStyle: {
                 fontSize: 18,
                 fontFamily: 'Microsoft YaHei'
               }
             },
-            data: [{ value: 30 }],
+            data: [{ value: 16, name: '运行模式' }], // 16 手动，50 自动，84 远程
             axisLine: {
               lineStyle: {
                 color: [ // 表盘颜色
@@ -53,7 +53,7 @@ export default {
                   [0.7, '#63869e'], // 30%-70%处的颜色
                   [1, '#c23531'] // 70%-100%处的颜色
                 ],
-                width: 4 // 这个是修改宽度的属性
+                width: 10 // 这个是修改宽度的属性
               }
             },
             splitLine: { // 分割线样式（及10、20等长线样式）
@@ -79,8 +79,8 @@ export default {
               formatter: function(v) {
                 switch (v + '') {
                   case '15' : return '手动'
-                  case '50' : return '自动'
-                  case '85' : return '远程'
+                  case '50' : return '等待自动'
+                  case '85' : return '自动'
                 }
               }
             }
@@ -123,9 +123,10 @@ export default {
       this.chart = null
     },
     // 更新图表中的数据
-    updateDataChart(data, time) {
-      this.options.series[0].data = data
-      this.options.xAxis[0].data = time
+    updateDataChart(data) {
+      this.options.series[0].data[0].value = data
+      this.options.series[0].data[0].name = '运行模式'
+      this.options.series[0].detail.formatter = (data === 16 ? '手动' : data === 50 ? '等待自动' : '自动')
       this.chart.setOption(this.options)
     },
     // 清除图表数据

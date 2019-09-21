@@ -41,7 +41,7 @@ export default {
                 fontSize: 18
               }
             },
-            data: [{ value: 50, name: '完成率' }],
+            data: [{ value: 50, name: '速度百分比' }],
             axisLine: {
               lineStyle: {
                 color: [ // 表盘颜色
@@ -49,7 +49,7 @@ export default {
                   [0.7, '#63869e'], // 30%-70%处的颜色
                   [1, '#c23531'] // 70%-100%处的颜色
                 ],
-                width: 4 // 这个是修改宽度的属性
+                width: 10 // 这个是修改宽度的属性
               }
             },
             splitLine: { // 分割线样式（及10、20等长线样式）
@@ -68,7 +68,7 @@ export default {
             axisLabel: { // 文字样式（及“10”、“20”等文字样式）
               // show: false, // 隐藏刻度
               color: 'black',
-              distance: -25 // 文字离表盘的距离
+              distance: -33 // 文字离表盘的距离
             }
           }
         ]
@@ -109,9 +109,8 @@ export default {
       this.chart = null
     },
     // 更新图表中的数据
-    updateDataChart(data, time) {
-      this.options.series[0].data = data
-      this.options.xAxis[0].data = time
+    updateDataChart(data) {
+      this.options.series[0].data[0].value = data
       this.chart.setOption(this.options)
     },
     // 清除图表数据
