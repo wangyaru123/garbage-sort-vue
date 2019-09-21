@@ -9,7 +9,7 @@
       <div class="data">
         <el-row class="data-style">
           <div>
-            <span class="school">杭州电子职业学校</span>
+            <span class="school">汇博立宁职业培训学校 </span>
             <span class="float-r device-num">SZ-2019001</span>
           </div>
           <div>
@@ -23,7 +23,7 @@
         </el-row>
         <el-row class="data-style">
           <div>
-            <span class="school">苏州技师学院</span>
+            <span class="school">广州机电职业技术学院</span>
             <span class="float-r device-num">SZ-2019351</span>
           </div>
           <div>
@@ -37,7 +37,7 @@
         </el-row>
         <el-row class="data-style">
           <div>
-            <span class="school">广州白云高级技工学校</span>
+            <span class="school">杭州科技职业技术学院</span>
             <span class="float-r device-num">SZ-2019182</span>
           </div>
           <div>

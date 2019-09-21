@@ -666,7 +666,9 @@ export default {
       this.chart = this.$echarts.init(document.getElementById(this.chartId))
       this.chart.setOption(this.chartOptions)
       this.chart.on('click', { seriesName: '考核点' }, (params) => {
-        console.log(params)
+        // console.log(params)
+        this.$store.dispatch('billboard/setCity', params.name)
+        this.$router.push({ name: 'Billboard.Region' })
       })
       // 延迟启动定时器
       // setTimeout(() => {

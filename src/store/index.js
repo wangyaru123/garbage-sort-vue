@@ -6,6 +6,7 @@ import settings from './modules/settings'
 import user from './modules/user'
 import notice from './modules/notice'
 import permission from './modules/permission'
+import billboard from './modules/billboard'
 
 Vue.use(Vuex)
 
@@ -15,7 +16,8 @@ const store = new Vuex.Store({
     settings,
     user,
     notice,
-    permission
+    permission,
+    billboard
   },
   getters
 })

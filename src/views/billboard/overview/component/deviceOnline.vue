@@ -8,7 +8,7 @@
       <div class="title">设备在线</div>
       <div class="data">
         <el-row class="data-style">
-          <el-col :span="12">杭州电子职业学校</el-col>
+          <el-col :span="12" class="school">汇博立宁职业培训学校 </el-col>
           <el-col :span="6" class="text-c">
             <el-tag size="mini" effect="dark" type="success">在线</el-tag>
             <span>&nbsp; 0</span>
@@ -19,7 +19,7 @@
           </el-col>
         </el-row>
         <el-row class="data-style">
-          <el-col :span="12">杭州高级技工学校</el-col>
+          <el-col :span="12" class="school">广州机电职业技术学院</el-col>
           <el-col :span="6" class="text-c">
             <el-tag size="mini" effect="dark" type="success">在线</el-tag>
             <span>&nbsp; 1</span>
@@ -30,7 +30,7 @@
           </el-col>
         </el-row>
         <el-row class="data-style">
-          <el-col :span="12">苏州技师学院</el-col>
+          <el-col :span="12" class="school">杭州科技职业技术学院</el-col>
           <el-col :span="6" class="text-c">
             <el-tag size="mini" effect="dark" type="success">在线</el-tag>
             <span>&nbsp; 3</span>
@@ -41,7 +41,7 @@
           </el-col>
         </el-row>
         <el-row class="data-style">
-          <el-col :span="12">广州白云高级技工学校</el-col>
+          <el-col :span="12" class="school">苏州工业职业技术学院</el-col>
           <el-col :span="6" class="text-c">
             <el-tag size="mini" effect="dark" type="success">在线</el-tag>
             <span>&nbsp; 4</span>
@@ -49,17 +49,6 @@
           <el-col :span="6" class="text-c">
             <el-tag size="mini" effect="dark" type="danger">离线</el-tag>
             <span>&nbsp; 1</span>
-          </el-col>
-        </el-row>
-        <el-row class="data-style">
-          <el-col :span="12" class="school">广州市天河区技工学校</el-col>
-          <el-col :span="6" class="text-c">
-            <el-tag size="mini" effect="dark" type="success">在线</el-tag>
-            <span>&nbsp; 2</span>
-          </el-col>
-          <el-col :span="6" class="text-c">
-            <el-tag size="mini" effect="dark" type="danger">离线</el-tag>
-            <span>&nbsp; 2</span>
           </el-col>
         </el-row>
       </div>
@@ -152,7 +141,9 @@ export default {
   margin: 0px 0px;
   padding: 5px 0px;
   .school {
-    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 </style>
