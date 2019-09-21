@@ -212,7 +212,7 @@
               </el-table-column>
               <el-table-column label="时间" :width="isMobile?'60':'100'" align="center">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.tstamp.replace('T','') }}</span>
+                  <span>{{(scope.row.tstamp + '').replace('T', '')}}</span>
                 </template>
               </el-table-column>
             </el-table>

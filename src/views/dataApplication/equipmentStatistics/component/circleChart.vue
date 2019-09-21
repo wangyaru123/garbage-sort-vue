@@ -42,7 +42,7 @@ export default {
             radius: '55%',
             center: ['50%', '50%'],
             data: [
-              { name: '利用率', value: 50 }, { name: '', value: 50 }
+              { name: '利用率', value: 80 }, { name: '', value: 20 }
             ],
             itemStyle: {
               normal: {

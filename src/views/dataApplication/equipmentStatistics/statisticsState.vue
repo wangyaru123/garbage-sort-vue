@@ -50,10 +50,10 @@
             </div>
           </div>
           <el-col :xs="24" :sm="7" :md="7" :lg="7" :xl="7" >
-            <circle-chart chartId="circleChart" ref="ratePieChart" titleName="设备利用率"></circle-chart>
+            <circle-chart chartId="circleChart" ref="ratePieChart" titleName="利用率"></circle-chart>
           </el-col>
           <el-col :xs="24" :sm="17" :md="17" :lg="17" :xl="17" >
-            <utilizationRateChart chartId="utilizationRateChart" ref="rateBarChart" titleName="设备利用率"></utilizationRateChart>
+            <utilizationRateChart chartId="utilizationRateChart" ref="rateBarChart" titleName="利用率"></utilizationRateChart>
           </el-col>
         </el-card>
       </el-col>
@@ -258,9 +258,9 @@ export default {
   created() {
   },
   mounted: function () {
-    this.getRateByDay('rateBarChart', 'ratePieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
-    this.getRateByDay('faultBarChart', 'faultPieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
-    this.getRateByDay('utilizationRateBarChart', 'utilizationRatePieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
+    // this.getRateByDay('rateBarChart', 'ratePieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
+    // this.getRateByDay('faultBarChart', 'faultPieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
+    // this.getRateByDay('utilizationRateBarChart', 'utilizationRatePieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
   },
   beforeDestroy() {
   },
@@ -294,6 +294,7 @@ export default {
     changeRateTime() { // 选择时的触发
     },
     searchRate() { // 提交 rate 时间
+      return
       if (this.rate.isShowYear && this.rate.year) { // 展示年利用率
         const param = { year: this.getLocalTime(this.rate.year, 1), ioType: 'I', byteIndex: 0, bitIndex: 0 }
         this.getRateByYear('rateBarChart', 'ratePieChart', param)
@@ -339,6 +340,7 @@ export default {
     },
     // 提交 fault 时间
     searchFault() {
+      return
       if (this.fault.isShowYear && this.fault.year) {
         const param = { year: this.getLocalTime(this.fault.year, 1), ioType: 'I', byteIndex: 0, bitIndex: 0 }
         this.getRateByYear('faultBarChart', 'faultPieChart', param)
@@ -383,6 +385,7 @@ export default {
     changeUtilizationRateTime() { // 选择时的触发
     },
     searchUtilizationRate() { // 提交 rate 时间
+      return
       if (this.utilizationRate.isShowYear && this.utilizationRate.year) { // 展示年利用率
         const param = { year: this.getLocalTime(this.utilizationRate.year, 1), ioType: 'I', byteIndex: 0, bitIndex: 0 }
         this.getRateByYear('utilizationRateBarChart', 'utilizationRatePieChart', param)
