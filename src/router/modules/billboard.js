@@ -17,16 +17,25 @@ const billboardRouter = {
       meta: { title: '运行总览' }
     },
     {
+      path: 'region',
+      component: () => import('@/views/billboard/region/index'),
+      name: 'Billboard.Region',
+      hidden: true,
+      meta: { title: '区域概况' }
+    },
+    {
       path: 'detail',
       component: () => import('@/views/billboard/detail/index'),
       name: 'Billboard.Detail',
+      hidden: true,
       meta: { title: '设备详情' }
     },
     {
       path: 'statistics',
       component: () => import('@/views/billboard/statistics/index'),
       name: 'Billboard.Statistics',
-      meta: { title: '数量统计' }
+      hidden: true,
+      meta: { title: '设备统计' }
     }
   ]
 }
