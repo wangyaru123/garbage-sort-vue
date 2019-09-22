@@ -32,7 +32,7 @@ export default {
       // *** mqtt ***
       mqttConf: {
         client: '',
-        addr: 'ws://192.168.0.133:8083/mqtt', // 'ws://47.92.5.140:8083/mqtt
+        addr: 'ws://153.37.213.2:8083/mqtt', // 'ws://47.92.5.140:8083/mqtt
         theme: 'web-SZ-2019001:DV-20190001',
         options: {
           connectTimeout: 40000,
@@ -47,7 +47,7 @@ export default {
         io: [0, 0, 0, 0, 0, 0, 0, 0, 0],
         ModeStatus: 1, // 模式状态
         SpeedStatus: 100, // 速度状态
-        ProjectName: ' T_ROB1', // 工程名
+        ProjectName: 'T_ROB1', // 工程名
         ProgramName: 'MAIN', // 程序名
         log: ['', '', '', '', '', ''], // 日志信息
         robotPhysicalJoints: []
@@ -56,7 +56,7 @@ export default {
       // *** 选择框 ***
       device: [ // 设备
         { name: '设备1', id: 0, module: [{ description: '成品仓储模块', topic: 'web-SZ-2019001:DV-20190001' }] },
-        { name: '设备2', id: 1, module: [{ description: '测试模块2', topic: 'xxy', configSubmodules: [{ type: '1', key: 'IFT-01', description: 'IFT机器人设备1' }] }] },
+        { name: '设备2', id: 1, module: [{ description: '测试模块2', topic: 'SZ-2019001:DV-2019002.Abb-01', configSubmodules: [{ type: '1', key: 'IFT-01', description: 'IFT机器人设备1' }] }] },
         { name: '设备3', id: 2, module: [{ description: '测试模块3', topic: 'xxy', configSubmodules: [{ type: '1', key: 'IFT-01', description: 'IFT机器人设备1' }] }] }
       ],
       choose_device_idx: 0, // 选择的设备
@@ -179,6 +179,10 @@ export default {
       })
     },
     initData(data) { // 订阅数据解析
+      if (this.robotInfo[this.choose_robot_idx].key === 'IFT-01') {
+        this.initIFT(JSON.parse(data.data))
+        return
+      }
       let robot = ''
       for (const key in data) {
         if (key === this.robotInfo[this.choose_robot_idx].key) {
@@ -189,6 +193,10 @@ export default {
         }
       }
       if (robot === '') return
+      // 工程名
+      this.robotData.ProjectName = 'T_ROB1'
+      // 程序名
+      this.robotData.ProgramName = 'MAIN'
       const time = this.$dayjs().format('HH:mm:ss:SSS')
       // 机器人数据解析
       if (robot) {
@@ -261,9 +269,9 @@ export default {
       const time = this.$dayjs().format('HH:mm:ss:SSS')
       // 机器人数据解析
       if (robot) {
-        const pj = robot.jointtarget
+        const pj = robot.DbAxisPos
         if (pj) {
-          const value_tem = JSON.parse(pj.value)
+          const value_tem = pj
           this.robotData.robotPhysicalJoints[0] = value_tem[0]
           this.robotData.robotPhysicalJoints[1] = value_tem[1]
           this.robotData.robotPhysicalJoints[2] = value_tem[2]
@@ -275,51 +283,30 @@ export default {
         // 机器人关节角度数据
         this.$refs.robotState.updateData(this.robotData.robotPhysicalJoints, time)
         // 模式
-        if (robot.OperationMode) {
-          if (robot.OperationMode.value === 'MANR') {
+        if (robot.ModeStatus) {
+          if (robot.OperationMode === 1) {
             this.robotData.ModeStatus = 1 // 手动
             this.$refs.robotState.updateModeData(16)
-          } else if (robot.OperationMode.value === 'AUTO_CH') {
-            this.robotData.ModeStatus = 2 // 等待自动
+          } else if (robot.OperationMode === 2) {
+            this.robotData.ModeStatus = 2 // 自动
             this.$refs.robotState.updateModeData(50)
-          } else if (robot.OperationMode.value === 'AUTO') {
-            this.robotData.ModeStatus = 3 // 自动
+          } else if (robot.OperationMode === 3) {
+            this.robotData.ModeStatus = 3 // 远程
             this.$refs.robotState.updateModeData(84)
           }
         }
         // 速度
-        if (robot.SpeedRatio) {
-          this.robotData.SpeedStatus = robot.SpeedRatio.value
-          this.$refs.robotState.updateSpeedData(robot.SpeedRatio.value)
+        if (robot.SpeedStatus) {
+          this.robotData.SpeedStatus = robot.SpeedStatus
+          this.$refs.robotState.updateSpeedData(robot.SpeedStatus)
         }
-        // 日志
-        const rz = robot.log
-        if (rz) {
-          this.buffer_log = JSON.parse(rz.value)
+        // 工程名
+        if (robot.ProjectName) {
+          this.robotData.ProjectName = robot.ProjectName
         }
-        // 机器人IO数据
-        const _io = robot.ioout
-        if (_io) {
-          const _v = _io.value
-          if (_v.length > 16) {
-            this.robotData.io[0] = _v.charAt(15)
-            this.robotData.io[1] = '0'
-            this.robotData.io[2] = _v.charAt(13)
-            this.robotData.io[3] = _v.charAt(14)
-            this.robotData.io[4] = _v.charAt(15)
-            this.robotData.io[5] = _v.charAt(16)
-            this.robotData.io[6] = _v.charAt(17)
-            this.robotData.io[7] = _v.charAt(18)
-            this.robotData.io[8] = _v.charAt(19)
-          }
-        }
-        const _io2 = robot.io2out
-        if (_io2) {
-          const _v = _io2.value
-          if (_v.length > 16) {
-            this.robotData.io[0] = _v.charAt(14)
-            this.robotData.io[1] = _v.charAt(3)
-          }
+        // 程序名
+        if (robot.ProgramName) {
+          this.robotData.ProgramName = robot.ProgramName
         }
       }
     },
