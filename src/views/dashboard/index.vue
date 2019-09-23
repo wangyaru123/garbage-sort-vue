@@ -8,15 +8,21 @@
           <div slot="header" class="text-c">
             <div class="dashBoardContainer">
              <span></span>
-              <div class="" v-show="!isMobile" v-for="list in 3" :key="list">
-                  <div class="TriangleLeft">{{list.name}}</div>
-              </div>
-              <h2 v-for="span in spanList" :key="span">
+              <!--<div class="" v-show="!isMobile" v-for="list in triangle_num" :key="list">
+                  <div class="TriangleLeft"></div>
+              </div>-->
+              <div class="TriangleLeft"></div>
+              <div class="TriangleLeft"></div>
+              <div class="TriangleLeft"></div>
+              <h2 v-for="(span, index) in spanList" :key="index">
                 <span><b>{{span.spanText}}</b></span>
               </h2>
-              <div v-for="list in 3" :key="list" v-show="!isMobile">
-                <div class="TriangleRight">{{list.name}}</div>
-              </div>
+              <div class="TriangleRight"></div>
+              <div class="TriangleRight"></div>
+              <div class="TriangleRight"></div>
+              <!--<div v-for="list in 3" :key="list" v-show="!isMobile">
+                <div class="TriangleRight"></div>
+              </div>-->
             <div class="xFontLeft" v-show="!isMobile"></div>
             <div class="xFontRight" v-show="!isMobile"></div>
             <div class="line"></div>
