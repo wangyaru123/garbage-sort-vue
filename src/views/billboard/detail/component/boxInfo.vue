@@ -8,29 +8,29 @@
       <div class="title">盒子信息</div>
       <div class="data">
         <el-row type="flex" align="middle" class="data-style">
-          <el-col :span="3">
+          <el-col :span="2">
             <div class="circle"></div>
           </el-col>
-          <el-col :span="10">盒子编码</el-col>
-          <el-col :span="7" class="text-c">
+          <el-col :span="8">盒子编码</el-col>
+          <el-col :span="14" class="text-c">
             <span>SZ-2019001:DV-20190001</span>
           </el-col>
         </el-row>
         <el-row type="flex" align="middle" class="data-style">
-          <el-col :span="3">
+          <el-col :span="2">
             <div class="circle"></div>
           </el-col>
-          <el-col :span="10">数据键名</el-col>
-          <el-col :span="7" class="text-c">
+          <el-col :span="8">数据键名</el-col>
+          <el-col :span="14" class="text-c">
             <span>NetGate:Company:1#</span>
           </el-col>
         </el-row>
         <el-row type="flex" align="middle" class="data-style">
-          <el-col :span="3">
+          <el-col :span="2">
             <div class="circle"></div>
           </el-col>
-          <el-col :span="10">是否绑定</el-col>
-          <el-col :span="7" class="text-c">
+          <el-col :span="8">是否绑定</el-col>
+          <el-col :span="14" class="text-c">
             <el-tag size="mini" type="success">已绑定</el-tag>
           </el-col>
         </el-row>

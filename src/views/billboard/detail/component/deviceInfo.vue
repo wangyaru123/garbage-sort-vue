@@ -10,7 +10,7 @@
         <el-row class="data-style">
           <el-col :span="8" type="flex" align="middle" class="bg p-5 text-c">设备编码</el-col>
           <el-col :span="16" class="text-c p-5">
-            <span>xxx-xxx-xxx-xxx</span>
+            <span>{{deviceInfo.deviceNumber}}</span>
           </el-col>
         </el-row>
         <el-row class="data-style">
@@ -28,7 +28,7 @@
         <el-row class="data-style">
           <el-col :span="8" class="bg text-c p-5">学校</el-col>
           <el-col :span="16" class="text-c p-5">
-            <span>浙江**大学</span>
+            <span>{{deviceInfo.school}}</span>
           </el-col>
         </el-row>
         <el-row class="data-style">
@@ -56,6 +56,7 @@
 <script>
 
 export default {
+  props: ['deviceInfo'],
   data() {
     return {
     }

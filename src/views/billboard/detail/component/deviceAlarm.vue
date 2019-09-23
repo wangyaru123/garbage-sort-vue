@@ -9,8 +9,8 @@
       <div class="data">
         <el-row v-for="index in 3" :key="index" class="data-style">
           <div>
-            <span class="school">浙江**大学{{index}}</span>
-            <span class="float-r device-num">xxxx-xxxx-xxxx</span>
+            <span class="school">{{deviceInfo.school}}</span>
+            <span class="float-r device-num">{{deviceInfo.deviceNumber}}</span>
           </div>
           <div>
             <span>发生时间：</span>
@@ -40,6 +40,7 @@
 <script>
 
 export default {
+  props: ['deviceInfo'],
   data() {
     return {
     }
@@ -118,7 +119,7 @@ export default {
 }
 .data-style {
   border-bottom: 1px solid #124667;
-  margin: 0px 15px;
+  margin: 0px 5px;
   padding: 5px 0px;
   color: #9b9e9b;
 }

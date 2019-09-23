@@ -184,7 +184,7 @@ export default {
     // ******* xxy ************************************************
     initChart() {
       for (let i = 0; i < 300; i++) {
-        this.options.xAxis.data.push(this.$dayjs().subtract(300 - i, 'second').format('HH:mm:ss:SSS'))
+        this.options.xAxis.data.push(this.$dayjs().subtract(300 - i, 'second').format('HH:mm:ss'))
         this.options.series[0].data.push(0)
         this.options.series[1].data.push(0)
         this.options.series[2].data.push(0)

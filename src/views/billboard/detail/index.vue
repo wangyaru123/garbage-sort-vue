@@ -2,15 +2,15 @@
   <div :class="isMobile? 'total-layout-mobile':'total-layout'">
     <div class="title">
       <img v-if="!isMobile" src="../../../assets/billboard/h1Posco.png" class="pl-10 float-l" alt />
-      <img v-if="!isMobile" src="../../../assets/billboard/extra.png" alt="">
+      <img v-if="!isMobile" src="../../../assets/billboard/extra.png" alt />
       <span class="title-name">“1+X”工业机器人应用编程</span>
-      <img v-if="!isMobile" src="../../../assets/billboard/extra.png" alt="">
+      <img v-if="!isMobile" src="../../../assets/billboard/extra.png" alt />
       <img v-if="!isMobile" src="../../../assets/billboard/goBack.png" class="go-back" alt @click="goBack" title="返回" />
     </div>
     <el-row class="content">
       <el-col :lg="5" :md="24" :sm="24" class="content-layout">
         <div class="item-h33 p-10">
-          <device-info></device-info>
+          <device-info :deviceInfo="deviceInfo"></device-info>
         </div>
         <div class="item-h22 p-10">
           <device-state></device-state>
@@ -38,7 +38,7 @@
           <box-info></box-info>
         </div>
         <div class="item-h44 p-10">
-          <device-alarm></device-alarm>
+          <device-alarm :deviceInfo="deviceInfo"></device-alarm>
         </div>
       </el-col>
     </el-row>
@@ -71,6 +71,7 @@ export default {
   },
   data() {
     return {
+      deviceInfo: '',
       // *** mqtt ***
       mqttConf: {
         client: '',
@@ -100,8 +101,14 @@ export default {
       return this.$store.state.app.isMobile
     }
   },
-  mounted: function() {
+  mounted: function () {
     this.mqttOperate() // 初始设备
+  },
+  created() {
+    this.deviceInfo = {
+      deviceNumber: this.$route.query.item.deviceNumber,
+      school: this.$route.query.school
+    }
   },
   beforeDestroy() {
     this.mqttConf.client.end() // 关闭订阅

@@ -11,18 +11,18 @@
           <el-col :span="12" class="school">汇博立宁职业培训学校 </el-col>
           <el-col :span="6" class="text-c">
             <el-tag size="mini" effect="dark" type="success">在线</el-tag>
-            <span>&nbsp; 0</span>
+            <span>&nbsp; 4</span>
           </el-col>
           <el-col :span="6" class="text-c">
             <el-tag size="mini" effect="dark" type="danger">离线</el-tag>
-            <span>&nbsp; 4</span>
+            <span>&nbsp; 1</span>
           </el-col>
         </el-row>
         <el-row class="data-style">
           <el-col :span="12" class="school">广州机电职业技术学院</el-col>
           <el-col :span="6" class="text-c">
             <el-tag size="mini" effect="dark" type="success">在线</el-tag>
-            <span>&nbsp; 1</span>
+            <span>&nbsp; 3</span>
           </el-col>
           <el-col :span="6" class="text-c">
             <el-tag size="mini" effect="dark" type="danger">离线</el-tag>
@@ -33,7 +33,7 @@
           <el-col :span="12" class="school">杭州科技职业技术学院</el-col>
           <el-col :span="6" class="text-c">
             <el-tag size="mini" effect="dark" type="success">在线</el-tag>
-            <span>&nbsp; 3</span>
+            <span>&nbsp; 5</span>
           </el-col>
           <el-col :span="6" class="text-c">
             <el-tag size="mini" effect="dark" type="danger">离线</el-tag>

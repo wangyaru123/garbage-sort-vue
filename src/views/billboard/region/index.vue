@@ -29,19 +29,21 @@ export default {
           {
             school: '汇博立宁职业培训学校 ',
             deviceInfo: [
-              { deiveNumber: 'SZ-2019351', online: false },
-              { deiveNumber: 'SZ-2019351', online: true },
-              { deiveNumber: 'SZ-2019351', online: true },
-              { deiveNumber: 'SZ-2019351', online: false }
+              { deviceNumber: 'SZ-2019351', online: true },
+              { deviceNumber: 'SZ-2019352', online: true },
+              { deviceNumber: 'SZ-2019353', online: true },
+              { deviceNumber: 'SZ-2019354', online: true },
+              { deviceNumber: 'SZ-2019355', online: false }
             ]
           },
           {
             school: '苏州工业职业技术学院',
             deviceInfo: [
-              { deiveNumber: 'SZ-2019351', online: false },
-              { deiveNumber: 'SZ-2019351', online: true },
-              { deiveNumber: 'SZ-2019351', online: true },
-              { deiveNumber: 'SZ-2019351', online: false }
+              { deviceNumber: 'SZ-2019356', online: false },
+              { deviceNumber: 'SZ-2019357', online: true },
+              { deviceNumber: 'SZ-2019358', online: true },
+              { deviceNumber: 'SZ-2019359', online: true },
+              { deviceNumber: 'SZ-2019360', online: true }
             ]
           }
         ],
@@ -49,10 +51,11 @@ export default {
           {
             school: '杭州科技职业技术学院',
             deviceInfo: [
-              { deiveNumber: 'SZ-2019351', online: false },
-              { deiveNumber: 'SZ-2019351', online: true },
-              { deiveNumber: 'SZ-2019351', online: true },
-              { deiveNumber: 'SZ-2019351', online: false }
+              { deviceNumber: 'SZ-2019361', online: true },
+              { deviceNumber: 'SZ-2019362', online: true },
+              { deviceNumber: 'SZ-2019363', online: true },
+              { deviceNumber: 'SZ-2019364', online: true },
+              { deviceNumber: 'SZ-2019365', online: true }
             ]
           }
         ],
@@ -60,10 +63,11 @@ export default {
           {
             school: '广州机电职业技术学院',
             deviceInfo: [
-              { deiveNumber: 'SZ-2019351', online: false },
-              { deiveNumber: 'SZ-2019351', online: true },
-              { deiveNumber: 'SZ-2019351', online: true },
-              { deiveNumber: 'SZ-2019351', online: false }
+              { deviceNumber: 'SZ-2019371', online: false },
+              { deviceNumber: 'SZ-2019372', online: true },
+              { deviceNumber: 'SZ-2019373', online: true },
+              { deviceNumber: 'SZ-2019374', online: false },
+              { deviceNumber: 'SZ-2019375', online: true }
             ]
           }
         ]

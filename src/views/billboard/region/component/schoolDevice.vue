@@ -11,7 +11,7 @@
       </div>
       <div class="data">
         <div v-for="(item,index) in info.deviceInfo" :key="index" class="info">
-          <span class="device" :class="item.online? 'device-online':'device-offline'" @click="getDetail">{{item.deiveNumber}}</span>
+          <span class="device" :class="item.online? 'device-online':'device-offline'" @click="getDetail(item)">{{item.deviceNumber}}</span>
         </div>
       </div>
     </div>
@@ -57,8 +57,11 @@ export default {
     }
   },
   methods: {
-    getDetail() {
-      this.$router.push({ name: 'Billboard.Detail' })
+    getDetail(item) {
+      this.$router.push({
+        name: 'Billboard.Detail',
+        query: { item: item, school: this.info.school }
+      })
     }
   }
 }
