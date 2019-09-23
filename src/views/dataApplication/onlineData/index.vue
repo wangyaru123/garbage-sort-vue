@@ -214,7 +214,7 @@ export default {
       // *** mqtt ***
       mqttConf: {
         client: '',
-        addr: 'ws://192.168.0.133:8083/mqtt', // 'ws://47.92.5.140:8083/mqtt
+        addr: 'ws://153.37.213.2:8083/mqtt', // 'ws://47.92.5.140:8083/mqtt
         theme: 'web-SZ-2019001:DV-20190001',
         options: {
           connectTimeout: 40000,
@@ -227,8 +227,8 @@ export default {
       // *** 选择框 ***
       device: [ // 设备
         { name: '设备1', id: 0, module: [{ description: '成品仓储模块', topic: 'web-SZ-2019001:DV-20190001' }] },
-        { name: '设备2', id: 1, module: [{ description: '测试模块', topic: 'xxy' }] },
-        { name: '设备3', id: 2 }
+        { name: '设备2', id: 1, module: [{ description: '测试模块2', topic: 'SZ-2019001:DV-2019002.Abb-01', configSubmodules: [{ type: '1', key: 'IFT-01', description: 'IFT机器人设备1' }] }] },
+        { name: '设备3', id: 2, module: [{ description: '测试模块3', topic: 'xxy', configSubmodules: [{ type: '1', key: 'IFT-01', description: 'IFT机器人设备1' }] }] }
       ],
       choose_device_idx: 0, // 选择的设备
       choose_model_idx: '', // 选择的model
@@ -343,6 +343,10 @@ export default {
       })
     },
     initData(data) { // 订阅数据解析
+      if (this.robotInfo[this.choose_robot_idx].key === 'IFT-01') {
+        // this.initIFT(JSON.parse(data.data))
+        return
+      }
       // IO 解析
       const plc_switch = []
       /* this.PLCInfo.forEach(v => {
@@ -415,54 +419,54 @@ export default {
           this.robotData = r_tem
         }
       }
-      /* const input = data.Input
-      const output = data.Output
-      const robot = data.sensorData
-      if (input) {
-        this.inputArrayData = []
-        for (let i = 0; i < input.length; i++) {
-          this.inputArrayData[i] = []
-          for (let j = 0; j < input[i].length; j++) {
-            this.inputArrayData[i][j] = input[i][j]
-          }
-        }
-      }
-      if (output) {
-        this.outputArrayData = []
-        for (let i = 0; i < output.length; i++) {
-          this.outputArrayData[i] = []
-          for (let j = 0; j < output[i].length; j++) {
-            this.outputArrayData[i][j] = output[i][j]
-          }
-        }
-      }
+    },
+    initIFT(data) { // 解析ift机器人
+      let robot = ''
+      robot = data
+      if (robot === '') return
+      const time = this.$dayjs().format('HH:mm:ss:SSS')
       // 机器人数据解析
       if (robot) {
-        const pj_PhysicalJoints = robot.PhysicalJoints
-        if (pj_PhysicalJoints) {
-          if (pj_PhysicalJoints.value.length !== 6) {
-            const value_tem = JSON.parse(pj_PhysicalJoints.value)
-            this.robotInfo[0] = value_tem[0] + ' 度'
-            this.robotInfo[1] = value_tem[1] + ' 度'
-            this.robotInfo[2] = value_tem[2] + ' 度'
-            this.robotInfo[3] = value_tem[3] + ' 度'
-            this.robotInfo[4] = value_tem[4] + ' 度'
-            this.robotInfo[5] = value_tem[5] + ' 度'
+        const pj = robot.DbAxisPos
+        if (pj) {
+          const value_tem = pj
+          this.robotData.robotPhysicalJoints[0] = value_tem[0]
+          this.robotData.robotPhysicalJoints[1] = value_tem[1]
+          this.robotData.robotPhysicalJoints[2] = value_tem[2]
+          this.robotData.robotPhysicalJoints[3] = value_tem[3]
+          this.robotData.robotPhysicalJoints[4] = value_tem[4]
+          this.robotData.robotPhysicalJoints[5] = Math.abs(value_tem[5]) > 180 ? (value_tem[5] > 0 ? value_tem[5] - 360 : value_tem[5] + 360) : value_tem[5]
+        }
+        // console.log(time)
+        // 机器人关节角度数据
+        this.$refs.robotState.updateData(this.robotData.robotPhysicalJoints, time)
+        // 模式
+        if (robot.ModeStatus) {
+          if (robot.OperationMode === 1) {
+            this.robotData.ModeStatus = 1 // 手动
+            this.$refs.robotState.updateModeData(16)
+          } else if (robot.OperationMode === 2) {
+            this.robotData.ModeStatus = 2 // 自动
+            this.$refs.robotState.updateModeData(50)
+          } else if (robot.OperationMode === 3) {
+            this.robotData.ModeStatus = 3 // 远程
+            this.$refs.robotState.updateModeData(84)
           }
         }
-        if (robot.SpeedRatio) {
-          this.robotInfo[6] = robot.SpeedRatio.value + ' %'
+        // 速度
+        if (robot.SpeedStatus) {
+          this.robotData.SpeedStatus = robot.SpeedStatus
+          this.$refs.robotState.updateSpeedData(robot.SpeedStatus)
         }
-        if (robot.OperationMode) {
-          this.robotInfo[7] = robot.OperationMode.value
-        }
-        if (robot.CtrlState) {
-          this.robotInfo[8] = robot.CtrlState.value
-        }
-        if (robot.ErrorState) {
-          this.robotInfo[9] = robot.ErrorState.value
-        }
-      }*/
+        // 工程名
+        /* if (robot.ProjectName) {
+          this.robotData.ProjectName = robot.ProjectName
+        }*/
+        // 程序名
+        /* if (robot.ProgramName) {
+          this.robotData.ProgramName = robot.ProgramName
+        }*/
+      }
     },
     sparkGray(index) {
       return 'sparkGray' + index
