@@ -50,12 +50,10 @@ export default {
     }
   },
   created() {
-    // this.getIoParam()
-    // this.openWebSocket()
-  },
-  mounted() {
     this.mqttOperate()
     this.$refs.ioSequenceChart.resetChart(['库位1', '库位2', '库位3', '库位4', '库位5', '库位6', '毛坯工件', '半成品工件', '成品工件', '检测到卡', '相机联机', '红色工件', '黄色工件', '蓝色工件'])
+  },
+  mounted() {
   },
   beforeDestroy() {
     // this.closeWebSocket()

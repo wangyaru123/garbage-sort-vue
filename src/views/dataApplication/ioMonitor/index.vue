@@ -53,7 +53,22 @@ export default {
           clean: true
         }
       },
-      switchInfo: [],
+      switchInfo: [
+        { name: '库位1', value: '0' },
+        { name: '库位2', value: '0' },
+        { name: '库位3', value: '0' },
+        { name: '库位4', value: '0' },
+        { name: '库位5', value: '0' },
+        { name: '库位6', value: '0' },
+        { name: '毛坯工件', value: '0' },
+        { name: '半成品工件', value: '0' },
+        { name: '成品工件', value: '0' },
+        { name: '检测到卡', value: '0' },
+        { name: '相机联机', value: '0' },
+        { name: '红色工件', value: '0' },
+        { name: '黄色工件', value: '0' },
+        { name: '蓝色工件', value: '0' }
+      ],
       // *** 原始代码 *****
       singleframeValue: '1#',
       singleframeList: [{ value: '1#', label: '单柜1' }],
