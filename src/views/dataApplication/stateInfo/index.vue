@@ -46,7 +46,7 @@ export default {
       robotData: {
         io: [0, 0, 0, 0, 0, 0, 0, 0, 0],
         ModeStatus: 1, // 模式状态
-        SpeedStatus: 100, // 速度状态
+        SpeedStatus: 50, // 速度状态
         ProjectName: 'T_ROB1', // 工程名
         ProgramName: 'MAIN', // 程序名
         log: ['', '', '', '', '', ''], // 日志信息
@@ -57,7 +57,7 @@ export default {
       device: [ // 设备
         { name: '设备1', id: 0, module: [{ description: '成品仓储模块', topic: 'web-SZ-2019001:DV-20190001' }] },
         { name: '设备2', id: 1, module: [{ description: '测试模块2', topic: 'SZ-2019001:DV-2019002.Abb-01', configSubmodules: [{ type: '1', key: 'IFT-01', description: 'IFT机器人设备1' }] }] },
-        { name: '设备3', id: 2, module: [{ description: '测试模块3', topic: 'xxy', configSubmodules: [{ type: '1', key: 'IFT-01', description: 'IFT机器人设备1' }] }] }
+        { name: '设备3', id: 2, module: [{ description: '测试模块3', topic: 'SZ-2019001:DV-2019002.Abb-03', configSubmodules: [{ type: '1', key: 'IFT-02', description: 'IFT机器人设备1' }] }] }
       ],
       choose_device_idx: 0, // 选择的设备
       choose_model_idx: '', // 选择的model
@@ -301,13 +301,13 @@ export default {
           this.$refs.robotState.updateSpeedData(robot.SpeedStatus)
         }
         // 工程名
-        if (robot.ProjectName) {
+        /* if (robot.ProjectName) {
           this.robotData.ProjectName = robot.ProjectName
-        }
+        }*/
         // 程序名
-        if (robot.ProgramName) {
+        /* if (robot.ProgramName) {
           this.robotData.ProgramName = robot.ProgramName
-        }
+        }*/
       }
     },
     setRZTime() { // 日志刷新
