@@ -141,8 +141,8 @@ export default {
             // 修改成功后立即退出
             this.logout()
           })
-          .catch(error => this.$message.error(error))
-      }).catch(err => this.$message.error(err))
+          .catch(error => this.$message.error(error.toString()))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击取消，隐藏弹窗,清空图片缓存
     cancel() {

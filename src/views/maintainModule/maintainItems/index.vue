@@ -173,19 +173,19 @@ export default {
         getCheckItemsByPageAndLevel(this.currentPage, this.pageSize, params).then(res => {
           this.tableData = res.list
           this.total = res.total
-        }).catch(err => this.$message.error(err))
+        }).catch(err => this.$message.error(err.toString()))
       } else {
         getCheckItemsByPage(this.currentPage, this.pageSize).then(res => {
           this.tableData = res.list
           this.total = res.total
-        }).catch(err => this.$message.error(err))
+        }).catch(err => this.$message.error(err.toString()))
       }
     },
     // 回显api
     getDialogData(id) {
       getCheckItemsById(id).then(res => {
         this.dialogData = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 添加api
     addTableData() {
@@ -195,14 +195,14 @@ export default {
         if (this.total % this.pageSize === 0) this.currentPage = Math.ceil(this.total / this.pageSize) + 1
         else this.currentPage = Math.ceil(this.total / this.pageSize)
         this.getCheckItems()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 编辑api
     editTableData() {
       updeteCheckItems(this.dialogData.checkId, this.dialogData).then(res => {
         this.$message.success('编辑成功')
         this.getCheckItems()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 删除api
     deleteTableData(id) {
@@ -212,7 +212,7 @@ export default {
         if (this.total % this.pageSize === 1) this.currentPage = Math.ceil(this.total / this.pageSize) - 1
         else this.currentPage = Math.ceil(this.total / this.pageSize)
         this.getCheckItems()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击添加按钮，弹框显示，并回显数据
     addRow(row) {

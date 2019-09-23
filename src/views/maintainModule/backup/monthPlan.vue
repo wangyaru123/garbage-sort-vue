@@ -71,7 +71,7 @@ export default {
           item.color = isPlan ? '#F56C6C' : '#67C23A'
         })
         this.planData = planData
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     compare(date) {
       const tmp = this.planData.filter(item => this.$dayjs(item.preventiveTime).set('hour', 8).set('minute', 0).set('second', 0).isSame(date))

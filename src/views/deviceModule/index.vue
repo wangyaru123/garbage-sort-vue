@@ -274,7 +274,7 @@ export default {
     getSchoolList() {
       getSchoolList().then(res => {
         this.schoolList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取盒子列表
     getBoxesInfoById(query) {
@@ -283,21 +283,21 @@ export default {
       getBoxesInfoById(params).then(res => {
         this.loading = false
         this.boxList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 根据page,size获取当前表格数据
     fetchData() {
       getDeviceInfoByPage(this.currentPage, this.pageSize).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 根据id回显数据
     getDialogData(id) {
       getDeviceInfoById(id).then(res => {
         this.dialogData = res
         this.deviceId = this.dialogData.deviceId
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 添加设备信息
     addTableData() {
@@ -306,21 +306,21 @@ export default {
         this.editDialogVisible = false
         this.deviceId = res
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 保存修改的报警信息
     editTableData() {
       editDeviceInfoById(this.dialogData.deviceId, this.dialogData).then(res => {
         this.editDialogVisible = false
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 删除单条已提交报警信息
     deleteTableData(id) {
       deleteDeviceInfoById(id).then(res => {
         this.$message.success('删除成功')
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 添加设备信息
     bindingData() {
@@ -329,7 +329,7 @@ export default {
       bindingData(params).then(res => {
         this.$message.success('绑定成功')
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 添加设备信息
     unbindingData() {
@@ -337,7 +337,7 @@ export default {
       unbindingData(params).then(res => {
         this.$message.success('解绑成功')
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 页面操作
     // 点击添加按钮，弹框显示

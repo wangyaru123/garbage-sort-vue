@@ -218,13 +218,13 @@ export default {
     getDeviceNameList() {
       getDeviceNameList().then(res => {
         this.deviceNameList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取设备保养类型列表
     getCategoryList() {
       getCategoryList().then(res => {
         this.categoryList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取表格数据
     getTableData() {
@@ -233,7 +233,7 @@ export default {
         this.getCategoryList()
       ]).then(() => {
         this.getData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取表格数据
     getData() {
@@ -243,7 +243,7 @@ export default {
       getLibraryByPage(this.currentPage, this.pageSize, params).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 回显
     getdialogData(id) {
@@ -258,7 +258,7 @@ export default {
             return { name: name, url: item }
           })
         }
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取周期数据
     getCycleData() {
@@ -269,7 +269,7 @@ export default {
       if (params.category && params.level) {
         getCycleData(params).then(res => {
           if (res.length === 1) this.dialogData.maintainCycle = res[0].timeInterval
-        }).catch(err => this.$message.error(err))
+        }).catch(err => this.$message.error(err.toString()))
       }
     },
     // 添加
@@ -279,7 +279,7 @@ export default {
         this.knowledgeBaseId = res
         this.$nextTick(() => this.$refs.upload.submit())
         this.getTableData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 编辑
     editTableData(id) {
@@ -293,14 +293,14 @@ export default {
         } else {
           this.getTableData()
         }
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 删除
     deleteTableData(id) {
       deleteLibrary(id).then(res => {
         this.$message.success('删除成功')
         this.getTableData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 页面操作
     // 上传图片前的校验

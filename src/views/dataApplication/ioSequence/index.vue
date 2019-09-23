@@ -133,7 +133,7 @@ export default {
           const titles = this.tableData.map(item => item.desc)
           this.$refs.ioSequenceChart.resetChart(titles)
         })
-        .catch(err => { this.$message.error(err) })
+        .catch(err => { this.$message.error(err.toString()) })
     },
 
     // 切换单柜

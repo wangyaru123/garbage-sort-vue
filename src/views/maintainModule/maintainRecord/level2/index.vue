@@ -284,7 +284,7 @@ export default {
     getDeviceNameList() {
       getDeviceNameList().then(res => {
         this.deviceNameList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 分页多条件查询所有的父计划在确认人的角色
     getRecordDataByConfirmId() {
@@ -299,7 +299,7 @@ export default {
       getRecordDataByConfirmId(this.currentPage, this.pageSize, params).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 分页多条件查询所有的父计划在点检人的角色
     getRecordDataByCheckerId() {
@@ -314,7 +314,7 @@ export default {
       getRecordDataByCheckerId(this.currentPage, this.pageSize, params).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 分页多条件查询所有的父计划在添加计划人的角度
     getRecordDataByAdduser() {
@@ -329,7 +329,7 @@ export default {
       getRecordDataByAdduser(this.currentPage, this.pageSize, params).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 分页多条件查询所有的父计划在添加计划人的角度
     getRecordDataByPage() {
@@ -348,7 +348,7 @@ export default {
       confirmRecord(row.parentPlanRecordId).then(res => {
         this.$message.success('确认成功')
         this.getRecordDataByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击确认按钮，弹框显示，并回显数据
     confirmRow(row) {
@@ -386,7 +386,7 @@ export default {
         }
         this.dialogData = res
         this.dialogData.parentPlanRecordId = parentPlanRecordId
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 修改结果
     updateResultData() {
@@ -402,7 +402,7 @@ export default {
         } else {
           this.getChildRecordDataByPage()
         }
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击添加按钮，弹框显示，并回显数据
     addResult(row) {

@@ -197,7 +197,7 @@ export default {
     getDeviceNameList() {
       getDeviceNameList().then(res => {
         this.deviceNameList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 分页多条件查询所有的父计划在确认人的角色
     getRecordDataByConfirmor() {
@@ -212,7 +212,7 @@ export default {
       getRecordDataByConfirmor(this.currentPage, this.pageSize, params).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 分页多条件查询所有的父计划在点检人的角色
     getRecordDataByChecker() {
@@ -227,7 +227,7 @@ export default {
       getRecordDataByChecker(this.currentPage, this.pageSize, params).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 分页多条件查询所有的父计划在添加计划人的角度
     getRecordDataByAdduser() {
@@ -242,7 +242,7 @@ export default {
       getRecordDataByAdduser(this.currentPage, this.pageSize, params).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 添加
     editResult(id, result) {
@@ -250,14 +250,14 @@ export default {
       editResult(id, params).then(res => {
         this.$message.success('添加结果成功')
         this.getRecordDataByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 确认人确认
     confirmRecord(id) {
       confirmRecord(id).then(res => {
         this.$message.success('确认成功')
         this.getRecordDataByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 页面操作
     // 页面展示

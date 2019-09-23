@@ -176,7 +176,7 @@ export default {
       getCheckItemList({ maintainLevel: 2 }).then(res => {
         // console.log(res)
         this.checkItemList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取设备保养类型列表
     getCategoryList() {
@@ -184,14 +184,14 @@ export default {
         // console.log(res)
         this.categoryList = res
         this.getRuleData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 根据规则id查询内容
     getRuleDataById(id) {
       getRuleDataById(id).then(res => {
         // console.log(res)
         this.dialogData = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取规则表格数据
     getRuleData() {
@@ -203,7 +203,7 @@ export default {
       getRuleData(condition).then(res => {
         console.log(res)
         this.tableData = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 更新对话框中的规则数据
     updateRuleDialogInfo() {
@@ -232,7 +232,7 @@ export default {
       addRuleData(params).then(res => {
         this.getRuleData()
         this.$message.success('添加成功')
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 更新规则数据
     updateRuleData() {
@@ -243,14 +243,14 @@ export default {
       updateRuleData(this.dialogData.itemRulesId, condition).then(res => {
         this.getRuleData()
         this.$message.success('添加成功')
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 删除规则项目
     deleteRuleData(itemRulesId) {
       deleteRuleData(itemRulesId).then(res => {
         this.getRuleData()
         this.$message.success('删除成功')
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击添加按钮，弹框显示，并回显数据
     addRow() {

@@ -247,7 +247,7 @@ export default {
       getAlarmInfoByPage(this.currentPage, this.pageSize, params).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // pageSize改变时触发
     handleSizeChange(val) {
@@ -263,7 +263,7 @@ export default {
     editTableData(id) {
       getAlarmInfoById(id).then(res => {
         this.dialogData = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击编辑按钮，弹框显示，并回显数据
     editRow(row) {
@@ -340,7 +340,7 @@ export default {
         this.$message.success('提交成功')
         // 要提交的编辑信息初始化
         this.editAlarmInfo = { alarmDescription: '', alarmImg: [], alarmInfoId: 1, faultRegion: '', faultTime: parseTime(new Date()), maintainCost: 1 }
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击取消，隐藏弹窗,清空图片缓存
     cancel() {

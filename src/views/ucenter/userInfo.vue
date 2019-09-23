@@ -315,27 +315,27 @@ export default {
     getAllRoles() {
       getAllRoles().then(res => {
         this.rolesList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取学校列表
     getSchoolList() {
       getSchoolList().then(res => {
         this.schoolList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取非敏感信息列表
     getUserNoSenInfo() {
       getUserNoSenInfoByPage(this.currentPage, this.pageSize).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取敏感信息列表
     getUserSenInfo() {
       getUserSenInfoByPage(this.currentPage, this.pageSize).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 根据权限，根据page,size获取当前表格数据
     fetchData() {
@@ -354,14 +354,14 @@ export default {
       getUserNoSenInfoById(adminId).then(res => {
         this.dialogData = res
         this.dialogData.sex = Number(this.dialogData.sex)
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 根据id获取敏感信息列表
     getSenDialogData(adminId) {
       getUserSenInfoById(adminId).then(res => {
         this.dialogData = res
         this.dialogData.sex = Number(this.dialogData.sex)
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击编辑按钮，弹框显示，并回显数据
     editRow(row) {
@@ -377,7 +377,7 @@ export default {
         this.dialogVisible = false
         this.$message.success('添加成功')
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 系统管理员更新用户信息
     updateUserInfoBySys() {
@@ -386,7 +386,7 @@ export default {
         this.dialogVisible = false
         this.$message.success('修改成功')
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 更新当前用户的信息
     updateUserInfoByUser() {
@@ -394,7 +394,7 @@ export default {
         this.dialogVisible = false
         this.$message.success('修改成功')
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击确定按钮,保存用户信息
     submitClick() {
@@ -412,7 +412,7 @@ export default {
       deleteUserInfoById(id).then(res => {
         this.$message.success('删除成功')
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 确认删除
     deleteRow(row) {
@@ -428,7 +428,7 @@ export default {
       resetPassword(id).then(res => {
         this.$message.success('重置密码成功')
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 根据用户id查询关联的角色信息
     bindingRolesClick(id) {
@@ -436,14 +436,14 @@ export default {
       getUserRoles(id).then(res => {
         this.rolesVisible = true
         this.userRolesData = res.map(item => item.adminRoleId)
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 绑定角色
     bindingRolesSubmit(id) {
       bindingRoles(id, this.userRolesData).then(res => {
         this.rolesVisible = false
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 取消
     bindingRolesCancel() {

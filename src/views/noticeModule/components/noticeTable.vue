@@ -66,7 +66,7 @@ export default {
       if (this.type === 'unread' && this.clickNum === 1) {
         updataState(row.subNotificationId).then(res => {
           // console.log('更新成功')
-        }).catch(err => this.$message.error(err))
+        }).catch(err => this.$message.error(err.toString()))
       }
     }
   }

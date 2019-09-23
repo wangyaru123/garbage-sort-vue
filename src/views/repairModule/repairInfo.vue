@@ -243,7 +243,7 @@ export default {
         console.log(res)
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // pageSize改变时触发
     handleSizeChange(val) {
@@ -267,7 +267,7 @@ export default {
       getMaintainInfoById(id).then(res => {
         this.dialogData = res
         console.log(res)
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击编辑按钮，弹框显示，并回显数据
     editRow(id) {
@@ -325,7 +325,7 @@ export default {
         // 清空图片缓存
         this.fileList = []
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击确定按钮
     submitClick() {
@@ -346,7 +346,7 @@ export default {
       deleteMaintainInfo(id).then(res => {
         this.$message.success('删除成功')
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 确认删除
     deleteRow(id) {

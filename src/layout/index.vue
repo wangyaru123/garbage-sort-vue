@@ -76,7 +76,7 @@ export default {
           // 开启webSocket
           this.openWebSocket()
         }
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     openWebSocket() {
       // 建立连接对象

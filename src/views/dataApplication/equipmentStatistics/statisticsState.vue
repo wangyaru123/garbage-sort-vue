@@ -404,28 +404,28 @@ export default {
       getRateByYear(param).then(res => {
         this.$refs[refNameBar].updateDataChart(res, this.mouth_data) // bar形图
         this.$refs[refNamePie].updateDataChart(this.getRate(res)) // pie形图
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 展示月利用率
     getRateByMouth(refNameBar, refNamePie, param) {
       getRateByMouth(param).then(res => {
         this.$refs[refNameBar].updateDataChart(res, this.day_data.slice(0, res.length))
         this.$refs[refNamePie].updateDataChart(this.getRate(res))
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 展示时利用率
     getRateByTime(refNameBar, refNamePie, param, bar_time) {
       getRateByTime(param).then(res => {
         this.$refs[refNameBar].updateDataChart([res], bar_time)
         this.$refs[refNamePie].updateDataChart(res)
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 展示日利用率
     getRateByDay(refNameBar, refNamePie, param) {
       getRateByDay(param).then(res => {
         this.$refs[refNameBar].updateDataChart(res, this.time_data)
         this.$refs[refNamePie].updateDataChart(this.getRate(res))
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     getLocalTime(_date, tem) { // 格式化时间
       const date = _date // 时间戳为10位需乘1000，为13位则不用

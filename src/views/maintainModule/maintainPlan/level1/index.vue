@@ -250,13 +250,13 @@ export default {
     getDeviceNameList() {
       getDeviceNameList().then(res => {
         this.deviceNameList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取设备保养类型列表
     getCategoryList() {
       getCategoryList().then(res => {
         this.categoryList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取周期数据
     getCycleData() {
@@ -270,14 +270,14 @@ export default {
             this.planDialogData.timeSpan = res[0].timeSpan
             this.planDialogData.timeInterval = res[0].timeInterval
           }
-        }).catch(err => this.$message.error(err))
+        }).catch(err => this.$message.error(err.toString()))
       }
     },
     // 获取所有人的信息
     getAllUserInfo() {
       getAllUserInfo().then(res => {
         this.personList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取表格数据
     getPlanDataByPage() {
@@ -296,7 +296,7 @@ export default {
         })
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 添加计划
     addTableData() {
@@ -308,7 +308,7 @@ export default {
       addPlanData(this.planDialogData).then(res => {
         this.$message.success('添加成功')
         this.getPlanDataByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 编辑计划
     getPlanTime(id, time) {
@@ -316,14 +316,14 @@ export default {
       getPlanTime(id, params).then(res => {
         this.$message.success('修改时间成功')
         this.getPlanDataByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 删除计划
     deleteTableData(id) {
       deletePlanData(id).then(res => {
         this.$message.success('删除成功')
         this.getPlanDataByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 修改计划时间
     editPlanTimeOk(row) {

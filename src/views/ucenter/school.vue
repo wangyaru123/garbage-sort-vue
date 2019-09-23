@@ -185,13 +185,13 @@ export default {
       getSchoolByPage(this.currentPage, this.pageSize).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 根据id获取学校信息
     getSchoolById(adminId) {
       getSchoolById(adminId).then(res => {
         this.dialogData = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 新增学校
     addSchool() {
@@ -199,7 +199,7 @@ export default {
         this.dialogVisible = false
         this.$message.success('添加成功')
         this.getSchoolByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 更新当前学校的信息
     updateSchool() {
@@ -207,14 +207,14 @@ export default {
         this.dialogVisible = false
         this.$message.success('修改成功')
         this.getSchoolByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 删除单条已提交报警信息
     deleteSchool(id) {
       deleteSchool(id).then(res => {
         this.$message.success('删除成功')
         this.getSchoolByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 添加用户信息
     addClick() {

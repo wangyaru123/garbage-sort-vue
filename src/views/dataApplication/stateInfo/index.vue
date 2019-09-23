@@ -96,7 +96,7 @@ export default {
           this.mqttConf.theme = this.modelInfo[0].topic // 更新订阅主题
           this.mqttOperate() // 开始订阅
         }
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
       /* const tem = '[{"id":1,"gmtCreate":"2019-05-07 09:11:22","gmtModified":"2019-09-19 17:00:53","key":"storage","description":"成品仓储模块","topic":"web-SZ-2019001:DV-2019001","equipmentId":1,"configSubmodules":[{"id":1,"moduleId":1,"key":"PLC-01","description":"PLC设备1","gmtCreate":"2019-09-11 15:18:57","gmtModified":"2019-09-11 15:19:00","type":"0"},{"id":2,"moduleId":1,"key":"Abb-01","description":"ABB机器人设备1","gmtCreate":"2019-09-11 15:27:58","gmtModified":"2019-09-11 15:28:01","type":"1"},{"id":3,"moduleId":1,"key":"PLC-02","description":"PLC设备2","gmtCreate":"2019-09-19 09:16:24","gmtModified":"2019-09-19 09:16:27","type":"0"},{"id":4,"moduleId":1,"key":"Abb-02","description":"ABB机器人设备2","gmtCreate":"2019-09-19 09:17:20","gmtModified":"2019-09-19 09:17:22","type":"1"}]}]'
       const _a = JSON.parse(tem)
       this.device[0].module = _a

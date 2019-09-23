@@ -238,14 +238,14 @@ export default {
     getDeviceNameList() {
       getDeviceNameList().then(res => {
         this.deviceNameList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取设备保养类型列表
     getCategoryList() {
       getCategoryList().then(res => {
         // console.log(res, '保养类型')
         this.categoryList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取周期数据
     categoryChanged() {
@@ -263,7 +263,7 @@ export default {
             this.planDialogData.checkId = this.ruleDataList[0].checkId
             this.planDialogData.checkItemName = this.ruleDataList[0].checkItemName
           }
-        }).catch(err => this.$message.error(err))
+        }).catch(err => this.$message.error(err.toString()))
       }
     },
     ruleChanged() {
@@ -280,7 +280,7 @@ export default {
         console.log(res)
         this.checkerList = res
         this.confirmerList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取表格数据
     getPlanDataByPage() {
@@ -302,7 +302,7 @@ export default {
         console.log(res)
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 添加计划
     addTableData() {
@@ -318,7 +318,7 @@ export default {
         if (this.total % this.pageSize === 0) this.currentPage = Math.ceil(this.total / this.pageSize) + 1
         else this.currentPage = Math.ceil(this.total / this.pageSize)
         this.getPlanDataByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 编辑计划
     updatePlanTimeById(id, time) {
@@ -326,14 +326,14 @@ export default {
       updatePlanTimeById(id, params).then(res => {
         this.$message.success('修改计划时间成功')
         this.getPlanDataByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 删除计划
     deleteTableData(id) {
       deletePlanData(id).then(res => {
         this.getPlanDataByPage()
         this.$message.success('删除成功')
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击添加按钮，弹框显示，并回显数据
     addPlan(row) {

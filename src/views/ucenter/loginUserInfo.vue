@@ -63,14 +63,14 @@ export default {
       getUserNoSenInfoById(this.userId).then(res => {
         this.userData = res
         this.userData.sex = Number(this.userData.sex)
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击确定按钮,保存用户信息
     submitClick() {
       updateUserInfoByUser(this.userData.adminId, this.userData).then(res => {
         this.$message.success('修改成功')
         this.getData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     }
   }
 }

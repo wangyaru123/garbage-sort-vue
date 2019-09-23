@@ -141,7 +141,7 @@ export default {
         })
         this.tableData = tableData
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // pageSize改变时触发
     handleSizeChange(val) {

@@ -42,7 +42,7 @@ export default {
       addLoopMaintainPlan(this.id, this.maintainData).then(res => {
         this.$message.success('提交成功')
         this.maintainData = { distanceTime: 1, pmNumber: 1, remarks: '' }
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     }
   }
 }

@@ -266,7 +266,7 @@ export default {
       getSubAlarmInfoByPage(this.currentPage, this.pageSize).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // pageSize改变时触发
     handleSizeChange(val) {
@@ -283,7 +283,7 @@ export default {
     editTableData(id) {
       getSubAlarmInfoById(id).then(res => {
         this.dialogData = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击编辑按钮，弹框显示，并回显数据
     editRow(row) {
@@ -339,7 +339,7 @@ export default {
         // 清空图片缓存
         this.fileList = []
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击确定按钮
     editSubmitClick() {
@@ -362,7 +362,7 @@ export default {
       deleteSubAlarmInfo(id).then(res => {
         this.$message.success('删除成功')
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 确认删除
     deleteRow(row) {
@@ -402,7 +402,7 @@ export default {
       const positionData = { positionId: this.positionId }
       getMaintainPerson(positionData).then(res => {
         this.maintainPersonList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 派发维修人弹框,点击确定，绑定派发人
     distributeSubmitClick() {
@@ -410,7 +410,7 @@ export default {
         this.distributeDialogVisible = false
         this.$message.success('派发成功')
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 派发维修人弹框,点击取消，隐藏弹窗
     distributeCancel() {

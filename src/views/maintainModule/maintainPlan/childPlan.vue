@@ -157,7 +157,7 @@ export default {
       getChildPlanDataByPage(this.currentPage, this.pageSize, this.$route.query.row.parentPlanRecordId).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取点检项目列表
     getCheckData() {
@@ -167,14 +167,14 @@ export default {
       }
       getCheckData(params).then(res => {
         this.checkItemList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 一键添加所有点检项目
     addAllCheckItems() {
       addAllCheckItems(this.$route.query.row.parentPlanRecordId).then(res => {
         this.$message.success('添加成功')
         this.getChildPlanDataByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 添加子计划
     addTableData(id) {
@@ -189,14 +189,14 @@ export default {
       addChildPlan(this.$route.query.row.parentPlanRecordId, params).then(res => {
         this.$message.success('添加成功')
         this.getChildPlanDataByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 删除子计划
     deleteTableData(id) {
       deleteChildPlan(id).then(res => {
         this.$message.success('删除成功')
         this.getChildPlanDataByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 页面操作
     // 返回上一页

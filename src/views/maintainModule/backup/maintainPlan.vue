@@ -153,7 +153,7 @@ export default {
           // 请求保养数据
           this.getMaimtainPlanByPage()
         })
-        .catch(err => this.$message.error(err))
+        .catch(err => this.$message.error(err.toString()))
     },
     // 获取保养数据
     getMaimtainPlanByPage() {
@@ -180,7 +180,7 @@ export default {
         this.maintainData = maintainData
         this.total = res.total
         // console.log(this.maintainData)
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 跳转到添加保养文档记录页面
     addMaintainInfo(row) {
@@ -201,7 +201,7 @@ export default {
       this.dialogVisible = true
       getMaimtainPlanById(row.id)
         .then(res => { this.dialogData = res })
-        .catch(err => this.$message.error(err))
+        .catch(err => this.$message.error(err.toString()))
     },
     // 确定编辑保养信息
     submitClick() {
@@ -211,7 +211,7 @@ export default {
           this.dialogVisible = false
           this.getMaimtainPlanByPage()
         })
-        .catch(err => this.$message.error(err))
+        .catch(err => this.$message.error(err.toString()))
     },
     cancel() {
       this.dialogVisible = false
@@ -220,7 +220,7 @@ export default {
       deleteMaimtainInfoById(id).then(res => {
         this.$message.success('删除成功')
         this.getMaimtainPlanByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 删除保养信息
     deleteMaintainInfo(row) {

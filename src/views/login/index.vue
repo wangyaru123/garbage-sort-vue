@@ -104,7 +104,7 @@ export default {
             this.$router.push({ path: this.redirect || '/' })
           }).catch(err => {
             this.loading = false
-            this.$message.error(err)
+            this.$message.error(err.toString())
           })
         } else {
           console.log('error submit!!')

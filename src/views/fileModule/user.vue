@@ -99,7 +99,7 @@ export default {
       getfileUserByPage(this.currentPage, this.pageSize).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 预览文件
     viewPDF(row) {

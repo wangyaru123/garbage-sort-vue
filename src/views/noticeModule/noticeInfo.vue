@@ -86,7 +86,7 @@ export default {
         this.unreadNoticeData = res.list
         this.unreadTotal = res.total
         // console.log(this.unreadNoticeData)
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取已读信息，传入state=true
     getReadedNoticeData() {
@@ -94,7 +94,7 @@ export default {
         this.readedNoticeData = res.list
         this.readTotal = res.total
         // console.log(this.readedNoticeData)
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 未读消息pageSize改变时触发
     unreadHandleSizeChange(val) {

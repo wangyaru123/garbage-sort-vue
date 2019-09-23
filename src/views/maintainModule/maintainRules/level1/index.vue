@@ -300,19 +300,19 @@ export default {
         this.categoryList = res
         this.getCycleData()
         this.getCheckData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取点检项目列表
     getCheckItemList() {
       getCheckItemList({ maintainLevel: this.maintainLevelList[this.levelClickIndex].maintainLevel }).then(res => {
         this.checkItemList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 根据点检项目id查询内容
     getCheckInfo(id) {
       getCheckInfo(id).then(res => {
         this.dialogData = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取周期数据
     getCycleData() {
@@ -328,7 +328,7 @@ export default {
           this.timeSpan = ''
           this.timeInterval = ''
         }
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取点检表格数据
     getCheckData() {
@@ -338,7 +338,7 @@ export default {
       }
       getCheckData(params).then(res => {
         this.checkData = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 保存周期
     saveMaintainCycle() {
@@ -350,7 +350,7 @@ export default {
       }
       saveMaintainCycle(params).then(res => {
         this.$message.success('保存成功')
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 添加点检项目
     addCheckItem() {
@@ -366,21 +366,21 @@ export default {
       addCheckItem(params).then(res => {
         this.$message.success('添加成功')
         this.getCheckData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 删除点检项目
     deleteCheckData(itemRulesId) {
       deleteCheckData(itemRulesId).then(res => {
         this.$message.success('删除成功')
         this.getCheckData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 保存班次
     saveDutyData() {
       saveDutyData(this.itemRulesId, this.dutyList).then(res => {
         this.getCheckData()
         this.$message.success('保存成功')
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 页面操作
     // 点击设备保养类型

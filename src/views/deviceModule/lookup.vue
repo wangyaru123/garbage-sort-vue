@@ -139,7 +139,7 @@ export default {
     getSchoolList() {
       getSchoolList().then(res => {
         this.schoolList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 根据page,size获取当前表格数据
     getDeviceInfoByPage() {
@@ -147,13 +147,13 @@ export default {
       getDeviceInfoByPage(this.currentPage, this.pageSize, params).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 根据id回显数据
     getDialogData(id) {
       getDeviceInfoById(id).then(res => {
         this.dialogData = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 页面操作
     // 点击编辑按钮，弹框显示，并回显数据

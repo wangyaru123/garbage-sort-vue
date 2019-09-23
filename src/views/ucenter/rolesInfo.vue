@@ -175,7 +175,7 @@ export default {
     fetchData() {
       getRolesInfo().then(res => {
         this.tableData = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 获取全部权限列表
     getActionsList() {
@@ -186,7 +186,7 @@ export default {
         this.treeData = res
         // console.log(this.treeData)
         // this.actionsList = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 选择框全选
     handleCheckAllChange(val) {
@@ -213,7 +213,7 @@ export default {
         this.dialogData = res
         this.checkedActions = res.actions.map(item => item.adminActionId)
         // console.log(this.checkedActions)
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击编辑按钮，弹框显示，并回显数据
     editRow(row) {
@@ -229,7 +229,7 @@ export default {
         this.dialogVisible = false
         this.$message.success('保存成功')
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 新增角色
     addRolesInfo() {
@@ -238,14 +238,14 @@ export default {
         this.dialogData.adminRoleId = res
         this.saveRolesActionsInfo()
         this.dialogVisible = false
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 修改角色信息
     editRolesInfoById() {
       editRolesInfoById(this.dialogData.adminRoleId, this.dialogData).then(res => {
         this.saveRolesActionsInfo()
         this.$message.success('修改成功')
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击确定按钮,保存角色信息
     submitClick() {
@@ -262,7 +262,7 @@ export default {
       deleteRolesInfoById(id).then(res => {
         this.$message.success('删除成功')
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 确认删除
     deleteRow(row) {

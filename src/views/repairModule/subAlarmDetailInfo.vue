@@ -60,7 +60,7 @@ export default {
     editTableData(id) {
       getSubAlarmInfoById(id).then(res => {
         this.panelData = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 点击缩略图放大图片
     clickImg(e) {

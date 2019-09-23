@@ -134,7 +134,7 @@ export default {
       getfileAdminByPage(this.currentPage, this.pageSize).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 发布
     publishFile(id, params) {
@@ -142,14 +142,14 @@ export default {
         if (params.status === true) this.$message.success('发布成功')
         else this.$message.success('取消发布成功')
         this.getfileAdminByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 删除
     deleteFile(id) {
       deleteFile(id).then(res => {
         this.$message.success('删除成功')
         this.getfileAdminByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 添加用户信息
     addClick() {

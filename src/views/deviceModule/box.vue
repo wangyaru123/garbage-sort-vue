@@ -176,35 +176,35 @@ export default {
       getBoxesInfoByPage(this.currentPage, this.pageSize).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 根据id回显数据
     getDialogData(id) {
       const params = { id: id }
       getBoxesInfoById(params).then(res => {
         this.dialogData = res
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 添加设备信息
     addTableData() {
       this.editDialogVisible = false
       addBoxesInfo(this.dialogData).then(res => {
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 保存修改的报警信息
     editTableData() {
       this.editDialogVisible = false
       editBoxesInfoById(this.dialogData.boxId, this.dialogData).then(res => {
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 删除单条已提交报警信息
     deleteTableData(id) {
       deleteBoxesInfoById(id).then(res => {
         this.$message.success('删除成功')
         this.fetchData()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 页面操作
     // 点击添加按钮，弹框显示

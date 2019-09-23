@@ -232,14 +232,14 @@ export default {
       getChildRecordDataByPage(this.currentPage, this.pageSize, this.$route.query.id).then(res => {
         this.tableData = res.list
         this.total = res.total
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 添加结果
     addResultData() {
       addResultData(this.dialogData.id, this.dialogData).then(res => {
         this.$nextTick(() => this.$refs.upload.submit())
         this.getChildRecordDataByPage()
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 回显结果信息
     getdialogData(id) {
@@ -255,7 +255,7 @@ export default {
         }
         this.dialogData = res
         this.dialogData.id = id
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 修改结果
     updateResultData() {
@@ -270,7 +270,7 @@ export default {
         } else {
           this.getChildRecordDataByPage()
         }
-      }).catch(err => this.$message.error(err))
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 页面操作
     // 返回上一页

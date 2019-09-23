@@ -112,7 +112,7 @@ export default {
         .then(res => {
           this.maintainRecordData = res[0]
         })
-        .catch(err => this.$message.error(err))
+        .catch(err => this.$message.error(err.toString()))
     },
     // 编辑保养信息
     editMaintainRecord() {
@@ -121,7 +121,7 @@ export default {
           this.$message.success('修改成功')
           this.back()
         })
-        .catch(err => this.$message.error(err))
+        .catch(err => this.$message.error(err.toString()))
     },
     // 添加保养信息
     addMaintainRecord() {
@@ -130,7 +130,7 @@ export default {
           this.$message.success('添加成功')
           this.back()
         })
-        .catch(err => this.$message.error(err))
+        .catch(err => this.$message.error(err.toString()))
     },
     // 删除已有的url
     deleteAnnexUrl() {
