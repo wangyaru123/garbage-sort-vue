@@ -10,7 +10,7 @@
         <el-row class="data-style">
           <div>
             <span class="school">汇博立宁职业培训学校 </span>
-            <span class="float-r device-num">SZ-2019001</span>
+            <span class="float-r device-num">SZ-2019322</span>
           </div>
           <div>
             <span>发生时间：</span>
@@ -24,7 +24,7 @@
         <el-row class="data-style">
           <div>
             <span class="school">广州机电职业技术学院</span>
-            <span class="float-r device-num">SZ-2019351</span>
+            <span class="float-r device-num">SZ-2019512</span>
           </div>
           <div>
             <span>发生时间：</span>
@@ -38,7 +38,7 @@
         <el-row class="data-style">
           <div>
             <span class="school">杭州科技职业技术学院</span>
-            <span class="float-r device-num">SZ-2019182</span>
+            <span class="float-r device-num">SZ-2019122</span>
           </div>
           <div>
             <span>发生时间：</span>

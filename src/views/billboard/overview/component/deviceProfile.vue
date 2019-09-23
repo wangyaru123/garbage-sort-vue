@@ -10,11 +10,11 @@
       <div class="data">
         <div class="data-style">
           <span class="data-name">设备总数：</span>
-          <span class="data-value">20</span>
+          <span class="data-value">16</span>
         </div>
         <div class="data-style">
           <span class="data-name">在线设备：</span>
-          <span class="data-value">15</span>
+          <span class="data-value">12</span>
         </div>
       </div>
     </div>
