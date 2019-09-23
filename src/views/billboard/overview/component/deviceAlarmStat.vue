@@ -10,11 +10,11 @@
       <div class="data">
         <div class="data-style">
           <span class="data-name">报警总数：</span>
-          <span class="data-value">2115</span>
+          <span class="data-value">86</span>
         </div>
         <div class="data-style">
           <span class="data-name">今日报警：</span>
-          <span class="data-value">130</span>
+          <span class="data-value">13</span>
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@ export default {
           }
         },
         series: [{
-          data: [120, 200, 150, 80, 70, 110, 130],
+          data: [12, 20, 15, 8, 7, 11, 13],
           type: 'bar'
         }]
       }
