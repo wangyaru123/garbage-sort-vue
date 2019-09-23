@@ -25,7 +25,7 @@ export default {
       // *** mqtt ***
       mqttConf: {
         client: '',
-        addr: 'ws://153.37.213.2:8083/mqtt', // 'ws://47.92.5.140:8083/mqtt
+        addr: 'ws://192.168.0.133:8083/mqtt', // 'ws://47.92.5.140:8083/mqtt
         theme: 'web-SZ-2019001:DV-2019001',
         options: {
           connectTimeout: 40000,
@@ -50,10 +50,12 @@ export default {
     }
   },
   created() {
-    this.mqttOperate()
-    this.$refs.ioSequenceChart.resetChart(['库位1', '库位2', '库位3', '库位4', '库位5', '库位6', '毛坯工件', '半成品工件', '成品工件', '检测到卡', '相机联机', '红色工件', '黄色工件', '蓝色工件'])
+    // this.getIoParam()
+    // this.openWebSocket()
   },
   mounted() {
+    this.mqttOperate()
+    this.$refs.ioSequenceChart.resetChart(['库位1', '库位2', '库位3', '库位4', '库位5', '库位6', '毛坯工件', '半成品工件', '成品工件', '检测到卡', '相机联机', '红色工件', '黄色工件', '蓝色工件'])
   },
   beforeDestroy() {
     // this.closeWebSocket()
