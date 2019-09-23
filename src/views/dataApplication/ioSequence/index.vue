@@ -25,7 +25,7 @@ export default {
       // *** mqtt ***
       mqttConf: {
         client: '',
-        addr: 'ws://192.168.0.133:8083/mqtt', // 'ws://47.92.5.140:8083/mqtt
+        addr: 'ws://153.37.213.2:8083/mqtt', // 'ws://47.92.5.140:8083/mqtt
         theme: 'web-SZ-2019001:DV-2019001',
         options: {
           connectTimeout: 40000,
