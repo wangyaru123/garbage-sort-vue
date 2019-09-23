@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="isMobile?'m-5':'m-10'">
     <el-card>
       <div slot="header" class="flexbox">
         <div class="font-25">机器人</div>
@@ -75,10 +75,10 @@
           <table class="mt-5 table table-bordered text-c" cellspacing="0" width="100%" v-else>
             <tbody>
               <tr>
-                <td>手压使能信号-常开</td>
-                <td>示教器急停、手压急停信号-常闭</td>
-                <td>机器人夹爪工具张开状态光电信号</td>
-                <td>机器人夹爪工具闭合状态光电信号</td>
+                <td>变位机装配模块气缸电磁阀</td>
+                <td>井式供料推头气缸电磁阀</td>
+                <td>桌面绿色按钮指示灯</td>
+                <td>桌面红色按钮指示灯</td>
                 <td>机器人快换手抓气动系统电磁阀1</td>
                 <td>机器人快换手抓气动系统电磁阀2</td>
                 <td>机器人快换手抓气动系统电磁阀3</td>
@@ -88,31 +88,31 @@
               </tr>
               <tr>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[0]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[0]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[1]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[1]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[2]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[2]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[3]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[3]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[4]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[4]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[5]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[5]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[6]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[6]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[7]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[7]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <td>
-                  <span class="iconfont icon-yuan" :class="robotData.io[8]===1?'true-color':'false-color'"></span>
+                  <span class="iconfont icon-yuan" :class="robotData.io[8]==='1'?'true-color':'false-color'"></span>
                 </td>
                 <!--<td>
                   <span class="iconfont icon-yuan" :class="robotData.ProgHoldStatus?'true-color':'false-color'"></span>
@@ -194,13 +194,13 @@
         <el-col :lg="12" :md="24" :sm="24" class="mt-10 no-shadow">
           <!--<robotStateChartArea :chartId="chartIds[1]" :titleName="titleNames[1]" :legendData="legendDatas[1]" ref="positionChart"></robotStateChartArea>-->
           <el-card class="pb-10 tableHeight">
-            <el-table :data="robotData.log" border stripe :class="isMobile?'mt-5':''">
-              <el-table-column label="序号" align="center" width="80">
+            <el-table :data="robotData.log" border stripe :class="isMobile?'mt-5':''" >
+              <el-table-column label="序号" align="center" :width="isMobile?'60':'80'">
                 <template slot-scope="scope">
                   <span>{{ scope.row.id }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="标题" align="center" width="150">
+              <el-table-column label="标题" align="center" :width="isMobile?'70':'150'">
                 <template slot-scope="scope">
                   <span>{{ scope.row.title }}</span>
                 </template>
@@ -210,9 +210,9 @@
                   <span>{{ scope.row.desc }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="时间" width="100" align="center">
+              <el-table-column label="时间" :width="isMobile?'60':'100'" align="center">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.tstamp.replace('T','') }}</span>
+                  <span>{{(scope.row.tstamp + '').replace('T', '')}}</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -330,6 +330,9 @@ export default {
 }
 .tableHeight{
   height: 342px;
-  overflow-y: auto;
+  .el-table{
+    height: 322px;
+    overflow-y: auto;
+  }
 }
 </style>

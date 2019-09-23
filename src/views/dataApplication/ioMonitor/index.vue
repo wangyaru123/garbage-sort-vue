@@ -1,7 +1,7 @@
 <template>
   <!-- io监控 -->
   <div class="p-10">
-    <el-row>
+    <!--<el-row>
       <el-col :span="16">
         <div>
           <el-select v-model="singleframeValue" size="small" placeholder="请选择" @change="onChangeProductLine">
@@ -12,8 +12,8 @@
       <el-col :span="8" class="text-r">
         <el-button type="primary" round size="small" @click="toIoPage">查看时序</el-button>
       </el-col>
-    </el-row>
-    <el-table :data="tableData" border stripe style="width:100%;" class="mt-10">
+    </el-row>-->
+    <el-table :data="switchInfo" border stripe style="width:100%;" class="mt-10">
       <el-table-column label="序号" width="50px" type="index" align="center">
         <template slot-scope="scope">
           <span>{{ scope.$index + 1 }}</span>
@@ -21,12 +21,12 @@
       </el-table-column>
       <el-table-column label="状态名称" align="center">
         <template slot-scope="scope">
-          <el-button :type="scope.row.enable ? 'success': 'info'" circle></el-button>
+          <el-button :type="scope.row.value === '1'? 'success': 'info'" circle></el-button>
         </template>
       </el-table-column>
       <el-table-column label="信号详细信息" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.desc }}</span>
+          <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -40,18 +40,20 @@ import mqtt from 'mqtt'
 export default {
   data() {
     return {
-      // mqtt
-      client: '',
-      // addr: 'ws://47.92.5.140:8083/mqtt',
-      addr: 'ws://192.168.0.133:8083/mqtt',
-      theme: 'web-SZ-2019001:DV-20190001',
-      options: {
-        connectTimeout: 40000,
-        clientId: '35e1acdbc2664baca8da1701eac58874',
-        username: 'admin',
-        password: 'public',
-        clean: true
+      // *** mqtt ***
+      mqttConf: {
+        client: '',
+        addr: 'ws://192.168.0.133:8083/mqtt', // 'ws://47.92.5.140:8083/mqtt
+        theme: 'web-SZ-2019001:DV-2019001',
+        options: {
+          connectTimeout: 40000,
+          clientId: '35e1acdbc2664baca8da1701eac58874',
+          username: 'admin',
+          password: 'public',
+          clean: true
+        }
       },
+      switchInfo: [],
       // *** 原始代码 *****
       singleframeValue: '1#',
       singleframeList: [{ value: '1#', label: '单柜1' }],
@@ -112,47 +114,82 @@ export default {
   created() {
     // this.openWebSocket()
   },
+  mounted() {
+    this.mqttOperate()
+  },
   beforeDestroy() {
     // this.closeWebSocket()
+    this.mqttConf.client.end() // 关闭订阅
   },
   methods: {
-    // mqtt
-    mqttConnect() {
+    mqttOperate() { // mqtt操作
       // 连接mqtt
-      this.client = mqtt.connect(this.addr, this.options)
+      this.mqttConf.client = mqtt.connect(this.mqttConf.addr, this.mqttConf.options)
       // 订阅
-      this.client.on('connect', (e) => {
-        console.log('连接成功：' + e)
-        this.client.subscribe(this.theme, { qos: 1 }, (error) => {
+      this.mqttConf.client.on('connect', (e) => {
+        console.log('连接成功：' + this.mqttConf.addr)
+        this.mqttConf.client.subscribe(this.mqttConf.theme, { qos: 1 }, (error) => {
           if (!error) {
-            console.log('订阅成功：订阅主题【' + this.theme + '】')
+            console.log('订阅成功：订阅主题【' + this.mqttConf.theme + '】')
           } else {
             console.log('订阅失败：' + error)
           }
         })
       })
       // 接收消息处理
-      // const that = this
-      this.client.on('message', function (topic, message) {
+      const that = this
+      this.mqttConf.client.on('message', function (topic, message) {
         // console.log('订阅的消息:' + topic + ',' + message.toString()) // 打印消息内容
         try {
-          // that.initData(JSON.parse(message.toString()))
+          that.initData(JSON.parse(message.toString()))
         } catch (e) {
         }
       })
       // 断开发起重连
-      this.client.on('reconnect', (error) => {
+      this.mqttConf.client.on('reconnect', (error) => {
         console.log('xxy 正在重连:', error)
       })
       // 链接异常处理
-      this.client.on('error', (error) => {
+      this.mqttConf.client.on('error', (error) => {
         console.log('xxy 连接失败:', error)
       })
     },
+    initData (data) {
+      // IO 解析
+      const plc_switch = []
+      let plc = ''
+      for (const key in data) {
+        if (key === 'PLC-01') {
+          plc = data[key]
+        }
+      }
+      if (plc !== '') {
+        const db = plc.DB201
+        if (db) {
+          plc_switch[0] = { name: '库位1', value: db.value.charAt(2) }
+          plc_switch[1] = { name: '库位2', value: db.value.charAt(3) }
+          plc_switch[2] = { name: '库位3', value: db.value.charAt(4) }
+          plc_switch[3] = { name: '库位4', value: db.value.charAt(5) }
+          plc_switch[4] = { name: '库位5', value: db.value.charAt(6) }
+          plc_switch[5] = { name: '库位6', value: db.value.charAt(7) }
+          plc_switch[6] = { name: '毛坯工件', value: db.value.charAt(8) }
+          plc_switch[7] = { name: '半成品工件', value: db.value.charAt(9) }
+          plc_switch[8] = { name: '成品工件', value: db.value.charAt(13) }
+          plc_switch[9] = { name: '检测到卡', value: db.value.charAt(14) }
+          plc_switch[10] = { name: '相机联机', value: db.value.charAt(15) }
+          plc_switch[11] = { name: '红色工件', value: db.value.charAt(16) }
+          plc_switch[12] = { name: '黄色工件', value: db.value.charAt(17) }
+          plc_switch[13] = { name: '蓝色工件', value: db.value.charAt(18) }
+          if (plc_switch.length > 0) {
+            this.switchInfo = plc_switch
+          }
+        }
+      }
+    }
+    /* // ***** 原始代码 *********************************************************
     // 切换产线
     onChangeProductLine() {
     }
-    /* // ***** 原始代码 *********************************************************
     // 切换产线
     onChangeProductLine() {
       if (this.stompClient && this.stompClient.connected) {

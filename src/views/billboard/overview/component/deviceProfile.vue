@@ -10,11 +10,11 @@
       <div class="data">
         <div class="data-style">
           <span class="data-name">设备总数：</span>
-          <span class="data-value">20</span>
+          <span class="data-value">45</span>
         </div>
         <div class="data-style">
           <span class="data-name">在线设备：</span>
-          <span class="data-value">7</span>
+          <span class="data-value">26</span>
         </div>
       </div>
     </div>
@@ -47,8 +47,8 @@ export default {
             radius: '71%',
             center: ['45%', '60%'],
             data: [
-              { value: 520, name: '在线' },
-              { value: 310, name: '离线' }
+              { value: 26, name: '在线' },
+              { value: 19, name: '离线' }
             ],
             itemStyle: {
               emphasis: {

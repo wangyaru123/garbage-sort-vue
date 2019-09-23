@@ -68,7 +68,7 @@ export default {
             axisLabel: { // 文字样式（及“10”、“20”等文字样式）
               // show: false, // 隐藏刻度
               color: 'black',
-              distance: -25 // 文字离表盘的距离
+              distance: -33 // 文字离表盘的距离
             }
           }
         ]

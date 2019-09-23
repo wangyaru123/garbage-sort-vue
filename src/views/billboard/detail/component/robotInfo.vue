@@ -17,6 +17,9 @@ import { debounce } from '@/utils'
 export default {
   data() {
     return {
+      // ***** xxy ************************
+      clearTimeSet: '', // 定时器
+      // ***** xxy ************************
       chartId: 'overviewRobotInfoEchart',
       // 图标中数据个数
       totalNumber: 30,
@@ -152,9 +155,11 @@ export default {
   mounted() {
     this.initChart()
     this.updateResize()
+    this.setTime()
   },
   beforeDestroy() {
     this.closeResize()
+    clearInterval(this.clearTimeSet)
   },
   computed: {
     isMobile() {
@@ -170,17 +175,46 @@ export default {
     }
   },
   methods: {
-    initData() {
+    // ******* xxy ************************************************
+    setTime() {
+      this.clearTimeSet = setInterval(() => {
+        this.chart.setOption(this.options)
+      }, 500)
     },
+    // ******* xxy ************************************************
     initChart() {
-      for (var i = 0; i < this.totalNumber; i++) {
-        this.options.xAxis.data.push(this.$dayjs().subtract(this.totalNumber - i, 'second').format('HH:mm:ss'))
-        for (var j = 0; j < 6; j++) {
-          this.options.series[j].data.push(Math.random() * 100)
-        }
+      for (let i = 0; i < 300; i++) {
+        this.options.xAxis.data.push(this.$dayjs().subtract(300 - i, 'second').format('HH:mm:ss:SSS'))
+        this.options.series[0].data.push(0)
+        this.options.series[1].data.push(0)
+        this.options.series[2].data.push(0)
+        this.options.series[3].data.push(0)
+        this.options.series[4].data.push(0)
+        this.options.series[5].data.push(0)
       }
       this.chart = this.$echarts.init(document.getElementById(this.chartId))
       this.chart.setOption(this.options)
+    },
+    // 更新图表中的数据
+    updateDataChart(data, time) {
+      if (!this.chart) return
+      if (data == null) return
+      if (this.options.xAxis.data.length < 300) {
+        this.options.xAxis.data.push(time)
+      } else {
+        this.options.xAxis.data.shift()
+        this.options.xAxis.data.push(time)
+      }
+      for (let i = 0; i < 6; i++) {
+        if (this.options.series[i].data.length < 300) {
+          this.options.series[i].data.push(data[i])
+        } else {
+          this.options.series[i].data.shift()
+          this.options.series[i].data.push(data[i])
+        }
+        // this.chart.setOption(this.options)
+      }
+      // this.chart.dispose()
     },
     //  自动适配宽度
     updateResize() {

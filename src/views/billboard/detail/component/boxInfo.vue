@@ -13,7 +13,7 @@
           </el-col>
           <el-col :span="10">盒子编码</el-col>
           <el-col :span="7" class="text-c">
-            <span>&nbsp; 111</span>
+            <span>SZ-2019001:DV-20190001</span>
           </el-col>
         </el-row>
         <el-row type="flex" align="middle" class="data-style">
@@ -22,7 +22,7 @@
           </el-col>
           <el-col :span="10">数据键名</el-col>
           <el-col :span="7" class="text-c">
-            <span>&nbsp; 111</span>
+            <span>NetGate:Company:1#</span>
           </el-col>
         </el-row>
         <el-row type="flex" align="middle" class="data-style">

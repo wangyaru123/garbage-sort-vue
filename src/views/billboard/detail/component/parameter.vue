@@ -31,13 +31,13 @@
           <el-col :span="8">
             <div class="border-right">
               <p>速率</p>
-              <h3>90%</h3>
+              <h3>{{robotData.SpeedStatus}}</h3>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="border-right">
               <p>模式</p>
-              <h3>自动</h3>
+              <h3>{{robotData.ModeStatus===1?'手动':robotData.ModeStatus===2?'等待自动':'自动'}}</h3>
             </div>
           </el-col>
           <el-col :span="8">
@@ -66,6 +66,10 @@
 <script>
 
 export default {
+  // 父组件传入的属性值
+  props: {
+    robotData: null
+  },
   data() {
     return {
     }

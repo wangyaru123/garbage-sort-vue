@@ -50,10 +50,10 @@
             </div>
           </div>
           <el-col :xs="24" :sm="7" :md="7" :lg="7" :xl="7" >
-            <circle-chart chartId="circleChart" ref="ratePieChart" titleName="设备利用率"></circle-chart>
+            <circle-chart chartId="circleChart" ref="ratePieChart" titleName="利用率"></circle-chart>
           </el-col>
           <el-col :xs="24" :sm="17" :md="17" :lg="17" :xl="17" >
-            <utilizationRateChart chartId="utilizationRateChart" ref="rateBarChart" titleName="设备利用率"></utilizationRateChart>
+            <utilizationRateChart chartId="utilizationRateChart" ref="rateBarChart" titleName="利用率"></utilizationRateChart>
           </el-col>
         </el-card>
       </el-col>
@@ -127,10 +127,10 @@
           <div slot="header">
             <div :class="isMobile?'controlDiv' : ''">
               <el-select size="small" v-model="utilizationRate.model" placeholder @change="changeUtilizationRateModel">
-                <el-option label="年利用率" value="1"></el-option>
-                <el-option label="月利用率" value="2"></el-option>
-                <el-option label="日利用率" value="3"></el-option>
-                <el-option label="时利用率" value="4"></el-option>
+                <el-option label="年稼动率" value="1"></el-option>
+                <el-option label="月稼动率" value="2"></el-option>
+                <el-option label="日稼动率" value="3"></el-option>
+                <el-option label="时稼动率" value="4"></el-option>
               </el-select>
               <span style="margin-left: 10px" v-if="utilizationRate.isShowYear">年：</span>
               <el-date-picker size="small" v-if="utilizationRate.isShowYear" v-model="utilizationRate.year" type="year" format="yyyy 年" placeholder="选择年" @change="changeUtilizationRateYear"></el-date-picker>
@@ -258,9 +258,9 @@ export default {
   created() {
   },
   mounted: function () {
-    this.getRateByDay('rateBarChart', 'ratePieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
-    this.getRateByDay('faultBarChart', 'faultPieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
-    this.getRateByDay('utilizationRateBarChart', 'utilizationRatePieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
+    // this.getRateByDay('rateBarChart', 'ratePieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
+    // this.getRateByDay('faultBarChart', 'faultPieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
+    // this.getRateByDay('utilizationRateBarChart', 'utilizationRatePieChart', { date: this.getLocalTime(new Date(), 3), ioType: 'I', byteIndex: 0, bitIndex: 0 })
   },
   beforeDestroy() {
   },
@@ -294,7 +294,7 @@ export default {
     changeRateTime() { // 选择时的触发
     },
     searchRate() { // 提交 rate 时间
-      if (this.rate.isShowYear && this.rate.year) { // 展示年利用率
+      /* if (this.rate.isShowYear && this.rate.year) { // 展示年利用率
         const param = { year: this.getLocalTime(this.rate.year, 1), ioType: 'I', byteIndex: 0, bitIndex: 0 }
         this.getRateByYear('rateBarChart', 'ratePieChart', param)
       } else if (this.rate.isShowMouth && this.rate.mouth) { // 展示月利用率
@@ -307,7 +307,7 @@ export default {
       } else if (this.rate.isShowDay && this.rate.day) { // 展示日利用率
         const param = { date: this.getLocalTime(this.rate.day, 3), ioType: 'I', byteIndex: 0, bitIndex: 0 }
         this.getRateByDay('rateBarChart', 'ratePieChart', param)
-      }
+      }*/
     },
     // **** 故障率 **********************************************
     changeFaultModel() { // 选择模式
@@ -339,7 +339,7 @@ export default {
     },
     // 提交 fault 时间
     searchFault() {
-      if (this.fault.isShowYear && this.fault.year) {
+      /* if (this.fault.isShowYear && this.fault.year) {
         const param = { year: this.getLocalTime(this.fault.year, 1), ioType: 'I', byteIndex: 0, bitIndex: 0 }
         this.getRateByYear('faultBarChart', 'faultPieChart', param)
       } else if (this.fault.isShowMouth && this.fault.mouth) {
@@ -352,7 +352,7 @@ export default {
       } else if (this.fault.isShowDay && this.fault.day) {
         const param = { date: this.getLocalTime(this.fault.day, 3), ioType: 'I', byteIndex: 0, bitIndex: 0 }
         this.getRateByDay('faultBarChart', 'faultPieChart', param)
-      }
+      }*/
     },
     // **** 稼动率 **********************************************
     changeUtilizationRateModel() { // 选择模式
@@ -383,7 +383,7 @@ export default {
     changeUtilizationRateTime() { // 选择时的触发
     },
     searchUtilizationRate() { // 提交 rate 时间
-      if (this.utilizationRate.isShowYear && this.utilizationRate.year) { // 展示年利用率
+      /* if (this.utilizationRate.isShowYear && this.utilizationRate.year) { // 展示年利用率
         const param = { year: this.getLocalTime(this.utilizationRate.year, 1), ioType: 'I', byteIndex: 0, bitIndex: 0 }
         this.getRateByYear('utilizationRateBarChart', 'utilizationRatePieChart', param)
       } else if (this.utilizationRate.isShowMouth && this.utilizationRate.mouth) { // 展示月利用率
@@ -396,7 +396,7 @@ export default {
       } else if (this.utilizationRate.isShowDay && this.utilizationRate.day) { // 展示日利用率
         const param = { date: this.getLocalTime(this.utilizationRate.day, 3), ioType: 'I', byteIndex: 0, bitIndex: 0 }
         this.getRateByDay('utilizationRateBarChart', 'utilizationRatePieChart', param)
-      }
+      }*/
     },
     // *** 公用方法 ***************************************************************************
     // 展示年利用率

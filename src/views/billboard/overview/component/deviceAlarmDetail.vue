@@ -7,14 +7,42 @@
     <div class="content">
       <div class="title">报警详情</div>
       <div class="data">
-        <el-row v-for="index in 4" :key="index" class="data-style">
+        <el-row class="data-style">
           <div>
-            <span class="school">浙江**大学{{index}}</span>
-            <span class="float-r device-num">xxxx-xxxx-xxxx</span>
+            <span class="school">汇博立宁职业培训学校 </span>
+            <span class="float-r device-num">SZ-2019001</span>
           </div>
           <div>
             <span>发生时间：</span>
-            <span class="float-r">2019-08-06 14:56:13</span>
+            <span class="float-r">{{dateTimeCurrent}}</span>
+          </div>
+          <div>
+            <span>报警内容：</span>
+            <span class="float-r alarm-content">机器人通信异常</span>
+          </div>
+        </el-row>
+        <el-row class="data-style">
+          <div>
+            <span class="school">广州机电职业技术学院</span>
+            <span class="float-r device-num">SZ-2019351</span>
+          </div>
+          <div>
+            <span>发生时间：</span>
+            <span class="float-r">{{dateTimeCurrent}}</span>
+          </div>
+          <div>
+            <span>报警内容：</span>
+            <span class="float-r alarm-content">机器人通信异常</span>
+          </div>
+        </el-row>
+        <el-row class="data-style">
+          <div>
+            <span class="school">杭州科技职业技术学院</span>
+            <span class="float-r device-num">SZ-2019182</span>
+          </div>
+          <div>
+            <span>发生时间：</span>
+            <span class="float-r">{{dateTimeCurrent}}</span>
           </div>
           <div>
             <span>报警内容：</span>
@@ -42,6 +70,9 @@ export default {
   computed: {
     isMobile() {
       return this.$store.state.app.isMobile
+    },
+    dateTimeCurrent() {
+      return this.$dayjs().format('YYYY-MM-DD HH:mm:ss')
     }
   },
   methods: {
