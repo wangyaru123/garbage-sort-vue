@@ -119,7 +119,7 @@
         ></el-pagination>
       </el-row>
     </div>
-    <!-- 添加或编辑用户信息 -->
+    <!-- 修改类别 -->
     <el-dialog :visible.sync="dialogVisible" title="请选择类别">
       <el-form label-position="right" label-width="140px" :model="dialogData">
         <el-form-item label="类别：">
@@ -195,7 +195,7 @@ export default {
       this.dialogVisible = true
       this.getSchoolById(row.schoolId)
     },
-    // 点击确定按钮,保存用户信息
+    // 点击确定按钮
     submitClick() {
       this.updateSchoolSort()
     },
