@@ -123,9 +123,7 @@
     <el-dialog :visible.sync="dialogVisible" title="请选择类别">
       <el-form label-position="right" label-width="140px" :model="dialogData">
         <el-form-item label="类别：">
-          <el-select v-model="dialogData.sort" placeholder="请选择" size="small">
-            <el-option v-for="item in sortList" :key="item.sort" :value="item.sort" :label="item.desc"></el-option>
-          </el-select>
+          <el-radio v-model="dialogData.sort" v-for="item in sortList" :key="item.sort" :label="item.sort">{{item.desc}}</el-radio>
         </el-form-item>
         <div class="text-c">
           <el-button type="primary" size="medium" @click="submitClick">确定</el-button>
