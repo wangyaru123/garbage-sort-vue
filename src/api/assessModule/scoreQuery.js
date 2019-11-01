@@ -3,7 +3,6 @@ import request from '@/utils/request'
 const studyUrl = process.env.VUE_APP_HTTP_STUDY
 
 // #region 成绩查询相关的接口
-
 /**
  * 分页查询学校信息
  *
