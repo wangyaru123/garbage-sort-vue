@@ -70,7 +70,7 @@
           </el-table-column>
           <el-table-column label="省" align="center" width="150px">
             <template slot-scope="scope">
-              <span>{{ scope.row.address}}</span>
+              <span>{{ scope.row.province}}</span>
             </template>
           </el-table-column>
           <el-table-column label="地址" align="center" width="150px">
@@ -88,12 +88,13 @@
               <span>{{ scope.row.contact }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="是否启用" align="center" width="120px">
+          <el-table-column label="是否启用" fixed="right" align="center" width="120px">
             <template slot-scope="scope">
-              <span>{{ scope.row.remarks}}</span>
+              <el-tag type="primary" v-if="scope.row.status">是</el-tag>
+              <el-tag type="danger" v-else>否</el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="类别" align="center">
+          <el-table-column label="类别" fixed="right" align="center" width="150px">
             <template slot-scope="scope">
               <el-tag type="primary" v-if="scope.row.sort!==2">考核点</el-tag>
               <el-tag type="success" v-if="scope.row.sort!==1">培训点</el-tag>
@@ -136,7 +137,7 @@
 </template>
 
 <script>
-import { getSchoolByPage, getSchoolById, updateSchool } from '@/api/ucenter/school.js'
+import { getSchoolByPage, getSchoolById, updateSchoolSort } from '@/api/ucenter/school.js'
 
 export default {
   computed: {
@@ -181,8 +182,9 @@ export default {
       }).catch(err => this.$message.error(err.toString()))
     },
     // 更新当前学校的信息
-    updateSchool() {
-      updateSchool(this.dialogData.schoolId, this.dialogData).then(res => {
+    updateSchoolSort() {
+      const params = { id: this.dialogData.schoolId, sort: this.dialogData.sort }
+      updateSchoolSort(params).then(res => {
         this.dialogVisible = false
         this.$message.success('修改成功')
         this.getSchoolByPage()
@@ -195,7 +197,7 @@ export default {
     },
     // 点击确定按钮,保存用户信息
     submitClick() {
-      this.updateSchool()
+      this.updateSchoolSort()
     },
     // 点击取消，隐藏弹窗
     cancel() {

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 const ucenterUrl = process.env.VUE_APP_HTTP_UCENTER
 
-// #region 学校信息相关的接口
+// #region 考核培训点管理相关的接口
 
 /**
  * 分页查询学校信息
@@ -39,24 +39,6 @@ export function getSchoolById(id) {
 }
 
 /**
- * 添加学校信息
- *
- * @export addSchool
- * @param {*} params
- * @returns
- */
-export function addSchool(params) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: `${ucenterUrl}/ucenter/schools`,
-      method: 'post',
-      data: params
-    }).then(result => resolve(result))
-      .catch(error => reject(error))
-  })
-}
-
-/**
  * 更新学校信息
  *
  * @export updateSchool
@@ -69,41 +51,6 @@ export function updateSchool(id, params) {
       url: `${ucenterUrl}/ucenter/schools/${id}`,
       method: 'put',
       data: params
-    }).then(result => resolve(result))
-      .catch(error => reject(error))
-  })
-}
-
-/**
- * 更新学校类别信息
- *
- * @export updateSchoolSort
- * @param {*} id
- * @returns
- */
-export function updateSchoolSort(params) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: `${ucenterUrl}/ucenter/schools/sort`,
-      method: 'put',
-      params: params
-    }).then(result => resolve(result))
-      .catch(error => reject(error))
-  })
-}
-
-/**
- * 删除学校信息
- *
- * @export deleteSchool
- * @param {*} id
- * @returns
- */
-export function deleteSchool(id) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: `${ucenterUrl}/ucenter/schools/${id}`,
-      method: 'delete'
     }).then(result => resolve(result))
       .catch(error => reject(error))
   })
