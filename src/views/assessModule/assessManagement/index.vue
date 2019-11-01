@@ -207,5 +207,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../styles/mobileStyle.scss";
+@import "../../../styles/mobileStyle.scss";
 </style>

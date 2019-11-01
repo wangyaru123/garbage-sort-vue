@@ -13,55 +13,55 @@ const assessRouter = {
     {
       path: 'assessManagement',
       name: 'AssessModule.AssessManagement',
-      component: () => import('@/views/assessModule/assessManagement'),
+      component: () => import('@/views/assessModule/assessManagement/index'),
       meta: { title: '考核培训点管理' }
     },
     {
       path: 'planManagement',
       name: 'AssessModule.PlanManagement',
-      component: () => import('@/views/assessModule/planManagement'),
+      component: () => import('@/views/assessModule/planManagement/index'),
       meta: { title: '计划管理' }
     },
     {
       path: 'planQuery',
       name: 'AssessModule.planQuery',
-      component: () => import('@/views/assessModule/planQuery'),
+      component: () => import('@/views/assessModule/planQuery/index'),
       meta: { title: '计划查询' }
     },
     {
       path: 'appointTrain',
       name: 'AssessModule.AppointTrain',
-      component: () => import('@/views/assessModule/appointTrain'),
+      component: () => import('@/views/assessModule/appointTrain/index'),
       meta: { title: '预约培训' }
     },
     {
       path: 'appointExam',
       name: 'AssessModule.AppointExam',
-      component: () => import('@/views/assessModule/appointExam'),
+      component: () => import('@/views/assessModule/appointExam/index'),
       meta: { title: '预约考核' }
     },
     {
       path: 'appointQuery',
       name: 'AssessModule.AppointQuery',
-      component: () => import('@/views/assessModule/appointQuery'),
+      component: () => import('@/views/assessModule/appointQuery/index'),
       meta: { title: '预约查询' }
     },
     {
       path: 'realtimeAssess',
       name: 'AssessModule.RealtimeAssess',
-      component: () => import('@/views/assessModule/realtimeAssess'),
+      component: () => import('@/views/assessModule/realtimeAssess/index'),
       meta: { title: '实时考核预约情况' }
     },
     {
       path: 'viewTrainResults',
       name: 'AssessModule.ViewTrainResults',
-      component: () => import('@/views/assessModule/viewTrainResults'),
+      component: () => import('@/views/assessModule/viewTrainResults/index'),
       meta: { title: '查看培训结果' }
     },
     {
       path: 'scoreQuery',
       name: 'AssessModule.ScoreQuery',
-      component: () => import('@/views/assessModule/scoreQuery'),
+      component: () => import('@/views/assessModule/scoreQuery/index'),
       meta: { title: '成绩查询' }
     }
   ]

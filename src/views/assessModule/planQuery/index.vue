@@ -51,24 +51,24 @@
       </div>
     </div>
     <div v-else>
-      <el-row>
-        <span>开始时间：</span>
-        <el-select v-model="schoolId" placeholder="请选择" size="small">
-          <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
-        </el-select>
-        <span>结束时间：</span>
-        <el-select v-model="schoolId" placeholder="请选择" size="small">
-          <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
-        </el-select>
-        <span>学校：</span>
-        <el-select v-model="schoolId" placeholder="请选择" size="small">
-          <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
-        </el-select>
-        <span>状态：</span>
-        <el-select v-model="schoolId" placeholder="请选择" size="small">
-          <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
-        </el-select>
-        <el-button size="mini" type="primary">查询</el-button>
+      <el-row class="search-row">
+        <el-col :span="23">
+          <span>开始时间：</span>
+          <el-date-picker v-model="bookStartTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <span>结束时间：</span>
+          <el-date-picker v-model="bookEndTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <span>学校：</span>
+          <el-select v-model="schoolId" placeholder="请选择" size="small">
+            <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
+          </el-select>
+          <span>状态：</span>
+          <el-select v-model="status" placeholder="请选择" size="small">
+            <el-option v-for="item in statusList" :key="item.status" :value="item.status" :label="item.desc"></el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="1">
+          <el-button size="mini" type="primary" icon="el-icon-search"></el-button>
+        </el-col>
       </el-row>
       <el-table :data="tableData" border stripe class="mt-10">
         <el-table-column label="序号" fixed width="50px" type="index" align="center">
@@ -76,32 +76,32 @@
             <span>{{ scope.$index + 1 }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="用户名" fixed align="center" width="150px">
+        <el-table-column label="时间" fixed align="center" width="150px">
           <template slot-scope="scope">
             <span>{{ scope.row.userName}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="考核学校" align="center" width="150px">
+        <el-table-column label="学校" align="center" width="150px">
           <template slot-scope="scope">
             <span>{{ scope.row.testCenter}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="考核设备" align="center" width="150px">
+        <el-table-column label="活动状态" align="center" width="150px">
           <template slot-scope="scope">
             <span>{{ scope.row.testCode}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="考核时间" align="center" width="180px">
+        <el-table-column label="是否开启预约" align="center" width="180px">
           <template slot-scope="scope">
             <span>{{ scope.row.testDate}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="时段" align="center">
+        <el-table-column label="开始预约时间" align="center">
           <template slot-scope="scope">
             <span>{{ scope.row.periodName }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="成绩" align="center" width="120px">
+        <el-table-column label="结束预约时间" align="center" width="120px">
           <template slot-scope="scope">
             <span>{{ scope.row.score }}</span>
           </template>
@@ -139,7 +139,9 @@ export default {
       // 一页显示多少条数据
       pageSize: 10,
       // 表格数据
-      tableData: []
+      tableData: [],
+      // 状态列表
+      statusList: [{ status: 1, desc: '空闲' }, { status: 2, desc: '培训' }, { status: 3, desc: '考核' }]
     }
   },
   created() {
@@ -157,4 +159,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.search-row /deep/ .el-select,
+.search-row /deep/ .el-date-editor,
+.search-row /deep/ .el-input__inner {
+  width: 200px;
+  height: 28px;
+}
+.search-row /deep/ .el-input__icon {
+  line-height: 28px;
+}
 </style>
