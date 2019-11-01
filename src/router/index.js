@@ -14,6 +14,7 @@ import maintainRouter from './modules/maintain'
 import deviceRouter from './modules/device'
 import noticeRouter from './modules/notice'
 import fileAdminRouter from './modules/fileAdmin'
+import assessRouter from './modules/assessAndTrain'
 
 Vue.use(Router)
 
@@ -74,6 +75,8 @@ export const asyncRoutes = [
   noticeRouter,
   // 文件管理
   fileAdminRouter,
+  // 考核培训模块
+  assessRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
