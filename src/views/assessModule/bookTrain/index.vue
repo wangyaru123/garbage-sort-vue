@@ -10,7 +10,7 @@
     <el-row class="mt-10">
       <el-calendar v-model="value">
         <template slot="dateCell" slot-scope="{date, data}">
-          <div class="con-div" @click="setdialogVisible">{{ data.day.split('-').slice(1).join('-') }}</div>
+          <div class="con-div" @click="toBook">{{ data.day.split('-').slice(1).join('-') }}</div>
         </template>
       </el-calendar>
     </el-row>
@@ -27,6 +27,15 @@ export default {
       schoolId: '',
       // 学校列表
       schoolList: []
+    }
+  },
+  methods: {
+    // 跳转到详情页
+    toBook() {
+      this.$router.push({
+        path: '/assessModule/Book',
+        query: { id: this.schoolId }
+      })
     }
   }
 }

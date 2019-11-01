@@ -25,6 +25,24 @@ export function getSchoolPlan(params) {
 /**
  * 修改学校计划信息
  *
+ * @export addSchoolPlan
+ * @param {*} params
+ * @returns
+ */
+export function addSchoolPlan(params) {
+  return new Promise((resolve, reject) => {
+    request({
+      url: `${studyUrl}/study/school-plans`,
+      method: 'post',
+      data: params
+    }).then(result => resolve(result))
+      .catch(error => reject(error))
+  })
+}
+
+/**
+ * 修改学校计划信息
+ *
  * @export updateSchoolPlan
  * @param {*} params
  * @returns
@@ -32,9 +50,9 @@ export function getSchoolPlan(params) {
 export function updateSchoolPlan(id, params) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${studyUrl}/study/school-plans/month/${id}`,
-      method: 'get',
-      params: params
+      url: `${studyUrl}/study/school-plans/${id}`,
+      method: 'put',
+      data: params
     }).then(result => resolve(result))
       .catch(error => reject(error))
   })

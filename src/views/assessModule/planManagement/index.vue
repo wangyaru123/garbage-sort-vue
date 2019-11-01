@@ -3,14 +3,14 @@
   <div class="p-10">
     <el-row>
       <span>请选择学校：</span>
-      <el-select v-model="schoolId" placeholder="请选择" size="small">
+      <el-select v-model="schoolId" placeholder="请选择" size="small" @change="getSchoolPlan">
         <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
       </el-select>
     </el-row>
     <el-row class="mt-10">
       <el-calendar v-model="value">
         <template slot="dateCell" slot-scope="{date, data}">
-          <div class="con-div" @click="setdialogVisible">{{ data.day.split('-').slice(1).join('-') }}</div>
+          <div class="con-div" @click="setdialogVisible(data)">{{ data.day.split('-').slice(1).join('-') }}</div>
         </template>
       </el-calendar>
     </el-row>
@@ -33,10 +33,10 @@
           <el-switch v-model="dialogData.toOpen" active-color="#13ce66"></el-switch>
         </el-form-item>
         <el-form-item label="开始预约时间：">
-          <el-date-picker v-model="dialogData.bookStartTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker v-model="dialogData.bookStartTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="结束预约时间：">
-          <el-date-picker v-model="dialogData.bookEndTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker v-model="dialogData.bookEndTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
         </el-form-item>
         <div class="text-c">
           <el-button type="primary" size="medium" @click="submitClick">确定</el-button>
@@ -49,7 +49,7 @@
 
 <script>
 import { getSchoolList } from '@/api/ucenter/school.js'
-import { getPeriodNameList, getSchoolPlan, updateSchoolPlan } from '@/api/assessModule/planManagement.js'
+import { getPeriodNameList, getSchoolPlan, addSchoolPlan, updateSchoolPlan } from '@/api/assessModule/planManagement.js'
 import dayjs from 'dayjs'
 
 export default {
@@ -108,6 +108,12 @@ export default {
       }).catch(err => this.$message.error(err.toString()))
     },
     // 更新单条计划
+    addSchoolPlan() {
+      addSchoolPlan(this.dialogData).then(res => {
+        this.$message.success('修改成功')
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 更新单条计划
     updateSchoolPlan() {
       updateSchoolPlan(this.schoolId, this.dialogData).then(res => {
         this.$message.success('修改成功')
@@ -124,7 +130,8 @@ export default {
       }
     },
     // 点击日历，弹出弹框
-    setdialogVisible() {
+    setdialogVisible(data) {
+      console.log(data)
       this.dialogVisible = true
       this.dialogData = {
         sort: 1,
@@ -139,7 +146,7 @@ export default {
     // 点击确定按钮
     submitClick() {
       this.dialogVisible = false
-      // this.updateSchoolPlan()
+      this.addSchoolPlan()
     },
     // 点击取消，隐藏弹窗
     cancel() {

@@ -31,19 +31,26 @@ const assessRouter = {
     {
       path: 'appointTrain',
       name: 'AssessModule.AppointTrain',
-      component: () => import('@/views/assessModule/appointTrain/index'),
+      component: () => import('@/views/assessModule/bookTrain/index'),
+      meta: { title: '预约培训' }
+    },
+    {
+      path: 'Book',
+      name: 'AssessModule.AppointTrain.Book',
+      hidden: true,
+      component: () => import('@/views/assessModule/bookTrain/book'),
       meta: { title: '预约培训' }
     },
     {
       path: 'appointExam',
       name: 'AssessModule.AppointExam',
-      component: () => import('@/views/assessModule/appointExam/index'),
+      component: () => import('@/views/assessModule/bookExam/index'),
       meta: { title: '预约考核' }
     },
     {
       path: 'appointQuery',
       name: 'AssessModule.AppointQuery',
-      component: () => import('@/views/assessModule/appointQuery/index'),
+      component: () => import('@/views/assessModule/bookQuery/index'),
       meta: { title: '预约查询' }
     },
     {
