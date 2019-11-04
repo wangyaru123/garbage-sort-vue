@@ -24,8 +24,8 @@
           <span v-if="schoolId">{{schoolList.find(item=>item.schoolId===schoolId).schoolName}}</span>
         </el-form-item>
         <el-form-item label="类别：">
-          <el-tag type="primary" v-if="sort!==2">考核点</el-tag>
-          <el-tag type="success" v-if="sort!==1">培训点</el-tag>
+          <el-tag type="success" v-if="sort!==2">考核点</el-tag>
+          <el-tag type="primary" v-if="sort!==1">培训点</el-tag>
         </el-form-item>
         <el-form-item label="状态：">
           <el-radio v-model="dialogData.status" v-for="item in statusList" :key="item.status" :label="item.status">{{item.desc}}</el-radio>
@@ -149,7 +149,7 @@ export default {
     },
     // 更新单条计划
     updateSchoolPlan() {
-      updateSchoolPlan(this.schoolId, this.dialogData).then(res => {
+      updateSchoolPlan(this.dialogData.schoolPlanId, this.dialogData).then(res => {
         this.$message.success('修改成功')
         this.getSchoolPlan()
       }).catch(err => this.$message.error(err.toString()))
@@ -171,6 +171,7 @@ export default {
       if (data) {
         this.action = 'edit'
         this.dialogData = data
+        console.log(this.dialogData)
       } else {
         // 如果data为空，则是添加
         this.action = 'add'
@@ -203,7 +204,9 @@ export default {
         this.$message.error('开始预约时间不能超过结束预约时间')
       } else {
         this.dialogVisible = false
-        this.addSchoolPlan()
+        if (this.action === 'add') this.addSchoolPlan()
+        else this.updateSchoolPlan()
+        // 清空数据
         this.dialogData = {}
       }
     },

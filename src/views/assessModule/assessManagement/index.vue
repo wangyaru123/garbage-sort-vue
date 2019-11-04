@@ -96,8 +96,8 @@
           </el-table-column>
           <el-table-column label="类别" fixed="right" align="center" width="150px">
             <template slot-scope="scope">
-              <el-tag type="primary" v-if="scope.row.sort!==2">考核点</el-tag>
-              <el-tag type="success" v-if="scope.row.sort!==1">培训点</el-tag>
+              <el-tag type="success" v-if="scope.row.sort!==2">考核点</el-tag>
+              <el-tag type="primary" v-if="scope.row.sort!==1">培训点</el-tag>
             </template>
           </el-table-column>
           <el-table-column label="操作" fixed="right" align="center" width="150px">

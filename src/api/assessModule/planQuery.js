@@ -2,19 +2,19 @@ import request from '@/utils/request'
 
 const studyUrl = process.env.VUE_APP_HTTP_STUDY
 
-// #region 学校计划接口
+// #region 查询计划接口
 
 /**
  * 多条件查询所有学校计划
  *
- * @export addSchoolPlan
+ * @export getAllSchoolPlan
  * @param {*} params
  * @returns
  */
-export function getAllSchoolPlan(params) {
+export function getAllSchoolPlan(params, page, size) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${studyUrl}/study/school-plans/condition`,
+      url: `${studyUrl}/study/school-plans/condition/${page}/${size}`,
       method: 'post',
       data: params
     }).then(result => resolve(result))

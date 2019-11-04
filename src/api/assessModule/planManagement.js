@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 const studyUrl = process.env.VUE_APP_HTTP_STUDY
 
-// #region 学校计划接口
+// #region 学校计划管理接口
 
 /**
  * 查询学校计划信息

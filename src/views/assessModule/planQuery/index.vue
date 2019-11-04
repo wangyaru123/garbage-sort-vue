@@ -9,8 +9,8 @@
           layout="prev, jumper, next, total"
           :page-size="10"
           :total="total"
-          @size-change="getScoreByPage"
-          @current-change="getScoreByPage"
+          @size-change="getAllSchoolPlan"
+          @current-change="getAllSchoolPlan"
           :current-page.sync="currentPage"
         ></el-pagination>
       </div>
@@ -78,40 +78,41 @@
         </el-table-column>
         <el-table-column label="时间" fixed align="center" width="150px">
           <template slot-scope="scope">
-            <span>{{ scope.row.userName}}</span>
+            <span>{{ scope.row.time}}</span>
           </template>
         </el-table-column>
         <el-table-column label="学校" align="center" width="150px">
           <template slot-scope="scope">
-            <span>{{ scope.row.testCenter}}</span>
+            <span>{{ scope.row.schoolName}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="活动状态" align="center" width="150px">
+        <el-table-column label="状态" align="center" width="150px">
           <template slot-scope="scope">
-            <span>{{ scope.row.testCode}}</span>
+            <el-tag v-if="scope.row.status===1" type="success">考核</el-tag>
+            <el-tag v-if="scope.row.status===2" type="primary">培训</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="是否开启预约" align="center" width="180px">
+        <el-table-column label="是否开启预约" align="center" width="120px">
           <template slot-scope="scope">
-            <span>{{ scope.row.testDate}}</span>
+            <el-tag :type="scope.row.toOpen?'success':'danger'">{{ scope.row.toOpen?'是':'否'}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="开始预约时间" align="center">
           <template slot-scope="scope">
-            <span>{{ scope.row.periodName }}</span>
+            <span>{{ scope.row.bookStartTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="结束预约时间" align="center" width="120px">
+        <el-table-column label="结束预约时间" align="center">
           <template slot-scope="scope">
-            <span>{{ scope.row.score }}</span>
+            <span>{{ scope.row.bookEndTime }}</span>
           </template>
         </el-table-column>
       </el-table>
       <el-pagination
         class="mt-10 text-r"
         background
-        @size-change="getScoreByPage"
-        @current-change="getScoreByPage"
+        @size-change="getAllSchoolPlan"
+        @current-change="getAllSchoolPlan"
         :current-page.sync="currentPage"
         :page-sizes="[10, 20, 50, 100]"
         :page-size.sync="pageSize"
@@ -168,7 +169,7 @@ export default {
     },
     // 查询计划
     getAllSchoolPlan() {
-      getAllSchoolPlan(this.condition).then(res => {
+      getAllSchoolPlan(this.condition, this.currentPage, this.pageSize).then(res => {
         this.tableData = res.list
         this.total = res.total
       }).catch(err => this.$message.error(err.toString()))
