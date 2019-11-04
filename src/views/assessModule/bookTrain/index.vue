@@ -10,13 +10,18 @@
     <el-row class="mt-10">
       <el-calendar v-model="value">
         <template slot="dateCell" slot-scope="{date, data}">
-          <div class="con-div" @click="toBook">
+          <div class="con-div">
             <div class="left">
               <span>{{ data.day.split('-').slice(1).join('-') }}</span>
               <h4 v-if="getItemStatus(date)===2">培训</h4>
             </div>
             <div class="right">
-              <el-tag v-for="(period,index) in getItemPeriod(date)" :key="index" :type="index===1?'warning':'primary'">{{period}}</el-tag>
+              <el-tag
+                v-for="(period,index) in getItemPeriod(date)"
+                :key="index"
+                :type="index===1?'warning':'primary'"
+                @click="toBook(period,date)"
+              >{{period}}</el-tag>
             </div>
           </div>
         </template>
@@ -94,10 +99,11 @@ export default {
       }
     },
     // 跳转到详情页
-    toBook() {
+    toBook(period, date) {
+      const schoolName = this.schoolList.find(item => item.schoolId === this.schoolId).schoolName
       this.$router.push({
         path: '/assessModule/Book',
-        query: { id: this.schoolId }
+        query: { schoolId: this.schoolId, schoolName: schoolName, period: period, day: this.$dayjs(date).format('YYYY-MM-DD') }
       })
     }
   }
@@ -121,8 +127,10 @@ export default {
   line-height: 32px;
 }
 .con-div /deep/ .right .el-tag {
-  margin-top: 5px;
+  display: block;
+  width: 45px;
   height: 22px;
+  margin-top: 5px;
   line-height: 22px;
 }
 </style>

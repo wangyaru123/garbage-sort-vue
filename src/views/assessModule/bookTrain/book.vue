@@ -7,13 +7,13 @@
     <el-row class="mt-10">
       <el-col :span="6" class="mt-5">
         <el-card class="box-card m-5 flexbox" style="margin-left:0;">
-          <div class="left-div">浙江xxx大学</div>
+          <div class="left-div">{{schoolName}}</div>
           <div class="right-div">学校</div>
         </el-card>
       </el-col>
       <el-col :span="6" class="mt-5">
         <el-card class="box-card m-5 flexbox">
-          <div class="left-div">2019-11-4 上午</div>
+          <div class="left-div">{{params.day}}{{params.period}}</div>
           <div class="right-div">时间</div>
         </el-card>
       </el-col>
@@ -61,43 +61,64 @@
 </template>
 
 <script>
+import { getTrainsDetails } from '@/api/assessModule/bookTrain'
+
 export default {
   data() {
     return {
-      // 学校id
-      schoolId: ''
+      // 学校名称
+      schoolName: '',
+      // 参数
+      params: {},
+      // 设备数据
+      deviceData: []
     }
+  },
+  created() {
+    const { schoolId, schoolName, period, day } = this.$route.query
+    this.schoolName = schoolName
+    this.params = { schoolId: schoolId, period: period, day: day }
+    this.getTrainsDetails()
   },
   methods: {
     // 返回上一页
     back() {
       this.$router.go(-1)
+    },
+    // 获取预约情况
+    getTrainsDetails() {
+      getTrainsDetails(this.params).then(res => {
+        console.log(res)
+        this.deviceData = res
+      }).catch(err => this.$message.error(err.toString()))
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.con-div {
-  width: 100%;
-  height: 100%;
-}
 .flexbox /deep/ .el-card__body {
   display: flex;
+  padding: 0;
 }
 .left-div {
   flex: 1;
-  text-align: left;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
 }
 .right-div {
-  width: 46px;
-  height: 46px;
+  width: 80px;
+  height: 50px;
+  line-height: 50px;
   background-color: #409eff;
+  color: #fff;
+  text-align: center;
 }
 .float-left {
   float: left;
 }
-.float-rigth {
+.float-right {
   float: right;
 }
 </style>

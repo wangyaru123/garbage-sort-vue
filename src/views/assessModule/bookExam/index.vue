@@ -10,13 +10,18 @@
     <el-row class="mt-10">
       <el-calendar v-model="value">
         <template slot="dateCell" slot-scope="{date, data}">
-          <div class="con-div" @click="toBook">
+          <div class="con-div">
             <div class="left">
               <span>{{ data.day.split('-').slice(1).join('-') }}</span>
               <h4 v-if="getItemStatus(date)===1">考核</h4>
             </div>
             <div class="right">
-              <el-tag v-for="(period,index) in getItemPeriod(date)" :key="index" :type="index===1?'warning':'primary'">{{period}}</el-tag>
+              <el-tag
+                v-for="(period,index) in getItemPeriod(date)"
+                :key="index"
+                @click="toBook"
+                :type="index===1?'warning':'primary'"
+              >{{period}}</el-tag>
             </div>
           </div>
         </template>
@@ -121,8 +126,10 @@ export default {
   line-height: 32px;
 }
 .con-div /deep/ .right .el-tag {
-  margin-top: 5px;
+  display: block;
+  width: 45px;
   height: 22px;
+  margin-top: 5px;
   line-height: 22px;
 }
 </style>
