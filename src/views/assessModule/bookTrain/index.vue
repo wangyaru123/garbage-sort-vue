@@ -3,7 +3,7 @@
   <div class="p-10">
     <el-row>
       <span>请选择学校：</span>
-      <el-select v-model="schoolId" placeholder="请选择" size="small">
+      <el-select v-model="schoolId" placeholder="请选择" size="small" @change="changeSchool">
         <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
       </el-select>
     </el-row>
@@ -11,10 +11,13 @@
       <el-calendar v-model="value">
         <template slot="dateCell" slot-scope="{date, data}">
           <div class="con-div" @click="toBook">
-            {{ data.day.split('-').slice(1).join('-') }}
-            <el-tag v-if="getItemStatus(date)===1" type="success">考核</el-tag>
-            <el-tag v-if="getItemStatus(date)===2" type="primary">培训</el-tag>
-            <el-tag v-for="(period,index) in getItemPeriod(date)" :key="index" type="primary">{{period}}</el-tag>
+            <div class="left">
+              <span>{{ data.day.split('-').slice(1).join('-') }}</span>
+              <h4 v-if="getItemStatus(date)===2">培训</h4>
+            </div>
+            <div class="right">
+              <el-tag v-for="(period,index) in getItemPeriod(date)" :key="index" :type="index===1?'warning':'primary'">{{period}}</el-tag>
+            </div>
           </div>
         </template>
       </el-calendar>
@@ -35,15 +38,12 @@ export default {
       schoolId: '',
       // 学校列表
       schoolList: [],
-      // 时段列表
-      periodNameList: [],
       // 学校计划数据
       trainsPlanData: []
     }
   },
   created() {
     this.getSchoolList()
-    this.getPeriodNameList()
   },
   methods: {
     // 获取学校列表
@@ -61,6 +61,11 @@ export default {
       getSchoolById(this.schoolId).then(res => {
         this.sort = res.sort
       }).catch(err => this.$message.error(err.toString()))
+    },
+    // 改变学校时，重新请求学校单条信息和整月计划
+    changeSchool() {
+      this.getSchoolById()
+      this.getTrainsPlan()
     },
     // 获取整月计划
     getTrainsPlan() {
@@ -83,7 +88,7 @@ export default {
     getItemPeriod(date) {
       const tmp = this.trainsPlanData.find(item => this.$dayjs(item.time).set('hour', 8).set('minute', 0).set('second', 0).isSame(date))
       if (tmp) {
-        return tmp.periodName
+        return JSON.parse(tmp.periodName)
       } else {
         return []
       }
@@ -103,10 +108,21 @@ export default {
 .con-div {
   width: 100%;
   height: 100%;
+  display: flex;
 }
-.con-div /deep/ .el-tag {
-  display: block;
-  width: 45px;
-  margin-left: 50px;
+.con-div div {
+  flex: 1;
+}
+.con-div /deep/ .left h4 {
+  margin: 0;
+}
+.con-div /deep/ .left span {
+  display: inline-block;
+  line-height: 32px;
+}
+.con-div /deep/ .right .el-tag {
+  margin-top: 5px;
+  height: 22px;
+  line-height: 22px;
 }
 </style>

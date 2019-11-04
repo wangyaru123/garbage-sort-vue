@@ -22,16 +22,16 @@
           <div class="text item flexbox">
             <div style="width:100%">
               <div class="flexbox mt-5">
+                考核编号:
+                <div>{{item.testCode}}</div>
+              </div>
+              <div class="flexbox mt-5">
                 用户名:
                 <div>{{item.userName}}</div>
               </div>
               <div class="flexbox mt-5">
                 考核学校:
                 <div>{{item.testCenter}}</div>
-              </div>
-              <div class="flexbox mt-5">
-                考核设备:
-                <div>{{item.testCode}}</div>
               </div>
               <div class="flexbox mt-5">
                 考核时间:
@@ -57,7 +57,12 @@
             <span>{{ scope.$index + 1 }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="用户名" fixed align="center" width="150px">
+        <el-table-column label="考核编号" align="center" width="150px">
+          <template slot-scope="scope">
+            <span>{{ scope.row.testCode}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="用户名" align="center" width="150px">
           <template slot-scope="scope">
             <span>{{ scope.row.userName}}</span>
           </template>
@@ -65,11 +70,6 @@
         <el-table-column label="考核学校" align="center" width="150px">
           <template slot-scope="scope">
             <span>{{ scope.row.testCenter}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="考核设备" align="center" width="150px">
-          <template slot-scope="scope">
-            <span>{{ scope.row.testCode}}</span>
           </template>
         </el-table-column>
         <el-table-column label="考核时间" align="center" width="180px">

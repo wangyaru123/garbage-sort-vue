@@ -1,9 +1,9 @@
 <template>
   <!-- 预约查询 -->
-  <div>
+  <div class="p-10">
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="未完成的预约" name="unfinishedBook">
-        <el-table :data="tableData" border stripe class="mt-10">
+        <el-table :data="tableData" class="mt-10">
           <el-table-column label="序号" fixed width="50px" type="index" align="center">
             <template slot-scope="scope">
               <span>{{ scope.$index + 1 }}</span>
@@ -19,12 +19,12 @@
               <span>{{ scope.row.testCenter}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="活动状态" align="center" width="150px">
+          <el-table-column label="状态" align="center" width="150px">
             <template slot-scope="scope">
               <span>{{ scope.row.testCode}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="是否开启预约" align="center" width="180px">
+          <el-table-column label="是否开启预约" align="center" width="120px">
             <template slot-scope="scope">
               <span>{{ scope.row.testDate}}</span>
             </template>
