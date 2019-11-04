@@ -23,7 +23,7 @@ export function getSchoolPlan(params) {
 }
 
 /**
- * 修改学校计划信息
+ * 添加学校计划信息
  *
  * @export addSchoolPlan
  * @param {*} params

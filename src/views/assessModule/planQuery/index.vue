@@ -54,20 +54,20 @@
       <el-row class="search-row">
         <el-col :span="23">
           <span>开始时间：</span>
-          <el-date-picker v-model="bookStartTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker v-model="condition.bookStartTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
           <span>结束时间：</span>
-          <el-date-picker v-model="bookEndTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker v-model="condition.bookEndTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
           <span>学校：</span>
-          <el-select v-model="schoolId" placeholder="请选择" size="small">
-            <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
+          <el-select v-model="condition.schoolName" placeholder="请选择" size="small">
+            <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolName" :label="item.schoolName"></el-option>
           </el-select>
           <span>状态：</span>
-          <el-select v-model="status" placeholder="请选择" size="small">
+          <el-select v-model="condition.status" placeholder="请选择" size="small">
             <el-option v-for="item in statusList" :key="item.status" :value="item.status" :label="item.desc"></el-option>
           </el-select>
         </el-col>
         <el-col :span="1">
-          <el-button size="mini" type="primary" icon="el-icon-search"></el-button>
+          <el-button size="mini" type="primary" icon="el-icon-search" @click="getAllSchoolPlan"></el-button>
         </el-col>
       </el-row>
       <el-table :data="tableData" border stripe class="mt-10">
@@ -123,6 +123,9 @@
 </template>
 
 <script>
+import { getSchoolList } from '@/api/ucenter/school.js'
+import { getAllSchoolPlan } from '@/api/assessModule/planQuery'
+
 export default {
   computed: {
     // 是否为手机
@@ -141,19 +144,35 @@ export default {
       // 表格数据
       tableData: [],
       // 状态列表
-      statusList: [{ status: 1, desc: '空闲' }, { status: 2, desc: '培训' }, { status: 3, desc: '考核' }]
+      statusList: [{ status: 1, desc: '考核' }, { status: 2, desc: '培训' }],
+      // 学校列表
+      schoolList: [],
+      // 条件
+      condition: {
+        'bookStartTime': '',
+        'bookEndTime': '',
+        'schoolName': '',
+        'status': ''
+      }
     }
   },
   created() {
-    // this.getScoreByPage()
+    this.getSchoolList()
   },
   methods: {
-    // getScoreByPage() {
-    //   getScoreByPage(this.currentPage, this.pageSize).then(res => {
-    //     this.tableData = res.list
-    //     this.total = res.total
-    //   }).catch(err => this.$message.error(err.toString()))
-    // }
+    // 获取学校列表
+    getSchoolList() {
+      getSchoolList().then(res => {
+        this.schoolList = res
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 查询计划
+    getAllSchoolPlan() {
+      getAllSchoolPlan(this.condition).then(res => {
+        this.tableData = res.list
+        this.total = res.total
+      }).catch(err => this.$message.error(err.toString()))
+    }
   }
 }
 </script>

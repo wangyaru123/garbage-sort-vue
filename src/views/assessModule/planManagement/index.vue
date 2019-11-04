@@ -179,8 +179,8 @@ export default {
         this.dialogData = {
           status: this.statusList[0].status,
           toOpen: true,
-          bookStartTime: this.$dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          bookEndTime: this.$dayjs().format('YYYY-MM-DD HH:mm:ss'),
+          bookStartTime: this.$dayjs(date).format('YYYY-MM-DD 00:00:00'),
+          bookEndTime: this.$dayjs(date).format('YYYY-MM-DD HH:mm:ss'),
           time: time,
           schoolId: this.schoolId,
           schoolName: schoolName
