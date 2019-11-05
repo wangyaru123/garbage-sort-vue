@@ -20,7 +20,7 @@
                 v-for="(period,index) in getItemPeriod(date)"
                 :key="index"
                 :type="index===1?'warning':'primary'"
-                @click="toBook(period,date)"
+                @click="toBookPage(period,date)"
               >{{period}}</el-tag>
             </div>
           </div>
@@ -99,7 +99,7 @@ export default {
       }
     },
     // 跳转到详情页
-    toBook(period, date) {
+    toBookPage(period, date) {
       const schoolName = this.schoolList.find(item => item.schoolId === this.schoolId).schoolName
       this.$router.push({
         path: '/assessModule/Book',

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 const studyUrl = process.env.VUE_APP_HTTP_STUDY
 
-// #region 学校计划接口
+// #region 预约考核接口
 
 /**
  * 查询某月某学校考核计划
@@ -34,6 +34,24 @@ export function getExamDetails(params) {
     request({
       url: `${studyUrl}/study/examines-situation`,
       method: 'get',
+      params: params
+    }).then(result => resolve(result))
+      .catch(error => reject(error))
+  })
+}
+
+/**
+ * 学员预约考核
+ *
+ * @export toBook
+ * @param {*} params{ examinesId:'',schoolId: '1', day: '2019-11-3' }
+ * @returns
+ */
+export function toBook(params) {
+  return new Promise((resolve, reject) => {
+    request({
+      url: `${studyUrl}/study/examines/book`,
+      method: 'put',
       params: params
     }).then(result => resolve(result))
       .catch(error => reject(error))

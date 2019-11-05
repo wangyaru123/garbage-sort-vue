@@ -12,8 +12,8 @@
         <template slot="dateCell" slot-scope="{date, data}">
           <div class="con-div" @click="setdialogVisible(getItemData(date),date)">
             {{ data.day.split('-').slice(1).join('-') }}
-            <el-tag v-if="getItemStatus(date)===1" type="success">考核</el-tag>
-            <el-tag v-if="getItemStatus(date)===2" type="primary">培训</el-tag>
+            <el-tag v-if="getItemData(date) && getItemData(date).status===1" type="success">考核</el-tag>
+            <el-tag v-if="getItemData(date) && getItemData(date).status===2" type="primary">培训</el-tag>
           </div>
         </template>
       </el-calendar>
@@ -34,10 +34,10 @@
           <el-switch v-model="dialogData.toOpen" active-color="#13ce66"></el-switch>
         </el-form-item>
         <el-form-item label="开始预约时间：">
-          <el-date-picker v-model="dialogData.bookStartTime" type="date" value-format="yyyy-MM-dd" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker v-model="dialogData.bookStartTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="结束预约时间：">
-          <el-date-picker v-model="dialogData.bookEndTime" type="date" value-format="yyyy-MM-dd" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker v-model="dialogData.bookEndTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
         </el-form-item>
         <div class="text-c">
           <el-button type="primary" size="medium" @click="submitClick">确定</el-button>
@@ -125,15 +125,6 @@ export default {
         this.schoolPlanData = res
       }).catch(err => this.$message.error(err.toString()))
     },
-    // 回显考核培训标志
-    getItemStatus(date) {
-      const tmp = this.schoolPlanData.find(item => this.$dayjs(item.time).set('hour', 8).set('minute', 0).set('second', 0).isSame(date))
-      if (tmp) {
-        return tmp.status
-      } else {
-        return ''
-      }
-    },
     // 获取每一项数据
     getItemData(date) {
       const tmp = this.schoolPlanData.find(item => this.$dayjs(item.time).set('hour', 8).set('minute', 0).set('second', 0).isSame(date))
@@ -180,11 +171,13 @@ export default {
         this.action = 'add'
         const schoolName = this.schoolList.find(item => item.schoolId === this.schoolId).schoolName
         const time = this.$dayjs(date).format('YYYY-MM-DD 00:00:00')
+        const bookStartTime = this.$dayjs(date).format('YYYY-MM-DD 00:00:00')
+        const bookEndTime = this.$dayjs(date).format('YYYY-MM-DD HH:mm:ss')
         this.dialogData = {
           status: this.statusList[0].status,
           toOpen: true,
-          bookStartTime: this.$dayjs(date).format('YYYY-MM-DD 00:00:00'),
-          bookEndTime: this.$dayjs(date).format('YYYY-MM-DD 00:00:00'),
+          bookStartTime: bookStartTime,
+          bookEndTime: bookEndTime,
           time: time,
           schoolId: this.schoolId,
           schoolName: schoolName

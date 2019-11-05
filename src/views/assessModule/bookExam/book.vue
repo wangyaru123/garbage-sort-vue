@@ -44,15 +44,16 @@
             <img src />
           </div>
           <div class="right-div">
-            <div>
-              <div class="float-left">设备类别：</div>
-              <div class="float-right">A类</div>
+            <div class="mt-20">
+              <div class="text-left">设备类别：</div>
+              <div class="text-right">A类</div>
             </div>
-            <div>
-              <div class="float-left">设备位置号：</div>
-              <div class="float-right">2号</div>
+            <div class="mt-20">
+              <div class="text-left">设备位置号：</div>
+              <div class="text-right">2号</div>
             </div>
-            <el-button type="primary">考核预约</el-button>
+            <el-button class="mt-30 float-r" type="primary" size="mini" v-if="!item.isBook" @click="toBook(item.examinesId)">预约</el-button>
+            <el-button class="mt-30 float-r" type="primary" size="mini" v-else>取消预约</el-button>
           </div>
         </el-card>
       </el-col>
@@ -61,7 +62,7 @@
 </template>
 
 <script>
-import { getExamDetails } from '@/api/assessModule/bookExam'
+import { getExamDetails, toBook } from '@/api/assessModule/bookExam'
 
 export default {
   data() {
@@ -96,6 +97,17 @@ export default {
         res.forEach(item => {
           if (item.isBook) this.unBookNum++
         })
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 预约
+    toBook(examinesId) {
+      const params = {
+        examinesId: examinesId,
+        schoolId: this.params.schoolId,
+        day: this.params.day
+      }
+      toBook(params).then(res => {
+        console.log(res)
       }).catch(err => this.$message.error(err.toString()))
     }
   }

@@ -35,7 +35,7 @@
         <el-card class="box-card m-5 devicebox" style="margin-left:0;">
           <div slot="header" class="clearfix">
             <span>{{item.deviceCode}}</span>
-            <el-button style="float: right; padding: 3px 0" type="text">
+            <el-button class="tag-btn" type="text">
               <el-tag :type="item.isBook?'success':'danger'">{{item.isBook?'已预约':'未预约'}}</el-tag>
             </el-button>
           </div>
@@ -51,8 +51,8 @@
               <div class="text-left">设备位置号：</div>
               <div class="text-right">2号</div>
             </div>
-            <el-button class="mt-30" style="float: right;margin-bottom:0px;" type="primary" size="mini" v-if="!item.isBook">预约</el-button>
-            <el-button class="mt-30" style="float: right;margin-bottom:0px;" type="primary" size="mini" v-else>取消预约</el-button>
+            <el-button class="mt-30 float-r" type="primary" size="mini" v-if="!item.isBook" @click="toBook(item.trainsId)">预约</el-button>
+            <el-button class="mt-30 float-r" type="primary" size="mini" v-else>取消预约</el-button>
           </div>
         </el-card>
       </el-col>
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { getTrainsDetails } from '@/api/assessModule/bookTrain'
+import { getTrainsDetails, toBook } from '@/api/assessModule/bookTrain'
 import deviceImg from '@/assets/device.png'
 
 export default {
@@ -104,6 +104,17 @@ export default {
           if (item.isBook) this.unBookNum++
         })
       }).catch(err => this.$message.error(err.toString()))
+    },
+    // 预约
+    toBook(trainsId) {
+      const params = {
+        trainsId: trainsId,
+        schoolId: this.params.schoolId,
+        day: this.params.day
+      }
+      toBook(params).then(res => {
+        console.log(res)
+      }).catch(err => this.$message.error(err.toString()))
     }
   }
 }
@@ -132,13 +143,11 @@ export default {
 // 上边四个盒子样式----结束
 
 // 下边设备盒子样式----开始
+// 头部
 .devicebox /deep/ .el-card__header {
   padding: 10px;
   height: 60px;
   line-height: 40px;
-}
-.devicebox /deep/ .el-card__body {
-  display: flex;
 }
 .devicebox .left-div {
   width: 117px;
@@ -148,6 +157,14 @@ export default {
   flex: 1;
   margin-left: 10px;
 }
+.tag-btn {
+  float: right;
+  padding: 3px 0;
+}
+// body
+.devicebox /deep/ .el-card__body {
+  display: flex;
+}
 .devicebox .right-div div {
   display: float;
 }
@@ -155,6 +172,9 @@ export default {
   float: left;
 }
 .devicebox .right-div div .text-right {
+  float: right;
+}
+.float-r {
   float: right;
 }
 // 下边设备盒子样式----结束
