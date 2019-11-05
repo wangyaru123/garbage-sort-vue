@@ -35,17 +35,24 @@ const examAndTrainRouter = {
       meta: { title: '预约培训' }
     },
     {
-      path: 'Book',
-      name: 'ExamAndTrainModule.AppointTrain.Book',
+      path: 'trainDetails',
+      name: 'ExamAndTrainModule.AppointTrain.TrainDetails',
       hidden: true,
       component: () => import('@/views/examAndTrainModule/bookTrain/book'),
-      meta: { title: '预约培训' }
+      meta: { title: '培训详情' }
     },
     {
       path: 'appointExam',
       name: 'ExamAndTrainModule.AppointExam',
       component: () => import('@/views/examAndTrainModule/bookExam/index'),
       meta: { title: '预约考核' }
+    },
+    {
+      path: 'examDetails',
+      name: 'ExamAndTrainModule.AppointTrain.ExamDetails',
+      hidden: true,
+      component: () => import('@/views/examAndTrainModule/bookExam/book'),
+      meta: { title: '考核详情' }
     },
     {
       path: 'appointQuery',

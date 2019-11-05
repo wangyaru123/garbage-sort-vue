@@ -52,7 +52,7 @@
               <el-col :span="8" class="text-r">{{item.seat}}号</el-col>
             </el-row>
             <el-button class="mt-20 float-r" type="primary" size="mini" v-if="!item.isBook" @click="toBook(item.trainsId)">预约</el-button>
-            <el-button class="mt-20 float-r" type="primary" size="mini" v-else>取消预约</el-button>
+            <el-button class="mt-20 float-r" size="mini" v-if="userId===item.userId">取消预约</el-button>
           </div>
         </el-card>
       </el-col>
@@ -65,6 +65,12 @@ import { getTrainsDetails, toBook } from '@/api/examAndTrainModule/bookTrain'
 import deviceImg from '@/assets/device.png'
 
 export default {
+  computed: {
+    // 查询全部敏感用户信息权限
+    userId() {
+      return this.$store.state.user.accessTokenDecode.id
+    }
+  },
   data() {
     return {
       deviceImg,
@@ -86,6 +92,7 @@ export default {
     this.schoolName = schoolName
     this.params = { schoolId: schoolId, period: period, day: day }
     this.getTrainsDetails()
+    console.log(this.$store.state.user.accessTokenDecode.id)
   },
   methods: {
     // 返回上一页
@@ -100,9 +107,11 @@ export default {
         // 设备总数
         this.deviceNum = res.length
         // 未培训预约数
-        res.forEach(item => {
-          if (item.isBook) this.unBookNum++
-        })
+        if (res.length > 0) {
+          res.forEach(item => {
+            if (item.isBook) this.unBookNum++
+          })
+        }
       }).catch(err => this.$message.error(err.toString()))
     },
     // 预约
@@ -113,7 +122,6 @@ export default {
         day: this.params.day
       }
       toBook(params).then(res => {
-        console.log(res)
         this.$message.success('预约成功')
       }).catch(err => this.$message.error(err.toString()))
     }

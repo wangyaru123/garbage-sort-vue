@@ -102,7 +102,7 @@ export default {
     toBookPage(period, date) {
       const schoolName = this.schoolList.find(item => item.schoolId === this.schoolId).schoolName
       this.$router.push({
-        path: '/examAndTrainModule/Book',
+        path: '/examAndTrainModule/trainDetails',
         query: { schoolId: this.schoolId, schoolName: schoolName, period: period, day: this.$dayjs(date).format('YYYY-MM-DD') }
       })
     }
