@@ -50,7 +50,7 @@
 
 <script>
 import { getSchoolList, getSchoolById } from '@/api/ucenter/school.js'
-import { getPeriodNameList, getSchoolPlan, addSchoolPlan, updateSchoolPlan } from '@/api/assessModule/planManagement.js'
+import { getPeriodNameList, getSchoolPlan, addSchoolPlan, updateSchoolPlan } from '@/api/examAndTrainModule/planManagement.js'
 
 export default {
   computed: {

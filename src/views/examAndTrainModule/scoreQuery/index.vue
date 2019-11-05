@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { getScoreByPage } from '@/api/assessModule/scoreQuery.js'
+import { getScoreByPage } from '@/api/examAndTrainModule/scoreQuery.js'
 
 export default {
   computed: {

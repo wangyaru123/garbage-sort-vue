@@ -125,7 +125,7 @@
 
 <script>
 import { getSchoolList } from '@/api/ucenter/school.js'
-import { getAllSchoolPlan } from '@/api/assessModule/planQuery'
+import { getAllSchoolPlan } from '@/api/examAndTrainModule/planQuery'
 
 export default {
   computed: {

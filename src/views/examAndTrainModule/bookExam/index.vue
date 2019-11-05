@@ -1,5 +1,5 @@
 <template>
-  <!-- 预约培训 -->
+  <!-- 预约考核 -->
   <div class="p-10">
     <el-row>
       <span>请选择学校：</span>
@@ -13,14 +13,14 @@
           <div class="con-div">
             <div class="left">
               <span>{{ data.day.split('-').slice(1).join('-') }}</span>
-              <h4 v-if="getItemStatus(date)===2">培训</h4>
+              <h4 v-if="getItemStatus(date)===1">考核</h4>
             </div>
             <div class="right">
               <el-tag
                 v-for="(period,index) in getItemPeriod(date)"
                 :key="index"
+                @click="toBookPage(period, date)"
                 :type="index===1?'warning':'primary'"
-                @click="toBookPage(period,date)"
               >{{period}}</el-tag>
             </div>
           </div>
@@ -32,7 +32,7 @@
 
 <script>
 import { getSchoolList, getSchoolById } from '@/api/ucenter/school.js'
-import { getTrainsPlan } from '@/api/assessModule/bookTrain.js'
+import { getExamPlan } from '@/api/examAndTrainModule/bookExam.js'
 
 export default {
   data() {
@@ -44,7 +44,7 @@ export default {
       // 学校列表
       schoolList: [],
       // 学校计划数据
-      trainsPlanData: []
+      examPlanData: []
     }
   },
   created() {
@@ -58,7 +58,7 @@ export default {
         // 设置第一项选中
         this.schoolId = this.schoolList[0].schoolId
         this.getSchoolById()
-        this.getTrainsPlan()
+        this.getExamPlan()
       }).catch(err => this.$message.error(err.toString()))
     },
     // 获取单条学校信息
@@ -70,19 +70,19 @@ export default {
     // 改变学校时，重新请求学校单条信息和整月计划
     changeSchool() {
       this.getSchoolById()
-      this.getTrainsPlan()
+      this.getExamPlan()
     },
     // 获取整月计划
-    getTrainsPlan() {
+    getExamPlan() {
       const monthTime = this.$dayjs().format('YYYY-MM')
       const params = { schoolId: this.schoolId, monthTime: monthTime }
-      getTrainsPlan(params).then(res => {
-        this.trainsPlanData = res
+      getExamPlan(params).then(res => {
+        this.examPlanData = res
       }).catch(err => this.$message.error(err.toString()))
     },
     // 回显考核培训标志
     getItemStatus(date) {
-      const tmp = this.trainsPlanData.find(item => this.$dayjs(item.time).set('hour', 8).set('minute', 0).set('second', 0).isSame(date))
+      const tmp = this.examPlanData.find(item => this.$dayjs(item.time).set('hour', 8).set('minute', 0).set('second', 0).isSame(date))
       if (tmp) {
         return tmp.status
       } else {
@@ -91,7 +91,7 @@ export default {
     },
     // 获取每一项时段
     getItemPeriod(date) {
-      const tmp = this.trainsPlanData.find(item => this.$dayjs(item.time).set('hour', 8).set('minute', 0).set('second', 0).isSame(date))
+      const tmp = this.examPlanData.find(item => this.$dayjs(item.time).set('hour', 8).set('minute', 0).set('second', 0).isSame(date))
       if (tmp) {
         return JSON.parse(tmp.periodName)
       } else {
@@ -102,7 +102,7 @@ export default {
     toBookPage(period, date) {
       const schoolName = this.schoolList.find(item => item.schoolId === this.schoolId).schoolName
       this.$router.push({
-        path: '/assessModule/Book',
+        path: '/examAndTrainModule/Book',
         query: { schoolId: this.schoolId, schoolName: schoolName, period: period, day: this.$dayjs(date).format('YYYY-MM-DD') }
       })
     }
