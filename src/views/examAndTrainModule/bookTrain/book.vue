@@ -43,16 +43,16 @@
             <img :src="deviceImg" />
           </div>
           <div class="right-div">
-            <div class="mt-20">
-              <div class="text-left">设备类别：</div>
-              <div class="text-right">A类</div>
-            </div>
-            <div class="mt-20">
-              <div class="text-left">设备位置号：</div>
-              <div class="text-right">2号</div>
-            </div>
-            <el-button class="mt-30 float-r" type="primary" size="mini" v-if="!item.isBook" @click="toBook(item.trainsId)">预约</el-button>
-            <el-button class="mt-30 float-r" type="primary" size="mini" v-else>取消预约</el-button>
+            <el-row class="mt-20">
+              <el-col :span="16">设备类别：</el-col>
+              <el-col :span="8" class="text-r">{{item.type}}类</el-col>
+            </el-row>
+            <el-row class="mt-5">
+              <el-col :span="16">设备位置号：</el-col>
+              <el-col :span="8" class="text-r">{{item.seat}}号</el-col>
+            </el-row>
+            <el-button class="mt-20 float-r" type="primary" size="mini" v-if="!item.isBook" @click="toBook(item.trainsId)">预约</el-button>
+            <el-button class="mt-20 float-r" type="primary" size="mini" v-else>取消预约</el-button>
           </div>
         </el-card>
       </el-col>
@@ -114,6 +114,7 @@ export default {
       }
       toBook(params).then(res => {
         console.log(res)
+        this.$message.success('预约成功')
       }).catch(err => this.$message.error(err.toString()))
     }
   }
@@ -149,14 +150,6 @@ export default {
   height: 60px;
   line-height: 40px;
 }
-.devicebox .left-div {
-  width: 117px;
-  height: 117px;
-}
-.devicebox .right-div {
-  flex: 1;
-  margin-left: 10px;
-}
 .tag-btn {
   float: right;
   padding: 3px 0;
@@ -165,17 +158,13 @@ export default {
 .devicebox /deep/ .el-card__body {
   display: flex;
 }
-.devicebox .right-div div {
-  display: float;
+.devicebox .left-div {
+  width: 117px;
+  height: 117px;
 }
-.devicebox .right-div div .text-left {
-  float: left;
-}
-.devicebox .right-div div .text-right {
-  float: right;
-}
-.float-r {
-  float: right;
+.devicebox .right-div {
+  flex: 1;
+  margin-left: 10px;
 }
 // 下边设备盒子样式----结束
 </style>

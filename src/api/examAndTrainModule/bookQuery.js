@@ -16,7 +16,7 @@ export function getBookList(page, size, params) {
   return new Promise((resolve, reject) => {
     request({
       url: `${studyUrl}/study/trains/${page}/${size}`,
-      method: 'get',
+      method: 'post',
       data: params
     }).then(result => resolve(result))
       .catch(error => reject(error))

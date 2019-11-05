@@ -14,7 +14,7 @@ const examAndTrainRouter = {
       path: 'assessManagement',
       name: 'ExamAndTrainModule.AssessManagement',
       component: () => import('@/views/examAndTrainModule/stationManagement/index'),
-      meta: { title: '考核培训点管理' }
+      meta: { title: '考核培训点管理', auths: ['ucenter_school_page'] }
     },
     {
       path: 'planManagement',
@@ -60,9 +60,9 @@ const examAndTrainRouter = {
       meta: { title: '实时考核预约情况' }
     },
     {
-      path: 'viewTrainResults',
-      name: 'ExamAndTrainModule.ViewTrainResults',
-      component: () => import('@/views/examAndTrainModule/viewTrainResults/index'),
+      path: 'trainResultsQuery',
+      name: 'ExamAndTrainModule.TrainResultsQuery',
+      component: () => import('@/views/examAndTrainModule/trainResultsQuery/index'),
       meta: { title: '查看培训结果' }
     },
     {
