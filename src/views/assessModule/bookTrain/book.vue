@@ -1,58 +1,58 @@
 <template>
-  <!-- 预约详情页 -->
+  <!-- 培训预约培训详情页 -->
   <div class="p-10">
     <el-row>
       <el-button class="m-5" icon="iconfont icon-back" circle size="mini" @click="back"></el-button>
     </el-row>
     <el-row class="mt-10">
       <el-col :span="6" class="mt-5">
-        <el-card class="box-card m-5 flexbox" style="margin-left:0;">
+        <el-card class="box-card m-5 topbox" style="margin-left:0;">
           <div class="left-div">{{schoolName}}</div>
           <div class="right-div">学校</div>
         </el-card>
       </el-col>
       <el-col :span="6" class="mt-5">
-        <el-card class="box-card m-5 flexbox">
+        <el-card class="box-card m-5 topbox">
           <div class="left-div">{{params.day}}{{params.period}}</div>
           <div class="right-div">时间</div>
         </el-card>
       </el-col>
       <el-col :span="6" class="mt-5">
-        <el-card class="box-card m-5 flexbox">
-          <div class="left-div">8台</div>
+        <el-card class="box-card m-5 topbox">
+          <div class="left-div">{{deviceNum}}台</div>
           <div class="right-div">设备总数</div>
         </el-card>
       </el-col>
       <el-col :span="6" class="mt-5">
-        <el-card class="box-card m-5 flexbox" style="margin-right:0;">
-          <div class="left-div">4台</div>
+        <el-card class="box-card m-5 topbox" style="margin-right:0;">
+          <div class="left-div">{{unBookNum}}台</div>
           <div class="right-div">未预约数</div>
         </el-card>
       </el-col>
     </el-row>
-    <el-row class="mt-10">
-      <el-col :span="6" class="mt-5">
-        <el-card class="box-card m-5 flexbox" style="margin-left:0;">
+    <el-row class="mt-5">
+      <el-col :span="6" v-for="(item,index) in deviceData" :key="index">
+        <el-card class="box-card m-5 devicebox" style="margin-left:0;">
           <div slot="header" class="clearfix">
-            <span>设备编号</span>
+            <span>{{item.deviceCode}}</span>
             <el-button style="float: right; padding: 3px 0" type="text">
-              <el-tag type="success">已预约</el-tag>
-              <el-tag type="primary">未预约</el-tag>
+              <el-tag :type="item.isBook?'success':'danger'">{{item.isBook?'已预约':'未预约'}}</el-tag>
             </el-button>
           </div>
           <div class="left-div">
-            <img src />
+            <img :src="deviceImg" />
           </div>
           <div class="right-div">
-            <div>
-              <div class="float-left">设备类别：</div>
-              <div class="float-right">A类</div>
+            <div class="mt-20">
+              <div class="text-left">设备类别：</div>
+              <div class="text-right">A类</div>
             </div>
-            <div>
-              <div class="float-left">设备位置号：</div>
-              <div class="float-right">2号</div>
+            <div class="mt-20">
+              <div class="text-left">设备位置号：</div>
+              <div class="text-right">2号</div>
             </div>
-            <el-button type="primary">预约</el-button>
+            <el-button class="mt-30" style="float: right;margin-bottom:0px;" type="primary" size="mini" v-if="!item.isBook">预约</el-button>
+            <el-button class="mt-30" style="float: right;margin-bottom:0px;" type="primary" size="mini" v-else>取消预约</el-button>
           </div>
         </el-card>
       </el-col>
@@ -62,19 +62,26 @@
 
 <script>
 import { getTrainsDetails } from '@/api/assessModule/bookTrain'
+import deviceImg from '@/assets/device.png'
 
 export default {
   data() {
     return {
+      deviceImg,
       // 学校名称
       schoolName: '',
       // 参数
       params: {},
       // 设备数据
-      deviceData: []
+      deviceData: [],
+      // 设备总数
+      deviceNum: 0,
+      // 未培训预约数
+      unBookNum: 0
     }
   },
   created() {
+    // 获取传的参数
     const { schoolId, schoolName, period, day } = this.$route.query
     this.schoolName = schoolName
     this.params = { schoolId: schoolId, period: period, day: day }
@@ -85,11 +92,17 @@ export default {
     back() {
       this.$router.go(-1)
     },
-    // 获取预约情况
+    // 获取培训预约情况
     getTrainsDetails() {
       getTrainsDetails(this.params).then(res => {
         console.log(res)
         this.deviceData = res
+        // 设备总数
+        this.deviceNum = res.length
+        // 未培训预约数
+        res.forEach(item => {
+          if (item.isBook) this.unBookNum++
+        })
       }).catch(err => this.$message.error(err.toString()))
     }
   }
@@ -97,17 +110,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.flexbox /deep/ .el-card__body {
+// 上边四个盒子样式----开始
+.topbox /deep/ .el-card__body {
   display: flex;
   padding: 0;
 }
-.left-div {
+.topbox .left-div {
   flex: 1;
   height: 50px;
   line-height: 50px;
   text-align: center;
 }
-.right-div {
+.topbox .right-div {
   width: 80px;
   height: 50px;
   line-height: 50px;
@@ -115,10 +129,33 @@ export default {
   color: #fff;
   text-align: center;
 }
-.float-left {
+// 上边四个盒子样式----结束
+
+// 下边设备盒子样式----开始
+.devicebox /deep/ .el-card__header {
+  padding: 10px;
+  height: 60px;
+  line-height: 40px;
+}
+.devicebox /deep/ .el-card__body {
+  display: flex;
+}
+.devicebox .left-div {
+  width: 117px;
+  height: 117px;
+}
+.devicebox .right-div {
+  flex: 1;
+  margin-left: 10px;
+}
+.devicebox .right-div div {
+  display: float;
+}
+.devicebox .right-div div .text-left {
   float: left;
 }
-.float-right {
+.devicebox .right-div div .text-right {
   float: right;
 }
+// 下边设备盒子样式----结束
 </style>

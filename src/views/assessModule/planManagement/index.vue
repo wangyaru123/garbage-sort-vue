@@ -34,10 +34,10 @@
           <el-switch v-model="dialogData.toOpen" active-color="#13ce66"></el-switch>
         </el-form-item>
         <el-form-item label="开始预约时间：">
-          <el-date-picker v-model="dialogData.bookStartTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker v-model="dialogData.bookStartTime" type="date" value-format="yyyy-MM-dd" placeholder="选择日期时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="结束预约时间：">
-          <el-date-picker v-model="dialogData.bookEndTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker v-model="dialogData.bookEndTime" type="date" value-format="yyyy-MM-dd" placeholder="选择日期时间"></el-date-picker>
         </el-form-item>
         <div class="text-c">
           <el-button type="primary" size="medium" @click="submitClick">确定</el-button>
@@ -152,7 +152,10 @@ export default {
       updateSchoolPlan(this.dialogData.schoolPlanId, this.dialogData).then(res => {
         this.$message.success('修改成功')
         this.getSchoolPlan()
-      }).catch(err => this.$message.error(err.toString()))
+      }).catch(err => {
+        if (err === '已经开启预约不得修改，修改请在预约开放时段前即使修改！') this.getSchoolPlan()
+        this.$message.error(err.toString())
+      })
     },
     // 根据点击的类别设置状态
     setStatusList() {
@@ -181,7 +184,7 @@ export default {
           status: this.statusList[0].status,
           toOpen: true,
           bookStartTime: this.$dayjs(date).format('YYYY-MM-DD 00:00:00'),
-          bookEndTime: this.$dayjs(date).format('YYYY-MM-DD HH:mm:ss'),
+          bookEndTime: this.$dayjs(date).format('YYYY-MM-DD 00:00:00'),
           time: time,
           schoolId: this.schoolId,
           schoolName: schoolName

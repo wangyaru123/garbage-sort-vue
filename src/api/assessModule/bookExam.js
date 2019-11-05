@@ -22,4 +22,22 @@ export function getExamPlan(params) {
   })
 }
 
+/**
+ * 查询某学校某天某时间段考核预约情况
+ *
+ * @export getExamDetails
+ * @param {*} params{ schoolId: '1', period: '上午', day: '2019-11-3' }
+ * @returns
+ */
+export function getExamDetails(params) {
+  return new Promise((resolve, reject) => {
+    request({
+      url: `${studyUrl}/study/examines-situation`,
+      method: 'get',
+      params: params
+    }).then(result => resolve(result))
+      .catch(error => reject(error))
+  })
+}
+
 // #endregion

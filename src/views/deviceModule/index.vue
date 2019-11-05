@@ -145,7 +145,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="学校：">
-            <el-select v-model="dialogData.schoolId" placeholder="请选择" size="small">
+            <el-select v-model="dialogData.schoolId" placeholder="请选择" size="small" @change="changeSchool">
               <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolId" :label="item.schoolName"></el-option>
             </el-select>
           </el-form-item>
@@ -301,7 +301,7 @@ export default {
     },
     // 添加设备信息
     addTableData() {
-      this.dialogData.schoolName = this.schoolList.filter(item => item.schoolId === this.dialogData.schoolId)[0].schoolName
+      this.dialogData.schoolName = this.schoolList.find(item => item.schoolId === this.dialogData.schoolId).schoolName
       addDeviceInfo(this.dialogData).then(res => {
         this.editDialogVisible = false
         this.deviceId = res
@@ -360,6 +360,10 @@ export default {
       this.dialogAction = 'edit'
       this.editDialogVisible = true
       this.getDialogData(id)
+    },
+    // 改变学校时修改schoolName
+    changeSchool() {
+      this.dialogData.schoolName = this.schoolList.find(item => item.schoolId === this.dialogData.schoolId).schoolName
     },
     // 修改设备信息，点击确定按钮
     editSubmitClick() {
