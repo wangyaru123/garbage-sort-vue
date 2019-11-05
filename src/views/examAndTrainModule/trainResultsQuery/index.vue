@@ -121,7 +121,7 @@
 
 <script>
 import { getSchoolList } from '@/api/ucenter/school.js'
-import { getBookList } from '@/api/examAndTrainModule/bookQuery'
+import { getTrainBookList } from '@/api/examAndTrainModule/bookQuery'
 
 export default {
   computed: {
@@ -162,7 +162,7 @@ export default {
     },
     // 查询计划
     getBookList() {
-      getBookList(this.currentPage, this.pageSize, this.condition).then(res => {
+      getTrainBookList(this.currentPage, this.pageSize, this.condition).then(res => {
         this.tableData = res.list
         this.total = res.total
       }).catch(err => this.$message.error(err.toString()))
