@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { getExamDetails, toBook } from '@/api/examAndTrainModule/bookExam'
+import { getExamDetails, toBook, cancelBook } from '@/api/examAndTrainModule/bookExam'
 import deviceImg from '@/assets/device.png'
 
 export default {
@@ -121,6 +121,19 @@ export default {
       }
       toBook(params).then(res => {
         this.$message.success('预约成功')
+        this.getExamDetails()
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 预约
+    cancelBook(examinesId) {
+      const params = {
+        examinesId: examinesId,
+        schoolId: this.params.schoolId,
+        day: this.params.day
+      }
+      cancelBook(params).then(res => {
+        this.$message.success('取消预约成功')
+        this.getExamDetails()
       }).catch(err => this.$message.error(err.toString()))
     }
   }

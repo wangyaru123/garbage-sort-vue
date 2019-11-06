@@ -58,4 +58,22 @@ export function toBook(params) {
   })
 }
 
+/**
+ * 学员取消预约考核
+ *
+ * @export cancelBook
+ * @param {*} params{ trainsId:'',schoolId: '1', day: '2019-11-3' }
+ * @returns
+ */
+export function cancelBook(params) {
+  return new Promise((resolve, reject) => {
+    request({
+      url: `${studyUrl}/study/examines/cancel-book`,
+      method: 'put',
+      params: params
+    }).then(result => resolve(result))
+      .catch(error => reject(error))
+  })
+}
+
 // #endregion
