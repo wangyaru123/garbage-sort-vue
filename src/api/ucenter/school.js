@@ -75,6 +75,24 @@ export function updateSchool(id, params) {
 }
 
 /**
+ * 更新学校类别信息
+ *
+ * @export updateSchoolSort
+ * @param {*} id
+ * @returns
+ */
+export function updateSchoolSort(params) {
+  return new Promise((resolve, reject) => {
+    request({
+      url: `${ucenterUrl}/ucenter/schools/sort`,
+      method: 'put',
+      params: params
+    }).then(result => resolve(result))
+      .catch(error => reject(error))
+  })
+}
+
+/**
  * 删除学校信息
  *
  * @export deleteSchool

@@ -32,7 +32,7 @@ export default {
       today: new Date(),
       count: 0,
       planData: [
-        // { '2019-07-15': 'xxx' },
+        // { '2019-07-15': 'xxx' ，data:【{}，{}】},
         // { '2019-07-25': 'xxx' }
         {
           equipmentId: 0,
@@ -40,6 +40,7 @@ export default {
           equipmentName: 'string',
           planId: 0,
           pmNumber: 0,
+          
           preventiveTime: '2019-07-15',
           remarks: 'string',
           status: true
