@@ -103,7 +103,7 @@ export default {
     toBookPage(period, date) {
       const schoolName = this.schoolList.find(item => item.schoolId === this.schoolId).schoolName
       this.$router.push({
-        path: '/examAndTrainModule/trainDetails',
+        path: '/examAndTrainModule/trainManagement/trainDetails',
         query: { schoolId: this.schoolId, schoolName: schoolName, period: period, day: this.$dayjs(date).format('YYYY-MM-DD') }
       })
     }
@@ -130,8 +130,8 @@ export default {
 .con-div /deep/ .right .el-tag {
   display: block;
   width: 45px;
-  height: 22px;
+  height: 28px;
+  line-height: 28px;
   margin-top: 5px;
-  line-height: 22px;
 }
 </style>

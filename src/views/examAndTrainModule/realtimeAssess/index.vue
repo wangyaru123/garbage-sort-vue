@@ -22,30 +22,30 @@
             </div>
             <div class="right-div">
               <el-row class="mt-30">
-                <el-col :span="16">设备类别：</el-col>
+                <el-col :span="16" class="text-gray">设备类别：</el-col>
                 <el-col :span="8" class="text-r">{{item.type}}类</el-col>
               </el-row>
               <el-row class="mt-5">
-                <el-col :span="16">设备位置号：</el-col>
+                <el-col :span="16" class="text-gray">设备位置号：</el-col>
                 <el-col :span="8" class="text-r">{{item.seat}}号</el-col>
               </el-row>
             </div>
           </div>
           <div class="body-bottom mt-10">
             <el-row>
-              <el-col :span="8">学员：</el-col>
+              <el-col :span="8" class="text-gray">学员：</el-col>
               <el-col :span="16" class="text-c">{{item.userName}}</el-col>
             </el-row>
             <el-row>
-              <el-col :span="8">开始时间：</el-col>
+              <el-col :span="8" class="text-gray">开始时间：</el-col>
               <el-col :span="16" class="text-c">{{item.actualStartTime}}</el-col>
             </el-row>
             <el-row>
-              <el-col :span="8">结束时间：</el-col>
+              <el-col :span="8" class="text-gray">结束时间：</el-col>
               <el-col :span="16" class="text-c">{{item.actualEndTime}}</el-col>
             </el-row>
             <el-row>
-              <el-col :span="8">运行时长：</el-col>
+              <el-col :span="8" class="text-gray">运行时长：</el-col>
               <el-col :span="16" class="text-c">{{item.lengthOfTime}}</el-col>
             </el-row>
           </div>

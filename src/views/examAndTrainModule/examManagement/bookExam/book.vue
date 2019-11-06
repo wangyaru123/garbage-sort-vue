@@ -1,5 +1,5 @@
 <template>
-  <!-- 培训预约培训详情页 -->
+  <!-- 考核预约考核页 -->
   <div class="p-10">
     <el-row>
       <el-button class="m-5" icon="iconfont icon-back" circle size="mini" @click="back"></el-button>
@@ -44,11 +44,11 @@
           </div>
           <div class="right-div">
             <el-row class="mt-20">
-              <el-col :span="16">设备类别：</el-col>
+              <el-col :span="16" class="text-gray">设备类别：</el-col>
               <el-col :span="8" class="text-r">{{item.type}}类</el-col>
             </el-row>
             <el-row class="mt-5">
-              <el-col :span="16">设备位置号：</el-col>
+              <el-col :span="16" class="text-gray">设备位置号：</el-col>
               <el-col :span="8" class="text-r">{{item.seat}}号</el-col>
             </el-row>
             <el-button
@@ -59,7 +59,8 @@
               :disabled="bookDisabled"
               @click="toBook(item.trainsId)"
             >预约</el-button>
-            <el-button class="mt-20 float-r" size="mini" v-if="userId===item.userId" @click="cancelBook(item.trainsId)">取消预约</el-button>
+            <el-button class="mt-20 float-r" type="primary" size="mini" v-if="item.isBook && userId!==item.userId" disabled>已预约</el-button>
+            <el-button class="mt-20 float-r" size="mini" v-if="item.isBook && userId===item.userId" @click="cancelBook(item.trainsId)">取消预约</el-button>
           </div>
         </el-card>
       </el-col>
@@ -68,7 +69,7 @@
 </template>
 
 <script>
-import { getTrainsDetails, toBook, cancelBook } from '@/api/examAndTrainModule/bookTrain'
+import { getExamDetails, toBook, cancelBook } from '@/api/examAndTrainModule/bookExam'
 import deviceImg from '@/assets/device.png'
 
 export default {
@@ -96,58 +97,57 @@ export default {
     }
   },
   created() {
-    // 获取传的参数
     const { schoolId, schoolName, period, day } = this.$route.query
     this.schoolName = schoolName
     this.params = { schoolId: schoolId, period: period, day: day }
-    this.getTrainsDetails()
+    this.getExamDetails()
   },
   methods: {
     // 返回上一页
     back() {
       this.$router.push({
-        path: '/examAndTrainModule/train',
+        path: '/examAndTrainModule/examManagement/exam',
         query: { schoolId: this.params.schoolId }
       })
     },
-    // 获取培训预约情况
-    getTrainsDetails() {
-      getTrainsDetails(this.params).then(res => {
-        console.log(res)
+    // 获取考核预约情况
+    getExamDetails() {
+      getExamDetails(this.params).then(res => {
         this.deviceData = res
+        console.log(this.deviceData)
         // 设备总数
         this.deviceNum = res.length
-        // 未培训预约数
+        // 未考核预约数
         if (res.length > 0) {
           res.forEach(item => {
-            if (item.isBook) this.unBookNum++
+            if (!item.isBook) this.unBookNum++
             if (item.userId === this.userId) this.bookDisabled = true
           })
         }
       }).catch(err => this.$message.error(err.toString()))
     },
     // 预约
-    toBook(trainsId) {
+    toBook(examinesId) {
       const params = {
-        trainsId: trainsId,
+        examinesId: examinesId,
         schoolId: this.params.schoolId,
         day: this.params.day
       }
       toBook(params).then(res => {
         this.$message.success('预约成功')
-        this.getTrainsDetails()
+        this.getExamDetails()
       }).catch(err => this.$message.error(err.toString()))
     },
-    // 取消预约
-    cancelBook(trainsId) {
+    // 预约
+    cancelBook(examinesId) {
       const params = {
-        trainsId: trainsId,
+        examinesId: examinesId,
         schoolId: this.params.schoolId,
         day: this.params.day
       }
       cancelBook(params).then(res => {
         this.$message.success('取消预约成功')
-        this.getTrainsDetails()
+        this.getExamDetails()
       }).catch(err => this.$message.error(err.toString()))
     }
   }
@@ -162,14 +162,14 @@ export default {
 }
 .topbox .left-div {
   flex: 1;
-  height: 50px;
-  line-height: 50px;
+  height: 65px;
+  line-height: 65px;
   text-align: center;
 }
 .topbox .right-div {
   width: 80px;
-  height: 50px;
-  line-height: 50px;
+  height: 65px;
+  line-height: 65px;
   background-color: #409eff;
   color: #fff;
   text-align: center;

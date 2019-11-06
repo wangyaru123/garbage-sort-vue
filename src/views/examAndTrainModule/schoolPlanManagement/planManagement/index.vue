@@ -81,7 +81,7 @@ export default {
       // 类别列表
       sortList: [{ sort: 1, desc: '考核点' }, { sort: 2, desc: '培训点' }, { sort: 3, desc: '即是考核点又是培训点' }],
       // 状态列表
-      statusList: [{ status: 1, desc: '空闲' }, { status: 2, desc: '培训' }, { status: 3, desc: '考核' }]
+      statusList: [{ status: 0, desc: '空闲' }, { status: 1, desc: '考核' }, { status: 2, desc: '培训' }]
     }
   },
   created() {
@@ -151,11 +151,11 @@ export default {
     // 根据点击的类别设置状态
     setStatusList() {
       if (this.sort === 1) {
-        this.statusList = [{ status: 1, desc: '考核' }, { status: 0, desc: '空闲' }]
+        this.statusList = [{ status: 0, desc: '空闲' }, { status: 1, desc: '考核' }]
       } else if (this.sort === 2) {
-        this.statusList = [{ status: 2, desc: '培训' }, { status: 0, desc: '空闲' }]
+        this.statusList = [{ status: 0, desc: '空闲' }, { status: 2, desc: '培训' }]
       } else {
-        this.statusList = [{ status: 1, desc: '考核' }, { status: 2, desc: '培训' }, { status: 0, desc: '空闲' }]
+        this.statusList = [{ status: 0, desc: '空闲' }, { status: 1, desc: '考核' }, { status: 2, desc: '培训' }]
       }
     },
     // 点击日历，弹出弹框
@@ -165,19 +165,18 @@ export default {
       if (data) {
         this.action = 'edit'
         this.dialogData = data
-        console.log(this.dialogData)
       } else {
         // 如果data为空，则是添加
         this.action = 'add'
         const schoolName = this.schoolList.find(item => item.schoolId === this.schoolId).schoolName
         const time = this.$dayjs(date).format('YYYY-MM-DD 00:00:00')
-        const bookStartTime = this.$dayjs(date).format('YYYY-MM-DD 00:00:00')
-        const bookEndTime = this.$dayjs(date).format('YYYY-MM-DD HH:mm:ss')
+        // const bookStartTime = this.$dayjs(date).format('YYYY-MM-DD 00:00:00')
+        // const bookEndTime = this.$dayjs(date).format('YYYY-MM-DD HH:mm:ss')
         this.dialogData = {
           status: this.statusList[0].status,
-          toOpen: true,
-          bookStartTime: bookStartTime,
-          bookEndTime: bookEndTime,
+          toOpen: false,
+          bookStartTime: '',
+          bookEndTime: '',
           time: time,
           schoolId: this.schoolId,
           schoolName: schoolName
@@ -195,9 +194,12 @@ export default {
     },
     // 点击确定按钮
     submitClick() {
-      const isDateError = this.compareDate(this.dialogData.bookStartTime, this.dialogData.bookEndTime)
-      if (isDateError) {
+      const startEndTimeCompareDate = this.compareDate(this.dialogData.bookStartTime, this.dialogData.bookEndTime)
+      const EndTimeCompareDate = this.compareDate(this.dialogData.bookEndTime, this.$dayjs(this.dialogData.time).format('YYYY-MM-DD 23:59:59'))
+      if (startEndTimeCompareDate) {
         this.$message.error('开始预约时间不能超过结束预约时间')
+      } else if (EndTimeCompareDate) {
+        this.$message.error('结束预约时间不能超过当天')
       } else {
         this.dialogVisible = false
         if (this.action === 'add') this.addSchoolPlan()

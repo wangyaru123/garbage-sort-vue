@@ -13,7 +13,7 @@
       </el-table-column>
       <el-table-column label="培训时间" align="center" width="150px">
         <template slot-scope="scope">
-          <span>{{ scope.row.time}}</span>
+          <span>{{ scope.row.time.split(' ')[0]}}</span>
         </template>
       </el-table-column>
       <el-table-column label="培训时段" align="center" width="150px">
