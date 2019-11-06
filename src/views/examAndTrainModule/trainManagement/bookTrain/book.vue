@@ -59,7 +59,8 @@
               :disabled="bookDisabled"
               @click="toBook(item.trainsId)"
             >预约</el-button>
-            <el-button class="mt-20 float-r" size="mini" v-if="userId===item.userId" @click="cancelBook(item.trainsId)">取消预约</el-button>
+            <el-button class="mt-20 float-r" type="primary" size="mini" v-if="item.isBook && userId!==item.userId" disabled>已预约</el-button>
+            <el-button class="mt-20 float-r" size="mini" v-if="item.isBook && userId===item.userId" @click="cancelBook(item.trainsId)">取消预约</el-button>
           </div>
         </el-card>
       </el-col>
@@ -120,7 +121,7 @@ export default {
         // 未培训预约数
         if (res.length > 0) {
           res.forEach(item => {
-            if (item.isBook) this.unBookNum++
+            if (!item.isBook) this.unBookNum++
             if (item.userId === this.userId) this.bookDisabled = true
           })
         }
@@ -162,14 +163,14 @@ export default {
 }
 .topbox .left-div {
   flex: 1;
-  height: 50px;
-  line-height: 50px;
+  height: 65px;
+  line-height: 65px;
   text-align: center;
 }
 .topbox .right-div {
   width: 80px;
-  height: 50px;
-  line-height: 50px;
+  height: 65px;
+  line-height: 65px;
   background-color: #409eff;
   color: #fff;
   text-align: center;

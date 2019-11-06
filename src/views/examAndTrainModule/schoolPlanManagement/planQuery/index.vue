@@ -52,23 +52,19 @@
     </div>
     <div v-else>
       <el-row class="search-row">
-        <el-col :span="23">
-          <span>开始时间：</span>
-          <el-date-picker v-model="condition.bookStartTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
-          <span>结束时间：</span>
-          <el-date-picker v-model="condition.bookEndTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
-          <span>学校：</span>
-          <el-select v-model="condition.schoolName" placeholder="请选择" size="small">
-            <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolName" :label="item.schoolName"></el-option>
-          </el-select>
-          <span>状态：</span>
+        <span>开始时间：</span>
+        <el-date-picker v-model="condition.bookStartTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
+        <span>结束时间：</span>
+        <el-date-picker v-model="condition.bookEndTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
+        <span>学校：</span>
+        <el-select v-model="condition.schoolName" placeholder="请选择" size="small">
+          <el-option v-for="item in schoolList" :key="item.schoolId" :value="item.schoolName" :label="item.schoolName"></el-option>
+        </el-select>
+        <!-- <span>状态：</span>
           <el-select v-model="condition.status" placeholder="请选择" size="small">
             <el-option v-for="item in statusList" :key="item.status" :value="item.status" :label="item.desc"></el-option>
-          </el-select>
-        </el-col>
-        <el-col :span="1">
-          <el-button size="mini" type="primary" icon="el-icon-search" @click="getAllSchoolPlan"></el-button>
-        </el-col>
+        </el-select>-->
+        <el-button size="mini" type="primary" icon="el-icon-search" @click="getAllSchoolPlan"></el-button>
       </el-row>
       <el-table :data="tableData" border stripe class="mt-10">
         <el-table-column label="序号" fixed width="50px" type="index" align="center">
@@ -145,7 +141,7 @@ export default {
       // 表格数据
       tableData: [],
       // 状态列表
-      statusList: [{ status: 1, desc: '考核' }, { status: 2, desc: '培训' }],
+      // statusList: [{ status: 1, desc: '考核' }, { status: 2, desc: '培训' }],
       // 学校列表
       schoolList: [],
       // 条件

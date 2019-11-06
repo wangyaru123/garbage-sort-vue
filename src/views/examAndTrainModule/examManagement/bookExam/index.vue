@@ -130,8 +130,8 @@ export default {
 .con-div /deep/ .right .el-tag {
   display: block;
   width: 45px;
-  height: 22px;
+  height: 28px;
+  line-height: 28px;
   margin-top: 5px;
-  line-height: 22px;
 }
 </style>
