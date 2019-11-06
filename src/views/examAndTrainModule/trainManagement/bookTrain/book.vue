@@ -4,35 +4,35 @@
     <el-row>
       <el-button class="m-5" icon="iconfont icon-back" circle size="mini" @click="back"></el-button>
     </el-row>
-    <el-row class="mt-10">
-      <el-col :span="6" class="mt-5">
-        <el-card class="box-card m-5 topbox" style="margin-left:0;">
+    <el-row class="mt-10" :gutter="20">
+      <el-col :span="6" >
+        <el-card class="box-card topbox" style="margin-left:0;">
           <div class="left-div">{{schoolName}}</div>
           <div class="right-div">学校</div>
         </el-card>
       </el-col>
-      <el-col :span="6" class="mt-5">
-        <el-card class="box-card m-5 topbox">
+      <el-col :span="6" >
+        <el-card class="box-card topbox">
           <div class="left-div">{{params.day}}{{params.period}}</div>
           <div class="right-div">时间</div>
         </el-card>
       </el-col>
-      <el-col :span="6" class="mt-5">
-        <el-card class="box-card m-5 topbox">
+      <el-col :span="6" >
+        <el-card class="box-card topbox">
           <div class="left-div">{{deviceNum}}台</div>
           <div class="right-div">设备总数</div>
         </el-card>
       </el-col>
-      <el-col :span="6" class="mt-5">
-        <el-card class="box-card m-5 topbox" style="margin-right:0;">
+      <el-col :span="6">
+        <el-card class="box-card topbox" style="margin-right:0;">
           <div class="left-div">{{unBookNum}}台</div>
           <div class="right-div">未预约数</div>
         </el-card>
       </el-col>
     </el-row>
-    <el-row class="mt-5">
-      <el-col :span="6" v-for="(item,index) in deviceData" :key="index">
-        <el-card class="box-card m-5 devicebox" style="margin-left:0;">
+    <el-row :gutter="20">
+      <el-col :span="6" class="mt-20" v-for="(item,index) in deviceData" :key="index">
+        <el-card class="box-card devicebox" style="margin-left:0;">
           <div slot="header" class="clearfix">
             <span>{{item.deviceCode}}</span>
             <el-button class="tag-btn" type="text">
@@ -44,12 +44,12 @@
           </div>
           <div class="right-div">
             <el-row class="mt-20">
-              <el-col :span="16" class="text-gray">设备类别：</el-col>
-              <el-col :span="8" class="text-r">{{item.type}}类</el-col>
+              <el-col :span="18" class="text-gray">设备类别：</el-col>
+              <el-col :span="6" class="text-r">{{item.type}}类</el-col>
             </el-row>
             <el-row class="mt-5">
-              <el-col :span="16" class="text-gray">设备位置号：</el-col>
-              <el-col :span="8" class="text-r">{{item.seat}}号</el-col>
+              <el-col :span="18" class="text-gray">设备位置号：</el-col>
+              <el-col :span="6" class="text-r">{{item.seat}}号</el-col>
             </el-row>
             <el-button
               class="mt-20 float-r"
@@ -166,14 +166,16 @@ export default {
   height: 65px;
   line-height: 65px;
   text-align: center;
+  font-size: 20px;
 }
 .topbox .right-div {
-  width: 80px;
+  width: 90px;
   height: 65px;
   line-height: 65px;
   background-color: #409eff;
   color: #fff;
   text-align: center;
+  font-size: 18px;
 }
 // 上边四个盒子样式----结束
 
