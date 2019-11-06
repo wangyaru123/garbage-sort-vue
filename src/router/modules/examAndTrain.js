@@ -11,8 +11,8 @@ const examAndTrainRouter = {
   meta: { title: '考核培训管理', icon: 'box' },
   children: [
     {
-      path: 'assessManagement',
-      name: 'ExamAndTrainModule.AssessManagement',
+      path: 'stationManagement',
+      name: 'ExamAndTrainModule.StationManagement',
       component: () => import('@/views/examAndTrainModule/stationManagement/index'),
       meta: { title: '考核培训点管理', auths: ['ucenter_school_page'] }
     },
@@ -29,8 +29,8 @@ const examAndTrainRouter = {
       meta: { title: '计划查询' }
     },
     {
-      path: 'appointTrain',
-      name: 'ExamAndTrainModule.AppointTrain',
+      path: 'train',
+      name: 'ExamAndTrainModule.Train',
       component: () => import('@/views/examAndTrainModule/bookTrain/index'),
       meta: { title: '预约培训' }
     },
@@ -42,8 +42,8 @@ const examAndTrainRouter = {
       meta: { title: '培训详情' }
     },
     {
-      path: 'appointExam',
-      name: 'ExamAndTrainModule.AppointExam',
+      path: 'exam',
+      name: 'ExamAndTrainModule.Exam',
       component: () => import('@/views/examAndTrainModule/bookExam/index'),
       meta: { title: '预约考核' }
     },
@@ -55,8 +55,8 @@ const examAndTrainRouter = {
       meta: { title: '考核详情' }
     },
     {
-      path: 'appointQuery',
-      name: 'ExamAndTrainModule.AppointQuery',
+      path: 'bookQuery',
+      name: 'ExamAndTrainModule.BookQuery',
       component: () => import('@/views/examAndTrainModule/bookQuery/index'),
       meta: { title: '预约查询' }
     },

@@ -55,8 +55,9 @@ export default {
     getSchoolList() {
       getSchoolList().then(res => {
         this.schoolList = res
-        // 设置第一项选中
-        this.schoolId = this.schoolList[0].schoolId
+        // 如果是从详情页返回来的，设置参数，否则设置第一项选中
+        if (this.$route.query.schoolId) this.schoolId = this.$route.query.schoolId
+        else this.schoolId = this.schoolList[0].schoolId
         this.getSchoolById()
         this.getExamPlan()
       }).catch(err => this.$message.error(err.toString()))
