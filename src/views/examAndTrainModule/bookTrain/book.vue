@@ -51,8 +51,15 @@
               <el-col :span="16">设备位置号：</el-col>
               <el-col :span="8" class="text-r">{{item.seat}}号</el-col>
             </el-row>
-            <el-button class="mt-20 float-r" type="primary" size="mini" v-if="!item.isBook" @click="toBook(item.trainsId)">预约</el-button>
-            <el-button class="mt-20 float-r" size="mini" v-if="userId===item.userId">取消预约</el-button>
+            <el-button
+              class="mt-20 float-r"
+              type="primary"
+              size="mini"
+              v-if="!item.isBook"
+              :disabled="bookDisabled"
+              @click="toBook(item.trainsId)"
+            >预约</el-button>
+            <el-button class="mt-20 float-r" size="mini" v-if="userId===item.userId" @click="cancelBook(item.trainsId)">取消预约</el-button>
           </div>
         </el-card>
       </el-col>
@@ -61,7 +68,7 @@
 </template>
 
 <script>
-import { getTrainsDetails, toBook } from '@/api/examAndTrainModule/bookTrain'
+import { getTrainsDetails, toBook, cancelBook } from '@/api/examAndTrainModule/bookTrain'
 import deviceImg from '@/assets/device.png'
 
 export default {
@@ -83,7 +90,9 @@ export default {
       // 设备总数
       deviceNum: 0,
       // 未培训预约数
-      unBookNum: 0
+      unBookNum: 0,
+      // 预约禁用按钮
+      bookDisabled: false
     }
   },
   created() {
@@ -92,12 +101,14 @@ export default {
     this.schoolName = schoolName
     this.params = { schoolId: schoolId, period: period, day: day }
     this.getTrainsDetails()
-    console.log(this.$store.state.user.accessTokenDecode.id)
   },
   methods: {
     // 返回上一页
     back() {
-      this.$router.go(-1)
+      this.$router.push({
+        path: '/examAndTrainModule/train',
+        query: { schoolId: this.params.schoolId }
+      })
     },
     // 获取培训预约情况
     getTrainsDetails() {
@@ -110,6 +121,7 @@ export default {
         if (res.length > 0) {
           res.forEach(item => {
             if (item.isBook) this.unBookNum++
+            if (item.userId === this.userId) this.bookDisabled = true
           })
         }
       }).catch(err => this.$message.error(err.toString()))
@@ -123,6 +135,19 @@ export default {
       }
       toBook(params).then(res => {
         this.$message.success('预约成功')
+        this.getTrainsDetails()
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 取消预约
+    cancelBook(trainsId) {
+      const params = {
+        trainsId: trainsId,
+        schoolId: this.params.schoolId,
+        day: this.params.day
+      }
+      cancelBook(params).then(res => {
+        this.$message.success('取消预约成功')
+        this.getTrainsDetails()
       }).catch(err => this.$message.error(err.toString()))
     }
   }
