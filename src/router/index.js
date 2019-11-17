@@ -47,7 +47,8 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'home' }
     }]
-  }
+  },
+  userRouter
 ]
 
 /**

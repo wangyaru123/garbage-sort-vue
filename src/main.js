@@ -18,7 +18,7 @@ import mqtt from 'mqtt'
 import './styles/index.scss'
 import './styles/iconfont.css'
 import '@/icons' // icon
-import '@/permission' // permission control
+// import '@/permission' // permission control
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios

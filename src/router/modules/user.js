@@ -20,8 +20,7 @@ const userRouter = {
       name: 'Ucenter.UserInfo',
       component: () => import('@/views/ucenter/userInfo'),
       meta: {
-        title: '用户管理',
-        auths: ['ucenter_admin_sensitive_page', 'ucenter_admin_nonsentive_page']
+        title: '用户管理'
       }
     },
     {
@@ -29,8 +28,7 @@ const userRouter = {
       name: 'Ucenter.School',
       component: () => import('@/views/ucenter/school'),
       meta: {
-        title: '学校管理',
-        auths: ['ucenter_school_page']
+        title: '学校管理'
       }
     },
     {
@@ -38,8 +36,7 @@ const userRouter = {
       name: 'Ucenter.RolesInfo',
       component: () => import('@/views/ucenter/rolesInfo'),
       meta: {
-        title: '权限管理',
-        auths: ['ucenter_admin_sensitive_page']
+        title: '权限管理'
       }
     },
     {

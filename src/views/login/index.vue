@@ -2,7 +2,7 @@
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
       <div class="title-container">
-        <h3 class="title">1+X设备工业云平台</h3>
+        <h3 class="title">映蓝环保垃圾分类后台管理平台</h3>
       </div>
       <el-form-item prop="username">
         <span class="svg-container">
@@ -99,13 +99,14 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.loading = false
-            this.$router.push({ path: this.redirect || '/' })
-          }).catch(err => {
-            this.loading = false
-            this.$message.error(err.toString())
-          })
+          this.$router.push({ path: this.redirect || '/' })
+          // this.$store.dispatch('user/login', this.loginForm).then(() => {
+          //   this.loading = false
+          //   this.$router.push({ path: this.redirect || '/' })
+          // }).catch(err => {
+          //   this.loading = false
+          //   this.$message.error(err.toString())
+          // })
         } else {
           console.log('error submit!!')
           return false

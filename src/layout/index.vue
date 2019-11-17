@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { getUserNoSenInfoById } from '@/api/ucenter/userInfo.js'
+// import { getUserNoSenInfoById } from '@/api/ucenter/userInfo.js'
 import { Navbar, Sidebar, AppMain } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 
@@ -50,7 +50,7 @@ export default {
     }
   },
   created() {
-    this.getPosition()
+    // this.getPosition()
   },
   beforeDestroy() {
     this.closeWebSocket()
@@ -66,18 +66,18 @@ export default {
       })
     },
     // 获取职位信息
-    getPosition() {
-      // 调用ucenter的查询用户非敏感信息接口
-      getUserNoSenInfoById(this.$store.state.user.accessTokenDecode.id).then(res => {
-        const positionId = res.positionId
-        if (positionId === 5) {
-          // 向navbar组件传递设置显示通知图标
-          this.navbarNotice = true
-          // 开启webSocket
-          this.openWebSocket()
-        }
-      }).catch(err => this.$message.error(err.toString()))
-    },
+    // getPosition() {
+    //   // 调用ucenter的查询用户非敏感信息接口
+    //   getUserNoSenInfoById(this.$store.state.user.accessTokenDecode.id).then(res => {
+    //     const positionId = res.positionId
+    //     if (positionId === 5) {
+    //       // 向navbar组件传递设置显示通知图标
+    //       this.navbarNotice = true
+    //       // 开启webSocket
+    //       this.openWebSocket()
+    //     }
+    //   }).catch(err => this.$message.error(err.toString()))
+    // },
     openWebSocket() {
       // 建立连接对象
       const socket = new this.$sockjs(process.env.VUE_APP_WS)

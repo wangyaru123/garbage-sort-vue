@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '1+X设备工业云平台',
+  title: '映蓝环保垃圾分类后台管理平台',
 
   /**
    * @type {boolean} true | false
