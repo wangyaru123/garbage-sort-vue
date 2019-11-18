@@ -20,12 +20,12 @@
             <router-link to="/">
               <el-dropdown-item>首页</el-dropdown-item>
             </router-link>
-            <router-link to="/ucenter/loginUserInfo">
+            <!-- <router-link to="/ucenter/loginUserInfo">
               <el-dropdown-item>个人中心</el-dropdown-item>
             </router-link>
             <el-dropdown-item>
               <span style="display:block;" @click="editPassword">修改密码</span>
-            </el-dropdown-item>
+            </el-dropdown-item>-->
             <!-- <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
             <el-dropdown-item>Github</el-dropdown-item>
           </a>
@@ -64,7 +64,7 @@ import { mapGetters } from 'vuex'
 import { checkPassword, editPassword } from '@/api/ucenter/passwardInfo.js'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-import avatarImg from '@/assets/avatar.jpg'
+import avatarImg from '@/assets/yinglan.png'
 
 export default {
   components: {
@@ -111,7 +111,7 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await this.$store.dispatch('user/logout')
+      // await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     },
     // 点击通知图标,跳转到通知页面,红点消失

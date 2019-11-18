@@ -114,13 +114,13 @@ export default {
       projectId: '',
       // table所有数据
       tableData: [
-        { userId: 1, username: 'zhangsan', name: '张三', mobile: '15076541233', email: '2434243562@163.com', sex: 0, address: '浙江杭州', projectId: 1 },
-        { userId: 1, username: 'zhangsan', name: '张三', mobile: '15076541233', email: '2434243562@163.com', sex: 0, address: '浙江杭州', projectId: 2 }
+        { userId: 1, username: 'wangyi', name: '王一', mobile: '15076541233', email: '2434243562@163.com', sex: 0, address: '浙江杭州', projectId: 1 },
+        { userId: 2, username: 'zhangshan', name: '张山', mobile: '15076541231', email: '2434243561@163.com', sex: 0, address: '安徽合肥', projectId: 2 }
       ],
       // 当前tableData数据
       currentTableData: [],
       // 项目列表
-      projectList: [{ projectId: 1, projectName: '浙江试运营' }, { projectId: 2, projectName: '浙江试运营2' }],
+      projectList: [{ projectId: 1, projectName: '浙江试运营' }, { projectId: 2, projectName: '安徽试运营' }],
       // 编辑报警信息弹框显示
       dialogVisible: false,
       // 表格总数据条数
