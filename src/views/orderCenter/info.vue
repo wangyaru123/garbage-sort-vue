@@ -1,7 +1,7 @@
 <template>
-  <!-- 商品信息 -->
+  <!-- 订单信息 -->
   <div class="p-10">
-    <el-button type="primary" size="small" round @click="addClick">添加商品</el-button>
+    <el-button type="primary" size="small" round @click="addClick">添加订单</el-button>
     <span>请选择项目查看：</span>
     <el-select v-model="projectId" placeholder="请选择" size="small" @change="fetchData">
       <el-option :value="0" label="请选择"></el-option>
@@ -13,29 +13,34 @@
           <span>{{ scope.$index + 1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="商品名" fixed align="center" min-width="100px">
+      <el-table-column label="订单号" fixed align="center" min-width="100px">
         <template slot-scope="scope">
-          <span>{{ scope.row.goodsName}}</span>
+          <span>{{ scope.row.orderNo}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="所需积分" fixed align="center">
+      <el-table-column label="商品名" fixed align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.needPoints}}</span>
+          <span>{{ scope.row.orderName}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="库存" align="center" min-width="130px">
+      <el-table-column label="购买者" align="center" min-width="100px">
         <template slot-scope="scope">
-          <span>{{ scope.row.stock}}</span>
+          <span>{{ scope.row.purchaser}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="所属项目" align="center">
+      <el-table-column label="手机号" align="center">
         <template slot-scope="scope">
-          <span>{{projectList.find(i=>i.projectId===scope.row.projectId).projectName}}</span>
+          <span>{{ scope.row.mobile}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="状态" align="center" min-width="180px">
+      <el-table-column label="购买数量" align="center" min-width="100px">
         <template slot-scope="scope">
-          <span>{{ scope.row.status}}</span>
+          <span>{{ scope.row.purchaseNum}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="下单时间" align="center" min-width="120px">
+        <template slot-scope="scope">
+          <span>{{ scope.row.purchaseTime}}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="130px" align="center">
@@ -59,22 +64,20 @@
     <!-- 添加或编辑会员信息 -->
     <el-dialog :visible.sync="dialogVisible" title="请填写会员信息">
       <el-form label-position="right" label-width="140px" :model="dialogData" :rules="rules" ref="ruleForm">
-        <el-form-item label="商品名：" prop="username">
-          <el-input v-model="dialogData.username"></el-input>
+        <el-form-item label="订单号：" prop="orderNo">
+          <el-input v-model="dialogData.orderNo"></el-input>
         </el-form-item>
-        <el-form-item label="所需积分：" prop="name">
-          <el-input v-model="dialogData.name"></el-input>
+        <el-form-item label="商品名：" prop="orderName">
+          <el-input v-model="dialogData.orderName"></el-input>
         </el-form-item>
-        <el-form-item label="库存:" prop="mobile">
+        <el-form-item label="购买者：" prop="purchaser">
+          <el-input v-model="dialogData.purchaser"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号：" prop="mobile">
           <el-input v-model="dialogData.mobile"></el-input>
         </el-form-item>
-        <el-form-item label="所属项目:" prop="projectId">
-          <el-select v-model="dialogData.projectId" placeholder="请选择" size="small">
-            <el-option v-for="item in projectList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="状态:" prop="mobile">
-          <el-input v-model="dialogData.mobile"></el-input>
+        <el-form-item label="下单时间：" prop="mobile">
+          <el-input v-model="dialogData.purchaseTime"></el-input>
         </el-form-item>
         <div class="text-c">
           <el-button type="primary" size="medium" @click="submitClick">确定</el-button>
@@ -93,8 +96,8 @@ export default {
       projectId: '',
       // table所有数据
       tableData: [
-        { userId: 1, goodsName: '毛巾', needPoints: 1000, stock: 100, projectId: 1, status: '上架' },
-        { userId: 2, goodsName: '洗衣液', needPoints: 3000, stock: 100, projectId: 2, status: '下架' }
+        { userId: 1, orderNo: '20191010', orderName: '四分类垃圾箱', purchaser: '王经理', mobile: '15845825681', purchaseNum: 50, purchaseTime: '2019-10-10' },
+        { userId: 2, orderNo: '20191101', orderName: '六分类垃圾箱', purchaser: '高经理', mobile: '15845825681', purchaseNum: 30, purchaseTime: '2019-11-01' }
       ],
       // 当前tableData数据
       currentTableData: [],
@@ -117,26 +120,20 @@ export default {
       userId: '',
       // 验证规则
       rules: {
-        username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' }
+        orderNo: [
+          { required: true, message: '请输入订单号', trigger: 'blur' }
         ],
-        name: [
-          { required: true, message: '请选择姓名', trigger: 'blur' }
+        orderName: [
+          { required: true, message: '请输入商品名', trigger: 'blur' }
+        ],
+        purchaser: [
+          { required: true, message: '请输入购买者', trigger: 'blur' }
         ],
         mobile: [
-          { required: true, message: '电话不能为空', trigger: 'blur' }
+          { required: true, message: '请输入手机号', trigger: 'blur' }
         ],
-        email: [
-          { required: true, type: 'email', message: '请输入邮箱', trigger: 'blur' }
-        ],
-        sex: [
+        purchaseTime: [
           { required: true }
-        ],
-        address: [
-          { required: true, message: '请输入地址', trigger: 'blur' }
-        ],
-        projectId: [
-          { required: true, message: '请选择项目', trigger: 'blur' }
         ]
       }
     }

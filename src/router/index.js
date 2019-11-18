@@ -18,6 +18,7 @@ import examAndTrainRouter from './modules/examAndTrain'
 
 import memberRouter from './routers/member'
 import goodsRouter from './routers/goods'
+import orderRouter from './routers/order'
 
 Vue.use(Router)
 
@@ -52,7 +53,8 @@ export const constantRoutes = [
     }]
   },
   memberRouter,
-  goodsRouter
+  goodsRouter,
+  orderRouter
 ]
 
 /**
