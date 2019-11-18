@@ -2,7 +2,7 @@
 // 路由规则
 import Layout from '@/layout'
 
-// 用户中心
+// 会员中心
 const memberRouter = {
   path: '/member',
   component: Layout,
