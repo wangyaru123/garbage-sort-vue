@@ -22,7 +22,7 @@
           <span>{{ scope.row.name}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="电话号码" align="center" min-width="200px">
+      <el-table-column label="手机号" align="center" min-width="130px">
         <template slot-scope="scope">
           <span>{{ scope.row.mobile}}</span>
         </template>
@@ -77,8 +77,8 @@ export default {
       projectId: '',
       // table所有数据
       tableData: [
-        { userId: 1, username: 'wangyi', name: '王一', mobile: '15076541233', card: '', projectId: 1 },
-        { userId: 2, username: 'zhangshan', name: '张山', mobile: '15076541231', card: '', projectId: 2 }
+        { userId: 1, username: 'wangyi', name: '王一', mobile: '15076541233', card: '32456234', projectId: 1 },
+        { userId: 2, username: 'zhangshan', name: '张山', mobile: '15076541231', card: '32456230', projectId: 2 }
       ],
       // 当前tableData数据
       currentTableData: [],

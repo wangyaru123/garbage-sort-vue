@@ -23,7 +23,7 @@
           <span>{{ scope.row.name}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="电话号码" align="center" min-width="200px">
+      <el-table-column label="手机号" align="center" min-width="130px">
         <template slot-scope="scope">
           <span>{{ scope.row.mobile}}</span>
         </template>
