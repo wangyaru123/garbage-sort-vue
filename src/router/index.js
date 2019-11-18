@@ -11,7 +11,7 @@ import dataApplicationRouter from './modules/dataApplication'
 import alarmRouter from './modules/alarm'
 import repairRouter from './modules/repair'
 import maintainRouter from './modules/maintain'
-import deviceRouter from './modules/device'
+// import deviceRouter from './modules/device'
 import noticeRouter from './modules/notice'
 import fileAdminRouter from './modules/fileAdmin'
 import examAndTrainRouter from './modules/examAndTrain'
@@ -19,6 +19,7 @@ import examAndTrainRouter from './modules/examAndTrain'
 import memberRouter from './routers/member'
 import goodsRouter from './routers/goods'
 import orderRouter from './routers/order'
+import deviceRouter from './routers/device'
 
 Vue.use(Router)
 
@@ -54,7 +55,8 @@ export const constantRoutes = [
   },
   memberRouter,
   goodsRouter,
-  orderRouter
+  orderRouter,
+  deviceRouter
 ]
 
 /**
