@@ -15,6 +15,7 @@ import deviceRouter from './modules/device'
 import noticeRouter from './modules/notice'
 import fileAdminRouter from './modules/fileAdmin'
 import examAndTrainRouter from './modules/examAndTrain'
+import memberRouter from './modules/member'
 
 Vue.use(Router)
 
@@ -48,7 +49,7 @@ export const constantRoutes = [
       meta: { title: '首页', icon: 'home' }
     }]
   },
-  userRouter
+  memberRouter
 ]
 
 /**
