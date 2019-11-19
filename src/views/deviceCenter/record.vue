@@ -14,42 +14,27 @@
       </el-table-column>
       <el-table-column label="设备序列号" fixed align="center" min-width="100px">
         <template slot-scope="scope">
-          <span>{{ scope.row.username}}</span>
+          <span>{{ scope.row.deviceCode}}</span>
         </template>
       </el-table-column>
       <el-table-column label="当前重量(克)" fixed align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.name}}</span>
+          <span>{{ scope.row.weight}}</span>
         </template>
       </el-table-column>
       <el-table-column label="回收类别" align="center" min-width="130px">
         <template slot-scope="scope">
-          <span>{{ scope.row.mobile}}</span>
+          <span>{{ scope.row.recoverCategory}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="投放人" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.name}}</span>
         </template>
       </el-table-column>
       <el-table-column label="产生行为" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.points}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="产生时间" align="center">
-        <template slot-scope="scope">
           <span>{{ scope.row.produceAction}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="回收类别" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.recoverCategory}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="重量(克)" align="center" min-width="100px">
-        <template slot-scope="scope">
-          <span>{{ scope.row.weight}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="机器编号" align="center" min-width="150px">
-        <template slot-scope="scope">
-          <span>{{ scope.row.deviceCode}}</span>
         </template>
       </el-table-column>
       <el-table-column label="产生时间" align="center" min-width="150px">
@@ -92,8 +77,8 @@ export default {
       projectId: '',
       // table所有数据
       tableData: [
-        { userId: 1, username: 'wangyi', name: '王一', mobile: '15076541233', points: 50, produceAction: '设备回收', recoverCategory: '纸品', weight: 50, deviceCode: '13254683', produceTime: '2019-11-12' },
-        { userId: 2, username: 'zhangshan', name: '张山', mobile: '15076541231', points: 40, produceAction: '设备回收', recoverCategory: '玻璃', weight: 40, deviceCode: '13254681', produceTime: '2019-11-15' }
+        { name: '王一', produceAction: '设备回收', recoverCategory: '纸品', weight: 50, deviceCode: '13254683', produceTime: '2019-11-12' },
+        { name: '张山', produceAction: '设备回收', recoverCategory: '玻璃', weight: 40, deviceCode: '13254681', produceTime: '2019-11-15' }
       ],
       // 当前tableData数据
       currentTableData: [],
