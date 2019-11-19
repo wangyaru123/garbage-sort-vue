@@ -20,6 +20,7 @@ import memberRouter from './routers/member'
 import goodsRouter from './routers/goods'
 import orderRouter from './routers/order'
 import deviceRouter from './routers/device'
+import sysRouter from './routers/sys'
 
 Vue.use(Router)
 
@@ -56,7 +57,8 @@ export const constantRoutes = [
   memberRouter,
   goodsRouter,
   orderRouter,
-  deviceRouter
+  deviceRouter,
+  sysRouter
 ]
 
 /**
