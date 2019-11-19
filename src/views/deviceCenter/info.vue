@@ -1,7 +1,7 @@
 <template>
   <!-- 设备信息 -->
   <div class="p-10">
-    <el-button type="primary" size="small" round @click="addClick">添加会员</el-button>
+    <el-button type="primary" size="small" round @click="addClick">添加设备</el-button>
     <span>请选择项目查看：</span>
     <el-select v-model="projectId" placeholder="请选择" size="small" @change="fetchData">
       <el-option :value="0" label="请选择"></el-option>
@@ -13,44 +13,44 @@
           <span>{{ scope.$index + 1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="会员名" fixed align="center" min-width="100px">
+      <el-table-column label="设备名称" fixed align="center" min-width="130px">
         <template slot-scope="scope">
-          <span>{{ scope.row.username}}</span>
+          <span>{{ scope.row.deviceName}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="姓名" fixed align="center">
+      <el-table-column label="序列号" fixed align="center" min-width="130px">
         <template slot-scope="scope">
-          <span>{{ scope.row.name}}</span>
+          <span>{{ scope.row.deviceCode}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="手机号" align="center" min-width="130px">
-        <template slot-scope="scope">
-          <span>{{ scope.row.mobile}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="性别" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.sex?'女':'男'}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="邮箱" align="center" min-width="180px">
-        <template slot-scope="scope">
-          <span>{{ scope.row.email}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="地址" align="center" min-width="180px">
+      <el-table-column label="地点" align="center" min-width="130px">
         <template slot-scope="scope">
           <span>{{ scope.row.address}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="所属项目" fixed="right" align="center" min-width="150px">
+      <el-table-column label="所属项目" align="center" min-width="130px">
         <template slot-scope="scope">
           <span>{{projectList.find(i=>i.projectId===scope.row.projectId).projectName}}</span>
         </template>
       </el-table-column>
+      <el-table-column label="在线状态" align="center" min-width="80px">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.status?'':'danger'">{{ scope.row.status?'在线':'离线'}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="是否报警" align="center" min-width="80px">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.isAlarm?'danger':'success'">{{ scope.row.isAlarm?'是':'否'}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="传感器参数" align="center" min-width="100px">
+        <template slot-scope="scope">
+          <el-button type="primary" size="mini" @click="editRow( scope.row.deviceCode )">查看</el-button>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" fixed="right" width="130px" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.userId )"></el-button>
+          <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.deviceCode )"></el-button>
           <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.$index )"></el-button>
         </template>
       </el-table-column>
@@ -69,13 +69,19 @@
     <!-- 添加或编辑会员信息 -->
     <el-dialog :visible.sync="dialogVisible" title="请填写会员信息">
       <el-form label-position="right" label-width="140px" :model="dialogData" :rules="rules" ref="ruleForm">
-        <el-form-item label="账户：" prop="username">
-          <el-input v-model="dialogData.username"></el-input>
+        <el-form-item label="设备名称：" prop="deviceName">
+          <el-input v-model="dialogData.deviceName"></el-input>
         </el-form-item>
-        <el-form-item label="姓名：" prop="name">
-          <el-input v-model="dialogData.name"></el-input>
+        <el-form-item label="序列号：" prop="deviceCode">
+          <el-input v-model="dialogData.deviceCode"></el-input>
         </el-form-item>
-        <el-form-item label="性别：" prop="sex">
+        <el-form-item label="地点：" prop="addresss">
+          <el-input v-model="dialogData.addresss"></el-input>
+        </el-form-item>
+        <el-form-item label="所属项目：" prop="projectId">
+          <el-input v-model="dialogData.projectId"></el-input>
+        </el-form-item>
+        <el-form-item label="在线状态：" prop="email">
           <el-radio
             ref="sex"
             v-model="dialogData.sex"
@@ -86,16 +92,16 @@
             auto-complete="on"
           >{{item.des}}</el-radio>
         </el-form-item>
-        <el-form-item label="手机号码:" prop="mobile">
-          <el-input v-model="dialogData.mobile"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱:" prop="email">
-          <el-input v-model="dialogData.email"></el-input>
-        </el-form-item>
-        <el-form-item label="所属项目:" prop="projectId">
-          <el-select v-model="dialogData.projectId" placeholder="请选择" size="small">
-            <el-option v-for="item in projectList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
-          </el-select>
+        <el-form-item label="是否报警：" prop="projectId">
+          <el-radio
+            ref="sex"
+            v-model="dialogData.sex"
+            v-for="item in sexList"
+            :key="item.sex"
+            :label="item.sex"
+            name="sex"
+            auto-complete="on"
+          >{{item.des}}</el-radio>
         </el-form-item>
         <div class="text-c">
           <el-button type="primary" size="medium" @click="submitClick">确定</el-button>
@@ -114,8 +120,8 @@ export default {
       projectId: '',
       // table所有数据
       tableData: [
-        { userId: 1, username: 'wangyi', name: '王一', mobile: '15076541233', email: '2434243562@163.com', sex: 0, address: '浙江杭州', projectId: 1 },
-        { userId: 2, username: 'zhangshan', name: '张山', mobile: '15076541231', email: '2434243561@163.com', sex: 0, address: '安徽合肥', projectId: 2 }
+        { deviceName: '五分类智能垃圾箱', deviceCode: '201910001', address: '浙江杭州', projectId: 1, status: 1, isAlarm: 1 },
+        { deviceName: '七分类智能垃圾箱', deviceCode: '201910100', address: '安徽合肥', projectId: 2, status: 0, isAlarm: 0 }
       ],
       // 当前tableData数据
       currentTableData: [],

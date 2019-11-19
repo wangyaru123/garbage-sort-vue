@@ -96,8 +96,8 @@ export default {
       projectId: '',
       // table所有数据
       tableData: [
-        { userId: 1, orderNo: '20191010', orderName: '四分类垃圾箱', purchaser: '王经理', mobile: '15845825681', purchaseNum: 50, purchaseTime: '2019-10-10' },
-        { userId: 2, orderNo: '20191101', orderName: '六分类垃圾箱', purchaser: '高经理', mobile: '15845825681', purchaseNum: 30, purchaseTime: '2019-11-01' }
+        { userId: 1, orderNo: '20191010', orderName: '五分类智能垃圾箱', purchaser: '王经理', mobile: '15845825681', purchaseNum: 50, purchaseTime: '2019-10-10' },
+        { userId: 2, orderNo: '20191101', orderName: '七分类智能垃圾箱', purchaser: '高经理', mobile: '15845825681', purchaseNum: 30, purchaseTime: '2019-11-01' }
       ],
       // 当前tableData数据
       currentTableData: [],

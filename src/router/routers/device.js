@@ -11,7 +11,7 @@ const deviceRouter = {
   alwaysShow: true,
   meta: {
     title: '设备管理',
-    icon: 'form'
+    icon: 'device'
   },
   children: [
     {
