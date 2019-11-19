@@ -21,6 +21,14 @@ const deviceRouter = {
       meta: {
         title: '设备管理'
       }
+    },
+    {
+      path: 'record',
+      name: 'DeviceCenter.Record',
+      component: () => import('@/views/deviceCenter/record'),
+      meta: {
+        title: '设备记录'
+      }
     }
   ]
 }
