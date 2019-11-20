@@ -4,18 +4,6 @@ import Router from 'vue-router'
 /* Layout */
 import Layout from '@/layout'
 
-import billboardRouter from './modules/billboard'
-import userRouter from './modules/user'
-import boxRouter from './modules/box'
-import dataApplicationRouter from './modules/dataApplication'
-import alarmRouter from './modules/alarm'
-import repairRouter from './modules/repair'
-import maintainRouter from './modules/maintain'
-// import deviceRouter from './modules/device'
-import noticeRouter from './modules/notice'
-import fileAdminRouter from './modules/fileAdmin'
-import examAndTrainRouter from './modules/examAndTrain'
-
 import memberRouter from './routers/member'
 import goodsRouter from './routers/goods'
 import orderRouter from './routers/order'
@@ -55,12 +43,12 @@ export const constantRoutes = [
       meta: { title: '首页', icon: 'home' }
     }]
   },
+  displayRouter,
   memberRouter,
   goodsRouter,
   orderRouter,
   deviceRouter,
-  sysRouter,
-  displayRouter
+  sysRouter
 ]
 
 /**
@@ -68,28 +56,6 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-  // 看板
-  billboardRouter,
-  // 用户
-  userRouter,
-  // 盒子信息
-  boxRouter,
-  // 数据应用
-  dataApplicationRouter,
-  // 报警模块
-  alarmRouter,
-  // 维修模块
-  repairRouter,
-  // 保养模块
-  maintainRouter,
-  // 设备管理
-  deviceRouter,
-  // 消息通知
-  noticeRouter,
-  // 文件管理
-  fileAdminRouter,
-  // 考核培训模块
-  examAndTrainRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

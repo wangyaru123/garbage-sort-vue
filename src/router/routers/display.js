@@ -10,7 +10,7 @@ const displayRouter = {
   name: 'display',
   alwaysShow: true,
   meta: {
-    title: '数据统计',
+    title: '看板',
     icon: 'chart'
   },
   children: [

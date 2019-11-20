@@ -68,15 +68,15 @@ export default {
     }
   },
   name: 'Dashboard',
-  // computed: {
+  computed: {
   //   ...mapGetters([
   //     'name'
   //   ]),
   //   ...mapState('user', ['accessToken', 'accessTokenDecode']),
-  //   isMobile() {
-  //     return this.$store.state.app.isMobile
-  //   }
-  // },
+    isMobile() {
+      return this.$store.state.app.isMobile
+    }
+  },
   mounted() {
   },
   methods: {
