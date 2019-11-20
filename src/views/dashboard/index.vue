@@ -21,7 +21,7 @@
             <div class="xFontRight" v-show="!isMobile"></div>
             <div class="line"></div>
             </div>
-            <div class="englishFont">Application Programming of "1+X" Industrial Robot</div>
+            <div class="englishFont">Welcome to the garbage sorting system</div>
           </div>
         <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" :class="isMobile?'h-auto':'h-num mb-10'">
               <img :src="machineImgRight" alt="">
@@ -48,22 +48,22 @@ export default {
       machineImg,
       machineImgRight,
       titleName: '“1+X”工业机器人应用编程',
-      copyRight: 'Copyright © 2016-2020 江苏汇博机器人技术股份有限公司',
+      copyRight: 'Copyright © 2016-2020 杭州映蓝环保科技有限公司',
       spanList: [
-        { spanText: '“' },
-        { spanText: '1' },
-        { spanText: '+' },
-        { spanText: 'X' },
-        { spanText: '”' },
-        { spanText: '工' },
-        { spanText: '业' },
-        { spanText: '机' },
-        { spanText: '器' },
-        { spanText: '人' },
-        { spanText: '应' },
-        { spanText: '用' },
-        { spanText: '编' },
-        { spanText: '程' }
+        { spanText: '欢' },
+        { spanText: '迎' },
+        { spanText: '进' },
+        { spanText: '入' },
+        { spanText: '垃' },
+        { spanText: '圾' },
+        { spanText: '分' },
+        { spanText: '类' },
+        { spanText: '后' },
+        { spanText: '台' },
+        { spanText: '管' },
+        { spanText: '理' },
+        { spanText: '系' },
+        { spanText: '统' }
       ]
     }
   },
