@@ -69,10 +69,6 @@ export default {
   },
   name: 'Dashboard',
   computed: {
-  //   ...mapGetters([
-  //     'name'
-  //   ]),
-  //   ...mapState('user', ['accessToken', 'accessTokenDecode']),
     isMobile() {
       return this.$store.state.app.isMobile
     }
