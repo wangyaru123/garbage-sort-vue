@@ -2,11 +2,10 @@
   <div :class="isMobile? 'total-layout-mobile':'total-layout'">
     <div class="title">
       <!-- <img v-if="!isMobile" src="../../assets/yinglan.png" class="pl-10 float-l img" alt /> -->
-      <!--<img v-if="!isMobile" src="../../assets/billboard/extra.png" alt />
+      <img v-if="!isMobile" src="../../assets/billboard/extra.png" alt />
       <span class="title-name">垃圾分类数据看板</span>
       <img v-if="!isMobile" src="../../assets/billboard/extra.png" alt />
-      <img v-if="!isMobile" src="../../assets/billboard/homeIcon.png" class="go-back" alt @click="goBack" title="返回首页" />-->
-      <img src="@/assets/title.png" height="107" width="100%" />
+      <img v-if="!isMobile" src="../../assets/billboard/homeIcon.png" class="go-back" alt @click="goBack" title="返回首页" />
     </div>
     <el-row class="content">
       <el-col :lg="5" :md="24" :sm="24" class="content-layout">
@@ -67,7 +66,7 @@ export default {
 
 <style lang="scss" scoped>
 .total-layout {
-  background: #000927;
+  background: #002035;
   height: 100vh;
   width: 100vw;
   color: white;
