@@ -5,7 +5,7 @@
     <div class="corner bottom-left-corner"></div>
     <div class="corner bottom-right-corner"></div>
     <div class="content">
-      <div class="title">报警详情</div>
+      <div class="title">各类回收物累计量</div>
       <div class="data">
         <el-row class="data-style">
           <div>

@@ -5,7 +5,7 @@
     <div class="corner bottom-left-corner"></div>
     <div class="corner bottom-right-corner"></div>
     <div class="content">
-      <div class="title">设备在线</div>
+      <div class="title">各类垃圾今日量</div>
       <div class="data">
         <el-row class="data-style">
           <el-col :span="12" class="school">汇博立宁职业培训学校 </el-col>

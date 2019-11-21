@@ -5,7 +5,7 @@
     <div class="corner bottom-left-corner"></div>
     <div class="corner bottom-right-corner"></div>
     <div class="content">
-      <div class="title">设备概况</div>
+      <div class="title">各类垃圾累计量</div>
       <div :id="chartId" class="chart-style"></div>
       <div class="data">
         <div class="data-style">
@@ -190,7 +190,7 @@ export default {
 .data-style {
   display: flex;
   justify-content: space-between;
-  width: 100%
+  width: 100%;
 }
 .data-name {
   font-size: 16px;

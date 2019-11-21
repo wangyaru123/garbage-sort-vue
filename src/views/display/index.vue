@@ -10,10 +10,10 @@
     <el-row class="content">
       <el-col :lg="5" :md="24" :sm="24" class="content-layout">
         <div class="item pb-10">
-          <device-profile></device-profile>
+          <garbage-total></garbage-total>
         </div>
         <div class="item pt-10">
-          <device-online></device-online>
+          <garbage-today></garbage-today>
         </div>
       </el-col>
       <el-col :lg="14" :md="24" :sm="24" class="content-layout" :style="{height:(isMobile?'50vh':'')}">
@@ -21,10 +21,10 @@
       </el-col>
       <el-col :lg="5" :md="24" :sm="24" class="content-layout">
         <div class="item pb-10">
-          <device-alarm-stat></device-alarm-stat>
+          <recover-total></recover-total>
         </div>
         <div class="item pt-10">
-          <device-alarm-detail></device-alarm-detail>
+          <recover-today></recover-today>
         </div>
       </el-col>
     </el-row>
@@ -33,18 +33,18 @@
 
 <script>
 import deviceMap from './component/deviceMap'
-import deviceOnline from './component/deviceOnline'
-import deviceProfile from './component/deviceProfile'
-import deviceAlarmStat from './component/deviceAlarmStat'
-import deviceAlarmDetail from './component/deviceAlarmDetail'
+import garbageTotal from './component/garbageTotal'
+import garbageToday from './component/garbageToday'
+import recoverTotal from './component/recoverTotal'
+import recoverToday from './component/recoverToday'
 
 export default {
   components: {
     deviceMap,
-    deviceOnline,
-    deviceAlarmStat,
-    deviceProfile,
-    deviceAlarmDetail
+    garbageTotal,
+    garbageToday,
+    recoverTotal,
+    recoverToday
   },
   data() {
     return {

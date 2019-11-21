@@ -5,7 +5,7 @@
     <div class="corner bottom-left-corner"></div>
     <div class="corner bottom-right-corner"></div>
     <div class="content">
-      <div class="title">报警统计</div>
+      <div class="title">各类回收物今日量</div>
       <div :id="chartId" class="chart-style"></div>
       <div class="data">
         <div class="data-style">
