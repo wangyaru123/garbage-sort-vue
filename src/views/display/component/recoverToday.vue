@@ -1,84 +1,185 @@
 <template>
   <div class="main-style">
-    <div style="font-size: 20px;height: 40px;line-height: 40px;padding-left: 25px;">各类垃圾今日量</div>
-    <div class="data">
-      <el-row class="data-style">
-        <div>
-          <span class="school">汇博立宁职业培训学校</span>
-          <span class="float-r device-num">SZ-2019322</span>
-        </div>
-        <div>
-          <span>发生时间：</span>
-          <span class="float-r">{{dateTimeCurrent}}</span>
-        </div>
-        <div>
-          <span>报警内容：</span>
-          <span class="float-r alarm-content">机器人通信异常</span>
-        </div>
-      </el-row>
-      <el-row class="data-style">
-        <div>
-          <span class="school">广州机电职业技术学院</span>
-          <span class="float-r device-num">SZ-2019512</span>
-        </div>
-        <div>
-          <span>发生时间：</span>
-          <span class="float-r">{{dateTimeCurrent}}</span>
-        </div>
-        <div>
-          <span>报警内容：</span>
-          <span class="float-r alarm-content">机器人通信异常</span>
-        </div>
-      </el-row>
-      <el-row class="data-style">
-        <div>
-          <span class="school">杭州科技职业技术学院</span>
-          <span class="float-r device-num">SZ-2019122</span>
-        </div>
-        <div>
-          <span>发生时间：</span>
-          <span class="float-r">{{dateTimeCurrent}}</span>
-        </div>
-        <div>
-          <span>报警内容：</span>
-          <span class="float-r alarm-content">机器人通信异常</span>
-        </div>
-      </el-row>
+    <!-- <div class="corner top-left-corner"></div>
+    <div class="corner top-right-corner"></div>
+    <div class="corner bottom-left-corner"></div>
+    <div class="corner bottom-right-corner"></div>-->
+    <div class="content">
+      <div class="title">各类回收物今日量</div>
+      <div :id="chartId" class="chart-style"></div>
     </div>
   </div>
 </template>
 
 <script>
+import { debounce } from '@/utils'
 
 export default {
   data() {
     return {
+      chartId: 'recoverTodayEchart',
+      options: {
+        title: {
+          text: '',
+          x: 'left'
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: '{a} <br/>{b} : {c}' + 'kg' + ' ({d}%)'
+        },
+        color: ['#F9A459', '#BDD947', '#51D297', '#878BBC'],
+        // backgroundColor: '#001F32',
+        // stillShowZeroSum: false,
+        series: [
+          {
+            name: '今日统计',
+            type: 'pie',
+            radius: ['35%', '60%'],
+            center: ['50%', '50%'],
+            data: [
+              { name: '纸类制品', value: 154 },
+              { name: '金属制品', value: 109 },
+              { name: '布料制品', value: 572 },
+              { name: '塑料制品', value: 254 }
+            ],
+            label: {
+              normal: {
+                formatter: '{b|{b}}\n{hr|}\n{c|{c}}kg',
+                rich: {
+                  c: {
+                    lineHeight: 20,
+                    align: 'center'
+                  },
+                  hr: {
+                    borderColor: '',
+                    width: '100%',
+                    margin: -20,
+                    borderWidth: 0.5,
+                    height: 0
+                  },
+                  b: {
+                    lineHeight: 20,
+                    fontSize: '24rem',
+                    align: 'center'
+                  }
+                }
+              }
+            },
+            itemStyle: {
+              emphasis: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(128, 128, 128, 0.5)'
+              }
+            }
+          }
+        ]
+      }
     }
   },
   created() {
   },
   mounted() {
+    this.initChart()
+    this.updateResize()
   },
   beforeDestroy() {
+    this.closeResize()
   },
   computed: {
     isMobile() {
       return this.$store.state.app.isMobile
-    },
-    dateTimeCurrent() {
-      return this.$dayjs().format('YYYY-MM-DD HH:mm:ss')
+    }
+  },
+  watch: {
+    //  手机端的时候，默认isMobile是false，在变化时尺寸没有修改，则图表不会自适应
+    isMobile(newValue, oldValue) {
+      if (this.chart) {
+        this.chart.resize()
+      }
     }
   },
   methods: {
+    initData() {
+    },
+    initChart() {
+      this.chart = this.$echarts.init(document.getElementById(this.chartId))
+      this.chart.setOption(this.options)
+    },
+    //  自动适配宽度
+    updateResize() {
+      this.__resizeHanlder = debounce(() => {
+        if (this.chart) this.chart.resize()
+      }, 100)
+      window.addEventListener('resize', this.__resizeHanlder)
+    },
+    // 关闭自适应事件
+    closeResize() {
+      window.removeEventListener('resize', this.__resizeHanlder)
+      if (!this.chart) return
+      this.chart.dispose()
+      this.chart = null
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .main-style {
+  // background-color: #001e31;
   width: 100%;
   height: 100%;
-  background: url("../../../assets/displaybg.png");
+  position: relative;
+  box-shadow: inset 0px 0px 4px 0px #00ffff;
+}
+.chart-style {
+  width: 100%;
+  height: 70%;
+}
+.corner {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+}
+.top-left-corner {
+  top: -1px;
+  left: -1px;
+  border-left: 3px solid #009fff;
+  border-top: 3px solid #009fff;
+  box-shadow: inset 1px 1px 1px 0px #00ffff;
+}
+.top-right-corner {
+  top: -1px;
+  right: -1px;
+  border-right: 3px solid #009fff;
+  border-top: 3px solid #009fff;
+}
+.bottom-left-corner {
+  bottom: -1px;
+  left: -1px;
+  border-left: 3px solid #009fff;
+  border-bottom: 3px solid #009fff;
+}
+.bottom-right-corner {
+  bottom: -1px;
+  right: -1px;
+  border-right: 3px solid #009fff;
+  border-bottom: 3px solid #009fff;
+}
+.content {
+  width: 100%;
+  height: 100%;
+  // padding: 10px;
+  .title {
+    font-size: 20px;
+    height: 30px;
+    color: #dee3e6;
+    text-align: center;
+    // background: -webkit-linear-gradient(left, #00d1fa, #064975, #001e31);
+    background: url(../../../assets/titlebg.png) no-repeat;
+    // background-size: cover;
+    background-position: center center;
+  }
 }
 .data {
   display: flex;
@@ -89,17 +190,13 @@ export default {
 }
 .data-style {
   border-bottom: 1px solid #124667;
-  margin: 0px 15px;
+  // height: 35px;
+  margin: 0px 0px;
   padding: 5px 0px;
-  color: #9b9e9b;
-}
-.school {
-  color: #0d8eff;
-}
-.device-num {
-  color: #0cca0b;
-}
-.alarm-content {
-  color: white;
+  .school {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 </style>
