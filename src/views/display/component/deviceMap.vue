@@ -16,9 +16,9 @@ import { debounce } from '@/utils'
 import 'echarts/map/js/china'
 
 var data = [
-  { name: '杭州', value: 84 },
-  { name: '广州', value: 38 },
-  { name: '苏州', value: 50 }
+  { name: '杭州', value: [15485, 12353] },
+  { name: '广州', value: [38597, 38100] },
+  { name: '苏州', value: [50658, 50000] }
   // { name: '海门', value: 9 },
   // { name: '鄂尔多斯', value: 12 },
   // { name: '招远', value: 12 },
@@ -441,8 +441,8 @@ export default {
               <div style=' position: absolute;width: 25px;height: 25px;bottom: -5px;right: -5px;border-right: 2px solid #009fff;border-bottom: 2px solid #009fff;'></div>
               <div style='padding: 10px;'>
                 <p style="padding:3px;">${params.data.name}</p>
-                <p style="padding:3px;">累计垃圾量：${params.data.name}</p>
-                <p style="padding:3px;">累计回收量：${params.data.value[2]}</p>
+                <p style="padding:3px;">累计垃圾量：<b style="color:green">${params.data.value[2]}</b>kg</p>
+                <p style="padding:3px;">累计回收量：<b style="color:green">${params.data.value[3]}</b>kg</p>
               </div>
             </div>
             `

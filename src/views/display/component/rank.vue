@@ -5,7 +5,7 @@
     <div class="corner bottom-left-corner"></div>
     <div class="corner bottom-right-corner"></div>-->
     <div class="content">
-      <div class="title">各类回收物今日量</div>
+      <div class="title">各小区排名</div>
       <div :id="chartId" class="chart-style"></div>
     </div>
   </div>
@@ -17,61 +17,46 @@ import { debounce } from '@/utils'
 export default {
   data() {
     return {
-      chartId: 'recoverTodayEchart',
+      chartId: 'rankEchart',
       options: {
-        title: {
-          text: '',
-          x: 'left'
-        },
+        color: ['#3398DB'],
         tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c}' + 'kg' + ' ({d}%)'
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
         },
-        color: ['#F9A459', '#BDD947', '#51D297', '#878BBC'],
-        // backgroundColor: '#001F32',
-        // stillShowZeroSum: false,
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'value',
+          boundaryGap: [0, 0.01],
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: '#fff'
+            }
+          }
+        },
+        yAxis: {
+          type: 'category',
+          data: ['杭州凤起小区', '杭州高沙小区', '杭州下沙小区', '杭州云水小区', '广州龙湖小区', '苏州名苑小区'],
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: '#fff'
+            }
+          }
+        },
         series: [
           {
-            name: '今日统计',
-            type: 'pie',
-            radius: ['35%', '60%'],
-            center: ['50%', '50%'],
-            data: [
-              { name: '纸类制品', value: 154 },
-              { name: '金属制品', value: 109 },
-              { name: '布料制品', value: 572 },
-              { name: '塑料制品', value: 254 }
-            ],
-            label: {
-              normal: {
-                formatter: '{b|{b}}\n{hr|}\n{c|{c}}kg',
-                rich: {
-                  c: {
-                    lineHeight: 20,
-                    align: 'center'
-                  },
-                  hr: {
-                    borderColor: '',
-                    width: '100%',
-                    margin: -20,
-                    borderWidth: 0.5,
-                    height: 0
-                  },
-                  b: {
-                    lineHeight: 20,
-                    fontSize: '24rem',
-                    align: 'center'
-                  }
-                }
-              }
-            },
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(128, 128, 128, 0.5)'
-              }
-            }
+            name: '2011年',
+            type: 'bar',
+            data: [1823, 12389, 22934, 30490, 43744, 53020]
           }
         ]
       }
@@ -134,7 +119,7 @@ export default {
 }
 .chart-style {
   width: 100%;
-  height: 80%;
+  height: 90%;
 }
 .corner {
   position: absolute;

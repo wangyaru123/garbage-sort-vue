@@ -9,7 +9,7 @@
       <img src="@/assets/title.png" height="107" width="100%" />
     </div>
     <el-row class="content">
-      <el-col :lg="5" :md="24" :sm="24" class="content-layout">
+      <el-col :lg="6" :md="24" :sm="24" class="content-layout">
         <div class="item pb-10">
           <garbage-total></garbage-total>
         </div>
@@ -17,10 +17,15 @@
           <garbage-today></garbage-today>
         </div>
       </el-col>
-      <el-col :lg="14" :md="24" :sm="24" class="content-layout" :style="{height:(isMobile?'50vh':'')}">
-        <device-map></device-map>
+      <el-col :lg="12" :md="24" :sm="24" class="content-layout" :style="{height:(isMobile?'50vh':'')}">
+        <div class="map pb-10">
+          <device-map></device-map>
+        </div>
+        <div class="rank pt-10">
+          <rank></rank>
+        </div>
       </el-col>
-      <el-col :lg="5" :md="24" :sm="24" class="content-layout">
+      <el-col :lg="6" :md="24" :sm="24" class="content-layout">
         <div class="item pb-10">
           <recover-total></recover-total>
         </div>
@@ -34,6 +39,7 @@
 
 <script>
 import deviceMap from './component/deviceMap'
+import rank from './component/rank'
 import garbageTotal from './component/garbageTotal'
 import garbageToday from './component/garbageToday'
 import recoverTotal from './component/recoverTotal'
@@ -42,6 +48,7 @@ import recoverToday from './component/recoverToday'
 export default {
   components: {
     deviceMap,
+    rank,
     garbageTotal,
     garbageToday,
     recoverTotal,
@@ -84,6 +91,9 @@ export default {
     background: radial-gradient(center, #00adcf, #02263e, #002035);
     background: -webkit-radial-gradient(center, #00adcf, #02263e, #002035);
   }
+  img {
+    height: 100%;
+  }
 }
 .go-back {
   height: 40px;
@@ -100,6 +110,12 @@ export default {
 .content-layout {
   height: calc(100vh - 80px);
   padding: 10px;
+}
+.map {
+  height: 60%;
+}
+.rank {
+  height: 40%;
 }
 .item {
   height: 50%;

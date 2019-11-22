@@ -41,7 +41,9 @@ export default {
               show: true,
               textStyle: {
                 color: '#fff'
-              }
+              },
+              interval: 0,
+              rotate: 40
             }
           }
         ],
@@ -144,7 +146,7 @@ export default {
 }
 .chart-style {
   width: 100%;
-  height: 70%;
+  height: 90%;
 }
 .corner {
   position: absolute;
