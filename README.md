@@ -3,15 +3,9 @@
 ## Swagger-ui.html接口
 名称 |含义 | 地址
 :-------:| :-----------: | ------------- 
-**UCENTER** |*用户中心* | http://192.168.0.233:8090/box-service-ucenter/swagger-ui.html
-**ALARM** |*报警中心* | http://192.168.0.233:8190/box-service-alarm/swagger-ui.html
-**REPAIR** |*维修中心* | http://192.168.0.233:8390/box-service-repair/swagger-ui.html
-**AUTH** |*授权中心* | http://192.168.0.233:8590/auth/swagger-ui.html
-**BOX** |*盒子中心* | http://192.168.0.233:8690/box-service-realtime-push/swagger-ui.html
-**DEVICES** |*设备中心* | http://192.168.0.233:8290/box-service-equipment/swagger-ui.html
-**MAINTAIN** |*保养中心* | http://192.168.0.233:8890/box-service-maintain/swagger-ui.html
-**FILE** |*文件中心* | http://192.168.0.233:8990/box-service-file/swagger-ui.html
-**STUDY** |*培训考核中心* | http://192.168.0.233:8690/box-service-study/swagger-ui.html
+**AUTH** |*授权中心* | http://192.168.0.103:8590/auth/swagger-ui.html
+**UCENTER** |*用户中心* | http://192.168.0.103:8090/en-service-ucenter/swagger-ui.html
+**MEMBER** |*会员中心* | http://192.168.0.103:8290/en-service-member/swagger-ui.html
 
 
 ## 注意事项
