@@ -61,7 +61,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { checkPassword, editPassword } from '@/api/ucenter/passwardInfo.js'
+// import { checkPassword, editPassword } from '@/api/ucenter/passwardInfo.js'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import avatarImg from '@/assets/yinglan.png'
@@ -111,7 +111,7 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      // await this.$store.dispatch('user/logout')
+      await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     },
     // 点击通知图标,跳转到通知页面,红点消失
@@ -127,22 +127,22 @@ export default {
     submitPassword() {
       console.log(this.userId)
       console.log(this.dialogData)
-      const checkParams = {
-        id: this.userId,
-        password: this.dialogData.oldPassword
-      }
+      // const checkParams = {
+      //   id: this.userId,
+      //   password: this.dialogData.oldPassword
+      // }
       // 旧密码检验
-      checkPassword(this.userId, checkParams).then(res => {
-        // 提交新密码
-        editPassword(this.userId, this.dialogData)
-          .then(result => {
-            this.$message.success('修改成功')
-            this.dialogVisible = false
-            // 修改成功后立即退出
-            this.logout()
-          })
-          .catch(error => this.$message.error(error.toString()))
-      }).catch(err => this.$message.error(err.toString()))
+      // checkPassword(this.userId, checkParams).then(res => {
+      //   // 提交新密码
+      //   editPassword(this.userId, this.dialogData)
+      //     .then(result => {
+      //       this.$message.success('修改成功')
+      //       this.dialogVisible = false
+      //       // 修改成功后立即退出
+      //       this.logout()
+      //     })
+      //     .catch(error => this.$message.error(error.toString()))
+      // }).catch(err => this.$message.error(err.toString()))
     },
     // 点击取消，隐藏弹窗,清空图片缓存
     cancel() {

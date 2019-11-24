@@ -7,7 +7,7 @@
       <el-option :value="0" label="请选择"></el-option>
       <el-option v-for="item in projectList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
     </el-select>
-    <el-table :data="currentTableData" border stripe class="mt-10">
+    <el-table :data="tableData" border stripe class="mt-10">
       <el-table-column label="序号" fixed width="50px" type="index" align="center">
         <template slot-scope="scope">
           <span>{{ scope.$index + 1 }}</span>
@@ -16,6 +16,11 @@
       <el-table-column label="用户名" fixed align="center" min-width="100px">
         <template slot-scope="scope">
           <span>{{ scope.row.username}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="卡号" fixed align="center" min-width="100px">
+        <template slot-scope="scope">
+          <span>{{ scope.row.ic}}</span>
         </template>
       </el-table-column>
       <el-table-column label="姓名" fixed align="center">
@@ -30,14 +35,7 @@
       </el-table-column>
       <el-table-column label="角色" align="center" min-width="130px">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.role===1" type="primary">超级管理员</el-tag>
-          <el-tag v-if="scope.row.role===2" type="success">系统管理员</el-tag>
-          <el-tag v-if="scope.row.role===3" type="warning">商家管理员</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column label="性别" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.sex?'女':'男'}}</span>
+          <el-tag v-for="item in scope.row.roles" :key="item.adminRoleId" class="ml-5 mr-5">{{ item.name}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="邮箱" align="center" min-width="180px">
@@ -52,7 +50,13 @@
       </el-table-column>
       <el-table-column label="所属项目" fixed="right" align="center" min-width="150px">
         <template slot-scope="scope">
-          <span>{{projectList.find(i=>i.projectId===scope.row.projectId).projectName}}</span>
+          <span>{{scope.row.itemId}}</span>
+          <!-- <span>{{projectList.find(i=>i.projectId===scope.row.projectId).projectName}}</span> -->
+        </template>
+      </el-table-column>
+      <el-table-column label="状态" fixed="right" align="center" min-width="150px">
+        <template slot-scope="scope">
+          <span>{{scope.row.status}}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="130px" align="center">
@@ -125,6 +129,8 @@
 </template>
 
 <script>
+import { getUserInfoByPage } from '@/api/sysCenter/users.js'
+
 export default {
   data() {
     return {
@@ -132,11 +138,11 @@ export default {
       projectId: '',
       // table所有数据
       tableData: [
-        { userId: 1, username: 'wangyi', name: '王一', role: 1, mobile: '15076541233', email: '2434243562@163.com', sex: 0, address: '浙江杭州', projectId: 1 },
-        { userId: 2, username: 'zhangshan', name: '张山', role: 2, mobile: '15076541231', email: '2434243561@163.com', sex: 0, address: '安徽合肥', projectId: 2 }
+        // { userId: 1, username: 'wangyi', name: '王一', role: 1, mobile: '15076541233', email: '2434243562@163.com', sex: 0, address: '浙江杭州', projectId: 1 },
+        // { userId: 2, username: 'zhangshan', name: '张山', role: 2, mobile: '15076541231', email: '2434243561@163.com', sex: 0, address: '安徽合肥', projectId: 2 }
       ],
       // 当前tableData数据
-      currentTableData: [],
+      // currentTableData: [],
       // 项目列表
       projectList: [{ projectId: 1, projectName: '浙江试运营' }, { projectId: 2, projectName: '安徽试运营' }],
       // 编辑报警信息弹框显示
@@ -182,15 +188,15 @@ export default {
     }
   },
   created() {
-    this.fetchData()
+    this.getUserInfoByPage()
   },
   methods: {
     // 分页
-    fetchData() {
-      let tableData = this.tableData
-      if (this.projectId) tableData = tableData.filter(item => item.projectId === this.projectId)
-      this.currentTableData = tableData.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage)
-      this.total = this.currentTableData.length
+    getUserInfoByPage() {
+      getUserInfoByPage(this.currentPage, this.pageSize).then(res => {
+        this.tableData = res.list
+        this.total = res.total
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 添加会员按钮
     addClick() {

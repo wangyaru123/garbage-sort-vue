@@ -3,9 +3,9 @@
 ## Swagger-ui.html接口
 名称 |含义 | 地址
 :-------:| :-----------: | ------------- 
-**AUTH** |*授权中心* | http://192.168.0.103:8590/auth/swagger-ui.html
-**UCENTER** |*用户中心* | http://192.168.0.103:8090/en-service-ucenter/swagger-ui.html
-**MEMBER** |*会员中心* | http://192.168.0.103:8290/en-service-member/swagger-ui.html
+**AUTH** |*授权中心* | http://192.168.16.101:8590/auth/swagger-ui.html
+**UCENTER** |*用户中心* | http://192.168.16.101:8090/en-service-ucenter/swagger-ui.html
+**MEMBER** |*会员中心* | http://192.168.16.101:8290/en-service-member/swagger-ui.html
 
 
 ## 注意事项

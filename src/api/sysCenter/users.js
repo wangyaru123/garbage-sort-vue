@@ -7,28 +7,11 @@ const ucenterUrl = process.env.VUE_APP_HTTP_UCENTER
 /**
  * 分页查询用户非敏感信息
  *
- * @export getUserNoSenInfoByPage
+ * @export getUserInfoByPage
  * @param {*} params { page: '1', size: '10' }
  * @returns
  */
-export function getUserNoSenInfoByPage(page, size) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: `${ucenterUrl}/ucenter/admins/non-sensitives/${page}/${size}`,
-      method: 'get'
-    }).then(result => resolve(result))
-      .catch(error => reject(error))
-  })
-}
-
-/**
- * 分页查询用户敏感信息
- *
- * @export getUserSenInfoByPage
- * @param {*} params { page: '1', size: '10' }
- * @returns
- */
-export function getUserSenInfoByPage(page, size) {
+export function getUserInfoByPage(page, size) {
   return new Promise((resolve, reject) => {
     request({
       url: `${ucenterUrl}/ucenter/admins/${page}/${size}`,
@@ -37,6 +20,7 @@ export function getUserSenInfoByPage(page, size) {
       .catch(error => reject(error))
   })
 }
+
 /**
  * 查询单条用户非敏感信息
  *
