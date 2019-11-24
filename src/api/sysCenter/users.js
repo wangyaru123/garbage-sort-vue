@@ -24,27 +24,11 @@ export function getUserInfoByPage(page, size) {
 /**
  * 查询单条用户非敏感信息
  *
- * @export getUserNoSenInfoById
- * @param {*} params { page: '1', size: '10' }
+ * @export getUserInfoById
+ * @param {*} params
  * @returns
  */
-export function getUserNoSenInfoById(id) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: `${ucenterUrl}/ucenter/admins/non-sensitives/${id}`,
-      method: 'get'
-    }).then(result => resolve(result))
-      .catch(error => reject(error))
-  })
-}
-/**
- * 查询单条用户敏感信息
- *
- * @export getUserSenInfoById
- * @param {*} params { page: '1', size: '10' }
- * @returns
- */
-export function getUserSenInfoById(id) {
+export function getUserInfoById(id) {
   return new Promise((resolve, reject) => {
     request({
       url: `${ucenterUrl}/ucenter/admins/${id}`,
@@ -53,42 +37,11 @@ export function getUserSenInfoById(id) {
       .catch(error => reject(error))
   })
 }
-/**
- * 查询所有部门信息
- *
- * @export getDeptInfo
- * @param {*}
- * @returns
- */
-export function getDeptInfo() {
-  return new Promise((resolve, reject) => {
-    request({
-      url: `${ucenterUrl}/ucenter/departments`,
-      method: 'get'
-    }).then(result => resolve(result))
-      .catch(error => reject(error))
-  })
-}
-/**
- * 查询职位信息
- *
- * @export getPositionsInfo
- * @param {*}
- * @returns
- */
-export function getPositionsInfo() {
-  return new Promise((resolve, reject) => {
-    request({
-      url: `${ucenterUrl}/ucenter/positions`,
-      method: 'get'
-    }).then(result => resolve(result))
-      .catch(error => reject(error))
-  })
-}
+
 /**
  * 添加用户信息
  *
- * @export addUserInfo
+ * @export addUser
  * @param {*} params {
   "departmentId": 2,
   "email": "18744021947@163.com",
@@ -104,7 +57,7 @@ export function getPositionsInfo() {
 }
  * @returns
  */
-export function addUserInfo(params) {
+export function addUser(params) {
   return new Promise((resolve, reject) => {
     request({
       url: `${ucenterUrl}/ucenter/admins`,
@@ -117,7 +70,7 @@ export function addUserInfo(params) {
 /**
  * 系统管理员更新用户信息
  *
- * @export updateUserInfoBySys
+ * @export editUser
  * @param {*} id 用户id
  * params {
   "departmentId": 2,
@@ -134,7 +87,7 @@ export function addUserInfo(params) {
 }
  * @returns
  */
-export function updateUserInfoBySys(id, params) {
+export function editUser(id, params) {
   return new Promise((resolve, reject) => {
     request({
       url: `${ucenterUrl}/ucenter/admins/sys/${id}`,
@@ -144,32 +97,7 @@ export function updateUserInfoBySys(id, params) {
       .catch(error => reject(error))
   })
 }
-/**
- * 更新当前用户的信息
- *
- * @export updateUserInfoByUser
- * @param {*} id 用户id
- * params{
-  "departmentId": 2,
-  "email": "18744021947@163.com",
-  "mobile": "18744021947",
-  "name": "张三",
-  "positionId": 4,
-  "sex": true,
-  "telephone": "0571-89935747"
-}
- * @returns
- */
-export function updateUserInfoByUser(id, params) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: `${ucenterUrl}/ucenter/admins/current-user/${id}`,
-      method: 'put',
-      data: params
-    }).then(result => resolve(result))
-      .catch(error => reject(error))
-  })
-}
+
 /**
  * 删除用户的信息
  *
