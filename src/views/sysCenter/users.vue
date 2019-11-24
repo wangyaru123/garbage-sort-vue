@@ -45,7 +45,7 @@
           <span>{{ scope.row.email}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="地址" align="center" min-width="180px">
+      <el-table-column label="地址" align="center" min-width="120px">
         <template slot-scope="scope">
           <span>{{ scope.row.address}}</span>
         </template>
