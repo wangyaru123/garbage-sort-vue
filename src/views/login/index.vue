@@ -100,13 +100,13 @@ export default {
         if (valid) {
           this.loading = true
           this.$router.push({ path: this.redirect || '/' })
-          // this.$store.dispatch('user/login', this.loginForm).then(() => {
-          //   this.loading = false
-          //   this.$router.push({ path: this.redirect || '/' })
-          // }).catch(err => {
-          //   this.loading = false
-          //   this.$message.error(err.toString())
-          // })
+          this.$store.dispatch('user/login', this.loginForm).then(() => {
+            this.loading = false
+            this.$router.push({ path: this.redirect || '/' })
+          }).catch(err => {
+            this.loading = false
+            this.$message.error(err.toString())
+          })
         } else {
           console.log('error submit!!')
           return false
