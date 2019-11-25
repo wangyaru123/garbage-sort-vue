@@ -169,11 +169,8 @@ export default {
     // 保存角色和权限关系信息
     saveRolesActionsInfo() {
       const ids = this.$refs['tree'].getCheckedKeys(true)
-      console.log(ids)
       saveRolesActionsInfo(this.dialogData.id, ids).then(res => {
         this.dialogVisible = false
-        this.dialogData = {}
-        this.checkedActions = []
         this.$message.success('保存成功')
         this.fetchData()
       }).catch(err => this.$message.error(err.toString()))
@@ -197,8 +194,7 @@ export default {
     // 点击确定按钮,保存角色信息
     submitClick() {
       if (this.dialogAction === 'add') this.addRolesInfo()
-      else if (this.dialogData.id > 6) this.editRolesInfoById()
-      else this.saveRolesActionsInfo()
+      else this.editRolesInfoById()
     },
     // 点击取消，隐藏弹窗
     cancel() {
