@@ -65,7 +65,7 @@ export function getItemById(id) {
 export function addItem() {
   return new Promise((resolve, reject) => {
     request({
-      url: `${ucenterUrl}/item`,
+      url: `${ucenterUrl}/item/`,
       method: 'post'
     }).then(result => resolve(result))
       .catch(error => reject(error))

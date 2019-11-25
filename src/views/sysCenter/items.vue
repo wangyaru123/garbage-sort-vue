@@ -40,7 +40,7 @@
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="130px" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.userId )"></el-button>
+          <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.id )"></el-button>
           <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.$index )"></el-button>
         </template>
       </el-table-column>
@@ -107,13 +107,13 @@ export default {
       // 一页显示多少条数据
       pageSize: 10,
       // 弹框回显报警信息数据
-      dialogData: { userId: '', username: '', name: '', mobile: '', email: '', sex: 0, address: '', projectId: '' },
+      dialogData: { id: '', username: '', name: '', mobile: '', email: '', sex: 0, address: '', projectId: '' },
       // 性别列表
       sexList: [{ sex: 0, des: '男' }, { sex: 1, des: '女' }],
       rolesList: [{ role: 1, des: '超级管理员' }, { role: 2, des: '系统管理员' }, { role: 3, des: '商家管理员' }],
       // 标记当前是编辑信息还是添加信息
       dialogAction: '',
-      userId: '',
+      id: '',
       // 验证规则
       rules: {
         username: [
@@ -166,7 +166,7 @@ export default {
     },
     // 编辑用户
     editItem() {
-      editItem(this.userId, this.dialogData).then(res => {
+      editItem(this.id, this.dialogData).then(res => {
         this.$message.success('修改成功')
         this.getItemByPage()
       }).catch(err => this.$message.error(err.toString()))
@@ -182,7 +182,7 @@ export default {
     addClick() {
       this.dialogVisible = true
       this.dialogAction = 'add'
-      this.dialogData = { userId: '', username: '', name: '', mobile: '', email: '', sex: 0, address: '', projectId: '', role: 1 }
+      this.dialogData = { id: '', username: '', name: '', mobile: '', email: '', sex: 0, address: '', projectId: '', role: 1 }
     },
     // 弹框的确定按钮
     submitClick() {
@@ -210,7 +210,7 @@ export default {
       this.dialogVisible = true
       this.dialogAction = 'edit'
       this.getItemById(id)
-      this.userId = id
+      this.id = id
     },
     deleteRow(index) {
       this.$confirm('此操作将删除该行, 是否删除?', '提示', {
