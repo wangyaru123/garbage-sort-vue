@@ -132,17 +132,6 @@ export default {
         console.log(this.treeData)
       }).catch(err => this.$message.error(err.toString()))
     },
-    // // 选择框全选
-    // handleCheckAllChange(val) {
-    //   this.checkedActions = val ? this.actionsList.map(item => item.name) : []
-    //   this.isIndeterminate = false
-    // },
-    // // 选择框单个选中
-    // handleCheckedCitiesChange(value) {
-    //   const checkedCount = value.length
-    //   this.checkAll = checkedCount === this.actionsList.length
-    //   this.isIndeterminate = checkedCount > 0 && checkedCount < this.actionsList.length
-    // },
     // 添加用户信息
     addClick() {
       this.dialogAction = 'add'
@@ -202,7 +191,7 @@ export default {
       this.dialogData = {}
       this.checkedActions = []
     },
-    // 删除单条已提交报警信息
+    // 删除
     deleteTableData(id) {
       deleteRolesInfoById(id).then(res => {
         this.$message.success('删除成功')

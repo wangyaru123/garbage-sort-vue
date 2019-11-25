@@ -2,7 +2,7 @@
   <!-- 项目管理 -->
   <div class="p-10">
     <el-button type="primary" size="small" round @click="addClick">添加项目</el-button>
-    <el-table :data="currentTableData" border stripe class="mt-10">
+    <el-table :data="tableData" border stripe class="mt-10">
       <el-table-column label="序号" fixed width="50px" type="index" align="center">
         <template slot-scope="scope">
           <span>{{ scope.$index + 1 }}</span>
@@ -10,7 +10,7 @@
       </el-table-column>
       <el-table-column label="项目名" fixed align="center" min-width="100px">
         <template slot-scope="scope">
-          <span>{{ scope.row.username}}</span>
+          <span>{{ scope.row.name}}</span>
         </template>
       </el-table-column>
       <el-table-column label="项目地址" fixed align="center">
@@ -18,14 +18,24 @@
           <span>{{ scope.row.address}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="项目管理员" fixed align="center">
+      <el-table-column label="项目简介" fixed align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.name}}</span>
+          <span>{{ scope.row.intro}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="管理员手机号" align="center" min-width="130px">
+      <el-table-column label="联系人" fixed align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.linkname}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="手机号" align="center" min-width="130px">
         <template slot-scope="scope">
           <span>{{ scope.row.mobile}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="联系邮箱" align="center" min-width="130px">
+        <template slot-scope="scope">
+          <span>{{ scope.row.email}}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="130px" align="center">
@@ -38,8 +48,8 @@
     <el-pagination
       class="mt-10 text-r"
       background
-      @size-change="fetchData"
-      @current-change="fetchData"
+      @size-change="getItemByPage"
+      @current-change="getItemByPage"
       :current-page.sync="currentPage"
       :page-sizes="[10, 20, 50, 100]"
       :page-size.sync="pageSize"
@@ -49,44 +59,23 @@
     <!-- 添加或编辑会员信息 -->
     <el-dialog :visible.sync="dialogVisible" title="请填写会员信息">
       <el-form label-position="right" label-width="140px" :model="dialogData" :rules="rules" ref="ruleForm">
-        <el-form-item label="账户：" prop="username">
-          <el-input v-model="dialogData.username"></el-input>
-        </el-form-item>
-        <el-form-item label="姓名：" prop="name">
+        <el-form-item label="项目名" prop="name">
           <el-input v-model="dialogData.name"></el-input>
         </el-form-item>
-        <el-form-item label="手机号码:" prop="mobile">
+        <el-form-item label="项目地址" prop="address">
+          <el-input v-model="dialogData.address"></el-input>
+        </el-form-item>
+        <el-form-item label="项目简介" prop="intro">
+          <el-input v-model="dialogData.intro"></el-input>
+        </el-form-item>
+        <el-form-item label="联系人" prop="linkname">
+          <el-input v-model="dialogData.linkname"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号" prop="mobile">
           <el-input v-model="dialogData.mobile"></el-input>
         </el-form-item>
-        <el-form-item label="角色：" prop="sex">
-          <el-radio
-            ref="sex"
-            v-model="dialogData.role"
-            v-for="item in rolesList"
-            :key="item.role"
-            :label="item.role"
-            name="roles"
-            auto-complete="on"
-          >{{item.des}}</el-radio>
-        </el-form-item>
-        <el-form-item label="性别：" prop="sex">
-          <el-radio
-            ref="sex"
-            v-model="dialogData.sex"
-            v-for="item in sexList"
-            :key="item.sex"
-            :label="item.sex"
-            name="sex"
-            auto-complete="on"
-          >{{item.des}}</el-radio>
-        </el-form-item>
-        <el-form-item label="邮箱:" prop="email">
+        <el-form-item label="联系邮箱" prop="email">
           <el-input v-model="dialogData.email"></el-input>
-        </el-form-item>
-        <el-form-item label="所属项目:" prop="projectId">
-          <el-select v-model="dialogData.projectId" placeholder="请选择" size="small">
-            <el-option v-for="item in projectList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
-          </el-select>
         </el-form-item>
         <div class="text-c">
           <el-button type="primary" size="medium" @click="submitClick">确定</el-button>
@@ -98,20 +87,17 @@
 </template>
 
 <script>
+import { getItemByPage, getItemById, addItem, editItem, deleteItem } from '@/api/sysCenter/item.js'
+
 export default {
   data() {
     return {
       // 查询条件
       projectId: '',
       // table所有数据
-      tableData: [
-        { userId: 1, username: '浙江试运营', name: '王一', role: 1, mobile: '15076541233', email: '2434243562@163.com', sex: 0, address: '浙江杭州', projectId: 1 },
-        { userId: 2, username: '安徽试运营', name: '张山', role: 2, mobile: '15076541231', email: '2434243561@163.com', sex: 0, address: '安徽合肥', projectId: 2 }
-      ],
-      // 当前tableData数据
-      currentTableData: [],
+      tableData: [],
       // 项目列表
-      projectList: [{ projectId: 1, projectName: '浙江试运营' }, { projectId: 2, projectName: '安徽试运营' }],
+      itemList: [],
       // 编辑报警信息弹框显示
       dialogVisible: false,
       // 表格总数据条数
@@ -155,15 +141,42 @@ export default {
     }
   },
   created() {
-    this.fetchData()
+    this.getItemByPage()
   },
   methods: {
     // 分页
-    fetchData() {
-      let tableData = this.tableData
-      if (this.projectId) tableData = tableData.filter(item => item.projectId === this.projectId)
-      this.currentTableData = tableData.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage)
-      this.total = this.currentTableData.length
+    getItemByPage() {
+      getItemByPage(this.currentPage, this.pageSize).then(res => {
+        this.tableData = res.list
+        this.total = res.total
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 根据id查询用户信息
+    getItemById(id) {
+      getItemById(id).then(res => {
+        this.dialogData = res
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 添加用户
+    addItem() {
+      addItem(this.dialogData).then(res => {
+        this.$message.success('添加成功')
+        this.getItemByPage()
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 编辑用户
+    editItem() {
+      editItem(this.userId, this.dialogData).then(res => {
+        this.$message.success('修改成功')
+        this.getItemByPage()
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 删除用户
+    deleteItem(id) {
+      deleteItem(id).then(res => {
+        this.$message.success('删除成功')
+        this.getItemByPage()
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 添加会员按钮
     addClick() {
@@ -177,12 +190,9 @@ export default {
       // 验证
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
-          if (this.dialogAction === 'add') {
-            const length = this.tableData.length
-            this.dialogData.userId = this.tableData[length - 1].userId + 1
-            this.tableData.push(this.dialogData)
-          } else this.tableData.splice(this.userId - 1, 1, this.dialogData)
-          this.fetchData()
+          if (this.dialogAction === 'add') this.addItem()
+          else this.editItem()
+          this.getItemByPage()
           this.dialogData = {}
         } else {
           this.$message.error('填写错误，添加失败')
@@ -196,21 +206,19 @@ export default {
       this.dialogData = {}
     },
     // 编辑
-    editRow(userId) {
+    editRow(id) {
       this.dialogVisible = true
       this.dialogAction = 'edit'
-      this.dialogData = this.tableData.find(item => item.userId === userId)
-      this.userId = userId
+      this.getItemById(id)
+      this.userId = id
     },
     deleteRow(index) {
       this.$confirm('此操作将删除该行, 是否删除?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        this.tableData.splice(index, 1)
-        this.fetchData()
-      }).catch(() => this.$message.info('取消删除'))
+      }).then(() => this.deleteItem())
+        .catch(() => this.$message.info('取消删除'))
     }
   }
 }

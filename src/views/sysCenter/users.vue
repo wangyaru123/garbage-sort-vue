@@ -42,7 +42,7 @@
         <template slot-scope="scope">
           <span>{{itemList.find(i=>{i.id===scope.row.itemId}).name}}</span>
         </template>
-      </el-table-column> -->
+      </el-table-column>-->
       <el-table-column label="状态" fixed="right" align="center" min-width="80px">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status?'success':'danger'">{{scope.row.status?'启用':'禁用'}}</el-tag>
@@ -50,9 +50,9 @@
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="250px" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.id )">信息</el-button>
-          <el-button type="success" size="mini" icon="el-icon-edit" @click="editRole( scope.row.id )">角色</el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.row.id )"></el-button>
+          <el-button v-if="scope.row.id!==1" type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.id )">信息</el-button>
+          <el-button v-if="scope.row.id!==1" type="success" size="mini" icon="el-icon-edit" @click="editRole( scope.row.id )">角色</el-button>
+          <el-button v-if="scope.row.id!==1" type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.row.id )"></el-button>
         </template>
       </el-table-column>
     </el-table>

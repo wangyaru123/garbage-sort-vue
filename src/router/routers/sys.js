@@ -31,9 +31,9 @@ const sysRouter = {
       }
     },
     {
-      path: 'projects',
-      name: 'SysCenter.Projects',
-      component: () => import('@/views/sysCenter/projects'),
+      path: 'items',
+      name: 'SysCenter.Items',
+      component: () => import('@/views/sysCenter/items'),
       meta: {
         title: '项目管理'
       }
