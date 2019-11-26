@@ -3,11 +3,11 @@
   <div class="p-10">
     <el-button type="primary" size="small" round @click="addClick">添加会员</el-button>
     <span>请选择项目查看：</span>
-    <el-select v-model="projectId" placeholder="请选择" size="small" @change="fetchData">
+    <el-select v-model="serachParams.id" placeholder="请选择" size="small" @change="getMemberByPage">
       <el-option :value="0" label="请选择"></el-option>
-      <el-option v-for="item in projectList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
+      <el-option v-for="item in itemList" :key="item.id" :value="item.id" :label="item.name"></el-option>
     </el-select>
-    <el-table :data="currentTableData" border stripe class="mt-10">
+    <el-table :data="tableData" border stripe class="mt-10">
       <el-table-column label="序号" fixed width="50px" type="index" align="center">
         <template slot-scope="scope">
           <span>{{ scope.$index + 1 }}</span>
@@ -45,12 +45,12 @@
       </el-table-column>
       <el-table-column label="所属项目" fixed="right" align="center" min-width="150px">
         <template slot-scope="scope">
-          <span>{{projectList.find(i=>i.projectId===scope.row.projectId).projectName}}</span>
+          <span>{{itemList.find(i=>i.id===scope.row.itemId).name}}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="130px" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.userId )"></el-button>
+          <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.id )"></el-button>
           <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.$index )"></el-button>
         </template>
       </el-table-column>
@@ -58,8 +58,8 @@
     <el-pagination
       class="mt-10 text-r"
       background
-      @size-change="fetchData"
-      @current-change="fetchData"
+      @size-change="getMemberByPage"
+      @current-change="getMemberByPage"
       :current-page.sync="currentPage"
       :page-sizes="[10, 20, 50, 100]"
       :page-size.sync="pageSize"
@@ -94,7 +94,7 @@
         </el-form-item>
         <el-form-item label="所属项目:" prop="projectId">
           <el-select v-model="dialogData.projectId" placeholder="请选择" size="small">
-            <el-option v-for="item in projectList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
+            <el-option v-for="item in itemList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
           </el-select>
         </el-form-item>
         <div class="text-c">
@@ -107,20 +107,19 @@
 </template>
 
 <script>
+import { getMemberByPage } from '@/api/memberCenter/info.js'
+// import { getMemberByPage } from '@/api/memberCenter/info.js'
+import { getAllItem } from '@/api/sysCenter/item.js'
+
 export default {
   data() {
     return {
       // 查询条件
       projectId: '',
       // table所有数据
-      tableData: [
-        { userId: 1, username: 'wangyi', name: '王一', mobile: '15076541233', email: '2434243562@163.com', sex: 0, address: '浙江杭州', projectId: 1 },
-        { userId: 2, username: 'zhangshan', name: '张山', mobile: '15076541231', email: '2434243561@163.com', sex: 0, address: '安徽合肥', projectId: 2 }
-      ],
-      // 当前tableData数据
-      currentTableData: [],
+      tableData: [],
       // 项目列表
-      projectList: [{ projectId: 1, projectName: '浙江试运营' }, { projectId: 2, projectName: '安徽试运营' }],
+      itemList: [],
       // 编辑报警信息弹框显示
       dialogVisible: false,
       // 表格总数据条数
@@ -135,7 +134,9 @@ export default {
       sexList: [{ sex: 0, des: '男' }, { sex: 1, des: '女' }],
       // 标记当前是编辑信息还是添加信息
       dialogAction: '',
-      userId: '',
+      id: '',
+      // 查询条件,id是项目id，condition是姓名或手机号
+      serachParams: { id: '', condition: '' },
       // 验证规则
       rules: {
         username: [
@@ -163,15 +164,24 @@ export default {
     }
   },
   created() {
-    this.fetchData()
+    this.getAllItem()
   },
   methods: {
+    // 获取项目列表
+    getAllItem() {
+      getAllItem().then(res => {
+        this.itemList = res
+        // 默认选中第一项
+        this.serachParams.id = res[0].id
+        this.getMemberByPage()
+      }).catch(err => this.$message.error(err.toString()))
+    },
     // 分页
-    fetchData() {
-      let tableData = this.tableData
-      if (this.projectId) tableData = tableData.filter(item => item.projectId === this.projectId)
-      this.currentTableData = tableData.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage)
-      this.total = this.currentTableData.length
+    getMemberByPage() {
+      getMemberByPage(this.currentPage, this.pageSize, this.serachParams).then(res => {
+        this.tableData = res.list
+        this.total = res.total
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 添加会员按钮
     addClick() {
@@ -190,7 +200,7 @@ export default {
             this.dialogData.userId = this.tableData[length - 1].userId + 1
             this.tableData.push(this.dialogData)
           } else this.tableData.splice(this.userId - 1, 1, this.dialogData)
-          this.fetchData()
+          this.getMemberByPage()
           this.dialogData = {}
         } else {
           this.$message.error('填写错误，添加失败')
@@ -217,7 +227,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.tableData.splice(index, 1)
-        this.fetchData()
+        this.getMemberByPage()
       }).catch(() => this.$message.info('取消删除'))
     }
   }
