@@ -28,11 +28,6 @@
           <span>{{ scope.row.mobile}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="性别" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.sex?'女':'男'}}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="邮箱" align="center" min-width="180px">
         <template slot-scope="scope">
           <span>{{ scope.row.email}}</span>
@@ -43,15 +38,15 @@
           <span>{{ scope.row.address}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="所属项目" fixed="right" align="center" min-width="150px">
+      <!-- <el-table-column label="所属项目" fixed="right" align="center" min-width="150px">
         <template slot-scope="scope">
           <span>{{itemList.find(i=>i.id===scope.row.itemId).name}}</span>
         </template>
-      </el-table-column>
+      </el-table-column>-->
       <el-table-column label="操作" fixed="right" width="130px" align="center">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.id )"></el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.$index )"></el-button>
+          <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.row.id )"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -75,17 +70,6 @@
         <el-form-item label="姓名：" prop="name">
           <el-input v-model="dialogData.name"></el-input>
         </el-form-item>
-        <el-form-item label="性别：" prop="sex">
-          <el-radio
-            ref="sex"
-            v-model="dialogData.sex"
-            v-for="item in sexList"
-            :key="item.sex"
-            :label="item.sex"
-            name="sex"
-            auto-complete="on"
-          >{{item.des}}</el-radio>
-        </el-form-item>
         <el-form-item label="手机号码:" prop="mobile">
           <el-input v-model="dialogData.mobile"></el-input>
         </el-form-item>
@@ -93,9 +77,12 @@
           <el-input v-model="dialogData.email"></el-input>
         </el-form-item>
         <el-form-item label="所属项目:" prop="projectId">
-          <el-select v-model="dialogData.projectId" placeholder="请选择" size="small">
-            <el-option v-for="item in itemList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
+          <el-select v-model="dialogData.itemId" placeholder="请选择" size="small">
+            <el-option v-for="item in itemList" :key="item.id" :value="item.id" :label="item.name"></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="地址:" prop="email">
+          <el-input v-model="dialogData.address"></el-input>
         </el-form-item>
         <div class="text-c">
           <el-button type="primary" size="medium" @click="submitClick">确定</el-button>
@@ -108,7 +95,7 @@
 
 <script>
 import { getMemberByPage } from '@/api/memberCenter/info.js'
-// import { getMemberByPage } from '@/api/memberCenter/info.js'
+import { getUserInfoById, addUser, editUser, deleteUserInfoById } from '@/api/sysCenter/users.js'
 import { getAllItem } from '@/api/sysCenter/item.js'
 
 export default {
@@ -134,9 +121,9 @@ export default {
       sexList: [{ sex: 0, des: '男' }, { sex: 1, des: '女' }],
       // 标记当前是编辑信息还是添加信息
       dialogAction: '',
-      id: '',
+      userId: '',
       // 查询条件,id是项目id，condition是姓名或手机号
-      serachParams: { id: '', condition: '' },
+      serachParams: { id: '' },
       // 验证规则
       rules: {
         username: [
@@ -156,9 +143,6 @@ export default {
         ],
         address: [
           { required: true, message: '请输入地址', trigger: 'blur' }
-        ],
-        projectId: [
-          { required: true, message: '请选择项目', trigger: 'blur' }
         ]
       }
     }
@@ -183,11 +167,40 @@ export default {
         this.total = res.total
       }).catch(err => this.$message.error(err.toString()))
     },
+    // 根据id查询用户信息
+    getUserInfoById(id) {
+      getUserInfoById(id).then(res => {
+        this.dialogData = res
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 添加用户
+    addUser() {
+      this.dialogData.utype = 101002
+      this.dialogData.status = true
+      addUser(this.dialogData).then(res => {
+        this.$message.success('添加成功')
+        this.getMemberByPage()
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 编辑用户
+    editUser() {
+      editUser(this.userId, this.dialogData).then(res => {
+        this.$message.success('修改成功')
+        this.getMemberByPage()
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 删除用户
+    deleteUserInfoById(id) {
+      deleteUserInfoById(id).then(res => {
+        this.$message.success('删除成功')
+        this.getMemberByPage()
+      }).catch(err => this.$message.error(err.toString()))
+    },
     // 添加会员按钮
     addClick() {
       this.dialogVisible = true
       this.dialogAction = 'add'
-      this.dialogData = { userId: '', username: '', name: '', mobile: '', email: '', sex: 0, address: '', projectId: '' }
+      this.dialogData = { id: '', username: '', name: '', mobile: '', email: '', sex: 0, address: '', projectId: '' }
     },
     // 弹框的确定按钮
     submitClick() {
@@ -195,11 +208,8 @@ export default {
       // 验证
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
-          if (this.dialogAction === 'add') {
-            const length = this.tableData.length
-            this.dialogData.userId = this.tableData[length - 1].userId + 1
-            this.tableData.push(this.dialogData)
-          } else this.tableData.splice(this.userId - 1, 1, this.dialogData)
+          if (this.dialogAction === 'add') this.addUser()
+          else this.editUser()
           this.getMemberByPage()
           this.dialogData = {}
         } else {
@@ -214,21 +224,19 @@ export default {
       this.dialogData = {}
     },
     // 编辑
-    editRow(userId) {
+    editRow(id) {
       this.dialogVisible = true
       this.dialogAction = 'edit'
-      this.dialogData = this.tableData.find(item => item.userId === userId)
-      this.userId = userId
+      this.getUserInfoById(id)
+      this.userId = id
     },
-    deleteRow(index) {
+    deleteRow(id) {
       this.$confirm('此操作将删除该行, 是否删除?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        this.tableData.splice(index, 1)
-        this.getMemberByPage()
-      }).catch(() => this.$message.info('取消删除'))
+      }).then(() => this.deleteUserInfoById(id))
+        .catch(() => this.$message.info('取消删除'))
     }
   }
 }
