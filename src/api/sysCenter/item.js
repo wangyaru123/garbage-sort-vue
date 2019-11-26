@@ -62,11 +62,12 @@ export function getItemById(id) {
  * @param {*} params
  * @returns
  */
-export function addItem() {
+export function addItem(params) {
   return new Promise((resolve, reject) => {
     request({
       url: `${ucenterUrl}/item/`,
-      method: 'post'
+      method: 'post',
+      data: params
     }).then(result => resolve(result))
       .catch(error => reject(error))
   })

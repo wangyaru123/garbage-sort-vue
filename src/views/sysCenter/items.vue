@@ -41,7 +41,7 @@
       <el-table-column label="操作" fixed="right" width="130px" align="center">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.id )"></el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.$index )"></el-button>
+          <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.row.id )"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -212,12 +212,12 @@ export default {
       this.getItemById(id)
       this.id = id
     },
-    deleteRow(index) {
+    deleteRow(id) {
       this.$confirm('此操作将删除该行, 是否删除?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => this.deleteItem())
+      }).then(() => this.deleteItem(id))
         .catch(() => this.$message.info('取消删除'))
     }
   }
