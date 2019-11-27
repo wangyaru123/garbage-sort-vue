@@ -85,7 +85,7 @@ export default {
                 offset: [5, -2],
                 textStyle: {
                   color: '#F68300',
-                  fontSize: 13
+                  fontSize: 14
                 }
               }
             },
@@ -95,9 +95,6 @@ export default {
                 color: new this.$echarts.graphic.LinearGradient(
                   0, 0, 1, 0,
                   [
-                    // { offset: 0, color: '#83bff6' },
-                    // { offset: 0.5, color: '#188df0' },
-                    // { offset: 1, color: '#188df0' }
                     { offset: 0, color: '#3977E6' },
                     { offset: 1, color: '#0DF6C6' }
                   ]
@@ -105,14 +102,6 @@ export default {
               },
               emphasis: {
                 barBorderRadius: 7
-                //   color: new this.$echarts.graphic.LinearGradient(
-                //     0, 0, 1, 0,
-                //     [
-                //       { offset: 0, color: '#2378f7' },
-                //       { offset: 0.7, color: '#2378f7' },
-                //       { offset: 1, color: '#83bff6' }
-                //     ]
-                //   )
               }
             },
             data: [12123, 19389, 22934, 30490, 43744, 53020]
