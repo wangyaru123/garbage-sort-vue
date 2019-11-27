@@ -27,7 +27,7 @@ export default {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c}' + 'kg' + ' ({d}%)'
         },
-        color: ['#F9A459', '#BDD947', '#51D297', '#878BBC'],
+        color: ['#409EFF', '#BDD947', '#15DFCC', '#878BBC'],
         // backgroundColor: '#001F32',
         // stillShowZeroSum: false,
         series: [
@@ -37,8 +37,8 @@ export default {
             radius: ['45%', '60%'],
             center: ['50%', '50%'],
             data: [
-              { name: '纸类制品', value: 154 },
-              { name: '金属制品', value: 109 },
+              { name: '纸类制品', value: 354 },
+              { name: '金属制品', value: 409 },
               { name: '布料制品', value: 572 },
               { name: '塑料制品', value: 254 }
             ],

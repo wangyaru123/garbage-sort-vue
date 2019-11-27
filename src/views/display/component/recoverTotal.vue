@@ -27,7 +27,7 @@ export default {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c}' + 'kg' + ' ({d}%)'
         },
-        color: ['#F9A459', '#BDD947', '#51D297', '#878BBC'],
+        color: ['#409EFF', '#BDD947', '#15DFCC', '#878BBC'],
         // backgroundColor: '#001F32',
         // stillShowZeroSum: false,
         series: [
