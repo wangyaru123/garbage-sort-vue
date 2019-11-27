@@ -6,7 +6,21 @@
     <div class="corner bottom-left-corner"></div>
     <div class="corner bottom-right-corner"></div>
     <div class="content">
-      <div :id="chartId" class="map-style"></div>
+      <el-row>
+        <el-col :span="4">
+          <el-card>
+            覆盖人数
+            <h3 class="text-r">869532</h3>
+          </el-card>
+          <el-card class="mt-10">
+            覆盖小区
+            <h3 class="text-r">58637</h3>
+          </el-card>
+        </el-col>
+        <el-col :span="20">
+          <div :id="chartId" class="map-style"></div>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
@@ -711,6 +725,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.content /deep/ .el-card {
+  border: 0;
+  color: #fff;
+  background: -webkit-linear-gradient(right, #009fff, #064975, #001e31);
+}
 .map-style {
   width: 100%;
   height: 100%;
@@ -757,5 +776,12 @@ export default {
   width: 100%;
   height: 100%;
   padding: 10px;
+}
+.content /deep/ .el-row {
+  width: 100%;
+  height: 100%;
+}
+.content /deep/ .el-col {
+  height: 100%;
 }
 </style>
