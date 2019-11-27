@@ -38,7 +38,15 @@ export default {
           axisLabel: {
             show: true,
             textStyle: {
-              color: '#fff'
+              color: '#77b1ee'
+            }
+          },
+          splitLine: {
+            show: false,
+            lineStyle: {
+              color: ['#124667'],
+              width: 1,
+              type: 'solid'
             }
           }
         },
@@ -48,15 +56,66 @@ export default {
           axisLabel: {
             show: true,
             textStyle: {
-              color: '#fff'
+              color: '#77b1ee'
             }
           }
         },
         series: [
+          // {
+          //   type: 'bar',
+          //   data: [1823, 12389, 22934, 30490, 43744, 53020]
+          // },
+          // {
+          //   type: 'bar',
+          //   itemStyle: {
+          //     normal: { color: 'rgba(0,0,0,0.05)' }
+          //   },
+          //   barGap: '-100%',
+          //   barCategoryGap: '40%',
+          //   data: [60000, 60000, 60000, 60000, 60000, 60000],
+          //   animation: false
+          // },
           {
-            name: '2011年',
             type: 'bar',
-            data: [1823, 12389, 22934, 30490, 43744, 53020]
+            barWidth: 20,
+            label: {
+              normal: {
+                show: true,
+                position: 'right',
+                offset: [5, -2],
+                textStyle: {
+                  color: '#F68300',
+                  fontSize: 13
+                }
+              }
+            },
+            itemStyle: {
+              normal: {
+                barBorderRadius: 7,
+                color: new this.$echarts.graphic.LinearGradient(
+                  0, 0, 1, 0,
+                  [
+                    // { offset: 0, color: '#83bff6' },
+                    // { offset: 0.5, color: '#188df0' },
+                    // { offset: 1, color: '#188df0' }
+                    { offset: 0, color: '#3977E6' },
+                    { offset: 1, color: '#0DF6C6' }
+                  ]
+                )
+              },
+              emphasis: {
+                barBorderRadius: 7
+                //   color: new this.$echarts.graphic.LinearGradient(
+                //     0, 0, 1, 0,
+                //     [
+                //       { offset: 0, color: '#2378f7' },
+                //       { offset: 0.7, color: '#2378f7' },
+                //       { offset: 1, color: '#83bff6' }
+                //     ]
+                //   )
+              }
+            },
+            data: [12123, 19389, 22934, 30490, 43744, 53020]
           }
         ]
       }

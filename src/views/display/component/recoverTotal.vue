@@ -34,7 +34,7 @@ export default {
           {
             name: '今日统计',
             type: 'pie',
-            radius: ['35%', '60%'],
+            radius: ['45%', '60%'],
             center: ['50%', '50%'],
             data: [
               { name: '纸类制品', value: 1540 },

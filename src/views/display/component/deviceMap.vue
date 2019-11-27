@@ -717,7 +717,7 @@ export default {
   // padding: 20px;
 }
 .main-style {
-  background-color: #001e31;
+  // background-color: #001e31;
   width: 100%;
   height: 100%;
   position: relative;
