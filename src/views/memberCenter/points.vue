@@ -123,7 +123,7 @@ export default {
         this.getMemberPointsByPage()
       }).catch(err => this.$message.error(err.toString()))
     },
-    // 分页查询会员信息
+    // 分页查询信息
     getMemberPointsByPage() {
       getMemberPointsByPage(this.currentPage, this.pageSize, this.serachParams).then(res => {
         this.tableData = res.list

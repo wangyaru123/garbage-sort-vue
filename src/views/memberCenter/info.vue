@@ -107,7 +107,7 @@ export default {
       tableData: [],
       // 项目列表
       itemList: [],
-      // 编辑报警信息弹框显示
+      // 编辑弹框显示
       dialogVisible: false,
       // 表格总数据条数
       total: 0,
@@ -115,7 +115,7 @@ export default {
       currentPage: 1,
       // 一页显示多少条数据
       pageSize: 10,
-      // 弹框回显报警信息数据
+      // 弹框数据
       dialogData: { userId: '', username: '', name: '', mobile: '', email: '', sex: 0, address: '', projectId: '' },
       // 性别列表
       sexList: [{ sex: 0, des: '男' }, { sex: 1, des: '女' }],

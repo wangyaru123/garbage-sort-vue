@@ -87,7 +87,7 @@ export default {
       itemList: [],
       // 查询条件
       serachParams: { id: '' },
-      // 编辑报警信息弹框显示
+      // 编辑弹框显示
       dialogVisible: false,
       // 表格总数据条数
       total: 0,
@@ -95,7 +95,7 @@ export default {
       currentPage: 1,
       // 一页显示多少条数据
       pageSize: 10,
-      // 弹框回显报警信息数据
+      // 弹框数据
       dialogData: { id: '', username: 'zhangshan', name: '张山', mobile: '15076541231', card: '', projectId: '' },
       id: ''
     }

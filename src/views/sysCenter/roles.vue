@@ -85,11 +85,11 @@ export default {
   },
   data() {
     return {
-      // 编辑报警信息弹框显示
+      // 编辑弹框显示
       dialogVisible: false,
       // 角色表格数据
       tableData: [],
-      // 弹框回显角色信息数据
+      // 弹框数据
       dialogData: {},
       // 标记当前是编辑信息还是添加信息
       dialogAction: 'add',
