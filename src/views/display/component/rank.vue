@@ -29,6 +29,7 @@ export default {
         grid: {
           left: '3%',
           right: '4%',
+          top: '3%',
           bottom: '3%',
           containLabel: true
         },
@@ -77,7 +78,7 @@ export default {
           // },
           {
             type: 'bar',
-            barWidth: 20,
+            barWidth: '50%',
             label: {
               normal: {
                 show: true,

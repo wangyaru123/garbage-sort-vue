@@ -28,6 +28,13 @@ export default {
           formatter: '{a} <br/>{b} : {c}' + 'kg' + ' ({d}%)'
         },
         color: ['#409EFF', '#BDD947', '#15DFCC', '#878BBC'],
+        grid: {
+          left: '3%',
+          right: '4%',
+          top: '3%',
+          bottom: '3%',
+          containLabel: true
+        },
         // backgroundColor: '#001F32',
         // stillShowZeroSum: false,
         series: [
