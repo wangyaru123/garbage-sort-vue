@@ -2,11 +2,11 @@
   <!-- 设备记录 -->
   <div class="p-10">
     <span>所属项目：</span>
-    <el-select v-model="projectId" placeholder="请选择" size="small" @change="fetchData">
-      <el-option :value="0" label="请选择"></el-option>
-      <el-option v-for="item in projectList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
+    <el-select v-model="serachParams.id" placeholder="请选择" size="small" @change="getMachineRecordByPage">
+      <el-option value="0" label="请选择"></el-option>
+      <el-option v-for="item in itemList" :key="item.id" :value="item.id" :label="item.name"></el-option>
     </el-select>
-    <el-table :data="currentTableData" border stripe class="mt-10">
+    <el-table :data="tableData" border stripe class="mt-10">
       <el-table-column label="序号" fixed width="50px" type="index" align="center">
         <template slot-scope="scope">
           <span>{{ scope.$index + 1 }}</span>
@@ -46,8 +46,8 @@
     <el-pagination
       class="mt-10 text-r"
       background
-      @size-change="fetchData"
-      @current-change="fetchData"
+      @size-change="getMachineRecordByPage"
+      @current-change="getMachineRecordByPage"
       :current-page.sync="currentPage"
       :page-sizes="[10, 20, 50, 100]"
       :page-size.sync="pageSize"
@@ -70,21 +70,24 @@
 </template>
 
 <script>
+import { getMachineRecordByPage, addMachineRecord } from '@/api/deviceCenter/record.js'
+import { getAllItem } from '@/api/sysCenter/item.js'
+
 export default {
   data() {
     return {
       // 查询条件
-      projectId: '',
+      id: '',
       // table所有数据
       tableData: [
         { name: '王一', produceAction: '设备回收', recoverCategory: '纸品', weight: 50, deviceCode: '13254683', produceTime: '2019-11-12' },
         { name: '张山', produceAction: '设备回收', recoverCategory: '玻璃', weight: 40, deviceCode: '13254681', produceTime: '2019-11-15' }
       ],
-      // 当前tableData数据
-      currentTableData: [],
       // 项目列表
-      projectList: [{ projectId: 1, projectName: '浙江试运营' }, { projectId: 2, projectName: '安徽试运营' }],
-      // 编辑报警信息弹框显示
+      itemList: [],
+      // 查询条件
+      serachParams: { id: '' },
+      // 编辑弹框显示
       dialogVisible: false,
       // 表格总数据条数
       total: 0,
@@ -92,27 +95,43 @@ export default {
       currentPage: 1,
       // 一页显示多少条数据
       pageSize: 10,
-      // 弹框回显报警信息数据
-      dialogData: { userId: '', username: 'zhangshan', name: '张山', mobile: '15076541231', card: '', projectId: '' },
+      // 弹框数据
+      dialogData: {},
       userId: ''
     }
   },
   created() {
-    this.fetchData()
+    this.getAllItem()
   },
   methods: {
+    // 获取项目列表
+    getAllItem() {
+      getAllItem().then(res => {
+        this.itemList = res
+        // 默认选中第一项
+        this.serachParams.id = res[0].id
+        this.getMachineRecordByPage()
+      }).catch(err => this.$message.error(err.toString()))
+    },
     // 分页
-    fetchData() {
-      let tableData = this.tableData
-      if (this.projectId) tableData = tableData.filter(item => item.projectId === this.projectId)
-      this.currentTableData = tableData.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage)
-      this.total = this.currentTableData.length
+    getMachineRecordByPage() {
+      getMachineRecordByPage(this.currentPage, this.pageSize, this.serachParams).then(res => {
+        this.tableData = res.list
+        this.total = res.total
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 添加设备
+    addMachineRecord() {
+      addMachineRecord(this.dialogData).then(res => {
+        this.$message.success('添加成功')
+        this.getMachineByPage()
+      }).catch(err => this.$message.error(err.toString()))
     },
     // 弹框的确定按钮
     submitClick() {
       this.dialogVisible = false
       this.tableData.find(item => item.userId === this.userId).card = this.dialogData.card
-      this.fetchData()
+      this.getMachineRecordByPage()
       this.dialogData = {}
     },
     // 弹框的取消按钮

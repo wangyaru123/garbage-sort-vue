@@ -5,7 +5,7 @@ const ucenterUrl = process.env.VUE_APP_HTTP_UCENTER
 // #region 用户信息相关的接口
 
 /**
- * 分页查询用户非敏感信息
+ * 分页查询用户信息
  *
  * @export getUserInfoByPage
  * @param {*} params { page: '1', size: '10' }
@@ -22,7 +22,7 @@ export function getUserInfoByPage(page, size) {
 }
 
 /**
- * 查询单条用户非敏感信息
+ * 查询单条用户信息
  *
  * @export getUserInfoById
  * @param {*} params
