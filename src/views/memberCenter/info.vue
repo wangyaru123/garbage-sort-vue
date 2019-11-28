@@ -127,7 +127,7 @@ export default {
       // 验证规则
       rules: {
         username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' }
+          { required: true, message: '请输入会员名', trigger: 'blur' }
         ],
         name: [
           { required: true, message: '请选择姓名', trigger: 'blur' }
@@ -160,20 +160,20 @@ export default {
         this.getMemberByPage()
       }).catch(err => this.$message.error(err.toString()))
     },
-    // 分页
+    // 分页查询会员信息
     getMemberByPage() {
       getMemberByPage(this.currentPage, this.pageSize, this.serachParams).then(res => {
         this.tableData = res.list
         this.total = res.total
       }).catch(err => this.$message.error(err.toString()))
     },
-    // 根据id查询用户信息
+    // 根据id查询会员信息
     getUserInfoById(id) {
       getUserInfoById(id).then(res => {
         this.dialogData = res
       }).catch(err => this.$message.error(err.toString()))
     },
-    // 添加用户
+    // 添加会员
     addUser() {
       this.dialogData.utype = 101002
       this.dialogData.status = true
@@ -182,14 +182,14 @@ export default {
         this.getMemberByPage()
       }).catch(err => this.$message.error(err.toString()))
     },
-    // 编辑用户
+    // 编辑会员
     editUser() {
       editUser(this.userId, this.dialogData).then(res => {
         this.$message.success('修改成功')
         this.getMemberByPage()
       }).catch(err => this.$message.error(err.toString()))
     },
-    // 删除用户
+    // 删除会员
     deleteUserInfoById(id) {
       deleteUserInfoById(id).then(res => {
         this.$message.success('删除成功')

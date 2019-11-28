@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 const ucenterUrl = process.env.VUE_APP_HTTP_UCENTER
 
-// #region 用户信息相关的接口
+// #region 会员信息相关的接口
 
 /**
  * 多条件查询会员信息
