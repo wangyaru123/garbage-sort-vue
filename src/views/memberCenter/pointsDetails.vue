@@ -3,7 +3,7 @@
   <div class="p-10">
     <span>所属项目：</span>
     <el-select v-model="projectId" placeholder="请选择" size="small" @change="fetchData">
-      <el-option :value="0" label="请选择"></el-option>
+      <el-option value="0" label="请选择"></el-option>
       <el-option v-for="item in projectList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
     </el-select>
     <!-- <span>积分类型：</span>

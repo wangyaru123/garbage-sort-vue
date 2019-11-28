@@ -4,7 +4,7 @@
     <el-button type="primary" size="small" round @click="addClick">添加会员</el-button>
     <span>请选择项目查看：</span>
     <el-select v-model="serachParams.id" placeholder="请选择" size="small" @change="getMemberByPage">
-      <el-option :value="0" label="请选择"></el-option>
+      <el-option value="0" label="请选择"></el-option>
       <el-option v-for="item in itemList" :key="item.id" :value="item.id" :label="item.name"></el-option>
     </el-select>
     <el-table :data="tableData" border stripe class="mt-10">

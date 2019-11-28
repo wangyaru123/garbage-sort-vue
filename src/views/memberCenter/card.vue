@@ -3,7 +3,7 @@
   <div class="p-10">
     <span>请选择项目查看：</span>
     <el-select v-model="serachParams.id" placeholder="请选择" size="small" @change="getMemberCardByPage">
-      <el-option :value="0" label="请选择"></el-option>
+      <el-option value="0" label="请选择"></el-option>
       <el-option v-for="item in itemList" :key="item.id" :value="item.id" :label="item.name"></el-option>
     </el-select>
     <el-table :data="tableData" border stripe class="mt-10">
@@ -83,8 +83,6 @@ export default {
         // { id: 1, username: 'wangyi', name: '王一', mobile: '15076541233', card: '32456234', projectId: 1 },
         // { id: 2, username: 'zhangshan', name: '张山', mobile: '15076541231', card: '32456230', projectId: 2 }
       ],
-      // 当前tableData数据
-      currentTableData: [],
       // 项目列表
       itemList: [],
       // 查询条件
