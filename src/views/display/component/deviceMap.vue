@@ -6,7 +6,19 @@
     <div class="corner bottom-left-corner"></div>
     <div class="corner bottom-right-corner"></div>
     <div class="content">
-      <div :id="chartId" class="map-style"></div>
+      <el-row>
+        <el-col :span="6">
+          <div class="border-animat text-c">
+            <p style="color:#ccc">覆盖人数</p>
+            <h3>869532</h3>
+            <p style="color:#ccc" class="mt-20">覆盖小区</p>
+            <h3>58637</h3>
+          </div>
+        </el-col>
+        <el-col :span="18">
+          <div :id="chartId" class="map-style"></div>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
@@ -711,13 +723,64 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.border-animat {
+  width: 180px;
+  height: 180px;
+  padding: 10px;
+  margin: auto;
+  border: 0;
+  color: #fff;
+  background: -webkit-linear-gradient(right, #009fff, #064975, #001e31);
+}
+.border-animat {
+  position: absolute;
+  top: -45%;
+  bottom: 0;
+  left: -68%;
+  right: 0;
+}
+.border-animat::before,
+.border-animat::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.border-animat::before,
+.border-animat::after {
+  content: "";
+  z-index: 10000;
+  margin: 0;
+  color: #38f1fc;
+  box-shadow: inset 0 0 0 2px;
+  animation: clipMe 4s linear infinite;
+}
+.border-animat::before {
+  animation-delay: -2s;
+}
+@keyframes clipMe {
+  0%,
+  100% {
+    clip: rect(0px, 200px, -18px, 0px);
+  }
+  25% {
+    clip: rect(0px, 0px, 200px, 0px);
+  }
+  50% {
+    clip: rect(198px, 200px, 200px, 0px);
+  }
+  75% {
+    clip: rect(0px, 200px, 200px, 198px);
+  }
+}
 .map-style {
   width: 100%;
   height: 100%;
   // padding: 20px;
 }
 .main-style {
-  background-color: #001e31;
+  // background-color: #001e31;
   width: 100%;
   height: 100%;
   position: relative;
@@ -757,5 +820,12 @@ export default {
   width: 100%;
   height: 100%;
   padding: 10px;
+}
+.content /deep/ .el-row {
+  width: 100%;
+  height: 100%;
+}
+.content /deep/ .el-col {
+  height: 100%;
 }
 </style>

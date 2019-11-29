@@ -29,6 +29,7 @@ export default {
         grid: {
           left: '3%',
           right: '4%',
+          top: '3%',
           bottom: '3%',
           containLabel: true
         },
@@ -38,25 +39,70 @@ export default {
           axisLabel: {
             show: true,
             textStyle: {
-              color: '#fff'
+              color: '#77b1ee'
             }
+          },
+          splitLine: {
+            show: false
           }
         },
         yAxis: {
           type: 'category',
+          offset: 10,
           data: ['杭州凤起小区', '杭州高沙小区', '杭州下沙小区', '杭州云水小区', '广州龙湖小区', '苏州名苑小区'],
           axisLabel: {
             show: true,
             textStyle: {
-              color: '#fff'
+              color: '#77b1ee'
             }
           }
         },
         series: [
+          // {
+          //   type: 'bar',
+          //   data: [1823, 12389, 22934, 30490, 43744, 53020]
+          // },
+          // {
+          //   type: 'bar',
+          //   itemStyle: {
+          //     normal: { color: 'rgba(0,0,0,0.05)' }
+          //   },
+          //   barGap: '-100%',
+          //   barCategoryGap: '40%',
+          //   data: [60000, 60000, 60000, 60000, 60000, 60000],
+          //   animation: false
+          // },
           {
-            name: '2011年',
             type: 'bar',
-            data: [1823, 12389, 22934, 30490, 43744, 53020]
+            barWidth: '50%',
+            smooth: true,
+            label: {
+              normal: {
+                show: true,
+                position: 'right',
+                offset: [2, 2],
+                textStyle: {
+                  color: '#F68300'
+                  // fontSize: 14
+                }
+              }
+            },
+            itemStyle: {
+              normal: {
+                barBorderRadius: 8,
+                color: new this.$echarts.graphic.LinearGradient(
+                  0, 0, 1, 0,
+                  [
+                    { offset: 0, color: '#3977E6' },
+                    { offset: 1, color: '#0DF6C6' }
+                  ]
+                )
+              },
+              emphasis: {
+                barBorderRadius: 8
+              }
+            },
+            data: [12123, 19389, 22934, 30490, 43744, 53020]
           }
         ]
       }

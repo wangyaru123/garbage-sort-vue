@@ -40,7 +40,7 @@ export default {
             axisLabel: {
               show: true,
               textStyle: {
-                color: '#fff'
+                color: '#77b1ee'
               },
               interval: 0,
               rotate: 40
@@ -53,11 +53,11 @@ export default {
             axisLabel: {
               show: true,
               textStyle: {
-                color: '#fff'
+                color: '#77b1ee'
               }
             },
             splitLine: {
-              show: true,
+              show: false,
               lineStyle: {
                 color: ['#124667'],
                 width: 1,
@@ -70,18 +70,29 @@ export default {
           {
             name: '直接访问',
             type: 'bar',
-            barWidth: '60%',
+            barWidth: 30,
             data: [623, 146, 543, 235],
             itemStyle: {
               normal: {
                 label: {
                   show: true,
-                  position: 'insideTop',
+                  position: 'top',
                   textStyle: {
-                    color: '#fff',
-                    fontSize: 16
+                    color: '#1FC1D3',
+                    fontSize: 13
                   }
-                }
+                },
+                barBorderRadius: 7,
+                color: new this.$echarts.graphic.LinearGradient(
+                  0, 0, 1, 0,
+                  [
+                    { offset: 0, color: '#3977E6' },
+                    { offset: 1, color: '#0DF6C6' }
+                  ]
+                )
+              },
+              emphasis: {
+                barBorderRadius: 7
               }
             }
           }

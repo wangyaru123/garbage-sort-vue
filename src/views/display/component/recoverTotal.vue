@@ -27,14 +27,21 @@ export default {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c}' + 'kg' + ' ({d}%)'
         },
-        color: ['#F9A459', '#BDD947', '#51D297', '#878BBC'],
+        color: ['#409EFF', '#BDD947', '#15DFCC', '#878BBC'],
+        grid: {
+          left: '3%',
+          right: '4%',
+          top: '3%',
+          bottom: '3%',
+          containLabel: true
+        },
         // backgroundColor: '#001F32',
         // stillShowZeroSum: false,
         series: [
           {
             name: '今日统计',
             type: 'pie',
-            radius: ['35%', '60%'],
+            radius: ['45%', '60%'],
             center: ['50%', '50%'],
             data: [
               { name: '纸类制品', value: 1540 },
