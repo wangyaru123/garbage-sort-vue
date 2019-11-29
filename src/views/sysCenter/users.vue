@@ -231,7 +231,7 @@ export default {
     addClick() {
       this.dialogVisible = true
       this.dialogAction = 'add'
-      this.dialogData = { id: '', username: '', name: '', mobile: '', email: '', itemId: '' }
+      this.dialogData = { id: '', username: '', name: '', mobile: '', email: '', itemId: '', status: true }
     },
     // 用户信息弹框的确定按钮
     submitClick() {
