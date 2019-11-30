@@ -86,6 +86,7 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
     ></el-pagination>
+    <span>{{mqttData}}</span>
     <!-- 添加或编辑会员信息 -->
     <el-dialog :visible.sync="dialogVisible" title="请填写会员信息">
       <el-form label-position="right" label-width="140px" :model="dialogData" :rules="rules" ref="ruleForm">
@@ -119,6 +120,7 @@
 <script>
 import { getMachineByPage, getMachineById, addMachine, editMachine, deleteMachine } from '@/api/deviceCenter/info.js'
 import { getAllItem } from '@/api/sysCenter/item.js'
+import mqtt from 'mqtt'
 
 export default {
   data() {
@@ -157,13 +159,92 @@ export default {
         deployAddress: [
           { required: true, message: '请输入安装地点', trigger: 'blur' }
         ]
-      }
+      },
+      // *** mqtt ***
+      mqttConf: {
+        client: '',
+        addr: 'ws://47.99.219.161:8083/mqtt',
+        theme: 'datatransmit',
+        options: {
+          port: 8083,
+          connectTimeout: 40000,
+          clientId: '35e1acdbc2664baca8da1701eac58874',
+          username: 'admin',
+          password: 'public',
+          clean: true
+        }
+      },
+      mqttData: {}
     }
+  },
+  mounted: function () {
+    this.mqttOperate() // 初始设备
   },
   created() {
     this.getAllItem()
   },
+  beforeDestroy() {
+    this.mqttConf.client.end() // 关闭订阅
+  },
   methods: {
+    mqttOperate() { // mqtt
+      // 连接mqtt
+      console.log(this.mqttConf.addr)
+      this.mqttConf.client = mqtt.connect(this.mqttConf.addr, this.mqttConf.options)
+      // 订阅
+      this.mqttConf.client.on('connect', (e) => {
+        console.log('连接成功：' + this.mqttConf.addr)
+        this.mqttConf.client.subscribe(this.mqttConf.theme, { qos: 1 }, (error) => {
+          if (!error) {
+            console.log('订阅成功：订阅主题【' + this.mqttConf.theme + '】')
+          } else {
+            console.log('订阅失败：' + error)
+          }
+        })
+      })
+      // 接收消息处理
+      const that = this
+      this.mqttConf.client.on('message', function (topic, message) {
+        console.log('订阅的消息:' + message.toString()) // 打印消息内容
+        try {
+          that.mqttData = JSON.parse(message.toString())
+        } catch (e) {
+        }
+      })
+      // 断开发起重连
+      this.mqttConf.client.on('reconnect', (error) => {
+        console.log('xxy 正在重连:', error)
+      })
+      // 链接异常处理
+      this.mqttConf.client.on('error', (error) => {
+        console.log('xxy 连接失败:', error)
+      })
+    },
+    openWebSocket() {
+      // 建立连接对象
+      const socket = new this.$sockjs(process.env.VUE_APP_WS)
+      // 获取STOMP子协议的客户端对象
+      this.stompClient = this.$stomp.over(socket)
+      this.stompClient.debug = null
+      // 定义客户端的认证信息,按需求配置
+      const headers = {
+        Authorization: this.$store.getters.authorization
+      }
+      this.stompClient.connect(headers, () => {
+        console.log(`开启websocket并已连接，服务器地址：${process.env.VUE_APP_TOPIC}/${this.$route.query.name}，订阅的主题为：${process.env.VUE_APP_TOPIC_BOX}`)
+        this.stompClient.subscribe(`${process.env.VUE_APP_TOPIC}`, msg => {
+          this.taskData = JSON.parse(msg.body)
+        })
+      }, error => {
+        console.log('fail' + error)
+      })
+    },
+    closeWebSocket() {
+      if (this.stompClient != null) {
+        this.stompClient.disconnect()
+        console.log('关闭websocket')
+      }
+    },
     // 获取项目列表
     getAllItem() {
       getAllItem().then(res => {
