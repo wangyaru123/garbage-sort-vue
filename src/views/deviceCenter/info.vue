@@ -106,7 +106,12 @@
           <el-input v-model="dialogData.latitude"></el-input>
         </el-form-item>
         <el-form-item label="安装时间" prop="deployTime">
-          <el-date-picker v-model="dialogData.deployTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker v-model="dialogData.deployTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="所属项目:" prop="projectId">
+          <el-select v-model="dialogData.itemId" placeholder="请选择" size="small">
+            <el-option v-for="item in itemList" :key="item.id" :value="item.id" :label="item.name"></el-option>
+          </el-select>
         </el-form-item>
         <div class="text-c">
           <el-button type="primary" size="medium" @click="submitClick">确定</el-button>
@@ -219,31 +224,6 @@ export default {
       this.mqttConf.client.on('error', (error) => {
         console.log('xxy 连接失败:', error)
       })
-    },
-    openWebSocket() {
-      // 建立连接对象
-      const socket = new this.$sockjs(process.env.VUE_APP_WS)
-      // 获取STOMP子协议的客户端对象
-      this.stompClient = this.$stomp.over(socket)
-      this.stompClient.debug = null
-      // 定义客户端的认证信息,按需求配置
-      const headers = {
-        Authorization: this.$store.getters.authorization
-      }
-      this.stompClient.connect(headers, () => {
-        console.log(`开启websocket并已连接，服务器地址：${process.env.VUE_APP_TOPIC}/${this.$route.query.name}，订阅的主题为：${process.env.VUE_APP_TOPIC_BOX}`)
-        this.stompClient.subscribe(`${process.env.VUE_APP_TOPIC}`, msg => {
-          this.taskData = JSON.parse(msg.body)
-        })
-      }, error => {
-        console.log('fail' + error)
-      })
-    },
-    closeWebSocket() {
-      if (this.stompClient != null) {
-        this.stompClient.disconnect()
-        console.log('关闭websocket')
-      }
     },
     // 获取项目列表
     getAllItem() {
