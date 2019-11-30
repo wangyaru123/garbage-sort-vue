@@ -18,6 +18,11 @@
           <span>{{ scope.row.goodsName}}</span>
         </template>
       </el-table-column>
+      <el-table-column label="图片" fixed align="center" min-width="100px">
+        <template slot-scope="scope">
+          <el-image :src="scope.row.goodsImg"></el-image>
+        </template>
+      </el-table-column>
       <el-table-column label="所需积分" fixed align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.needPoints}}</span>
@@ -86,15 +91,19 @@
 </template>
 
 <script>
+import img1 from '@/assets/goods/1.jpg'
+import img2 from '../../assets/goods/2.jpg'
+
 export default {
   data() {
     return {
       // 查询条件
       projectId: '',
+      img1,
       // table所有数据
       tableData: [
-        { userId: 1, goodsName: '毛巾', needPoints: 1000, stock: 100, projectId: 1, status: '上架' },
-        { userId: 2, goodsName: '洗衣液', needPoints: 3000, stock: 100, projectId: 2, status: '下架' }
+        { userId: 1, goodsName: '毛巾', goodsImg: img1, needPoints: 100, stock: 100, projectId: 1, status: '上架' },
+        { userId: 2, goodsName: '纸巾', goodsImg: img2, needPoints: 300, stock: 100, projectId: 2, status: '下架' }
       ],
       // 当前tableData数据
       currentTableData: [],
