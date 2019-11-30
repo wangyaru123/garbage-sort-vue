@@ -43,16 +43,12 @@ export default {
             }
           },
           splitLine: {
-            show: false,
-            lineStyle: {
-              color: ['#124667'],
-              width: 1,
-              type: 'solid'
-            }
+            show: false
           }
         },
         yAxis: {
           type: 'category',
+          offset: 10,
           data: ['杭州凤起小区', '杭州高沙小区', '杭州下沙小区', '杭州云水小区', '广州龙湖小区', '苏州名苑小区'],
           axisLabel: {
             show: true,
@@ -79,20 +75,21 @@ export default {
           {
             type: 'bar',
             barWidth: '50%',
+            smooth: true,
             label: {
               normal: {
                 show: true,
                 position: 'right',
-                offset: [5, -2],
+                offset: [2, 2],
                 textStyle: {
-                  color: '#F68300',
-                  fontSize: 14
+                  color: '#F68300'
+                  // fontSize: 14
                 }
               }
             },
             itemStyle: {
               normal: {
-                barBorderRadius: 7,
+                barBorderRadius: 8,
                 color: new this.$echarts.graphic.LinearGradient(
                   0, 0, 1, 0,
                   [
@@ -102,7 +99,7 @@ export default {
                 )
               },
               emphasis: {
-                barBorderRadius: 7
+                barBorderRadius: 8
               }
             },
             data: [12123, 19389, 22934, 30490, 43744, 53020]
