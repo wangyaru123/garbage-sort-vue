@@ -102,8 +102,11 @@ export default {
       },
       // url与页面对应关系
       urlData: [
-        { resourceUrl: '/ucenter', name: '用户管理' },
-        { resourceUrl: '/manager', name: '用户管理' }
+        { resourceUrl: '/ucenter', name: '系统管理' },
+        { resourceUrl: '/machine', name: '设备管理' },
+        { resourceUrl: '/member', name: '会员管理' },
+        { resourceUrl: '/manager', name: '卡号管理' },
+        { resourceUrl: '/points', name: '积分管理' }
       ],
       // 选中的列表
       checkedActions: []
