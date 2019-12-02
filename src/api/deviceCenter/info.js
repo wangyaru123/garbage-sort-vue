@@ -49,7 +49,7 @@ export function getMachineById(id) {
 export function addMachine(params) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${memberUrl}/machine/`,
+      url: `${memberUrl}/machine`,
       method: 'post',
       data: params
     }).then(result => resolve(result))

@@ -8,11 +8,20 @@
     <div class="content">
       <el-row>
         <el-col :span="6">
-          <div class="border-animat text-c">
+          <!-- <div class="border-animat text-c">
             <p style="color:#ccc">覆盖人数</p>
             <h3>869532</h3>
             <p style="color:#ccc" class="mt-20">覆盖小区</p>
             <h3>58637</h3>
+          </div>-->
+          <div class="animat-div text-c">
+            <el-image :src="img" fit="fill" class="img-bg"></el-image>
+            <div class="loader">
+              <div class="loader-wrapper">
+                <canvas width="68" height="68" id="canvas" ref="canvas"></canvas>
+                <div class="circle"></div>
+              </div>
+            </div>
           </div>
         </el-col>
         <el-col :span="18">
@@ -26,6 +35,7 @@
 <script>
 import { debounce } from '@/utils'
 import 'echarts/map/js/china'
+import img from '@/assets/1.png'
 
 var data = [
   { name: '杭州', value: [15485, 12353] },
@@ -430,6 +440,7 @@ var convertData = function (data) {
 export default {
   data() {
     return {
+      img,
       chartId: 'overviewDeviceMapEchart',
       chart: null,
       index: 0,
@@ -652,6 +663,7 @@ export default {
   mounted() {
     this.initChart()
     this.updateResize()
+    this.useCanvasGetHuan(0.6)
   },
   beforeDestroy() {
     this.closeResize()
@@ -718,6 +730,44 @@ export default {
       if (!this.chart) return
       this.chart.dispose()
       this.chart = null
+    },
+    useCanvasGetHuan(size) {
+      var canvas = this.$refs.canvas
+      // 简单地检测当前浏览器是否支持Canvas对象，以免在一些不支持html5的浏览器中提示语法错误
+      // 获取对应的CanvasRenderingContext2D对象(画笔)
+      var ctx = canvas.getContext('2d')
+      ctx.lineWidth = 3
+      ctx.lineCap = 'round'
+      // 开始一个新的绘制路径
+      ctx.beginPath()
+      // 设置弧线的颜色
+      // ctx.strokeStyle = 'rgba(0, 198, 255, 1)'
+      var g = ctx.createLinearGradient(0, 0, 92, 0)
+      // 创建渐变对象  渐变开始点和渐变结束点
+      g.addColorStop(0, '#0784ab')
+      // 添加颜色点
+      g.addColorStop(1, '#00CFFF')
+      // 添加颜色点
+      // g.addColorStop(0, '#00CFFF')
+      // 添加颜色点
+      // g.addColorStop(1, '#0784ab')
+      // 添加颜色点  #00CFFF
+      ctx.strokeStyle = g
+      // 使用渐变对象作为圆环的颜色
+      var circle = {
+        // x: 46,
+        x: 34,
+        // 圆心的x轴坐标值
+        // y: 46,
+        y: 34,
+        // 圆心的y轴坐标值
+        // r: 44.5
+        r: 32.5
+        // 圆的半径
+      }
+      ctx.arc(circle.x, circle.y, circle.r, 0, Math.PI * 2 * size, true)
+      // 按照指定的路径绘制弧线
+      ctx.stroke()
     }
   }
 }
@@ -828,5 +878,73 @@ export default {
 }
 .content /deep/ .el-col {
   height: 100%;
+}
+.animat-div {
+  width: 180px;
+  height: 180px;
+  position: absolute;
+  bottom: 0;
+  top: -65%;
+  left: -100%;
+  right: 0;
+  padding: 10px;
+  margin: auto;
+  border: 0;
+}
+.loader {
+  left: 19px;
+  width: 68px;
+  height: 68px;
+  font-size: 10px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 108px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.loader-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  animation: animate 3s linear infinite;
+  color: rgba(0, 207, 255, 1);
+}
+@-webkit-keyframes animate {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+.circle {
+  position: absolute;
+  width: 50%;
+  height: 0.1em;
+  top: 50%;
+  left: 50%;
+  background-color: transparent;
+  transform: rotate(var(--deg));
+  transform-origin: left;
+}
+.circle::before {
+  position: absolute;
+  /* top: -0.5em; */
+  /* right: -0.5em; */
+  right: -0.2em;
+  top: 0;
+  content: "";
+  width: 0.5em;
+  height: 0.5em;
+  background-color: currentColor;
+  border-radius: 50%;
+  /* box-shadow: 0 0 2em, 0 0 4em, 0 0 6em, 0 0 8em, 0 0 10em, 0 0 0 0.5em rgba(0, 207, 255, 0.1); */
+  box-shadow: 0 0 0.3em 0.05em rgba(0, 207, 255, 1);
+}
+.img-bg {
+  width: 80px;
+  position: absolute;
+  top: 50%;
+  left: 99px;
+  transform: translateY(-50%);
 }
 </style>

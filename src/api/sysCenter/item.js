@@ -65,7 +65,7 @@ export function getItemById(id) {
 export function addItem(params) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${ucenterUrl}/item/`,
+      url: `${ucenterUrl}/item`,
       method: 'post',
       data: params
     }).then(result => resolve(result))

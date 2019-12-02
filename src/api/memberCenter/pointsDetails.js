@@ -14,7 +14,7 @@ const memberUrl = process.env.VUE_APP_HTTP_MEMBER
 export function addMemberPoints(params) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${memberUrl}/pointDetail/`,
+      url: `${memberUrl}/pointDetail`,
       method: 'post',
       data: params
     }).then(result => resolve(result))

@@ -32,7 +32,7 @@ export function getMachineRecordByPage(page, size, params) {
 export function addMachineRecord(params) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${memberUrl}/machineRecord/`,
+      url: `${memberUrl}/machineRecord`,
       method: 'post',
       data: params
     }).then(result => resolve(result))
