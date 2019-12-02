@@ -86,6 +86,7 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
     ></el-pagination>
+    <span>{{mqttData}}</span>
     <!-- 添加或编辑会员信息 -->
     <el-dialog :visible.sync="dialogVisible" title="请填写会员信息">
       <el-form label-position="right" label-width="140px" :model="dialogData" :rules="rules" ref="ruleForm">
@@ -105,7 +106,12 @@
           <el-input v-model="dialogData.latitude"></el-input>
         </el-form-item>
         <el-form-item label="安装时间" prop="deployTime">
-          <el-date-picker v-model="dialogData.deployTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker v-model="dialogData.deployTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="所属项目:" prop="projectId">
+          <el-select v-model="dialogData.itemId" placeholder="请选择" size="small">
+            <el-option v-for="item in itemList" :key="item.id" :value="item.id" :label="item.name"></el-option>
+          </el-select>
         </el-form-item>
         <div class="text-c">
           <el-button type="primary" size="medium" @click="submitClick">确定</el-button>
@@ -119,6 +125,7 @@
 <script>
 import { getMachineByPage, getMachineById, addMachine, editMachine, deleteMachine } from '@/api/deviceCenter/info.js'
 import { getAllItem } from '@/api/sysCenter/item.js'
+import mqtt from 'mqtt'
 
 export default {
   data() {
@@ -157,13 +164,67 @@ export default {
         deployAddress: [
           { required: true, message: '请输入安装地点', trigger: 'blur' }
         ]
-      }
+      },
+      // *** mqtt ***
+      mqttConf: {
+        client: '',
+        addr: 'ws://47.99.219.161:8083/mqtt',
+        theme: 'datatransmit',
+        options: {
+          port: 8083,
+          connectTimeout: 40000,
+          clientId: '35e1acdbc2664baca8da1701eac58874',
+          username: 'admin',
+          password: 'public',
+          clean: true
+        }
+      },
+      mqttData: {}
     }
+  },
+  mounted: function () {
+    this.mqttOperate() // 初始设备
   },
   created() {
     this.getAllItem()
   },
+  beforeDestroy() {
+    this.mqttConf.client.end() // 关闭订阅
+  },
   methods: {
+    mqttOperate() { // mqtt
+      // 连接mqtt
+      console.log(this.mqttConf.addr)
+      this.mqttConf.client = mqtt.connect(this.mqttConf.addr, this.mqttConf.options)
+      // 订阅
+      this.mqttConf.client.on('connect', (e) => {
+        console.log('连接成功：' + this.mqttConf.addr)
+        this.mqttConf.client.subscribe(this.mqttConf.theme, { qos: 1 }, (error) => {
+          if (!error) {
+            console.log('订阅成功：订阅主题【' + this.mqttConf.theme + '】')
+          } else {
+            console.log('订阅失败：' + error)
+          }
+        })
+      })
+      // 接收消息处理
+      const that = this
+      this.mqttConf.client.on('message', function (topic, message) {
+        console.log('订阅的消息:' + message.toString()) // 打印消息内容
+        try {
+          that.mqttData = JSON.parse(message.toString())
+        } catch (e) {
+        }
+      })
+      // 断开发起重连
+      this.mqttConf.client.on('reconnect', (error) => {
+        console.log('xxy 正在重连:', error)
+      })
+      // 链接异常处理
+      this.mqttConf.client.on('error', (error) => {
+        console.log('xxy 连接失败:', error)
+      })
+    },
     // 获取项目列表
     getAllItem() {
       getAllItem().then(res => {

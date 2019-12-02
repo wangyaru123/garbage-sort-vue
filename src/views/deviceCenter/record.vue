@@ -66,6 +66,7 @@
         </div>
       </el-form>
     </el-dialog>
+    <div class="img"></div>
   </div>
 </template>
 
@@ -150,4 +151,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.img {
+  width: 200px;
+  height: 200px;
+  border: 1px solid green;
+  border-left-color: red;
+  border-right-color: black;
+  border-top-color: yellow;
+  margin: 100px;
+  border-radius: 50%;
+  -webkit-animation: circle 1s infinite linear; /*匀速 循环*/
+}
+@-webkit-keyframes circle {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
 </style>

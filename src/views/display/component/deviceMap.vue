@@ -797,6 +797,7 @@ export default {
   border-left: 3px solid #009fff;
   border-top: 3px solid #009fff;
 }
+
 .top-right-corner {
   top: -1px;
   right: -1px;
