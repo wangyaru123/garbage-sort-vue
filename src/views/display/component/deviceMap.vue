@@ -12,16 +12,31 @@
             <p style="color:#ccc">覆盖人数</p>
             <h3>869532</h3>
             <p style="color:#ccc" class="mt-20">覆盖小区</p>
-            <h3>58637</h3>
+            <h3>58607</h3>
           </div>-->
-          <div class="animat-div text-c">
-            <el-image :src="img" fit="fill" class="img-bg"></el-image>
+          <!-- 覆盖人数 -->
+          <div class="people-div text-c">
+            <el-image :src="imgPeoplebg" fit="fill" class="img-bg"></el-image>
             <div class="loader">
               <div class="loader-wrapper">
-                <canvas width="68" height="68" id="canvas" ref="canvas"></canvas>
+                <canvas width="60" height="60" id="peopleCanvas" ref="peopleCanvas"></canvas>
                 <div class="circle"></div>
               </div>
             </div>
+            <el-image :src="imgBorder" fit="fill" class="img-border"></el-image>
+            <div class="text-div">35628</div>
+          </div>
+          <!-- 覆盖小区 -->
+          <div class="village-div text-c">
+            <el-image :src="imgVillagebg" fit="fill" class="img-bg"></el-image>
+            <div class="loader">
+              <div class="loader-wrapper">
+                <canvas width="60" height="60" id="villageCanvas" ref="villageCanvas"></canvas>
+                <div class="circle"></div>
+              </div>
+            </div>
+            <el-image :src="imgBorder" fit="fill" class="img-border"></el-image>
+            <div class="text-div">5618</div>
           </div>
         </el-col>
         <el-col :span="18">
@@ -35,7 +50,9 @@
 <script>
 import { debounce } from '@/utils'
 import 'echarts/map/js/china'
-import img from '@/assets/1.png'
+import imgPeoplebg from '@/assets/peoplebg.png'
+import imgVillagebg from '@/assets/villagebg.png'
+import imgBorder from '@/assets/border.png'
 
 var data = [
   { name: '杭州', value: [15485, 12353] },
@@ -152,9 +169,9 @@ var data = [
   // { name: '西安', value: 61 },
   // { name: '金坛', value: 62 },
   // { name: '东营', value: 62 },
-  // { name: '牡丹江', value: 63 },
-  // { name: '遵义', value: 63 },
-  // { name: '绍兴', value: 63 },
+  // { name: '牡丹江', value: 60 },
+  // { name: '遵义', value: 60 },
+  // { name: '绍兴', value: 60 },
   // { name: '扬州', value: 64 },
   // { name: '常州', value: 64 },
   // { name: '潍坊', value: 65 },
@@ -251,12 +268,12 @@ var geoCoordMap = {
   '梅州': [116.1, 24.55],
   '文登': [122.05, 37.2],
   '上海': [121.48, 31.22],
-  '攀枝花': [101.718637, 26.582347],
+  '攀枝花': [101.718607, 26.582347],
   '威海': [122.1, 37.5],
   '承德': [117.93, 40.97],
   '厦门': [118.1, 24.46],
   '汕尾': [115.375279, 22.786211],
-  '潮州': [116.63, 23.68],
+  '潮州': [116.60, 23.68],
   '丹东': [124.37, 40.13],
   '太仓': [121.1, 31.45],
   '曲靖': [103.79, 25.51],
@@ -312,7 +329,7 @@ var geoCoordMap = {
   '肇庆': [112.44, 23.05],
   '大连': [121.62, 38.92],
   '临汾': [111.5, 36.08],
-  '吴江': [120.63, 31.16],
+  '吴江': [120.60, 31.16],
   '石嘴山': [106.39, 39.04],
   '沈阳': [123.38, 41.8],
   '苏州': [120.62, 31.32],
@@ -351,7 +368,7 @@ var geoCoordMap = {
   '常州': [119.95, 31.79],
   '潍坊': [119.1, 36.62],
   '重庆': [106.54, 29.59],
-  '台州': [121.420757, 28.656386],
+  '台州': [121.420757, 28.656086],
   '南京': [118.78, 32.04],
   '滨州': [118.03, 37.36],
   '贵阳': [106.71, 26.57],
@@ -392,10 +409,10 @@ var geoCoordMap = {
   '泰安': [117.13, 36.18],
   '诸暨': [120.23, 29.71],
   '郑州': [113.65, 34.76],
-  '哈尔滨': [126.63, 45.75],
+  '哈尔滨': [126.60, 45.75],
   '聊城': [115.97, 36.45],
   '芜湖': [118.38, 31.33],
-  '唐山': [118.02, 39.63],
+  '唐山': [118.02, 39.60],
   '平顶山': [113.29, 33.75],
   '邢台': [114.48, 37.05],
   '德州': [116.29, 37.45],
@@ -440,7 +457,9 @@ var convertData = function (data) {
 export default {
   data() {
     return {
-      img,
+      imgPeoplebg,
+      imgVillagebg,
+      imgBorder,
       chartId: 'overviewDeviceMapEchart',
       chart: null,
       index: 0,
@@ -663,7 +682,8 @@ export default {
   mounted() {
     this.initChart()
     this.updateResize()
-    this.useCanvasGetHuan(0.6)
+    this.useCanvasGetHuan('peopleCanvas', 0.6)
+    this.useCanvasGetHuan('villageCanvas', 0.6)
   },
   beforeDestroy() {
     this.closeResize()
@@ -731,8 +751,8 @@ export default {
       this.chart.dispose()
       this.chart = null
     },
-    useCanvasGetHuan(size) {
-      var canvas = this.$refs.canvas
+    useCanvasGetHuan(refName, size) {
+      var canvas = this.$refs[refName]
       // 简单地检测当前浏览器是否支持Canvas对象，以免在一些不支持html5的浏览器中提示语法错误
       // 获取对应的CanvasRenderingContext2D对象(画笔)
       var ctx = canvas.getContext('2d')
@@ -756,13 +776,13 @@ export default {
       // 使用渐变对象作为圆环的颜色
       var circle = {
         // x: 46,
-        x: 34,
+        x: 30,
         // 圆心的x轴坐标值
         // y: 46,
-        y: 34,
+        y: 30,
         // 圆心的y轴坐标值
         // r: 44.5
-        r: 32.5
+        r: 28.5
         // 圆的半径
       }
       ctx.arc(circle.x, circle.y, circle.r, 0, Math.PI * 2 * size, true)
@@ -879,28 +899,41 @@ export default {
 .content /deep/ .el-col {
   height: 100%;
 }
-.animat-div {
+// 覆盖人数
+.people-div {
   width: 180px;
   height: 180px;
   position: absolute;
   bottom: 0;
-  top: -65%;
-  left: -100%;
+  top: -75%;
+  left: -101%;
+  right: 0;
+  padding: 10px;
+  margin: auto;
+  border: 0;
+}
+// 覆盖小区
+.village-div {
+  width: 180px;
+  height: 180px;
+  position: absolute;
+  bottom: 0;
+  top: -35%;
+  left: -101%;
   right: 0;
   padding: 10px;
   margin: auto;
   border: 0;
 }
 .loader {
-  left: 19px;
-  width: 68px;
-  height: 68px;
+  width: 60px;
+  height: 60px;
   font-size: 10px;
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
-  left: 108px;
+  left: 103px;
   top: 50%;
   transform: translateY(-50%);
 }
@@ -941,10 +974,26 @@ export default {
   box-shadow: 0 0 0.3em 0.05em rgba(0, 207, 255, 1);
 }
 .img-bg {
-  width: 80px;
+  width: 70px;
   position: absolute;
   top: 50%;
   left: 99px;
+  transform: translateY(-50%);
+}
+.img-border {
+  width: 180px;
+  position: absolute;
+  top: 52%;
+  left: 125px;
+  transform: translateY(-50%);
+}
+.text-div {
+  width: 180px;
+  position: absolute;
+  top: 50%;
+  left: 125px;
+  color: rgba(0, 207, 255, 1);
+  font-size: 20px;
   transform: translateY(-50%);
 }
 </style>
