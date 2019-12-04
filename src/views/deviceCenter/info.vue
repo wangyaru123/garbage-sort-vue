@@ -63,7 +63,7 @@
           <span>{{ scope.row.description}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="传感器参数" align="center" min-width="100px">
+      <el-table-column label="传感器参数" fixed="right" align="center" min-width="100px">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="editRow( scope.row.deviceCode )">查看</el-button>
         </template>

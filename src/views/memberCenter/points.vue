@@ -49,7 +49,7 @@
       </el-table-column>-->
       <el-table-column label="操作" fixed="right" width="130px" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.id )"></el-button>
+          <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.userId )"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -88,7 +88,7 @@ export default {
   data() {
     return {
       // 查询条件
-      id: '',
+      userId: '',
       // table所有数据
       tableData: [
         // { id: 1, username: 'wangyi', name: '王一', mobile: '15076541233', totalPoints: 100, consumePoints: 50, currentPoints: 50, id: 1 },
@@ -134,8 +134,7 @@ export default {
     addMemberPoints() {
       const params = {
         behavior: '人工行为',
-        id: this.id,
-        itemId: this.serachParams.id,
+        userId: this.userId,
         points: this.dialogData.points
       }
       addMemberPoints(params).then(res => {
@@ -155,12 +154,12 @@ export default {
       this.dialogData = {}
     },
     // 编辑
-    editRow(id) {
+    editRow(userId) {
       this.dialogVisible = true
-      this.dialogData = this.tableData.find(item => item.id === id)
+      this.dialogData = this.tableData.find(item => item.userId === userId)
       console.log(this.dialogData)
       this.dialogData.points = 1
-      this.id = id
+      this.userId = userId
     }
   }
 }

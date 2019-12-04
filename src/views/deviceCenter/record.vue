@@ -14,7 +14,7 @@
       </el-table-column>
       <el-table-column label="设备序列号" fixed align="center" min-width="100px">
         <template slot-scope="scope">
-          <span>{{ scope.row.deviceCode}}</span>
+          <span>{{ scope.row.machineSerialNum}}</span>
         </template>
       </el-table-column>
       <el-table-column label="当前重量(克)" fixed align="center">
@@ -24,22 +24,22 @@
       </el-table-column>
       <el-table-column label="回收类别" align="center" min-width="130px">
         <template slot-scope="scope">
-          <span>{{ scope.row.recoverCategory}}</span>
+          <span>{{ scope.row.recoverType}}</span>
         </template>
       </el-table-column>
       <el-table-column label="投放人" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.name}}</span>
+          <span>{{ scope.row.username}}</span>
         </template>
       </el-table-column>
       <el-table-column label="产生行为" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.produceAction}}</span>
+          <span>{{ scope.row.behavior}}</span>
         </template>
       </el-table-column>
       <el-table-column label="产生时间" align="center" min-width="150px">
         <template slot-scope="scope">
-          <span>{{ scope.row.produceTime}}</span>
+          <span>{{ scope.row.createTime}}</span>
         </template>
       </el-table-column>
     </el-table>
