@@ -21,7 +21,7 @@ Vue.use(Router)
 export const constantRoutes = [
   // 登录
   {
-    path: '/login',
+    path: '/',
     component: () => import('@/views/login/index'),
     hidden: true
   },
@@ -33,9 +33,9 @@ export const constantRoutes = [
   },
   // 首页
   {
-    path: '/',
+    path: '/home',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/home/dashboard',
     children: [{
       path: 'dashboard',
       name: 'Dashboard',

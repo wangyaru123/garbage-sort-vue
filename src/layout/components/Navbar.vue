@@ -112,7 +112,7 @@ export default {
     },
     async logout() {
       // await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      this.$router.push(`/`)
     },
     // 点击通知图标,跳转到通知页面,红点消失
     noticeClick() {
