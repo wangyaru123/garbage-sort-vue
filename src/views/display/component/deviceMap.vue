@@ -756,7 +756,7 @@ export default {
       // 简单地检测当前浏览器是否支持Canvas对象，以免在一些不支持html5的浏览器中提示语法错误
       // 获取对应的CanvasRenderingContext2D对象(画笔)
       var ctx = canvas.getContext('2d')
-      ctx.lineWidth = 3
+      ctx.lineWidth = 2
       ctx.lineCap = 'round'
       // 开始一个新的绘制路径
       ctx.beginPath()
@@ -918,7 +918,7 @@ export default {
   height: 180px;
   position: absolute;
   bottom: 0;
-  top: -35%;
+  top: -26%;
   left: -101%;
   right: 0;
   padding: 10px;
@@ -933,7 +933,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  left: 103px;
+  left: 104px;
   top: 50%;
   transform: translateY(-50%);
 }
@@ -944,7 +944,7 @@ export default {
   animation: animate 3s linear infinite;
   color: rgba(0, 207, 255, 1);
 }
-@-webkit-keyframes animate {
+@keyframes animate {
   100% {
     transform: rotate(1turn);
   }

@@ -4,9 +4,9 @@
       <!-- <img v-if="!isMobile" src="../../assets/yinglan.png" class="pl-10 float-l img" alt /> -->
       <!--<img v-if="!isMobile" src="../../assets/billboard/extra.png" alt />
       <span class="title-name">垃圾分类数据看板</span>
-      <img v-if="!isMobile" src="../../assets/billboard/extra.png" alt />
-      <img v-if="!isMobile" src="../../assets/billboard/homeIcon.png" class="go-back" alt @click="goBack" title="返回首页" />-->
-      <img src="@/assets/title.png" height="107" width="100%" />
+      <img v-if="!isMobile" src="../../assets/billboard/extra.png" alt />-->
+      <img v-if="!isMobile" src="../../assets/billboard/homeIcon.png" class="go-back" alt @click="goBack" title="返回首页" />
+      <img src="@/assets/title.png" height="80" width="100%" />
     </div>
     <el-row class="content">
       <el-col :lg="6" :md="24" :sm="24" class="content-layout">
@@ -91,15 +91,14 @@ export default {
     background: radial-gradient(center, #00adcf, #02263e, #002035);
     background: -webkit-radial-gradient(center, #00adcf, #02263e, #002035);
   }
-  img {
-    height: 100%;
-  }
 }
 .go-back {
   height: 40px;
   width: 40px;
   margin: 20px;
-  float: right;
+  position: fixed;
+  top: 0;
+  left: 0;
   cursor: pointer;
 }
 .content {
