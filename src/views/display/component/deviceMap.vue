@@ -918,7 +918,7 @@ export default {
   height: 180px;
   position: absolute;
   bottom: 0;
-  top: -35%;
+  top: -26%;
   left: -101%;
   right: 0;
   padding: 10px;
