@@ -1,157 +1,172 @@
 <template>
-  <div class="main-style">
-    <div style="font-size: 20px;height: 40px;line-height: 40px;padding-left: 25px;">各类垃圾今日量</div>
-    <div :id="chartId" class="chart-style"></div>
-  </div>
+  <div ref="myChat" :style="chartStyle" @click="emitData()"></div>
+  <!-- <div :id="" :style=""  @click="emitData()">
+  </div>-->
 </template>
 
 <script>
-import { debounce } from '@/utils'
-
 export default {
-  data() {
-    return {
-      chartId: 'garbageTodayEchart',
-      options: {
-        color: ['#3398DB'],
-        backgroundColor: '#001F32',
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'shadow'
-          }
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
-        },
-        xAxis: [
-          {
+  // 接受三个参数，id，style(width,height)，option
+  props: {
+    data: {
+      required: true,
+      type: Object,
+      default: function () {
+        return {
+          style: {
+            width: '800px',
+            height: '600px'
+          },
+          color: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'],
+          title: {
+            text: '3D柱图',
+            x: 'center'
+          },
+          tooltip: {},
+          xAxis3D: {
             type: 'category',
-            data: ['可回收物', '有害垃圾', '厨余垃圾', '其他垃圾'],
-            axisLabel: {
-              show: true,
-              textStyle: {
-                color: '#fff'
+            data: ['苹果', '橘子', '梨', '香蕉', '芒果', '木瓜'],
+            axisLine: {
+              lineStyle: {
+                color: 'yellow',
+                width: 2
               }
             }
-          }
-        ],
-        yAxis: [
-          {
+          },
+          yAxis3D: {
+            type: 'category',
+            data: [''],
+            axisLine: {
+              lineStyle: {
+                color: '#8085e9',
+                width: 2
+              }
+            }
+          },
+          zAxis3D: {
             type: 'value',
-            axisLabel: {
-              show: true,
-              textStyle: {
-                color: '#fff'
+            axisLine: {
+              lineStyle: {
+                color: '#8085e9',
+                width: 2
+              }
+            }
+          },
+          grid3D: {
+            boxWidth: 200,
+            boxDepth: 20,
+            axisPointer: {
+              show: false
+            },
+            light: {
+              main: {
+                intensity: 1.2
+              },
+              ambient: {
+                intensity: 0.3
               }
             },
-            lineStyle: {
-              color: '#e6e6e6'
+            viewControl: {
+              alpha: 10, // 控制场景平移旋转
+              beta: 20,
+              minAlpha: 10,
+              maxAlpha: 10,
+              minBeta: 20,
+              maxBeta: 20
             }
-          }
-        ],
-        series: [
-          {
-            name: '直接访问',
-            type: 'bar',
-            barWidth: '60%',
-            data: [623, 146, 243, 235],
-            itemStyle: {
-              normal: {
-                label: {
-                  show: true,
-                  position: 'insideTop',
-                  textStyle: {
-                    color: '#fff',
-                    fontSize: 16
-                  }
-                }
+          },
+          series: [{
+            type: 'bar3D',
+            name: '1',
+            barSize: 15,
+            data: [
+              [2, 0, 42000],
+              [4, 0, 20000]
+            ],
+            stack: 'stack',
+            shading: 'lambert',
+            emphasis: {
+              label: {
+                show: true
               }
             }
-          }
-        ]
+          }, {
+            type: 'bar3D',
+            name: '2',
+            barSize: 15,
+            data: [
+              [1, 0, 24000],
+              [3, 0, 60000]
+            ],
+            // stack: 'stack',
+            shading: 'lambert',
+            emphasis: {
+              label: {
+                show: true
+              }
+            }
+          }, {
+            type: 'bar3D',
+            name: '3',
+            barSize: 15,
+            data: [
+              [5, 0, 30000],
+              [0, 0, 36000]
+            ],
+            stack: 'stack',
+            shading: 'lambert',
+            emphasis: {
+              label: {
+                show: true
+              }
+            }
+          }]
+        }
       }
     }
   },
-  created() {
-  },
-  mounted() {
-    this.initChart()
-    this.updateResize()
-  },
-  beforeDestroy() {
-    this.closeResize()
+  data() {
+    return {
+    }
   },
   computed: {
-    isMobile() {
-      return this.$store.state.app.isMobile
+    chartStyle() {
+      return {
+        height: this.data.style.height,
+        width: this.data.style.width
+      }
+    }
+  },
+  mounted() {
+    this.drawECharts()
+  },
+  methods: {
+    drawECharts() {
+      var myChart = this.$echarts.init(this.$refs.myChat)
+      var option = this.data
+      // 执行渲染图形和数据的操作
+      if (option && typeof option === 'object') {
+        myChart.setOption(option, true)
+      }
+    },
+    emitData() {
+      // Bus.$emit('emitEditor', this.data)
     }
   },
   watch: {
-    //  手机端的时候，默认isMobile是false，在变化时尺寸没有修改，则图表不会自适应
-    isMobile(newValue, oldValue) {
-      if (this.chart) {
-        this.chart.resize()
-      }
-    }
-  },
-  methods: {
-    initData() {
-    },
-    initChart() {
-      this.chart = this.$echarts.init(document.getElementById(this.chartId))
-      this.chart.setOption(this.options)
-    },
-    //  自动适配宽度
-    updateResize() {
-      this.__resizeHanlder = debounce(() => {
-        if (this.chart) this.chart.resize()
-      }, 100)
-      window.addEventListener('resize', this.__resizeHanlder)
-    },
-    // 关闭自适应事件
-    closeResize() {
-      window.removeEventListener('resize', this.__resizeHanlder)
-      if (!this.chart) return
-      this.chart.dispose()
-      this.chart = null
+    data: {
+      handler: function (newValue, oldValue) {
+        this.drawECharts()
+      },
+      deep: true
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-.main-style {
-  width: 100%;
-  height: 100%;
-  background: url("../../../assets/displaybg.png");
-}
-.chart-style {
-  width: 100%;
-  height: 70%;
-}
-.data {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  height: calc(30% - 30px);
-}
-.data-style {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-.data-name {
-  font-size: 16px;
-  margin-left: 20px;
-  color: #9b9e9b;
-}
-.data-value {
-  font-size: 20px;
-  margin-right: 20px;
+<style scoped="scoped">
+.myecharts {
+  width: 800px;
+  height: 600px;
 }
 </style>

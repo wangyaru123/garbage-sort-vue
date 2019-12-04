@@ -68,9 +68,8 @@ export default {
         ],
         series: [
           {
-            name: '直接访问',
             type: 'bar',
-            barWidth: 30,
+            barWidth: '40%',
             data: [6523, 1546, 4543, 3535],
             itemStyle: {
               normal: {
