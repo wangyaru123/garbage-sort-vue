@@ -11,7 +11,8 @@ const sysRouter = {
   alwaysShow: true,
   meta: {
     title: '系统管理',
-    icon: 'config'
+    icon: 'config',
+    auths: ['ucenter_admin', 'make_item']
   },
   children: [
     {
@@ -19,7 +20,8 @@ const sysRouter = {
       name: 'SysCenter.Users',
       component: () => import('@/views/sysCenter/users'),
       meta: {
-        title: '用户管理'
+        title: '用户管理',
+        auths: ['ucenter_admin']
       }
     },
     {
@@ -27,7 +29,8 @@ const sysRouter = {
       name: 'SysCenter.Roles',
       component: () => import('@/views/sysCenter/roles'),
       meta: {
-        title: '权限管理'
+        title: '权限管理',
+        auths: ['ucenter_admin']
       }
     },
     {
@@ -35,7 +38,8 @@ const sysRouter = {
       name: 'SysCenter.Items',
       component: () => import('@/views/sysCenter/items'),
       meta: {
-        title: '项目管理'
+        title: '项目管理',
+        auths: ['make_item']
       }
     }
   ]

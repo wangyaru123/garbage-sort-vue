@@ -11,8 +11,8 @@ const memberRouter = {
   alwaysShow: true,
   meta: {
     title: '会员管理',
-    icon: 'user'
-    // auths: ['memberCenter_admin_sensitive_page', 'memberCenter_admin_nonsentive_page']
+    icon: 'user',
+    auths: ['find_member_list', 'find_ic_list', 'find_member_points_page', 'find_points_detail_page']
   },
   children: [
     {
@@ -20,7 +20,8 @@ const memberRouter = {
       name: 'MemberCenter.Info',
       component: () => import('@/views/memberCenter/info'),
       meta: {
-        title: '会员信息'
+        title: '会员信息',
+        auths: ['find_member_list']
       }
     },
     {
@@ -28,7 +29,8 @@ const memberRouter = {
       name: 'MemberCenter.Card',
       component: () => import('@/views/memberCenter/card'),
       meta: {
-        title: '卡号管理'
+        title: '卡号管理',
+        auths: ['find_ic_list']
       }
     },
     {
@@ -36,7 +38,8 @@ const memberRouter = {
       name: 'MemberCenter.Points',
       component: () => import('@/views/memberCenter/points'),
       meta: {
-        title: '积分管理'
+        title: '积分管理',
+        auths: ['find_member_points_page']
       }
     },
     {
@@ -44,7 +47,8 @@ const memberRouter = {
       name: 'MemberCenter.PointsDetails',
       component: () => import('@/views/memberCenter/pointsDetails'),
       meta: {
-        title: '积分详细'
+        title: '积分详细',
+        auths: ['find_points_detail_page']
       }
     }
   ]

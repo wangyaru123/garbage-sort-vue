@@ -11,7 +11,8 @@ const deviceRouter = {
   alwaysShow: true,
   meta: {
     title: '设备管理',
-    icon: 'device'
+    icon: 'device',
+    auths: ['make_machine', 'find_machine_record']
   },
   children: [
     {
@@ -19,7 +20,8 @@ const deviceRouter = {
       name: 'DeviceCenter.Info',
       component: () => import('@/views/deviceCenter/info'),
       meta: {
-        title: '设备管理'
+        title: '设备管理',
+        auths: ['make_machine']
       }
     },
     {
@@ -27,7 +29,8 @@ const deviceRouter = {
       name: 'DeviceCenter.Record',
       component: () => import('@/views/deviceCenter/record'),
       meta: {
-        title: '设备记录'
+        title: '设备记录',
+        auths: ['find_machine_record']
       }
     }
   ]
