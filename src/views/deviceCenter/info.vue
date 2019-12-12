@@ -63,9 +63,9 @@
           <span>{{ scope.row.description}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="传感器参数" fixed="right" align="center" min-width="100px">
+      <el-table-column label="详情" fixed="right" align="center" min-width="100px">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="editRow( scope.row.deviceCode )">查看</el-button>
+          <el-button type="primary" size="mini" @click="toDetile( scope.row.deviceCode )">查看</el-button>
         </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="130px" align="center">
@@ -86,7 +86,7 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
     ></el-pagination>
-    <span>{{mqttData}}</span>
+    <!-- <span>{{mqttData}}</span> -->
     <!-- 添加或编辑会员信息 -->
     <el-dialog :visible.sync="dialogVisible" title="请填写会员信息">
       <el-form label-position="right" label-width="140px" :model="dialogData" :rules="rules" ref="ruleForm">
@@ -309,6 +309,12 @@ export default {
         type: 'warning'
       }).then(() => this.deleteMachine(id))
         .catch(() => this.$message.info('取消删除'))
+    },
+    toDetile(id) {
+      this.$router.push({
+        path: '/device/detile',
+        query: { id: id }
+      })
     }
   }
 }

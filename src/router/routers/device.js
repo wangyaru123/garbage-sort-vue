@@ -25,6 +25,16 @@ const deviceRouter = {
       }
     },
     {
+      path: 'detile',
+      name: 'DeviceCenter.Detile',
+      hidden: true,
+      component: () => import('@/views/deviceCenter/detile'),
+      meta: {
+        title: '设备详情',
+        auths: ['make_machine']
+      }
+    },
+    {
       path: 'record',
       name: 'DeviceCenter.Record',
       component: () => import('@/views/deviceCenter/record'),
