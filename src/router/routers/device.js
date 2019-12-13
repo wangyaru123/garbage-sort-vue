@@ -27,7 +27,7 @@ const deviceRouter = {
     {
       path: 'detile',
       name: 'DeviceCenter.Detile',
-      hidden: true,
+      // hidden: true,
       component: () => import('@/views/deviceCenter/detile'),
       meta: {
         title: '设备详情',

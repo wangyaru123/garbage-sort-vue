@@ -6,7 +6,7 @@
         <span>设备详情</span>
       </div>
       <div>
-        <el-row :gutter="10">
+        <el-row :gutter="10" class="baseInfoRow">
           <el-col :span="4" class="mt-10">序列号:{{ detileData.machineSerialNum}}</el-col>
           <el-col :span="4" class="mt-10">设备名称:{{ detileData.name}}</el-col>
           <el-col :span="4" class="mt-10">经度:{{ detileData.longitude}}</el-col>
@@ -273,4 +273,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.baseInfoRow {
+  // background-color: #d2edc4;
+}
 </style>
