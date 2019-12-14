@@ -28,12 +28,12 @@
       </el-table-column>
       <el-table-column label="参数值" align="center" min-width="130px">
         <template slot-scope="scope">
-          <span>{{ scope.row.errorTime}}</span>
+          <span>{{ scope.row.errorvalue}}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" min-width="130px">
         <template slot-scope="scope">
-          <span>{{ scope.row.errorTime}}</span>
+          <el-button @click="setParams(scope.row.machineSerialNum)">设置</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { getMachineRecordByPage } from '@/api/deviceCenter/detile.js'
+import { getMachineRecordByPage, setParam } from '@/api/deviceCenter/detile.js'
 
 export default {
   data() {
@@ -63,7 +63,14 @@ export default {
       errorCurrentPage: 1,
       // 一页显示多少条数据
       errorPageSize: 10,
-      tableData: []
+      tableData: [
+        {
+          machineSerialNum: 1214,
+          errorCode: '',
+          suggest: '',
+          errorTime: ''
+        }
+      ]
     }
   },
   mounted() {
@@ -72,6 +79,22 @@ export default {
   methods: {
     getMachineRecordByPage() {
       getMachineRecordByPage(this.errorCurrentPage, this.errorPageSize).then(res => {
+        this.tableData = res.list
+        this.errorTotal = res.total
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    setParams() {
+      const params = {
+        version: 1,
+        msgNo: 1,
+        machNo: 1214,
+        cmd: 3251,
+        time: new Date(),
+        data: {
+          '00': 1
+        }
+      }
+      setParam(params).then(res => {
         this.tableData = res.list
         this.errorTotal = res.total
       }).catch(err => this.$message.error(err.toString()))

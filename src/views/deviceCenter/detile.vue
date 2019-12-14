@@ -4,6 +4,7 @@
     <el-card>
       <div slot="header" class="clearfix">
         <span>设备详情</span>
+        <el-button style="float: right;" type="primary" size="small" @click="issue">重启</el-button>
       </div>
       <div>
         <el-row :gutter="10" class="baseInfoRow">
@@ -47,6 +48,7 @@
 
 <script>
 import { getMachineById } from '@/api/deviceCenter/info.js'
+import { setRestart } from '@/api/deviceCenter/detile.js'
 import alarmRecord from './component/detile/alarmRecord'
 import errorRecord from './component/detile/errorRecord'
 import deviceParams from './component/detile/deviceParams'
@@ -160,6 +162,19 @@ export default {
         this.detileData.onlineStatus = false
         this.detileData.deviceStatus = false
         console.log(this.detileData)
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    issue() {
+      const params = {
+        version: 1,
+        msgNo: 1,
+        machNo: 1214,
+        cmd: 3253,
+        time: new Date(),
+        data: {}
+      }
+      setRestart(params).then(res => {
+        this.$message.success('重启成功')
       }).catch(err => this.$message.error(err.toString()))
     },
     tabClick() {
