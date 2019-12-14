@@ -166,12 +166,7 @@ export default {
     },
     issue() {
       const params = {
-        version: 1,
-        msgNo: 1,
-        machNo: 1214,
-        cmd: 3253,
-        time: new Date(),
-        data: {}
+        machNo: 'U010519060000'
       }
       setRestart(params).then(res => {
         this.$message.success('重启成功')

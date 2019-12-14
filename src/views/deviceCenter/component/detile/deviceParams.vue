@@ -85,18 +85,12 @@ export default {
     },
     setParams() {
       const params = {
-        version: 1,
-        msgNo: 1,
-        machNo: 1214,
-        cmd: 3251,
-        time: new Date(),
-        data: {
-          '00': 1
-        }
+        machNo: 'U010519060000',
+        kaywords: '00',
+        param: 15
       }
       setParam(params).then(res => {
-        this.tableData = res.list
-        this.errorTotal = res.total
+        this.$message.success('修改成功')
       }).catch(err => this.$message.error(err.toString()))
     }
   }
