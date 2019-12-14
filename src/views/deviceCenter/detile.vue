@@ -25,49 +25,18 @@
         </el-row>
         <el-tabs v-model="activeTab" type="card" @tab-click="tabClick" class="mt-10">
           <el-tab-pane label="设备数据" name="deviceData">设备数据</el-tab-pane>
-          <el-tab-pane label="预警记录" name="alarmRecord">预警记录</el-tab-pane>
-          <el-tab-pane label="故障记录" name="errorRecord">
-            <el-table :data="tableData" border stripe class="mt-10">
-              <el-table-column label="序号" fixed width="50px" type="index" align="center">
-                <template slot-scope="scope">
-                  <span>{{ scope.$index + 1 }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column label="序列号" fixed align="center" min-width="130px">
-                <template slot-scope="scope">
-                  <span>{{ scope.row.machineSerialNum}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column label="故障代码" align="center" min-width="130px">
-                <template slot-scope="scope">
-                  <span>{{ scope.row.errorCode}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column label="建议处理方式" align="center" min-width="130px">
-                <template slot-scope="scope">
-                  <span>{{ scope.row.suggest}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column label="故障时间" align="center" min-width="130px">
-                <template slot-scope="scope">
-                  <span>{{ scope.row.errorTime}}</span>
-                </template>
-              </el-table-column>
-            </el-table>
-            <el-pagination
-              class="mt-10 text-r"
-              background
-              @size-change="getErrorByPage"
-              @current-change="getErrorByPage"
-              :current-page.sync="errorCurrentPage"
-              :page-sizes="[10, 20, 50, 100]"
-              :page-size.sync="pageSize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="errorTotal"
-            ></el-pagination>
+          <el-tab-pane label="预警记录" name="alarmRecord">
+            <alarm-record></alarm-record>
           </el-tab-pane>
-          <el-tab-pane label="设备参数" name="deviceParams">设备参数</el-tab-pane>
-          <el-tab-pane label="运行日志" name="runLog">运行日志</el-tab-pane>
+          <el-tab-pane label="故障记录" name="errorRecord">
+            <error-record></error-record>
+          </el-tab-pane>
+          <el-tab-pane label="设备参数" name="deviceParams">
+            <device-params></device-params>
+          </el-tab-pane>
+          <el-tab-pane label="运行日志" name="runLog">
+            <run-log></run-log>
+          </el-tab-pane>
           <el-tab-pane label="操作记录" name="editRecord">操作记录</el-tab-pane>
         </el-tabs>
       </div>
@@ -76,11 +45,21 @@
 </template>
 
 <script>
-import { getMachineByPage, getMachineById, addMachine, editMachine, deleteMachine } from '@/api/deviceCenter/info.js'
+import { getMachineById } from '@/api/deviceCenter/info.js'
 import { getAllItem } from '@/api/sysCenter/item.js'
+import alarmRecord from './component/detile/alarmRecord'
+import errorRecord from './component/detile/errorRecord'
+import deviceParams from './component/detile/deviceParams'
+import runLog from './component/detile/runLog'
 import mqtt from 'mqtt'
 
 export default {
+  components: {
+    alarmRecord,
+    errorRecord,
+    deviceParams,
+    runLog
+  },
   data() {
     return {
       // 查询条件
@@ -98,28 +77,10 @@ export default {
       serachParams: { id: '' },
       // 编辑弹框显示
       dialogVisible: false,
-      // 表格总数据条数
-      errorTotal: 0,
-      // 当前页
-      errorCurrentPage: 1,
-      // 一页显示多少条数据
-      errorPageSize: 10,
       // 弹框数据
       dialogData: {},
       // 标记当前是编辑信息还是添加信息
       dialogAction: '',
-      // 验证规则
-      rules: {
-        machineSerialNum: [
-          { required: true, message: '请输入序列号', trigger: 'blur' }
-        ],
-        name: [
-          { required: true, message: '请选择设备名称', trigger: 'blur' }
-        ],
-        deployAddress: [
-          { required: true, message: '请输入安装地点', trigger: 'blur' }
-        ]
-      },
       // *** mqtt ***
       mqttConf: {
         client: '',
@@ -134,10 +95,13 @@ export default {
           clean: true
         }
       },
-      mqttData: {}
+      mqttData: {},
+      deviceId: ''
     }
   },
   mounted: function () {
+    this.deviceId = this.$route.query.id
+    this.getMachineById()
     // this.mqttOperate() // 初始设备
   },
   created() {
@@ -186,84 +150,13 @@ export default {
         this.itemList = res
         // 默认选中第一项
         this.serachParams.id = res[0].id
-        this.getMachineByPage()
-      }).catch(err => this.$message.error(err.toString()))
-    },
-    // 分页
-    getMachineByPage() {
-      getMachineByPage(this.currentPage, this.pageSize, this.serachParams).then(res => {
-        this.tableData = res.list
-        this.total = res.total
       }).catch(err => this.$message.error(err.toString()))
     },
     // 根据id查询设备信息
-    getMachineById(id) {
-      getMachineById(id).then(res => {
+    getMachineById() {
+      getMachineById(this.deviceId).then(res => {
         this.dialogData = res
       }).catch(err => this.$message.error(err.toString()))
-    },
-    // 添加设备
-    addMachine() {
-      addMachine(this.dialogData).then(res => {
-        this.$message.success('添加成功')
-        this.getMachineByPage()
-      }).catch(err => this.$message.error(err.toString()))
-    },
-    // 编辑设备
-    editMachine() {
-      editMachine(this.id, this.dialogData).then(res => {
-        this.$message.success('修改成功')
-        this.getMachineByPage()
-      }).catch(err => this.$message.error(err.toString()))
-    },
-    // 删除设备
-    deleteMachine(id) {
-      deleteMachine(id).then(res => {
-        this.$message.success('删除成功')
-        this.getMachineByPage()
-      }).catch(err => this.$message.error(err.toString()))
-    },
-    // 添加会员按钮
-    addClick() {
-      this.dialogVisible = true
-      this.dialogAction = 'add'
-      this.dialogData = { id: '', machineSerialNum: '', name: '', deployAddress: '', deployTime: '', description: '', latitude: '', longitude: '' }
-    },
-    // 弹框的确定按钮
-    submitClick() {
-      this.dialogVisible = false
-      // 验证
-      this.$refs['ruleForm'].validate((valid) => {
-        if (valid) {
-          if (this.dialogAction === 'add') this.addMachine()
-          else this.editMachine()
-          this.getMachineByPage()
-          this.dialogData = {}
-        } else {
-          this.$message.error('填写错误，添加失败')
-          return false
-        }
-      })
-    },
-    // 弹框的取消按钮
-    cancel() {
-      this.dialogVisible = false
-      this.dialogData = {}
-    },
-    // 编辑
-    editRow(id) {
-      this.dialogVisible = true
-      this.dialogAction = 'edit'
-      this.editMachine(id)
-      this.id = id
-    },
-    deleteRow(id) {
-      this.$confirm('此操作将删除该行, 是否删除?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => this.deleteMachine(id))
-        .catch(() => this.$message.info('取消删除'))
     },
     tabClick() {
 

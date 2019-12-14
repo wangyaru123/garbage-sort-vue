@@ -65,12 +65,12 @@
       </el-table-column>
       <el-table-column label="详情" fixed="right" align="center" min-width="100px">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="toDetile( scope.row.deviceCode )">查看</el-button>
+          <el-button type="primary" size="mini" @click="toDetile( scope.row.id )">查看</el-button>
         </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="130px" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.deviceCode )"></el-button>
+          <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.id )"></el-button>
           <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.row.id )"></el-button>
         </template>
       </el-table-column>
@@ -259,6 +259,7 @@ export default {
       editMachine(this.id, this.dialogData).then(res => {
         this.$message.success('修改成功')
         this.getMachineByPage()
+        this.dialogData = {}
       }).catch(err => this.$message.error(err.toString()))
     },
     // 删除设备
@@ -282,8 +283,6 @@ export default {
         if (valid) {
           if (this.dialogAction === 'add') this.addMachine()
           else this.editMachine()
-          this.getMachineByPage()
-          this.dialogData = {}
         } else {
           this.$message.error('填写错误，添加失败')
           return false
@@ -299,7 +298,7 @@ export default {
     editRow(id) {
       this.dialogVisible = true
       this.dialogAction = 'edit'
-      this.editMachine(id)
+      this.getMachineById(id)
       this.id = id
     },
     deleteRow(id) {
