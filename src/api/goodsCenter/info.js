@@ -1,20 +1,20 @@
 import request from '@/utils/request'
 
-const ucenterUrl = process.env.VUE_APP_HTTP_UCENTER
+const memberUrl = process.env.VUE_APP_HTTP_MEMBER
 
-// #region 项目相关的接口
+// #region 商品相关的接口
 
 /**
- * 获取所有项目
+ * 分页查询商品
  *
- * @export getAllItem
+ * @export getGoodsByPage
  * @param {*} params
  * @returns
  */
-export function getAllItem() {
+export function getGoodsByPage(page, size) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${ucenterUrl}/item`,
+      url: `${memberUrl}/Goods/${page}/${size}`,
       method: 'get'
     }).then(result => resolve(result))
       .catch(error => reject(error))
@@ -22,16 +22,16 @@ export function getAllItem() {
 }
 
 /**
- * 分页查询项目
+ * 根据ID查询商品
  *
- * @export getItemByPage
+ * @export getGoodsById
  * @param {*} params
  * @returns
  */
-export function getItemByPage(page, size) {
+export function getGoodsById(id) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${ucenterUrl}/item/${page}/${size}`,
+      url: `${memberUrl}/Goods/${id}`,
       method: 'get'
     }).then(result => resolve(result))
       .catch(error => reject(error))
@@ -39,33 +39,16 @@ export function getItemByPage(page, size) {
 }
 
 /**
- * 根据ID查询项目
+ * 添加商品
  *
- * @export getItemById
+ * @export addGoods
  * @param {*} params
  * @returns
  */
-export function getItemById(id) {
+export function addGoods(params) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${ucenterUrl}/item/${id}`,
-      method: 'get'
-    }).then(result => resolve(result))
-      .catch(error => reject(error))
-  })
-}
-
-/**
- * 添加项目
- *
- * @export addItem
- * @param {*} params
- * @returns
- */
-export function addItem(params) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: `${ucenterUrl}/item`,
+      url: `${memberUrl}/Goods`,
       method: 'post',
       data: params
     }).then(result => resolve(result))
@@ -74,16 +57,16 @@ export function addItem(params) {
 }
 
 /**
- * 修改项目
+ * 修改商品
  *
- * @export editItem
+ * @export editGoods
  * @param {*} params
  * @returns
  */
-export function editItem(id, params) {
+export function editGoods(id, params) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${ucenterUrl}/item/${id}`,
+      url: `${memberUrl}/Goods/${id}`,
       method: 'put',
       data: params
     }).then(result => resolve(result))
@@ -92,16 +75,16 @@ export function editItem(id, params) {
 }
 
 /**
- * 删除项目
+ * 删除商品
  *
- * @export deleteItem
+ * @export deleteGoods
  * @param {*} params
  * @returns
  */
-export function deleteItem(id) {
+export function deleteGoods(id) {
   return new Promise((resolve, reject) => {
     request({
-      url: `${ucenterUrl}/item/${id}`,
+      url: `${memberUrl}/Goods/${id}`,
       method: 'delete'
     }).then(result => resolve(result))
       .catch(error => reject(error))

@@ -2,8 +2,8 @@
   <!-- 商品信息 -->
   <div class="p-10">
     <el-button type="primary" size="small" round @click="addClick">添加商品</el-button>
-    <span>请选择项目查看：</span>
-    <el-select v-model="projectId" placeholder="请选择" size="small" @change="fetchData">
+    <span>请选择商品查看：</span>
+    <el-select v-model="projectId" placeholder="请选择" size="small" @change="getGoodsByPage">
       <el-option :value="0" label="请选择"></el-option>
       <el-option v-for="item in projectList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
     </el-select>
@@ -33,7 +33,7 @@
           <span>{{ scope.row.stock}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="所属项目" align="center">
+      <el-table-column label="所属商品" align="center">
         <template slot-scope="scope">
           <span>{{projectList.find(i=>i.projectId===scope.row.projectId).projectName}}</span>
         </template>
@@ -53,15 +53,15 @@
     <el-pagination
       class="mt-10 text-r"
       background
-      @size-change="fetchData"
-      @current-change="fetchData"
+      @size-change="getGoodsByPage"
+      @current-change="getGoodsByPage"
       :current-page.sync="currentPage"
       :page-sizes="[10, 20, 50, 100]"
       :page-size.sync="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
     ></el-pagination>
-    <!-- 添加或编辑会员信息 -->
+    <!-- 添加或编辑商品信息 -->
     <el-dialog :visible.sync="dialogVisible" title="请填写会员信息">
       <el-form label-position="right" label-width="140px" :model="dialogData" :rules="rules" ref="ruleForm">
         <el-form-item label="商品名：" prop="username">
@@ -73,7 +73,7 @@
         <el-form-item label="库存:" prop="mobile">
           <el-input v-model="dialogData.mobile"></el-input>
         </el-form-item>
-        <el-form-item label="所属项目:" prop="projectId">
+        <el-form-item label="所属商品:" prop="projectId">
           <el-select v-model="dialogData.projectId" placeholder="请选择" size="small">
             <el-option v-for="item in projectList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
           </el-select>
@@ -91,23 +91,24 @@
 </template>
 
 <script>
-import img1 from '@/assets/goods/1.jpg'
-import img2 from '../../assets/goods/2.jpg'
+import { getGoodsByPage, getGoodsById, addGoods, editGoods, deleteGoods } from '@/api/goodsCenter/info.js'
+// import img1 from '@/assets/goods/1.jpg'
+// import img2 from '../../assets/goods/2.jpg'
 
 export default {
   data() {
     return {
       // 查询条件
       projectId: '',
-      img1,
+      // img1,
       // table所有数据
       tableData: [
-        { userId: 1, goodsName: '毛巾', goodsImg: img1, needPoints: 100, stock: 100, projectId: 1, status: '上架' },
-        { userId: 2, goodsName: '纸巾', goodsImg: img2, needPoints: 300, stock: 100, projectId: 2, status: '下架' }
+        // { userId: 1, goodsName: '毛巾', goodsImg: img1, needPoints: 100, stock: 100, projectId: 1, status: '上架' },
+        // { userId: 2, goodsName: '纸巾', goodsImg: img2, needPoints: 300, stock: 100, projectId: 2, status: '下架' }
       ],
       // 当前tableData数据
       currentTableData: [],
-      // 项目列表
+      // 商品列表
       projectList: [{ projectId: 1, projectName: '浙江试运营' }, { projectId: 2, projectName: '安徽试运营' }],
       // 编辑报警信息弹框显示
       dialogVisible: false,
@@ -145,22 +146,56 @@ export default {
           { required: true, message: '请输入地址', trigger: 'blur' }
         ],
         projectId: [
-          { required: true, message: '请选择项目', trigger: 'blur' }
+          { required: true, message: '请选择商品', trigger: 'blur' }
         ]
       }
     }
   },
   created() {
-    this.fetchData()
+    this.getGoodsByPage()
   },
   methods: {
     // 分页
-    fetchData() {
-      let tableData = this.tableData
-      if (this.projectId) tableData = tableData.filter(item => item.projectId === this.projectId)
-      this.currentTableData = tableData.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage)
-      this.total = this.currentTableData.length
+    getGoodsByPage() {
+      getGoodsByPage(this.currentPage, this.pageSize).then(res => {
+        this.tableData = res.list
+        this.total = res.total
+      }).catch(err => this.$message.error(err.toString()))
     },
+    // 根据id查询商品信息
+    getGoodsById(id) {
+      getGoodsById(id).then(res => {
+        this.dialogData = res
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 添加商品
+    addGoods() {
+      addGoods(this.dialogData).then(res => {
+        this.$message.success('添加成功')
+        this.getGoodsByPage()
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 编辑商品
+    editGoods() {
+      editGoods(this.id, this.dialogData).then(res => {
+        this.$message.success('修改成功')
+        this.getGoodsByPage()
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 删除商品
+    deleteGoods(id) {
+      deleteGoods(id).then(res => {
+        this.$message.success('删除成功')
+        this.getGoodsByPage()
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 分页
+    // fetchData() {
+    //  let tableData = this.tableData
+    // if (this.projectId) tableData = tableData.filter(item => item.projectId === this.projectId)
+    // this.currentTableData = tableData.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage)
+    // this.total = this.currentTableData.length
+    // },
     // 添加会员按钮
     addClick() {
       this.dialogVisible = true

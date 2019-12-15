@@ -3,7 +3,7 @@
   <div class="p-10">
     <el-button type="primary" size="small" round @click="addClick">添加订单</el-button>
     <span>请选择项目查看：</span>
-    <el-select v-model="projectId" placeholder="请选择" size="small" @change="fetchData">
+    <el-select v-model="projectId" placeholder="请选择" size="small" @change="getOrderByPage">
       <el-option :value="0" label="请选择"></el-option>
       <el-option v-for="item in projectList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
     </el-select>
@@ -53,8 +53,8 @@
     <el-pagination
       class="mt-10 text-r"
       background
-      @size-change="fetchData"
-      @current-change="fetchData"
+      @size-change="getOrderByPage"
+      @current-change="getOrderByPage"
       :current-page.sync="currentPage"
       :page-sizes="[10, 20, 50, 100]"
       :page-size.sync="pageSize"
@@ -89,6 +89,8 @@
 </template>
 
 <script>
+import { getOrderByPage, getOrderById, addOrder, editOrder, deleteOrder } from '@/api/orderCenter/info.js'
+
 export default {
   data() {
     return {
@@ -139,21 +141,55 @@ export default {
     }
   },
   created() {
-    this.fetchData()
+    this.getOrderByPage()
   },
   methods: {
     // 分页
-    fetchData() {
-      let tableData = this.tableData
-      if (this.projectId) tableData = tableData.filter(item => item.projectId === this.projectId)
-      this.currentTableData = tableData.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage)
-      this.total = this.currentTableData.length
+    getOrderByPage() {
+      getOrderByPage(this.currentPage, this.pageSize).then(res => {
+        this.tableData = res.list
+        this.total = res.total
+      }).catch(err => this.$message.error(err.toString()))
     },
+    // 根据id查询商品信息
+    getOrderById(id) {
+      getOrderById(id).then(res => {
+        this.dialogData = res
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 添加商品
+    addOrder() {
+      addOrder(this.dialogData).then(res => {
+        this.$message.success('添加成功')
+        this.getOrderByPage()
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 编辑商品
+    editOrder() {
+      editOrder(this.id, this.dialogData).then(res => {
+        this.$message.success('修改成功')
+        this.getOrderByPage()
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 删除商品
+    deleteOrder(id) {
+      deleteOrder(id).then(res => {
+        this.$message.success('删除成功')
+        this.getOrderByPage()
+      }).catch(err => this.$message.error(err.toString()))
+    },
+    // 分页
+    // fechdata() {
+    // let tableData = this.tableData
+    // if (this.projectId) tableData = tableData.filter(item => item.projectId === this.projectId)
+    // this.currentTableData = tableData.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage)
+    // this.total = this.currentTableData.length
+    // },
     // 添加会员按钮
     addClick() {
       this.dialogVisible = true
       this.dialogAction = 'add'
-      this.dialogData = { userId: '', username: '', name: '', mobile: '', email: '', sex: 0, address: '', projectId: '' }
+      this.dialogData = {}
     },
     // 弹框的确定按钮
     submitClick() {
@@ -166,7 +202,7 @@ export default {
             this.dialogData.userId = this.tableData[length - 1].userId + 1
             this.tableData.push(this.dialogData)
           } else this.tableData.splice(this.userId - 1, 1, this.dialogData)
-          this.fetchData()
+          this.getOrderByPage()
           this.dialogData = {}
         } else {
           this.$message.error('填写错误，添加失败')
@@ -193,7 +229,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.tableData.splice(index, 1)
-        this.fetchData()
+        this.getOrderByPage()
       }).catch(() => this.$message.info('取消删除'))
     }
   }

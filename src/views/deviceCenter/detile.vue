@@ -3,6 +3,7 @@
   <div class="p-10">
     <el-card>
       <div slot="header" class="clearfix">
+        <el-button size="small" circle @click="back" icon="iconfont icon-back"></el-button>
         <span>设备详情</span>
         <el-button style="float: right;" type="primary" size="small" @click="issue">重启</el-button>
       </div>
@@ -174,6 +175,9 @@ export default {
     },
     tabClick() {
 
+    },
+    back() {
+      this.$router.go(-1)
     }
   }
 }

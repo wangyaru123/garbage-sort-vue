@@ -117,7 +117,7 @@ export default {
       // 验证规则
       rules: {
         username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' }
+          { required: true, message: '请输入项目名', trigger: 'blur' }
         ],
         name: [
           { required: true, message: '请选择姓名', trigger: 'blur' }
@@ -151,38 +151,38 @@ export default {
         this.total = res.total
       }).catch(err => this.$message.error(err.toString()))
     },
-    // 根据id查询用户信息
+    // 根据id查询项目信息
     getItemById(id) {
       getItemById(id).then(res => {
         this.dialogData = res
       }).catch(err => this.$message.error(err.toString()))
     },
-    // 添加用户
+    // 添加项目
     addItem() {
       addItem(this.dialogData).then(res => {
         this.$message.success('添加成功')
         this.getItemByPage()
       }).catch(err => this.$message.error(err.toString()))
     },
-    // 编辑用户
+    // 编辑项目
     editItem() {
       editItem(this.id, this.dialogData).then(res => {
         this.$message.success('修改成功')
         this.getItemByPage()
       }).catch(err => this.$message.error(err.toString()))
     },
-    // 删除用户
+    // 删除项目
     deleteItem(id) {
       deleteItem(id).then(res => {
         this.$message.success('删除成功')
         this.getItemByPage()
       }).catch(err => this.$message.error(err.toString()))
     },
-    // 添加会员按钮
+    // 添加项目按钮
     addClick() {
       this.dialogVisible = true
       this.dialogAction = 'add'
-      this.dialogData = { id: '', username: '', name: '', mobile: '', email: '', sex: 0, address: '', projectId: '', role: 1 }
+      this.dialogData = {}
     },
     // 弹框的确定按钮
     submitClick() {
