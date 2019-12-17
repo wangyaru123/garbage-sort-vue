@@ -8,25 +8,25 @@
       </el-table-column>
       <el-table-column label="预警类型" align="center" min-width="130px">
         <template slot-scope="scope">
-          <span>{{ scope.row.errorCode}}</span>
+          <span>{{ scope.row.warnType}}</span>
         </template>
       </el-table-column>
       <el-table-column label="预警时间" align="center" min-width="130px">
         <template slot-scope="scope">
-          <span>{{ scope.row.suggest}}</span>
+          <span>{{ scope.row.time}}</span>
         </template>
       </el-table-column>
       <el-table-column label="预警重量" align="center" min-width="130px">
         <template slot-scope="scope">
-          <span>{{ scope.row.errorTime}}</span>
+          <span>{{ scope.row.temp}}</span>
         </template>
       </el-table-column>
     </el-table>
     <el-pagination
       class="mt-10 text-r"
       background
-      @size-change="getMachineRecordByPage"
-      @current-change="getMachineRecordByPage"
+      @size-change="getWarns"
+      @current-change="getWarns"
       :current-page.sync="errorCurrentPage"
       :page-sizes="[10, 20, 50, 100]"
       :page-size.sync="errorPageSize"
@@ -37,9 +37,10 @@
 </template>
 
 <script>
-import { getMachineRecordByPage } from '@/api/deviceCenter/detile.js'
+import { getWarns } from '@/api/deviceCenter/detile.js'
 
 export default {
+  props: ['machNo'],
   data() {
     return {
       // 表格总数据条数
@@ -51,12 +52,23 @@ export default {
       tableData: []
     }
   },
+  watch: {
+    machNo: function (val) {
+      this.machNo = val
+    }
+  },
+  created() {
+    this.getWarns()
+  },
   mounted() {
-    this.getMachineRecordByPage()
+    this.$on('getWarns', (val) => {
+      this.getWarns()
+    })
   },
   methods: {
-    getMachineRecordByPage() {
-      getMachineRecordByPage(this.errorCurrentPage, this.errorPageSize).then(res => {
+    getWarns() {
+      const params = { machNo: this.machNo }
+      getWarns(this.errorCurrentPage, this.errorPageSize, params).then(res => {
         this.tableData = res.list
         this.errorTotal = res.total
       }).catch(err => this.$message.error(err.toString()))

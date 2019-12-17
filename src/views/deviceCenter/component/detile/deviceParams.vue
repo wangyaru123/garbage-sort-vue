@@ -6,81 +6,91 @@
           <span>{{ scope.$index + 1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="参数描述" fixed align="center" min-width="130px">
+      <el-table-column label="关键字" align="center" width="80px">
         <template slot-scope="scope">
-          <span>{{ scope.row.machineSerialNum}}</span>
+          <span>{{ scope.row.param }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="参数说明" align="center" min-width="130px">
+      <el-table-column label="参数描述" align="center" width="130px">
         <template slot-scope="scope">
-          <span>{{ scope.row.errorCode}}</span>
+          <span>{{ scope.row.paramDes}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="默认值" align="center" min-width="130px">
+      <el-table-column label="默认值" align="center" width="80px">
         <template slot-scope="scope">
-          <span>{{ scope.row.suggest}}</span>
+          <span>{{ scope.row.defaults}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="参数范围" align="center" min-width="130px">
+      <el-table-column label="参数值" align="center" width="80px">
         <template slot-scope="scope">
-          <span>{{ scope.row.errorTime}}</span>
+          <span>{{ scope.row.paramValue}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="参数值" align="center" min-width="130px">
+      <el-table-column label="参数范围" align="center" width="80px">
         <template slot-scope="scope">
-          <span>{{ scope.row.errorvalue}}</span>
+          <span>{{ scope.row.refRange}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" min-width="130px">
+      <el-table-column label="说明" align="center">
         <template slot-scope="scope">
-          <el-button @click="setParams(scope.row.machineSerialNum)">设置</el-button>
+          <span>{{ scope.row.description}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" width="100px">
+        <template slot-scope="scope">
+          <el-button @click="setParams(scope.row.machineSerialNum)" size="mini">设置</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-pagination
       class="mt-10 text-r"
       background
-      @size-change="getMachineRecordByPage"
-      @current-change="getMachineRecordByPage"
-      :current-page.sync="errorCurrentPage"
+      @size-change="getDeviceParams"
+      @current-change="getDeviceParams"
+      :current-page.sync="paramsCurrentPage"
       :page-sizes="[10, 20, 50, 100]"
-      :page-size.sync="errorPageSize"
+      :page-size.sync="paramsPageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="errorTotal"
+      :total="paramsTotal"
     ></el-pagination>
   </div>
 </template>
 
 <script>
-import { getMachineRecordByPage, setParam } from '@/api/deviceCenter/detile.js'
+import { getDeviceParams, setParam } from '@/api/deviceCenter/detile.js'
 
 export default {
+  props: ['machNo'],
   data() {
     return {
       // 表格总数据条数
-      errorTotal: 0,
+      paramsTotal: 0,
       // 当前页
-      errorCurrentPage: 1,
+      paramsCurrentPage: 1,
       // 一页显示多少条数据
-      errorPageSize: 10,
-      tableData: [
-        {
-          machineSerialNum: 1214,
-          errorCode: '',
-          suggest: '',
-          errorTime: ''
-        }
-      ]
+      paramsPageSize: 10,
+      tableData: []
     }
   },
+  watch: {
+    machNo: function (val) {
+      this.machNo = val
+    }
+  },
+  created() {
+    this.getDeviceParams()
+  },
   mounted() {
-    this.getMachineRecordByPage()
+    this.$on('getDeviceParams', (val) => {
+      this.getDeviceParams()
+    })
   },
   methods: {
-    getMachineRecordByPage() {
-      getMachineRecordByPage(this.errorCurrentPage, this.errorPageSize).then(res => {
+    getDeviceParams() {
+      const params = { machNo: this.machNo }
+      getDeviceParams(this.paramsCurrentPage, this.paramsPageSize, params).then(res => {
         this.tableData = res.list
-        this.errorTotal = res.total
+        this.paramsTotal = res.total
       }).catch(err => this.$message.error(err.toString()))
     },
     setParams() {

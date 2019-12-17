@@ -65,7 +65,7 @@
       </el-table-column>
       <el-table-column label="详情" fixed="right" align="center" min-width="100px">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="toDetile( scope.row.id )">查看</el-button>
+          <el-button type="primary" size="mini" @click="toDetile( scope.row.id , scope.row.machineSerialNum)">查看</el-button>
         </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="130px" align="center">
@@ -309,10 +309,10 @@ export default {
       }).then(() => this.deleteMachine(id))
         .catch(() => this.$message.info('取消删除'))
     },
-    toDetile(id) {
+    toDetile(id, machNo) {
       this.$router.push({
         path: '/device/detile',
-        query: { id: id }
+        query: { id: id, machNo: machNo }
       })
     }
   }
