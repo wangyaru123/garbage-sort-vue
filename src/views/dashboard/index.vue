@@ -23,7 +23,7 @@
             <div class="xFontRight" v-show="!isMobile"></div>
             <div class="line"></div>
           </div>
-          <div class="englishFont">Welcome to the garbage sorting system</div>
+          <div class="englishFont">Welcome to the garbage sort system</div>
         </div>
         <!-- <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" :class="isMobile?'h-auto':'h-num mb-10'">
               <img :src="machineImgRight" alt="">
