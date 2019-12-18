@@ -6,32 +6,32 @@
           <span>{{ scope.$index + 1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="故障代码" align="center" min-width="130px">
+      <el-table-column label="故障代码" align="center" width="80px">
         <template slot-scope="scope">
           <span>{{ scope.row.err}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="故障名称" align="center" min-width="130px">
+      <el-table-column label="故障名称" align="center" width="130px">
         <template slot-scope="scope">
           <span>{{ scope.row.name}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="故障状态说明" align="center" min-width="130px">
+      <el-table-column label="故障状态说明" align="center" width="130px">
         <template slot-scope="scope">
           <span>{{ scope.row.errorState}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="当前状态" align="center" min-width="130px">
+      <el-table-column label="当前状态" align="center" width="80px">
         <template slot-scope="scope">
           <span>{{ scope.row.state?'1':'0'}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="建议处理方式" align="center" min-width="130px">
+      <el-table-column label="建议处理方式" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.solution}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="故障时间" align="center" min-width="130px">
+      <el-table-column label="故障时间" align="center" width="160px">
         <template slot-scope="scope">
           <span>{{ scope.row.time}}</span>
         </template>

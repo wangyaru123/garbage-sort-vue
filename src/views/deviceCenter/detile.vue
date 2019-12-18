@@ -1,7 +1,7 @@
 <template>
   <!-- 设备详情 -->
   <div class="p-10">
-    <el-card>
+    <el-card class="p-0">
       <div slot="header" class="clearfix">
         <el-button size="small" circle @click="back" icon="iconfont icon-back"></el-button>
         <span>设备详情</span>
@@ -202,7 +202,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.p-0 /deep/ .el-card__body {
+  padding: 0;
+}
 .baseInfoRow {
-  // background-color: #d2edc4;
+  padding: 10px;
 }
 </style>

@@ -1,22 +1,22 @@
 <template>
   <div>
-    <el-table :data="tableData" border stripe class="mt-10">
+    <el-table :data="tableData" border stripe class="mt-10 p-10">
       <el-table-column label="序号" fixed width="50px" type="index" align="center">
         <template slot-scope="scope">
           <span>{{ scope.$index + 1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="设备消息类型" fixed align="center" min-width="130px">
+      <el-table-column label="设备消息类型" fixed align="center" width="140px">
         <template slot-scope="scope">
           <span>{{ scope.row.messageType}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="发生时间" align="center" min-width="130px">
+      <el-table-column label="发生时间" align="center" width="160px">
         <template slot-scope="scope">
           <span>{{ scope.row.time}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="报文" align="center" min-width="130px">
+      <el-table-column label="报文" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.content}}</span>
         </template>
