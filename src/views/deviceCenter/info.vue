@@ -169,7 +169,7 @@ export default {
       mqttConf: {
         client: '',
         addr: 'ws://47.99.219.161:8083/mqtt',
-        theme: 'datatransmit',
+        theme: 'devicetoserver',
         options: {
           port: 8083,
           connectTimeout: 40000,
