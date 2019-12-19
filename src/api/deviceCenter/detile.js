@@ -148,4 +148,22 @@ export function getWarns(page, size, params) {
   })
 }
 
+/**
+ * 查询设备操作记录
+ *
+ * @export getOperationlogs
+ * @param {*} params
+ * @returns
+ */
+export function getOperationlogs(page, size, params) {
+  return new Promise((resolve, reject) => {
+    request({
+      url: `${memberUrl}/machineRecord/operation-logs/${page}/${size}`,
+      method: 'get',
+      params: params
+    }).then(result => resolve(result))
+      .catch(error => reject(error))
+  })
+}
+
 // #endregion

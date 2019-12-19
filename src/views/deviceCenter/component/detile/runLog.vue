@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-table :data="tableData" border stripe class="mt-10 p-10">
-      <el-table-column label="序号" fixed width="50px" type="index" align="center">
+    <el-table :data="tableData" border stripe>
+      <el-table-column label="序号" width="50px" type="index" align="center">
         <template slot-scope="scope">
           <span>{{ scope.$index + 1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="设备消息类型" fixed align="center" width="140px">
+      <el-table-column label="设备消息类型" align="center" width="140px">
         <template slot-scope="scope">
           <span>{{ scope.row.messageType}}</span>
         </template>

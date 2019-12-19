@@ -6,64 +6,64 @@
           <span>{{ scope.$index + 1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="故障代码" align="center" width="80px">
+      <el-table-column label="设备消息类型" align="center" width="140px">
         <template slot-scope="scope">
-          <span>{{ scope.row.err}}</span>
+          <span>{{ scope.row.type}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="故障名称" align="center" width="130px">
+      <el-table-column label="操作人" align="center" width="140px">
         <template slot-scope="scope">
-          <span>{{ scope.row.name}}</span>
+          <span>{{ scope.row.userName}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="故障状态说明" align="center" width="130px">
+      <el-table-column label="发生时间" align="center" width="160px">
         <template slot-scope="scope">
-          <span>{{ scope.row.errorState}}</span>
+          <span>{{ scope.row.createTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="当前状态" align="center" width="80px">
+      <el-table-column label="当前值" align="center" width="160px">
         <template slot-scope="scope">
-          <span>{{ scope.row.state?'1':'0'}}</span>
+          <span>{{ scope.row.param}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="建议处理方式" align="center">
+      <el-table-column label="修改前" align="center" width="160px">
         <template slot-scope="scope">
-          <span>{{ scope.row.solution}}</span>
+          <span>{{ scope.row.paramValueOld}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="故障时间" align="center" width="160px">
+      <el-table-column label="修改后" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.time}}</span>
+          <span>{{ scope.row.paramValueNew}}</span>
         </template>
       </el-table-column>
     </el-table>
     <el-pagination
       class="mt-10 text-r"
       background
-      @size-change="getFaults"
-      @current-change="getFaults"
-      :current-page.sync="errorCurrentPage"
+      @size-change="getOperationlogs"
+      @current-change="getOperationlogs"
+      :current-page.sync="operationlogsCurrentPage"
       :page-sizes="[10, 20, 50, 100]"
-      :page-size.sync="errorPageSize"
+      :page-size.sync="operationlogsPageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="errorTotal"
+      :total="operationlogsTotal"
     ></el-pagination>
   </div>
 </template>
 
 <script>
-import { getFaults } from '@/api/deviceCenter/detile.js'
+import { getOperationlogs } from '@/api/deviceCenter/detile.js'
 
 export default {
   props: ['machNo'],
   data() {
     return {
       // 表格总数据条数
-      errorTotal: 0,
+      operationlogsTotal: 0,
       // 当前页
-      errorCurrentPage: 1,
+      operationlogsCurrentPage: 1,
       // 一页显示多少条数据
-      errorPageSize: 10,
+      operationlogsPageSize: 10,
       tableData: []
     }
   },
@@ -73,19 +73,19 @@ export default {
     }
   },
   created() {
-    this.getFaults()
+    this.getOperationlogs()
   },
   mounted() {
-    this.$on('getFaults', (val) => {
-      this.getFaults()
+    this.$on('getOperationlogs', (val) => {
+      this.getOperationlogs()
     })
   },
   methods: {
-    getFaults() {
+    getOperationlogs() {
       const params = { machNo: this.machNo }
-      getFaults(this.errorCurrentPage, this.errorPageSize, params).then(res => {
+      getOperationlogs(this.operationlogsCurrentPage, this.operationlogsPageSize, params).then(res => {
         this.tableData = res.list
-        this.errorTotal = res.total
+        this.operationlogsTotal = res.total
       }).catch(err => this.$message.error(err.toString()))
     }
   }

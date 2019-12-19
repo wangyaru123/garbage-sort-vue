@@ -25,7 +25,7 @@
           </el-col>
           <el-col :span="4" class="mt-10">备注:{{ detileData.description}}</el-col>
         </el-row>
-        <el-tabs v-model="activeTab" type="card" @tab-click="tabClick" class="mt-10">
+        <el-tabs v-model="activeTab" type="card" @tab-click="tabClick" class="mt-10 the-tab">
           <el-tab-pane label="设备数据" name="deviceData">
             <device-data ref="deviceData" :machNo="machNo"></device-data>
           </el-tab-pane>
@@ -41,7 +41,9 @@
           <el-tab-pane label="运行日志" name="runLog">
             <run-log ref="runLog" :machNo="machNo"></run-log>
           </el-tab-pane>
-          <el-tab-pane label="操作记录" name="editRecord">正在开发中</el-tab-pane>
+          <el-tab-pane label="操作记录" name="operationLogs">
+            <operation-logs ref="operationLogs" :machNo="machNo"></operation-logs>
+          </el-tab-pane>
         </el-tabs>
       </div>
     </el-card>
@@ -56,6 +58,7 @@ import alarmRecord from './component/detile/alarmRecord'
 import errorRecord from './component/detile/errorRecord'
 import deviceParams from './component/detile/deviceParams'
 import runLog from './component/detile/runLog'
+import operationLogs from './component/detile/operationLogs'
 import mqtt from 'mqtt'
 
 export default {
@@ -64,7 +67,8 @@ export default {
     alarmRecord,
     errorRecord,
     deviceParams,
-    runLog
+    runLog,
+    operationLogs
   },
   data() {
     return {
@@ -72,11 +76,6 @@ export default {
       id: '',
       detileData: { machineSerialNum: '', name: '', longitude: '', latitude: '', deployTime: '', item: '', onlineStatus: '', deviceStatus: '', description: '' },
       activeTab: 'deviceData',
-      // table所有数据
-      errorTableData: [
-        { errorCode: '01', suggest: '201910001', errorTime: '2019-12-12' },
-        { errorCode: '02', suggest: '201910100', errorTime: '2019-12-12' }
-      ],
       // 项目列表
       itemList: [],
       // 编辑弹框显示
@@ -107,13 +106,11 @@ export default {
   mounted: function () {
     this.deviceId = this.$route.query.id
     this.machNo = this.$route.query.machNo
-    console.log(this.machNo)
     this.getMachineById()
     this.mqttOperate() // 初始设备
   },
   created() {
     // this.getAllItem()
-
   },
   beforeDestroy() {
     this.mqttConf.client.end() // 关闭订阅
@@ -168,12 +165,12 @@ export default {
         this.detileData.onlineStatus = false
         this.detileData.deviceStatus = false
         this.$refs.deviceData.$emit('getWeightcount')
-        console.log(this.detileData)
       }).catch(err => this.$message.error(err.toString()))
     },
+    // 重启
     issue() {
       const params = {
-        machNo: 'U010519060000'
+        machNo: this.machNo
       }
       setRestart(params).then(res => {
         this.$message.success('重启成功')
@@ -190,8 +187,8 @@ export default {
         this.$refs.deviceParams.$emit('getDeviceParams')
       } else if (e.name === 'runLog') {
         this.$refs.runLog.$emit('getRunlogs')
-      } else if (e.name === 'editRecord') {
-
+      } else if (e.name === 'operationLogs') {
+        this.$refs.operationLogs.$emit('getOperationlogs')
       }
     },
     back() {
@@ -206,6 +203,9 @@ export default {
   padding: 0;
 }
 .baseInfoRow {
+  padding: 10px;
+}
+.the-tab /deep/ .el-tab-pane {
   padding: 10px;
 }
 </style>

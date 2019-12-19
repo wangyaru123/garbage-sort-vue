@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-table :data="tableData" border stripe class="mt-10">
-      <el-table-column label="序号" fixed width="50px" type="index" align="center">
+    <el-table :data="tableData" border stripe>
+      <el-table-column label="序号" width="50px" type="index" align="center">
         <template slot-scope="scope">
           <span>{{ scope.$index + 1 }}</span>
         </template>
