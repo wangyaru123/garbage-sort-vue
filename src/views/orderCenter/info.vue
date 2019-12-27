@@ -7,7 +7,7 @@
       <el-option :value="0" label="请选择"></el-option>
       <el-option v-for="item in projectList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
     </el-select>
-    <el-table :data="currentTableData" border stripe class="mt-10">
+    <el-table :data="tableData" border stripe class="mt-10">
       <el-table-column label="序号" fixed width="50px" type="index" align="center">
         <template slot-scope="scope">
           <span>{{ scope.$index + 1 }}</span>
@@ -15,12 +15,12 @@
       </el-table-column>
       <el-table-column label="订单号" fixed align="center" min-width="100px">
         <template slot-scope="scope">
-          <span>{{ scope.row.orderNo}}</span>
+          <span>{{ scope.row.orderNum}}</span>
         </template>
       </el-table-column>
       <el-table-column label="商品名" fixed align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.orderName}}</span>
+          <span>{{ scope.row.productName}}</span>
         </template>
       </el-table-column>
       <el-table-column label="购买者" align="center" min-width="100px">
@@ -35,12 +35,12 @@
       </el-table-column>
       <el-table-column label="购买数量" align="center" min-width="100px">
         <template slot-scope="scope">
-          <span>{{ scope.row.purchaseNum}}</span>
+          <span>{{ scope.row.amount}}</span>
         </template>
       </el-table-column>
       <el-table-column label="下单时间" align="center" min-width="120px">
         <template slot-scope="scope">
-          <span>{{ scope.row.purchaseTime}}</span>
+          <span>{{ scope.row.time}}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="130px" align="center">
@@ -197,12 +197,8 @@ export default {
       // 验证
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
-          if (this.dialogAction === 'add') {
-            const length = this.tableData.length
-            this.dialogData.userId = this.tableData[length - 1].userId + 1
-            this.tableData.push(this.dialogData)
-          } else this.tableData.splice(this.userId - 1, 1, this.dialogData)
-          this.getOrderByPage()
+          if (this.dialogAction === 'add') this.addOrder()
+          else this.editOrder()
           this.dialogData = {}
         } else {
           this.$message.error('填写错误，添加失败')
