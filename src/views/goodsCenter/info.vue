@@ -2,11 +2,6 @@
   <!-- 商品信息 -->
   <div class="p-10">
     <el-button type="primary" size="small" round @click="addClick">添加商品</el-button>
-    <span>请选择商品查看：</span>
-    <el-select v-model="projectId" placeholder="请选择" size="small" @change="getGoodsByPage">
-      <el-option :value="0" label="请选择"></el-option>
-      <el-option v-for="item in projectList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
-    </el-select>
     <el-table :data="currentTableData" border stripe class="mt-10">
       <el-table-column label="序号" fixed width="50px" type="index" align="center">
         <template slot-scope="scope">
@@ -31,11 +26,6 @@
       <el-table-column label="库存" align="center" min-width="130px">
         <template slot-scope="scope">
           <span>{{ scope.row.stock}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="所属商品" align="center">
-        <template slot-scope="scope">
-          <span>{{projectList.find(i=>i.projectId===scope.row.projectId).projectName}}</span>
         </template>
       </el-table-column>
       <el-table-column label="状态" align="center" min-width="180px">
@@ -64,22 +54,43 @@
     <!-- 添加或编辑商品信息 -->
     <el-dialog :visible.sync="dialogVisible" title="请填写会员信息">
       <el-form label-position="right" label-width="140px" :model="dialogData" :rules="rules" ref="ruleForm">
-        <el-form-item label="商品名：" prop="username">
-          <el-input v-model="dialogData.username"></el-input>
+        <el-form-item label="商品名：" prop="goodsName">
+          <el-input v-model="dialogData.goodsName"></el-input>
         </el-form-item>
-        <el-form-item label="所需积分：" prop="name">
-          <el-input v-model="dialogData.name"></el-input>
+        <el-form-item label="所需积分：" prop="needPoints">
+          <el-input v-model="dialogData.needPoints"></el-input>
         </el-form-item>
-        <el-form-item label="库存:" prop="mobile">
-          <el-input v-model="dialogData.mobile"></el-input>
+        <el-form-item label="库存:" prop="stock">
+          <el-input v-model="dialogData.stock"></el-input>
         </el-form-item>
-        <el-form-item label="所属商品:" prop="projectId">
-          <el-select v-model="dialogData.projectId" placeholder="请选择" size="small">
-            <el-option v-for="item in projectList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
+        <el-form-item label="状态:" prop="status">
+          <el-select v-model="dialogData.status" placeholder="请选择" size="small">
+            <el-option v-for="item in statusList" :key="item.value" :value="item.value" :label="item.desc"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态:" prop="mobile">
-          <el-input v-model="dialogData.mobile"></el-input>
+        <el-form-item label="设备图片：">
+          <el-upload
+            enctype="multipart/form-data"
+            ref="upload"
+            :headers="headers"
+            :auto-upload="false"
+            :action="uploadActionUrl"
+            multiple
+            list-type="picture-card"
+            :before-upload="beforeAvatarUpload"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
+            :on-change="changePicture"
+            :on-success="handleSuccessPicture"
+            :on-error="handleErrorPicture"
+            :file-list="fileList"
+            :limit="1"
+          >
+            <i class="el-icon-plus"></i>
+          </el-upload>
+          <el-dialog :visible.sync="imgDialogVisible" :modal-append-to-body="false" :modal="false">
+            <img width="100%" :src="dialogImageUrl" alt />
+          </el-dialog>
         </el-form-item>
         <div class="text-c">
           <el-button type="primary" size="medium" @click="submitClick">确定</el-button>
@@ -108,8 +119,6 @@ export default {
       ],
       // 当前tableData数据
       currentTableData: [],
-      // 商品列表
-      projectList: [{ projectId: 1, projectName: '浙江试运营' }, { projectId: 2, projectName: '安徽试运营' }],
       // 编辑报警信息弹框显示
       dialogVisible: false,
       // 表格总数据条数
@@ -119,9 +128,9 @@ export default {
       // 一页显示多少条数据
       pageSize: 10,
       // 弹框回显报警信息数据
-      dialogData: { userId: '', username: '', name: '', mobile: '', email: '', sex: 0, address: '', projectId: '' },
+      dialogData: {},
       // 性别列表
-      sexList: [{ sex: 0, des: '男' }, { sex: 1, des: '女' }],
+      statusList: [{ value: 0, desc: '下架' }, { value: 1, desc: '上架' }],
       // 标记当前是编辑信息还是添加信息
       dialogAction: '',
       userId: '',
@@ -149,6 +158,18 @@ export default {
           { required: true, message: '请选择商品', trigger: 'blur' }
         ]
       }
+    }
+  },
+  computed: {
+    // 授权头
+    headers() {
+      return {
+        Authorization: this.$store.getters.authorization
+      }
+    },
+    // upload组件上传图片的Action路由地址
+    uploadActionUrl() {
+      return process.env.VUE_APP_HTTP_DEVICE + '/equipment/images/_upload/' + this.equipmentId
     }
   },
   created() {

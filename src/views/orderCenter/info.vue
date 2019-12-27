@@ -2,11 +2,6 @@
   <!-- 订单信息 -->
   <div class="p-10">
     <el-button type="primary" size="small" round @click="addClick">添加订单</el-button>
-    <span>请选择项目查看：</span>
-    <el-select v-model="projectId" placeholder="请选择" size="small" @change="getOrderByPage">
-      <el-option :value="0" label="请选择"></el-option>
-      <el-option v-for="item in projectList" :key="item.projectId" :value="item.projectId" :label="item.projectName"></el-option>
-    </el-select>
     <el-table :data="tableData" border stripe class="mt-10">
       <el-table-column label="序号" fixed width="50px" type="index" align="center">
         <template slot-scope="scope">
@@ -23,7 +18,12 @@
           <span>{{ scope.row.productName}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="购买者" align="center" min-width="100px">
+      <el-table-column label="所属项目" fixed="right" align="center" min-width="150px">
+        <template slot-scope="scope">
+          <span>{{ scope.row.itemName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="购买人" align="center" min-width="100px">
         <template slot-scope="scope">
           <span>{{ scope.row.purchaser}}</span>
         </template>
@@ -46,7 +46,7 @@
       <el-table-column label="操作" fixed="right" width="130px" align="center">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.id )"></el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.$index )"></el-button>
+          <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.row.id )"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -70,14 +70,22 @@
         <el-form-item label="商品名：" prop="productName">
           <el-input v-model="dialogData.productName"></el-input>
         </el-form-item>
-        <el-form-item label="购买者：" prop="purchaser">
+        <el-form-item label="商品数量：" prop="amount">
+          <el-input-number v-model="dialogData.amount" :min="1"></el-input-number>
+        </el-form-item>
+        <el-form-item label="购买人：" prop="purchaser">
           <el-input v-model="dialogData.purchaser"></el-input>
         </el-form-item>
         <el-form-item label="手机号：" prop="mobile">
           <el-input v-model="dialogData.mobile"></el-input>
         </el-form-item>
-        <el-form-item label="下单时间：" prop="mobile">
-          <el-input v-model="dialogData.purchaseTime"></el-input>
+        <el-form-item label="所属项目:" prop="itemId">
+          <el-select v-model="dialogData.itemId" placeholder="请选择" size="small">
+            <el-option v-for="item in itemList" :key="item.id" :value="item.id" :label="item.name"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="下单时间：" prop="time">
+          <el-date-picker v-model="dialogData.time" type="datetime" value-format="yyyy-MM-dd 00:00:00" placeholder="选择日期时间"></el-date-picker>
         </el-form-item>
         <div class="text-c">
           <el-button type="primary" size="medium" @click="submitClick">确定</el-button>
@@ -90,21 +98,19 @@
 
 <script>
 import { getOrderByPage, getOrderById, addOrder, editOrder, deleteOrder } from '@/api/orderCenter/info.js'
+import { getAllItem } from '@/api/sysCenter/item.js'
 
 export default {
   data() {
     return {
       // 查询条件
-      projectId: '',
+      itemId: '',
       // table所有数据
-      tableData: [
-        { id: 1, orderNum: '20191010', orderName: '五分类智能垃圾箱', purchaser: '王经理', mobile: '15845825681', purchaseNum: 50, purchaseTime: '2019-10-10' },
-        { id: 2, orderNum: '20191101', orderName: '七分类智能垃圾箱', purchaser: '高经理', mobile: '15845825681', purchaseNum: 30, purchaseTime: '2019-11-01' }
-      ],
+      tableData: [],
       // 当前tableData数据
       currentTableData: [],
       // 项目列表
-      projectList: [{ projectId: 1, projectName: '浙江试运营' }, { projectId: 2, projectName: '安徽试运营' }],
+      itemList: [],
       // 编辑报警信息弹框显示
       dialogVisible: false,
       // 表格总数据条数
@@ -114,9 +120,7 @@ export default {
       // 一页显示多少条数据
       pageSize: 10,
       // 弹框回显报警信息数据
-      dialogData: { id: '', username: '', name: '', mobile: '', email: '', sex: 0, address: '', projectId: '' },
-      // 性别列表
-      sexList: [{ sex: 0, des: '男' }, { sex: 1, des: '女' }],
+      dialogData: {},
       // 标记当前是编辑信息还是添加信息
       dialogAction: '',
       id: '',
@@ -134,7 +138,7 @@ export default {
         mobile: [
           { required: true, message: '请输入手机号', trigger: 'blur' }
         ],
-        purchaseTime: [
+        time: [
           { required: true }
         ]
       }
@@ -142,8 +146,15 @@ export default {
   },
   created() {
     this.getOrderByPage()
+    this.getAllItem()
   },
   methods: {
+    // 获取项目列表
+    getAllItem() {
+      getAllItem().then(res => {
+        this.itemList = res
+      }).catch(err => this.$message.error(err.toString()))
+    },
     // 分页
     getOrderByPage() {
       getOrderByPage(this.currentPage, this.pageSize).then(res => {
@@ -159,6 +170,7 @@ export default {
     },
     // 添加商品
     addOrder() {
+      this.dialogData.itemName = this.itemList.find(item => item.id === this.dialogData.itemId).name
       addOrder(this.dialogData).then(res => {
         this.$message.success('添加成功')
         this.getOrderByPage()
@@ -166,7 +178,8 @@ export default {
     },
     // 编辑商品
     editOrder() {
-      editOrder(this.id, this.dialogData).then(res => {
+      this.dialogData.itemName = this.itemList.find(item => item.id === this.dialogData.itemId).name
+      editOrder(this.dialogData.id, this.dialogData).then(res => {
         this.$message.success('修改成功')
         this.getOrderByPage()
       }).catch(err => this.$message.error(err.toString()))
@@ -181,7 +194,7 @@ export default {
     // 分页
     // fechdata() {
     // let tableData = this.tableData
-    // if (this.projectId) tableData = tableData.filter(item => item.projectId === this.projectId)
+    // if (this.itemId) tableData = tableData.filter(item => item.itemId === this.itemId)
     // this.currentTableData = tableData.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage)
     // this.total = this.currentTableData.length
     // },
@@ -217,15 +230,13 @@ export default {
       this.dialogAction = 'edit'
       this.getOrderById(id)
     },
-    deleteRow(index) {
+    deleteRow(id) {
       this.$confirm('此操作将删除该行, 是否删除?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        this.tableData.splice(index, 1)
-        this.getOrderByPage()
-      }).catch(() => this.$message.info('取消删除'))
+      }).then(() => this.deleteOrder(id))
+        .catch(() => this.$message.info('取消删除'))
     }
   }
 }

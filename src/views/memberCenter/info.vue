@@ -40,9 +40,9 @@
       </el-table-column>
       <!-- <el-table-column label="所属项目" fixed="right" align="center" min-width="150px">
         <template slot-scope="scope">
-          <span>{{itemList.find(i=>i.id===scope.row.itemId).name}}</span>
+          <span>{{itemList[scope.row.itemId].name}}</span>
         </template>
-      </el-table-column>-->
+      </el-table-column> -->
       <el-table-column label="操作" fixed="right" width="130px" align="center">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.id )"></el-button>
