@@ -45,7 +45,7 @@
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="130px" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.userId )"></el-button>
+          <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.id )"></el-button>
           <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.$index )"></el-button>
         </template>
       </el-table-column>
@@ -64,11 +64,11 @@
     <!-- 添加或编辑会员信息 -->
     <el-dialog :visible.sync="dialogVisible" title="请填写会员信息">
       <el-form label-position="right" label-width="140px" :model="dialogData" :rules="rules" ref="ruleForm">
-        <el-form-item label="订单号：" prop="orderNo">
-          <el-input v-model="dialogData.orderNo"></el-input>
+        <el-form-item label="订单号：" prop="orderNum">
+          <el-input v-model="dialogData.orderNum"></el-input>
         </el-form-item>
-        <el-form-item label="商品名：" prop="orderName">
-          <el-input v-model="dialogData.orderName"></el-input>
+        <el-form-item label="商品名：" prop="productName">
+          <el-input v-model="dialogData.productName"></el-input>
         </el-form-item>
         <el-form-item label="购买者：" prop="purchaser">
           <el-input v-model="dialogData.purchaser"></el-input>
@@ -98,8 +98,8 @@ export default {
       projectId: '',
       // table所有数据
       tableData: [
-        { userId: 1, orderNo: '20191010', orderName: '五分类智能垃圾箱', purchaser: '王经理', mobile: '15845825681', purchaseNum: 50, purchaseTime: '2019-10-10' },
-        { userId: 2, orderNo: '20191101', orderName: '七分类智能垃圾箱', purchaser: '高经理', mobile: '15845825681', purchaseNum: 30, purchaseTime: '2019-11-01' }
+        { id: 1, orderNum: '20191010', orderName: '五分类智能垃圾箱', purchaser: '王经理', mobile: '15845825681', purchaseNum: 50, purchaseTime: '2019-10-10' },
+        { id: 2, orderNum: '20191101', orderName: '七分类智能垃圾箱', purchaser: '高经理', mobile: '15845825681', purchaseNum: 30, purchaseTime: '2019-11-01' }
       ],
       // 当前tableData数据
       currentTableData: [],
@@ -114,15 +114,15 @@ export default {
       // 一页显示多少条数据
       pageSize: 10,
       // 弹框回显报警信息数据
-      dialogData: { userId: '', username: '', name: '', mobile: '', email: '', sex: 0, address: '', projectId: '' },
+      dialogData: { id: '', username: '', name: '', mobile: '', email: '', sex: 0, address: '', projectId: '' },
       // 性别列表
       sexList: [{ sex: 0, des: '男' }, { sex: 1, des: '女' }],
       // 标记当前是编辑信息还是添加信息
       dialogAction: '',
-      userId: '',
+      id: '',
       // 验证规则
       rules: {
-        orderNo: [
+        orderNum: [
           { required: true, message: '请输入订单号', trigger: 'blur' }
         ],
         orderName: [
@@ -212,11 +212,10 @@ export default {
       this.dialogData = {}
     },
     // 编辑
-    editRow(userId) {
+    editRow(id) {
       this.dialogVisible = true
       this.dialogAction = 'edit'
-      this.dialogData = this.tableData.find(item => item.userId === userId)
-      this.userId = userId
+      this.getOrderById(id)
     },
     deleteRow(index) {
       this.$confirm('此操作将删除该行, 是否删除?', '提示', {
