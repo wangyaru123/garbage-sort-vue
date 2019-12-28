@@ -2,7 +2,7 @@
   <!-- 商品信息 -->
   <div class="p-10">
     <el-button type="primary" size="small" round @click="addClick">添加商品</el-button>
-    <el-table :data="currentTableData" border stripe class="mt-10">
+    <el-table :data="tableData" border stripe class="mt-10">
       <el-table-column label="序号" fixed width="50px" type="index" align="center">
         <template slot-scope="scope">
           <span>{{ scope.$index + 1 }}</span>
@@ -10,17 +10,17 @@
       </el-table-column>
       <el-table-column label="商品名" fixed align="center" min-width="100px">
         <template slot-scope="scope">
-          <span>{{ scope.row.goodsName}}</span>
+          <span>{{ scope.row.shopName}}</span>
         </template>
       </el-table-column>
       <el-table-column label="图片" fixed align="center" min-width="100px">
         <template slot-scope="scope">
-          <el-image :src="scope.row.goodsImg"></el-image>
+          <img v-for="(img,index) in scope.row.pic" :src="img" :key="index" class="img-style-small" alt="无图片" />
         </template>
       </el-table-column>
       <el-table-column label="所需积分" fixed align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.needPoints}}</span>
+          <span>{{ scope.row.pricePoints}}</span>
         </template>
       </el-table-column>
       <el-table-column label="库存" align="center" min-width="130px">
@@ -30,13 +30,13 @@
       </el-table-column>
       <el-table-column label="状态" align="center" min-width="180px">
         <template slot-scope="scope">
-          <span>{{ scope.row.status}}</span>
+          <el-tag :type="scope.row.status?'success':'danger'">{{scope.row.status?'上架':'下架'}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="130px" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.userId )"></el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.$index )"></el-button>
+          <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.id )"></el-button>
+          <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteRow( scope.row.id )"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -54,11 +54,11 @@
     <!-- 添加或编辑商品信息 -->
     <el-dialog :visible.sync="dialogVisible" title="请填写会员信息">
       <el-form label-position="right" label-width="140px" :model="dialogData" :rules="rules" ref="ruleForm">
-        <el-form-item label="商品名：" prop="goodsName">
-          <el-input v-model="dialogData.goodsName"></el-input>
+        <el-form-item label="商品名：" prop="shopName">
+          <el-input v-model="dialogData.shopName"></el-input>
         </el-form-item>
-        <el-form-item label="所需积分：" prop="needPoints">
-          <el-input v-model="dialogData.needPoints"></el-input>
+        <el-form-item label="所需积分：" prop="pricePoints">
+          <el-input v-model="dialogData.pricePoints"></el-input>
         </el-form-item>
         <el-form-item label="库存:" prop="stock">
           <el-input v-model="dialogData.stock"></el-input>
@@ -84,7 +84,7 @@
             :on-success="handleSuccessPicture"
             :on-error="handleErrorPicture"
             :file-list="fileList"
-            :limit="1"
+            :limit="5"
           >
             <i class="el-icon-plus"></i>
           </el-upload>
@@ -109,16 +109,12 @@ import { getGoodsByPage, getGoodsById, addGoods, editGoods, deleteGoods } from '
 export default {
   data() {
     return {
-      // 查询条件
-      projectId: '',
       // img1,
       // table所有数据
       tableData: [
-        // { userId: 1, goodsName: '毛巾', goodsImg: img1, needPoints: 100, stock: 100, projectId: 1, status: '上架' },
-        // { userId: 2, goodsName: '纸巾', goodsImg: img2, needPoints: 300, stock: 100, projectId: 2, status: '下架' }
+        // { id: 1, goodsName: '毛巾', goodsImg: img1, needPoints: 100, stock: 100, projectId: 1, status: '上架' },
+        // { id: 2, goodsName: '纸巾', goodsImg: img2, needPoints: 300, stock: 100, projectId: 2, status: '下架' }
       ],
-      // 当前tableData数据
-      currentTableData: [],
       // 编辑报警信息弹框显示
       dialogVisible: false,
       // 表格总数据条数
@@ -130,10 +126,10 @@ export default {
       // 弹框回显报警信息数据
       dialogData: {},
       // 性别列表
-      statusList: [{ value: 0, desc: '下架' }, { value: 1, desc: '上架' }],
+      statusList: [{ value: true, desc: '上架' }, { value: false, desc: '下架' }],
       // 标记当前是编辑信息还是添加信息
       dialogAction: '',
-      userId: '',
+      id: '',
       // 验证规则
       rules: {
         username: [
@@ -157,7 +153,13 @@ export default {
         projectId: [
           { required: true, message: '请选择商品', trigger: 'blur' }
         ]
-      }
+      },
+      // 放大图片
+      imgDialogVisible: false,
+      // 放大图片
+      dialogImageUrl: [],
+      // 上传图片列表
+      fileList: []
     }
   },
   computed: {
@@ -169,7 +171,7 @@ export default {
     },
     // upload组件上传图片的Action路由地址
     uploadActionUrl() {
-      return process.env.VUE_APP_HTTP_DEVICE + '/equipment/images/_upload/' + this.equipmentId
+      return process.env.VUE_APP_HTTP_MEMBER + '/Goods/_upload/' + this.id
     }
   },
   created() {
@@ -187,20 +189,39 @@ export default {
     getGoodsById(id) {
       getGoodsById(id).then(res => {
         this.dialogData = res
+        this.id = this.dialogData.id
+        if (!res.pic) this.fileList = []
+        else {
+          this.fileList = res.pic.map(item => {
+            const tmp = item.split('/')
+            const name = tmp.length > 0 ? tmp[tmp.length - 1] : '图片'
+            return { name: name, url: item }
+          })
+        }
       }).catch(err => this.$message.error(err.toString()))
     },
     // 添加商品
     addGoods() {
       addGoods(this.dialogData).then(res => {
+        this.id = res
+        this.$nextTick(() => this.$refs.upload.submit())
         this.$message.success('添加成功')
         this.getGoodsByPage()
       }).catch(err => this.$message.error(err.toString()))
     },
     // 编辑商品
     editGoods() {
+      // 获取保留的文件路径
+      this.dialogData.pic = this.fileList.filter(item => item.status === 'success').map(item => item.url)
       editGoods(this.id, this.dialogData).then(res => {
-        this.$message.success('修改成功')
-        this.getGoodsByPage()
+        const waitForUpload = this.fileList.filter(item => item.status === 'ready')
+        if (waitForUpload.length > 0) {
+          // 在表单提交成功之后再上传文件
+          this.$nextTick(() => this.$refs.upload.submit())
+        } else {
+          this.$message.success('修改成功')
+          this.getGoodsByPage()
+        }
       }).catch(err => this.$message.error(err.toString()))
     },
     // 删除商品
@@ -221,7 +242,16 @@ export default {
     addClick() {
       this.dialogVisible = true
       this.dialogAction = 'add'
-      this.dialogData = { userId: '', username: '', name: '', mobile: '', email: '', sex: 0, address: '', projectId: '' }
+      this.fileList = []
+      this.dialogData = {}
+    },
+    // 编辑
+    editRow(id) {
+      this.dialogVisible = true
+      this.dialogAction = 'edit'
+      this.fileList = []
+      this.getGoodsById(id)
+      this.id = id
     },
     // 弹框的确定按钮
     submitClick() {
@@ -229,12 +259,8 @@ export default {
       // 验证
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
-          if (this.dialogAction === 'add') {
-            const length = this.tableData.length
-            this.dialogData.userId = this.tableData[length - 1].userId + 1
-            this.tableData.push(this.dialogData)
-          } else this.tableData.splice(this.userId - 1, 1, this.dialogData)
-          this.fetchData()
+          if (this.dialogAction === 'add') this.addGoods()
+          else this.editGoods()
           this.dialogData = {}
         } else {
           this.$message.error('填写错误，添加失败')
@@ -247,22 +273,50 @@ export default {
       this.dialogVisible = false
       this.dialogData = {}
     },
-    // 编辑
-    editRow(userId) {
-      this.dialogVisible = true
-      this.dialogAction = 'edit'
-      this.dialogData = this.tableData.find(item => item.userId === userId)
-      this.userId = userId
-    },
-    deleteRow(index) {
+    deleteRow(id) {
       this.$confirm('此操作将删除该行, 是否删除?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        this.tableData.splice(index, 1)
-        this.fetchData()
-      }).catch(() => this.$message.info('取消删除'))
+      }).then(() => this.deleteGoods(id))
+        .catch(() => this.$message.info('取消删除'))
+    },
+    // 页面操作----图片相关
+    // 上传图片前的校验
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp'
+      const isLimit = file.size / 1024 / 1024 < 15
+      if (!isJPG) {
+        this.$message.error('上传图片只能是jpg、jpeg、png、gif、bmp格式!')
+      }
+      if (!isLimit) {
+        this.$message.error('上传头像图片大小不能超过15MB!')
+      }
+      return isJPG && isLimit
+    },
+    // 删除图片事件,将filelist赋值,用来标识是否有图片
+    handleRemove(file, fileList) {
+      this.fileList = fileList
+    },
+    // 放大图片
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url
+      this.imgDialogVisible = true
+    },
+    // 添加图片事件,将filelist赋值,用来标识是否有图片
+    changePicture(file, fileList) {
+      this.fileList = fileList
+    },
+    // 成功上传图片到服务器
+    handleSuccessPicture(response, file, fileList) {
+      if (fileList.length > 0 && fileList[fileList.length - 1].status === 'success') {
+        this.getGoodsByPage()
+        if (this.act === 'add') this.$message.success('添加成功')
+        else this.$message.success('更新成功')
+      }
+    },
+    // 上传图片失败
+    handleErrorPicture(response, file, fileList) {
     }
   }
 }
