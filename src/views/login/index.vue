@@ -8,7 +8,7 @@
       <!-- 内容行 -->
       <el-row type="flex" align="center" class="content-layout">
         <!-- 登录卡片 -->
-        <el-col :lg="8" :md="24" :sm="24" :offset="8">
+        <el-col :lg="8" :md="8" :sm="24" :offset="8">
           <el-card shadow="alaways" class="login-layout">
             <div slot="header">
               <h4 class="text-c">欢迎登录</h4>
@@ -171,6 +171,7 @@ $light_gray: #eee;
   background: url("../../assets/login-bg.jpg") no-repeat;
   background-size: cover;
   overflow: hidden;
+  background-position: center;
   .login-form {
     position: relative;
     width: 520px;
