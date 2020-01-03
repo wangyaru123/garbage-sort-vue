@@ -1,49 +1,65 @@
 <template>
-  <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-      <div class="title-container">
-        <h3 class="title">映蓝环保垃圾分类后台管理平台</h3>
-      </div>
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
-          type="text"
-          tabindex="1"
-          auto-complete="on"
-        />
-      </el-form-item>
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input
-          :key="passwordType"
-          ref="password"
-          v-model="loginForm.password"
-          :type="passwordType"
-          placeholder="Password"
-          name="password"
-          tabindex="2"
-          auto-complete="on"
-          @keyup.enter.native="handleLogin"
-        />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-        </span>
-      </el-form-item>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
-    </el-form>
-  </div>
+  <el-container class="login-container">
+    <el-main class="p-0">
+      <!-- 标题行 -->
+      <el-row class="title-container title-layout">
+        <h3 class="title">映蓝环保后台管理系统</h3>
+      </el-row>
+      <!-- 内容行 -->
+      <el-row type="flex" align="center" class="content-layout">
+        <!-- 登录卡片 -->
+        <el-col :lg="8" :md="8" :sm="24" :offset="8">
+          <el-card shadow="alaways" class="login-layout">
+            <div slot="header">
+              <h4 class="text-c">欢迎登录</h4>
+            </div>
+            <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+              <el-form-item prop="username">
+                <el-input
+                  prefix-icon="el-icon-user-solid"
+                  ref="username"
+                  v-model="loginForm.username"
+                  placeholder="用户名"
+                  name="username"
+                  type="text"
+                  tabindex="1"
+                  auto-complete="on"
+                />
+              </el-form-item>
+              <el-form-item prop="password">
+                <el-input
+                  prefix-icon="el-icon-lock"
+                  :key="passwordType"
+                  ref="password"
+                  v-model="loginForm.password"
+                  :type="passwordType"
+                  placeholder="登录密码"
+                  name="password"
+                  tabindex="2"
+                  auto-complete="on"
+                  @keyup.enter.native="handleLogin"
+                >
+                  <span slot="suffix" class="show-pwd" @click="showPwd">
+                    <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+                  </span>
+                </el-input>
+              </el-form-item>
+              <el-row type="flex" justify="center" class="mt-20">
+                <el-col :span="24" class="text-c">
+                  <el-button :loading="loading" type="primary" @click.native.prevent="handleLogin">立即登录</el-button>
+                </el-col>
+              </el-row>
+            </el-form>
+          </el-card>
+        </el-col>
+      </el-row>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
 // import { validUsername } from '@/utils/validate'
+import 'element-ui/lib/theme-chalk/display.css'
 
 export default {
   name: 'Login',
@@ -64,16 +80,31 @@ export default {
     // }
     return {
       loginForm: {
-        username: 'string',
-        password: 'string'
+        username: '',
+        password: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur' }],
-        password: [{ required: true, trigger: 'blur' }]
+        username: [{ required: true, trigger: 'blur', message: '请输入用户名' }],
+        password: [{ required: true, trigger: 'blur', message: '请输入密码' }]
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      // 动态列表
+      workStatusList: [
+        { date: '2019-09-24', title: '工业机器人应用编程“1+X”证书制度试点工作...' },
+        { date: '2019-09-04', title: '教育部第二批工业机器人应用编辑“1+X”证书...' }
+      ],
+      policyFilesList: [
+        { date: '2019-06-28', title: '开展1+X证书制度试点加快培养复合型技术技能人才' },
+        { date: '2019-07-01', title: '国家职业教育改革实施方案' },
+        { date: '2019-07-09', title: '关于在院校实施“学历证书+若干职业技能等级...' },
+        { date: '2019-07-28', title: '教育部等四部门印发《关于在院样实施“学历证书...' }
+      ],
+      annoucementList: [
+        { date: '2019-10-18', title: '关于召开工业机器 人应用编程1+X试点实施工作...' },
+        { date: '2019-09-03', title: '关于召开工业机器 人应用编程“1+X”证书制...' }
+      ]
     }
   },
   watch: {
@@ -99,69 +130,33 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$router.push({ path: '/home' })
-          // this.$store.dispatch('user/login', this.loginForm).then(() => {
-          //   this.loading = false
-          //   this.$router.push({ path: this.redirect || '/' })
-          // }).catch(err => {
-          //   this.loading = false
-          //   this.$message.error(err.toString())
-          // })
+          this.$router.push({ path: this.redirect || '/' })
+          this.$store.dispatch('user/login', this.loginForm).then(() => {
+            this.loading = false
+            this.$router.push({ path: this.redirect || '/' })
+          }).catch(err => {
+            this.loading = false
+            this.$message.error(err.toString())
+          })
         } else {
           console.log('error submit!!')
           return false
         }
       })
+    },
+    handleRegister() {
+      // TODO:跳转至注册页面
+      // location.href = process.env.VUE_APP_REGISTER_URL
+      this.$router.push({ name: 'Register' })
     }
   }
 }
 </script>
 
 <style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
-
 $bg: #283443;
 $light_gray: #fff;
 $cursor: #fff;
-
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
-    color: $cursor;
-  }
-}
-
-/* reset element-ui css */
-.login-container {
-  .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
-
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      caret-color: $cursor;
-
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
-    }
-  }
-
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
-  }
-}
 </style>
 
 <style lang="scss" scoped>
@@ -173,13 +168,15 @@ $light_gray: #eee;
   min-height: 100%;
   width: 100%;
   background-color: $bg;
+  background: url("../../assets/login-bg.jpg") no-repeat;
+  background-size: cover;
   overflow: hidden;
-
+  background-position: center;
   .login-form {
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 35px 35px;
     margin: 0 auto;
     overflow: hidden;
   }
@@ -208,7 +205,7 @@ $light_gray: #eee;
     position: relative;
 
     .title {
-      font-size: 26px;
+      font-size: 32px;
       color: $light_gray;
       margin: 0px auto 40px auto;
       text-align: center;
@@ -217,13 +214,75 @@ $light_gray: #eee;
   }
 
   .show-pwd {
-    position: absolute;
-    right: 10px;
-    top: 7px;
+    // position: absolute;
+    // right: 10px;
+    // top: 7px;
     font-size: 16px;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
   }
+}
+.title-layout {
+  margin: 100px auto 0px;
+  width: 100%;
+  max-width: 1200px;
+}
+.content-layout {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.content-layout /deep/ .el-tabs--left .el-tabs__nav-wrap.is-left::after {
+  display: none;
+}
+
+.content-layout /deep/ .el-tabs--left .el-tabs__active-bar.is-left {
+  left: 0;
+  right: auto;
+}
+.content-layout /deep/ .el-tabs__item {
+  color: #fff;
+}
+.content-layout /deep/ .el-tabs--left .el-tabs__item.is-left:hover {
+  color: #0099ff;
+  background: rgba($color: #0099ff, $alpha: 0.1);
+}
+.content-layout /deep/ .el-tabs__item.is-active {
+  color: #0099ff;
+  background: rgba(64, 158, 255, 0.2);
+}
+.content-layout /deep/ .el-tabs--left .el-tabs__header.is-left {
+  margin-right: 1px;
+}
+.content-layout /deep/ .el-tabs__content {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.078);
+  border: 1px solid rgba(121, 121, 121, 0.5);
+  color: #e4e4e4;
+  padding: 18px 24px;
+  .news-line {
+    margin-bottom: 10px;
+    .news-title:hover {
+      color: #b3d8ff;
+    }
+    .news-date {
+      text-align: right;
+    }
+  }
+}
+.login-layout {
+  width: 100%;
+  // max-width: 500px;
+  margin: 0 auto;
+}
+.footer {
+  font-size: 14px;
+  text-align: center;
+  color: white;
+  line-height: 60px;
+  padding: 0;
 }
 </style>
