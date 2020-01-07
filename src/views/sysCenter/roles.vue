@@ -106,7 +106,9 @@ export default {
         { resourceUrl: '/machine', name: '设备管理' },
         { resourceUrl: '/member', name: '会员管理' },
         { resourceUrl: '/manager', name: '卡号管理' },
-        { resourceUrl: '/points', name: '积分管理' }
+        { resourceUrl: '/points', name: '积分管理' },
+        { resourceUrl: '/order', name: '订单管理' },
+        { resourceUrl: '/goods', name: '商品管理' }
       ],
       // 选中的列表
       checkedActions: []

@@ -38,11 +38,11 @@
           <span>{{ scope.row.email}}</span>
         </template>
       </el-table-column>-->
-      <!-- <el-table-column label="所属项目" fixed="right" align="center" min-width="150px">
+      <el-table-column label="所属项目" fixed="right" align="center" min-width="150px">
         <template slot-scope="scope">
-          <span>{{itemList.find(i=>{i.id===scope.row.itemId}).name}}</span>
+          <span>{{scope.row.itemId && itemList[scope.row.itemId].name}}</span>
         </template>
-      </el-table-column>-->
+      </el-table-column>
       <el-table-column label="状态" fixed="right" align="center" min-width="80px">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status?'success':'danger'">{{scope.row.status?'启用':'禁用'}}</el-tag>

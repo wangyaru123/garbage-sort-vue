@@ -33,6 +33,11 @@
           <el-tag :type="scope.row.status?'success':'danger'">{{scope.row.status?'上架':'下架'}}</el-tag>
         </template>
       </el-table-column>
+      <el-table-column label="所属项目" fixed="right" align="center" min-width="150px">
+        <template slot-scope="scope">
+          <span>{{scope.row.itemId && itemList[scope.row.itemId].name}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" fixed="right" width="130px" align="center">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="editRow( scope.row.id )"></el-button>
@@ -66,6 +71,11 @@
         <el-form-item label="状态:" prop="status">
           <el-select v-model="dialogData.status" placeholder="请选择" size="small">
             <el-option v-for="item in statusList" :key="item.value" :value="item.value" :label="item.desc"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="所属项目:" prop="itemId">
+          <el-select v-model="dialogData.itemId" placeholder="请选择" size="small">
+            <el-option v-for="item in itemList" :key="item.id" :value="item.id" :label="item.name"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="设备图片：">
@@ -103,6 +113,7 @@
 
 <script>
 import { getGoodsByPage, getGoodsById, addGoods, editGoods, deleteGoods } from '@/api/goodsCenter/info.js'
+import { getAllItem } from '@/api/sysCenter/item.js'
 // import img1 from '@/assets/goods/1.jpg'
 // import img2 from '../../assets/goods/2.jpg'
 
@@ -115,6 +126,8 @@ export default {
         // { id: 1, goodsName: '毛巾', goodsImg: img1, needPoints: 100, stock: 100, projectId: 1, status: '上架' },
         // { id: 2, goodsName: '纸巾', goodsImg: img2, needPoints: 300, stock: 100, projectId: 2, status: '下架' }
       ],
+      // 项目列表
+      itemList: [],
       // 编辑报警信息弹框显示
       dialogVisible: false,
       // 表格总数据条数
@@ -176,8 +189,15 @@ export default {
   },
   created() {
     this.getGoodsByPage()
+    this.getAllItem()
   },
   methods: {
+    // 获取项目列表
+    getAllItem() {
+      getAllItem().then(res => {
+        this.itemList = res
+      }).catch(err => this.$message.error(err.toString()))
+    },
     // 分页
     getGoodsByPage() {
       getGoodsByPage(this.currentPage, this.pageSize).then(res => {
