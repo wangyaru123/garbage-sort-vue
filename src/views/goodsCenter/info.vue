@@ -35,7 +35,7 @@
       </el-table-column>
       <el-table-column label="所属项目" fixed="right" align="center" min-width="150px">
         <template slot-scope="scope">
-          <span>{{scope.row.itemId && itemList[scope.row.itemId].name}}</span>
+          <span>{{getItem(scope.row.itemId)}}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" fixed="right" width="130px" align="center">
@@ -188,14 +188,17 @@ export default {
     }
   },
   created() {
-    this.getGoodsByPage()
     this.getAllItem()
   },
   methods: {
+    getItem(itemId) {
+      return itemId && this.itemList.find(i => i.id === itemId).name
+    },
     // 获取项目列表
     getAllItem() {
       getAllItem().then(res => {
         this.itemList = res
+        this.getGoodsByPage()
       }).catch(err => this.$message.error(err.toString()))
     },
     // 分页
