@@ -19,8 +19,8 @@
             <div v-for="list in 3" :key="list.index" v-show="!isMobile">
               <div class="TriangleRight"></div>
             </div>
-            <div class="xFontLeft" v-show="!isMobile"></div>
-            <div class="xFontRight" v-show="!isMobile"></div>
+            <!-- <div class="xFontLeft" v-show="!isMobile"></div>
+            <div class="xFontRight" v-show="!isMobile"></div> -->
             <div class="line"></div>
           </div>
           <div class="englishFont">Welcome to the garbage sort system</div>
@@ -32,9 +32,9 @@
           <img :src="machineImg" alt />
         </el-col>-->
       </el-card>
-      <div class="bottom clearfix text-c">
+      <!-- <div class="bottom clearfix text-c">
         <span>{{copyRight}}</span>
-      </div>
+      </div>-->
     </el-row>
   </div>
 </template>
@@ -83,9 +83,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-row {
+  height: calc(100vh - 50px);
+}
 .box-card /deep/ .el-card__body {
-  background: url("../../assets/homedevice.png");
-  height: 469px;
+  background: url("../../assets/homedevice.png") no-repeat;
+  background-size: contain;
+  background-position: center;
+  height: calc(100vh - 120px);
 }
 .bottom {
   margin-top: 50px;
@@ -189,13 +194,13 @@ export default {
   animation: fadeIns 0.9s infinite;
   margin-right: 20px;
 }
-.dashBoardContainer :nth-last-child(4) {
+.dashBoardContainer :nth-last-child(2) {
   animation: fadeIns 0.8s infinite;
 }
-.dashBoardContainer :nth-last-child(5) {
+.dashBoardContainer :nth-last-child(3) {
   animation: fadeIns 0.7s infinite;
 }
-.dashBoardContainer :nth-last-child(6) {
+.dashBoardContainer :nth-last-child(4) {
   animation: fadeIns 0.6s infinite;
   margin-left: 20px;
 }
